@@ -148,11 +148,6 @@ android {
     }
 }
 
-plugins {
-  id 'com.android.application'
-  id 'com.google.gms.google-services' // this could be written with apply plugin: 'com.google.gms.google-services' if it does not work, same for the above plugin
-}
-
 dependencies {
     implementation("com.facebook.react:react-android")
 
@@ -176,3 +171,6 @@ dependencies {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
