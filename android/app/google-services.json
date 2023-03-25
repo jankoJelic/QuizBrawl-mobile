@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "472448215878",
+    "project_id": "crabjourney-a62d3",
+    "storage_bucket": "crabjourney-a62d3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472448215878:android:67f5fc2bbc93fe2e711347",
+        "android_client_info": {
+          "package_name": "com.crabjourney"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "472448215878-lge45294jkurqb5cu92m1boroq6s4fo9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD49ogZF_AFGafIpDQKnl6ZIkJMJsHfsK8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "472448215878-lge45294jkurqb5cu92m1boroq6s4fo9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
