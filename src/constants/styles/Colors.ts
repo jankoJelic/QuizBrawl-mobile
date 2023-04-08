@@ -7,3 +7,5 @@ export const darkThemeColors = {
   mainThemeBackground: '#1e2f35',
   primaryGold: '#fc8720',
 };
+
+export type Colors = typeof lightThemeColors;

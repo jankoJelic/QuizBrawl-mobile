@@ -1,14 +1,16 @@
-import {createSlice} from '@reduxjs/toolkit';
-import type {PayloadAction} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { Colors, lightThemeColors } from 'constants/styles/Colors';
 
 export interface AppState {
   theme: 'light' | 'dark';
   isLoading: boolean;
+  colors: Colors;
 }
 
 const initialState: AppState = {
   theme: 'light',
   isLoading: false,
+  colors: lightThemeColors,
 };
 
 export const appStateSlice = createSlice({
@@ -25,6 +27,6 @@ export const appStateSlice = createSlice({
   },
 });
 
-export const {toggleTheme} = appStateSlice.actions;
+export const { toggleTheme } = appStateSlice.actions;
 
 export default appStateSlice.reducer;
