@@ -2,7 +2,6 @@
 
 #import <React/RCTBundleURLProvider.h>
 #import <Firebase.h>
-// or @import FirebaseCore;, in cvase the above solution is not working
 
 @implementation AppDelegate
 

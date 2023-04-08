@@ -1,16 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Colors, lightThemeColors } from 'constants/styles/Colors';
+import {
+  lightThemeColors,
+  Colors,
+  darkThemeColors,
+} from '../../constants/styles/Colors';
 
 export interface AppState {
   theme: 'light' | 'dark';
-  isLoading: boolean;
   colors: Colors;
+  isLoading: boolean;
 }
 
 const initialState: AppState = {
   theme: 'light',
-  isLoading: false,
   colors: lightThemeColors,
+  isLoading: false,
 };
 
 export const appStateSlice = createSlice({
@@ -20,9 +24,17 @@ export const appStateSlice = createSlice({
     toggleTheme: state => {
       if (state.theme === 'light') {
         state.theme = 'dark';
+        state.colors = darkThemeColors;
       } else {
         state.theme = 'light';
+        state.colors = lightThemeColors;
       }
+    },
+    startLoading: state => {
+      state.isLoading = true;
+    },
+    stopLoading: state => {
+      state.isLoading = false;
     },
   },
 });

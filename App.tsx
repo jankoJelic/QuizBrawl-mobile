@@ -1,10 +1,11 @@
 import React from 'react';
-import {SafeAreaView, StatusBar, Text, useColorScheme} from 'react-native';
-import {store} from './src/store';
-import {Provider} from 'react-redux';
-import {NavigationContainer} from '@react-navigation/native';
+import { SafeAreaView, StatusBar, Text, useColorScheme } from 'react-native';
+import { store } from './src/store';
+import { Provider } from 'react-redux';
+import { NavigationContainer } from '@react-navigation/native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { FONTS } from './src/constants/styles/appStyles';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -21,7 +22,9 @@ function App(): JSX.Element {
             barStyle={isDarkMode ? 'light-content' : 'dark-content'}
             backgroundColor={backgroundStyle.backgroundColor}
           />
-          <Text>Crab Journey</Text>
+          <Text style={{ fontFamily: 'Manrope-Regular', fontSize: 40 }}>
+            Crab Journeyyy
+          </Text>
         </SafeAreaView>
       </Provider>
     </NavigationContainer>

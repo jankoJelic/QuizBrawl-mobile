@@ -1,9 +1,4 @@
-import {
-  Dimensions,
-  Platform,
-  PixelRatio,
-  NativeModules,
-} from 'react-native/types';
+import { Dimensions, Platform, PixelRatio, NativeModules } from 'react-native';
 
 export const IS_ANDROID = Platform.OS === 'android';
 export const IS_IOS = Platform.OS === 'ios';
@@ -24,3 +19,13 @@ export function AN(size: number) {
   const newSize = size * scale;
   return Math.round(PixelRatio.roundToNearestPixel(newSize));
 }
+
+export const FONTS = {
+  regular: 'Manrope-Regular',
+  bold: 'Manrope-Bold',
+  medium: 'Manrope-Medium',
+  light: 'Manrope-Light',
+  extraLight: 'Manrope-ExtraLight',
+  extraBold: 'Manrope-ExtraBold',
+  semiBold: 'Manrope-SemiBold',
+};
