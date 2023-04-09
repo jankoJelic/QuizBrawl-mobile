@@ -4,16 +4,16 @@
     "baseUrl": ".",
     "paths": {
       "*": ["src/*"],
-      "@assets": ["src/assets/*"],
-      "@components": ["src/components/*"],
-      "@constants": ["src/constants/*"],
-      "@containers": ["src/containers/*"],
-      "@hooks": ["src/hooks/*"],
-      "@navigation": ["src/navigation/*"],
-      "@screens": ["src/screens/*"],
-      "@services": ["src/services/*"],
-      "@store": ["src/store/*"],
-      "@util": ["src/util/*"]
+      "assets": ["src/assets/*"],
+      "components": ["src/components/*"],
+      "constants": ["src/constants/*"],
+      "containers": ["src/containers/*"],
+      "hooks": ["src/hooks/*"],
+      "navigation": ["src/navigation/*"],
+      "screens": ["src/screens/*"],
+      "services": ["src/services/*"],
+      "store": ["src/store/*"],
+      "util": ["src/util/*"]
     },
     "types": ["node"]
   }

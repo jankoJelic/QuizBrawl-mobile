@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { FONTS } from './src/constants/styles/appStyles';
+import MainStackNavigator from './src/navigation/MainStackNavigator';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -17,15 +17,7 @@ function App(): JSX.Element {
   return (
     <NavigationContainer>
       <Provider store={store}>
-        <SafeAreaView style={backgroundStyle}>
-          <StatusBar
-            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            backgroundColor={backgroundStyle.backgroundColor}
-          />
-          <Text style={{ fontFamily: 'Manrope-Regular', fontSize: 40 }}>
-            Crab Journeyyy
-          </Text>
-        </SafeAreaView>
+        <MainStackNavigator />
       </Provider>
     </NavigationContainer>
   );
