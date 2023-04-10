@@ -32,3 +32,7 @@ export const FONTS = {
   extraBold: 'Manrope-ExtraBold',
   semiBold: 'Manrope-SemiBold',
 };
+
+export const FONT_SIZES ={
+  
+}
