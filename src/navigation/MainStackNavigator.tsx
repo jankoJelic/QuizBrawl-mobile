@@ -8,7 +8,11 @@ const Stack = createNativeStackNavigator();
 
 const MainStackNavigator = () => (
   <Stack.Navigator initialRouteName={ROUTES.Splash}>
-    <Stack.Screen name={ROUTES.Splash} component={SplashScreen} />
+    <Stack.Screen
+      name={ROUTES.Splash}
+      component={SplashScreen}
+      options={{ headerShown: false }}
+    />
     <Stack.Screen name={ROUTES.Welcome} component={WelcomeScreen} />
   </Stack.Navigator>
 );

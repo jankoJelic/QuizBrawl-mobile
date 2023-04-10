@@ -9,12 +9,22 @@ export interface AppState {
   theme: 'light' | 'dark';
   colors: Colors;
   isLoading: boolean;
+  statusBar: {
+    topColor: string;
+    bottomColor: string;
+    barStyle: 'light-content' | 'dark-content';
+  };
 }
 
 const initialState: AppState = {
   theme: 'light',
   colors: lightThemeColors,
   isLoading: false,
+  statusBar: {
+    topColor: lightThemeColors.mainThemeBackground,
+    bottomColor: lightThemeColors.mainThemeBackground,
+    barStyle: 'light-content',
+  },
 };
 
 export const appStateSlice = createSlice({
@@ -36,9 +46,13 @@ export const appStateSlice = createSlice({
     stopLoading: state => {
       state.isLoading = false;
     },
+    setStatusBar: (state, action) => {
+      state.statusBar = { ...state.statusBar, ...action.payload };
+    },
   },
 });
 
-export const { toggleTheme } = appStateSlice.actions;
+export const { toggleTheme, startLoading, stopLoading, setStatusBar } =
+  appStateSlice.actions;
 
 export default appStateSlice.reducer;

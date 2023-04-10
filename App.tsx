@@ -1,24 +1,22 @@
 import React from 'react';
 import { SafeAreaView, StatusBar, Text, useColorScheme } from 'react-native';
-import { store } from './src/store';
+import { store, useAppSelector } from './src/store';
 import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
-
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import MainStackNavigator from './src/navigation/MainStackNavigator';
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const { topColor, bottomColor } = useAppSelector(
+    state => state.appState.statusBar,
+  );
 
   return (
     <NavigationContainer>
-      <Provider store={store}>
+      <SafeAreaView style={{ flex: 0, backgroundColor: topColor }} />
+      <SafeAreaView style={{ backgroundColor: bottomColor, flex: 1 }}>
+        <StatusBar backgroundColor={topColor} barStyle={'light-content'} />
         <MainStackNavigator />
-      </Provider>
+      </SafeAreaView>
     </NavigationContainer>
   );
 }
