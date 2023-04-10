@@ -22,6 +22,7 @@ module.exports = {
           containers: './src/containers',
           constants: './src/constants',
           hoc: './src/hoc',
+          hooks: './src/hooks',
           navigation: './src/navigation',
           services: './src/services',
           screens: './src/screens',
