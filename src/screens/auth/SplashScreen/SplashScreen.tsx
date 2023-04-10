@@ -1,12 +1,23 @@
 import { Colors } from 'constants/styles/Colors';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from '../../../hooks/styles/useStyles';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import Logo from 'components/typography/Logo';
+import ENCRYPTED_STORAGE from 'services/encryptedStorage';
 
-const SplashScreen = () => {
+const SplashScreen = ({navigation}) => {
   const { styles, colors } = useStyles(createStyles);
+
+  const checkForPin = async () => {
+    const pin = await ENCRYPTED_STORAGE.getValue('pin');
+
+    if (!!pin) {
+      navigation.navigate('EnterPinCode')
+    }
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <ScreenWrapper style={styles.screen}>

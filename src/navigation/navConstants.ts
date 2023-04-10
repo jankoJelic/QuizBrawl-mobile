@@ -1,4 +1,6 @@
 export const ROUTES = {
-  Welcome: 'Welcome',
+  Register: 'Register',
+  Login: 'Login',
   Splash: 'Splash',
+  EnterPinCode: 'EnterPinCode',
 };

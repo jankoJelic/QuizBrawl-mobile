@@ -8,6 +8,9 @@ export const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 export const PADDING_HORIZONTAL = SCREEN_WIDTH * 0.04;
 export const BORDER_RADIUS = 10;
+export const HIT_SLOP = (radius: number) => {
+  return { top: radius, bottom: radius, left: radius, right: radius };
+};
 
 const { PlatformConstants } = NativeModules;
 const deviceType = PlatformConstants.interfaceIdiom;
