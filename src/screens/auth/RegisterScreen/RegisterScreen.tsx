@@ -1,9 +1,13 @@
-import React from 'react'
+import Logo from 'components/typography/Logo';
+import ScreenWrapper from 'hoc/ScreenWrapper';
+import React from 'react';
 
 const RegisterScreen = () => {
   return (
-    <div>RegisterScreen</div>
-  )
-}
+    <ScreenWrapper>
+      <Logo text="Welcome" />
+    </ScreenWrapper>
+  );
+};
 
-export default RegisterScreen
+export default RegisterScreen;

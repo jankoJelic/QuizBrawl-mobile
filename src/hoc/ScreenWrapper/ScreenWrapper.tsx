@@ -23,6 +23,7 @@ const createStyles = (colors: Colors) =>
       flex: 1,
       minHeight: SCREEN_HEIGHT,
       width: SCREEN_WIDTH,
+      backgroundColor: colors.mainThemeBackground,
     },
   });
 
