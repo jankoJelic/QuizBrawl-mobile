@@ -1,7 +1,6 @@
 import React from 'react';
-import { SafeAreaView, StatusBar, Text, useColorScheme } from 'react-native';
-import { store, useAppSelector } from './src/store';
-import { Provider } from 'react-redux';
+import { SafeAreaView, StatusBar } from 'react-native';
+import { useAppSelector } from './src/store';
 import { NavigationContainer } from '@react-navigation/native';
 import MainStackNavigator from './src/navigation/MainStackNavigator';
 

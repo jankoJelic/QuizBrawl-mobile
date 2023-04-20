@@ -10,5 +10,5 @@ it('renders logo', () => {
     </Provider>,
   );
 
-  expect(getAllByText('HumorMe').length).toBe(1);
+  expect(getAllByText('Quiz Clash').length).toBe(1);
 });

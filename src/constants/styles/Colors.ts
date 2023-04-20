@@ -1,6 +1,6 @@
 export const lightThemeColors = {
   mainThemeBackground: '#1e2f35',
-  primaryGold: '#FDAD57',
+  primaryGold200: '#FDAD57',
   neutral100: '#f1f1f1',
   neutral200: '#e3e3e3',
   neutral300: '#c8c8c8',
@@ -10,7 +10,8 @@ export const lightThemeColors = {
 
 export const darkThemeColors = {
   mainThemeBackground: '#1e2f35',
-  primaryGold: '#FDAD57',
+  primaryGold200: '#FDAD57',
 };
 
 export type Colors = typeof lightThemeColors;
+export type Color = keyof Colors;

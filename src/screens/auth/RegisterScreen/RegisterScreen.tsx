@@ -1,5 +1,7 @@
 import InputField from 'components/inputs/InputField';
+import BaseTextComponent from 'components/typography/BaseTextComponent';
 import Logo from 'components/typography/Logo';
+import { BASE_URL } from 'constants/env/envConstants';
 import { Colors } from 'constants/styles/Colors';
 import { SCREEN_HEIGHT } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
@@ -10,9 +12,12 @@ import { StyleSheet } from 'react-native';
 const RegisterScreen = () => {
   const { styles } = useStyles(createStyles);
 
+  console.log(BASE_URL);
+
   return (
     <ScreenWrapper style={styles.screen}>
       <Logo text="Welcome" />
+      <BaseTextComponent text="Janko" />
       <InputField />
     </ScreenWrapper>
   );
