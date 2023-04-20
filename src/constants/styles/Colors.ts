@@ -1,5 +1,6 @@
 export const lightThemeColors = {
   mainThemeBackground: '#1A1A1A',
+  tileBackground: '#2C2C2C',
   brand100: '#D2FCF6',
   brand200: '#A6FAF5',
   brand300: '#77EDF0',
@@ -50,6 +51,7 @@ export const lightThemeColors = {
   neutral300: '#c8c8c8',
   neutral400: '#9f9f9f',
   neutral500: '#1A1A1A',
+  mainTextColor: '#ECECEC',
 };
 
 export const darkThemeColors = {

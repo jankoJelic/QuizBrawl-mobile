@@ -13,7 +13,7 @@ const Logo = ({ text = 'Quiz Clash' }) => {
 const createStyles = (colors: Colors) =>
   StyleSheet.create({
     logo: {
-      fontFamily: FONTS.extraBold,
+      fontFamily: FONTS.bold,
       color: colors.brand500,
       fontSize: AN(40),
       letterSpacing: 2,

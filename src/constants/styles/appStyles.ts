@@ -7,7 +7,7 @@ export const SCREEN_WIDTH = Dimensions.get('window').width;
 export const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 export const PADDING_HORIZONTAL = SCREEN_WIDTH * 0.04;
-export const BORDER_RADIUS = 10;
+export const BORDER_RADIUS = 16;
 export const HIT_SLOP = (radius: number) => {
   return { top: radius, bottom: radius, left: radius, right: radius };
 };
@@ -24,15 +24,14 @@ export function AN(size: number) {
 }
 
 export const FONTS = {
-  regular: 'Manrope-Regular',
-  bold: 'Manrope-Bold',
-  medium: 'Manrope-Medium',
-  light: 'Manrope-Light',
-  extraLight: 'Manrope-ExtraLight',
-  extraBold: 'Manrope-ExtraBold',
-  semiBold: 'Manrope-SemiBold',
+  regular: 'Lato-Regular',
+  bold: 'Lato-Bold',
+  italic: 'Lato-Italic',
+  light: 'Lato-Light',
+  lightItalic: 'Lato-LightItalic',
+  extraLight: 'Lato-Thin',
+  extraBold: 'Lato-Black',
+  semiBold: 'Lato-SemiBold',
 };
 
-export const FONT_SIZES ={
-  
-}
+export const FONT_SIZES = {};

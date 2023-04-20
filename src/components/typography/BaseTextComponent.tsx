@@ -7,8 +7,11 @@ import { Text } from 'react-native';
 const BaseTextComponent = ({
   text = '',
   weight = 'regular',
-  color = 'neutral200',
-}: Props) => {
+  color = 'mainTextColor',
+  fontSize = 14,
+  onPress,
+  style = {},
+}: TextProps) => {
   const { colors } = useTheme();
 
   const fontFamily = () => {
@@ -31,7 +34,10 @@ const BaseTextComponent = ({
       style={{
         fontFamily: fontFamily(),
         color: colors[color],
-      }}>
+        fontSize,
+        ...style,
+      }}
+      onPress={onPress ? onPress : undefined}>
       {text}
     </Text>
   );
@@ -41,8 +47,11 @@ export default BaseTextComponent;
 
 export type FontWeight = 'regular' | 'light' | 'semiBold' | 'bold';
 
-interface Props {
+export interface TextProps {
   weight?: FontWeight;
   text: string;
   color?: Color;
+  fontSize?: number;
+  onPress?: () => void;
+  style?: {};
 }

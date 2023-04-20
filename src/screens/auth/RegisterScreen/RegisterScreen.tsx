@@ -1,12 +1,12 @@
 import InputField from 'components/inputs/InputField';
-import BaseTextComponent from 'components/typography/BaseTextComponent';
 import Logo from 'components/typography/Logo';
 import { Colors } from 'constants/styles/Colors';
-import { SCREEN_HEIGHT } from 'constants/styles/appStyles';
+import { AN, SCREEN_HEIGHT } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
+import TileWrapper from 'hoc/TileWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 const RegisterScreen = () => {
   const { styles } = useStyles(createStyles);
@@ -14,8 +14,10 @@ const RegisterScreen = () => {
   return (
     <ScreenWrapper style={styles.screen}>
       <Logo text="Welcome" />
-      <BaseTextComponent text="Janko" />
-      <InputField />
+      <View style={styles.formContainer}>
+        <InputField title="E-mail" />
+        <InputField title="Password" />
+      </View>
     </ScreenWrapper>
   );
 };
@@ -26,6 +28,7 @@ const createStyles = (colors: Colors) =>
       alignItems: 'center',
       paddingTop: SCREEN_HEIGHT * 0.1,
     },
+    formContainer: { marginTop: AN(30), width: '100%' },
   });
 
 export default RegisterScreen;
