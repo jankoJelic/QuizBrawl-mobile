@@ -18,12 +18,11 @@ const InputField = () => {
 
   return (
     <>
-    
       <TextInput
         style={[
           styles.inputField,
           {
-            borderColor: isFocused ? colors.primaryGold200 : colors.neutral400,
+            borderColor: isFocused ? colors.brand500 : colors.neutral400,
           },
         ]}
         onFocus={onFocus}

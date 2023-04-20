@@ -14,7 +14,7 @@ const createStyles = (colors: Colors) =>
   StyleSheet.create({
     logo: {
       fontFamily: FONTS.extraBold,
-      color: colors.primaryGold200,
+      color: colors.brand500,
       fontSize: AN(40),
       letterSpacing: 2,
     },
