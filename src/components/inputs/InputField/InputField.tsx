@@ -79,6 +79,7 @@ const createStyles = (colors: Colors) =>
     },
     title: {
       left: AN(5),
+      marginBottom: AN(2),
     },
   });
 

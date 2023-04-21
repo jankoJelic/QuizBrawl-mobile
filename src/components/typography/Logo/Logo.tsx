@@ -4,10 +4,10 @@ import useStyles from '../../../hooks/styles/useStyles';
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 
-const Logo = ({ text = 'Quiz Clash' }) => {
+const Logo = ({ text = 'Quiz Clash', style = {} }) => {
   const { styles } = useStyles(createStyles);
 
-  return <Text style={styles.logo}>{text}</Text>;
+  return <Text style={[styles.logo, style]}>{text}</Text>;
 };
 
 const createStyles = (colors: Colors) =>
