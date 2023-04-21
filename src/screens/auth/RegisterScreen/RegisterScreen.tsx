@@ -7,20 +7,49 @@ import { AN, SCREEN_HEIGHT } from 'constants/styles/appStyles';
 import MyScrollView from 'hoc/MyScrollView';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useRef } from 'react';
+import { StyleSheet, TextInput, View } from 'react-native';
+import API from 'services/api';
 
 const RegisterScreen = () => {
   const { styles } = useStyles(createStyles);
+
+  const firstNameInputRef = useRef<TextInput>();
+  const lastNameInputRef = useRef<TextInput>();
+  const emailInputRef = useRef<TextInput>();
+  const passwordInputRef = useRef<TextInput>();
+
+  const registerUser = async () => {
+    try {
+      // API.registerUser({firstName: firstNameInputRef.current.})
+    } catch (e) {}
+  };
+
+  const focusNextInput = (title: string) => {
+    if (title === 'First name') {
+      lastNameInputRef.current?.focus();
+    } else if (title === 'Last name') {
+      emailInputRef.current?.focus();
+    } else if (title === 'E-mail') {
+      passwordInputRef.current?.focus();
+    }
+  };
 
   return (
     <ScreenWrapper style={styles.screen}>
       <MyScrollView>
         <Logo text="Welcome" />
         <View style={styles.formContainer}>
-          <InputField title="First name" />
-          <InputField title="Last name" />
-          <InputField title="E-mail" />
+          <InputField
+            title="First name"
+            ref={firstNameInputRef}
+            onSubmitEditing={() => {
+              focusNextInput('First name');
+            }}
+            autoFocus
+          />
+          <InputField title="Last name" ref={lastNameInputRef} />
+          <InputField title="E-mail" autoCapitalize="none" inputMode="email" />
           <InputField title="Password" />
         </View>
 
@@ -33,7 +62,7 @@ const RegisterScreen = () => {
             style={styles.haveAnAccountText}
           />
 
-          <CTA title="Log in" />
+          <CTA title="Log in" onPress={registerUser} />
         </View>
       </MyScrollView>
     </ScreenWrapper>

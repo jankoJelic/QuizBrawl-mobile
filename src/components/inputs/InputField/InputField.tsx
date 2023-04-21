@@ -2,24 +2,40 @@ import BodyLarge from 'components/typography/BodyLarge';
 import { Colors } from 'constants/styles/Colors';
 import { AN, BORDER_RADIUS } from 'constants/styles/appStyles';
 import useStyles from 'hooks/styles/useStyles';
-import React, { useState } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import React, {
+  Ref,
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
+import { StyleSheet, TextInput, TextInputProps, View } from 'react-native';
 
-const InputField = ({
-  title = '',
-  onSubmitEditing = () => {},
-  secureTextEntry = false,
-}) => {
+const InputField = forwardRef((props: Props, ref) => {
+  const { autoFocus, title } = props;
+  const inputRef = useRef<TextInput>();
   const { styles, colors } = useStyles(createStyles);
-  const [isFocused, setIsFocused] = useState(false);
+  const [isFocused, setisFocused] = useState(false);
+
+  useEffect(() => {
+    if (autoFocus) {
+      onFocus();
+    }
+  }, []);
 
   const onFocus = () => {
-    setIsFocused(true);
+    inputRef?.current?.focus();
+    setisFocused(true);
   };
 
   const onBlur = () => {
-    setIsFocused(false);
+    setisFocused(false);
   };
+
+  useImperativeHandle(ref, () => ({
+    focus: onFocus,
+  }));
 
   return (
     <View style={styles.container}>
@@ -29,6 +45,7 @@ const InputField = ({
         color={isFocused ? 'brand400' : 'mainTextColor'}
       />
       <TextInput
+        ref={inputRef}
         style={[
           styles.inputField,
           {
@@ -39,12 +56,11 @@ const InputField = ({
         cursorColor={colors.brand500}
         onFocus={onFocus}
         onBlur={onBlur}
-        onSubmitEditing={onSubmitEditing}
-        secureTextEntry={secureTextEntry}
+        {...props}
       />
     </View>
   );
-};
+});
 
 const createStyles = (colors: Colors) =>
   StyleSheet.create({
@@ -67,3 +83,7 @@ const createStyles = (colors: Colors) =>
   });
 
 export default InputField;
+
+interface Props extends TextInputProps {
+  title?: string;
+}

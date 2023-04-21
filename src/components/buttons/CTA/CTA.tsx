@@ -43,7 +43,7 @@ const createStyles = (colors: Colors) =>
   StyleSheet.create({
     container: {
       borderRadius: BORDER_RADIUS,
-      height: AN(40),
+      height: AN(42),
       width: '100%',
       marginVertical: AN(10),
     },
