@@ -4,6 +4,7 @@ import BodyMedium from 'components/typography/BodyMedium';
 import Logo from 'components/typography/Logo';
 import { Colors } from 'constants/styles/Colors';
 import { AN, SCREEN_HEIGHT } from 'constants/styles/appStyles';
+import MyScrollView from 'hoc/MyScrollView';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
@@ -14,23 +15,27 @@ const RegisterScreen = () => {
 
   return (
     <ScreenWrapper style={styles.screen}>
-      <Logo text="Welcome" />
-      <View style={styles.formContainer}>
-        <InputField title="E-mail" />
-        <InputField title="Password" />
-      </View>
+      <MyScrollView>
+        <Logo text="Welcome" />
+        <View style={styles.formContainer}>
+          <InputField title="First name" />
+          <InputField title="Last name" />
+          <InputField title="E-mail" />
+          <InputField title="Password" />
+        </View>
 
-      <CTA title="Register" />
+        <CTA title="Register" />
 
-      <View style={styles.footer}>
-        <BodyMedium
-          text="Already have an account?"
-          color="mainTextColor"
-          style={styles.haveAnAccountText}
-        />
+        <View style={styles.footer}>
+          <BodyMedium
+            text="Already have an account?"
+            color="mainTextColor"
+            style={styles.haveAnAccountText}
+          />
 
-        <CTA title="Log in" />
-      </View>
+          <CTA title="Log in" />
+        </View>
+      </MyScrollView>
     </ScreenWrapper>
   );
 };
@@ -39,7 +44,7 @@ const createStyles = (colors: Colors) =>
   StyleSheet.create({
     screen: {
       alignItems: 'center',
-      paddingTop: SCREEN_HEIGHT * 0.1,
+      paddingTop: AN(20),
     },
     formContainer: { marginTop: AN(30), width: '100%' },
     haveAnAccountText: { marginBottom: AN(6) },

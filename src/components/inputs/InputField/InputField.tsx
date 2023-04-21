@@ -23,7 +23,11 @@ const InputField = ({
 
   return (
     <View style={styles.container}>
-      <BodyLarge text={title} style={styles.title} />
+      <BodyLarge
+        text={title}
+        style={styles.title}
+        color={isFocused ? 'brand400' : 'mainTextColor'}
+      />
       <TextInput
         style={[
           styles.inputField,
@@ -48,10 +52,11 @@ const createStyles = (colors: Colors) =>
       borderRadius: BORDER_RADIUS,
       borderWidth: 1,
       width: '100%',
-      marginVertical: AN(10),
+      marginBottom: AN(3),
       color: colors.mainTextColor,
       paddingLeft: AN(12),
       height: AN(36),
+      marginTop: AN(2),
     },
     container: {
       marginVertical: AN(12),

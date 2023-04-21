@@ -17,6 +17,7 @@ const createStyles = (colors: Colors) =>
       color: colors.brand500,
       fontSize: AN(40),
       letterSpacing: 2,
+      textAlign: 'center',
     },
   });
 export default Logo;
