@@ -1,9 +1,9 @@
+import CTA from 'components/buttons/CTA';
 import InputField from 'components/inputs/InputField';
 import Logo from 'components/typography/Logo';
 import { Colors } from 'constants/styles/Colors';
 import { AN, SCREEN_HEIGHT } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
-import TileWrapper from 'hoc/TileWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -18,6 +18,8 @@ const RegisterScreen = () => {
         <InputField title="E-mail" />
         <InputField title="Password" />
       </View>
+
+      <CTA title="Register" />
     </ScreenWrapper>
   );
 };

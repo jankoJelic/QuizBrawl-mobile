@@ -31,6 +31,8 @@ const InputField = ({
             borderColor: isFocused ? colors.brand500 : colors.neutral400,
           },
         ]}
+        selectionColor={colors.brand500}
+        cursorColor={colors.brand500}
         onFocus={onFocus}
         onBlur={onBlur}
         onSubmitEditing={onSubmitEditing}
@@ -49,6 +51,7 @@ const createStyles = (colors: Colors) =>
       marginVertical: AN(10),
       color: colors.mainTextColor,
       paddingLeft: AN(12),
+      height: AN(36),
     },
     container: {
       marginVertical: AN(12),

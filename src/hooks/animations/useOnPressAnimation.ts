@@ -7,15 +7,15 @@ const useOnPressAnimation = () => {
   const scaleAnimation = () => {
     Animated.sequence([
       Animated.timing(scaleValue.current, {
-        toValue: 0.94,
+        toValue: 0.96,
         duration: 100,
-        easing: Easing.elastic(0),
+        // easing: Easing.elastic(0),
         useNativeDriver: true,
       }),
       Animated.timing(scaleValue.current, {
         toValue: 1,
         duration: 100,
-        easing: Easing.elastic(0),
+        // easing: Easing.elastic(0),
         useNativeDriver: true,
       }),
     ]).start();
