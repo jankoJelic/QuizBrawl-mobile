@@ -45,6 +45,7 @@ const createStyles = (colors: Colors) =>
       borderRadius: BORDER_RADIUS,
       height: AN(40),
       width: '100%',
+      marginVertical: AN(10),
     },
     gradient: {
       width: '100%',

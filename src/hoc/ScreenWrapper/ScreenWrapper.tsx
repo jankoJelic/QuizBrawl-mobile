@@ -21,7 +21,7 @@ const createStyles = (colors: Colors) =>
     screen: {
       paddingHorizontal: PADDING_HORIZONTAL,
       flex: 1,
-      minHeight: SCREEN_HEIGHT,
+      height: SCREEN_HEIGHT,
       width: SCREEN_WIDTH,
       backgroundColor: colors.mainThemeBackground,
     },

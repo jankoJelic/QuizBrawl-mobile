@@ -1,5 +1,6 @@
 import CTA from 'components/buttons/CTA';
 import InputField from 'components/inputs/InputField';
+import BodyMedium from 'components/typography/BodyMedium';
 import Logo from 'components/typography/Logo';
 import { Colors } from 'constants/styles/Colors';
 import { AN, SCREEN_HEIGHT } from 'constants/styles/appStyles';
@@ -20,6 +21,16 @@ const RegisterScreen = () => {
       </View>
 
       <CTA title="Register" />
+
+      <View style={styles.footer}>
+        <BodyMedium
+          text="Already have an account?"
+          color="mainTextColor"
+          style={styles.haveAnAccountText}
+        />
+
+        <CTA title="Log in" />
+      </View>
     </ScreenWrapper>
   );
 };
@@ -31,6 +42,13 @@ const createStyles = (colors: Colors) =>
       paddingTop: SCREEN_HEIGHT * 0.1,
     },
     formContainer: { marginTop: AN(30), width: '100%' },
+    haveAnAccountText: { marginBottom: AN(6) },
+    footer: {
+      position: 'absolute',
+      bottom: AN(20),
+      width: '100%',
+      alignItems: 'center',
+    },
   });
 
 export default RegisterScreen;
