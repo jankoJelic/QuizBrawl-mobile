@@ -1,8 +1,11 @@
 import React from 'react'
+import ScreenWrapper from 'hoc/ScreenWrapper'
 
 const SetupPinCodeScreen = () => {
   return (
-    <div>SetupPinCodeScreen</div>
+    <ScreenWrapper>
+      
+    </ScreenWrapper>
   )
 }
 

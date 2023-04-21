@@ -31,7 +31,7 @@ const LoginScreen = ({
 
       storeTokens(accessToken, refreshToken);
 
-      navigation.navigate('Landing');
+      navigation.navigate('EnterPinCode');
     } catch (e) {}
   };
 
