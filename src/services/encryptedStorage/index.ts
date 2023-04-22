@@ -39,6 +39,11 @@ const ENCRYPTED_STORAGE = {
   clearStorage,
 };
 
-type EncryptedStorageKey = 'userData' | 'pin' | 'accessToken' | 'refreshToken';
+type EncryptedStorageKey =
+  | 'userData'
+  | 'pin'
+  | 'accessToken'
+  | 'refreshToken'
+  | 'credentials';
 
 export default ENCRYPTED_STORAGE;

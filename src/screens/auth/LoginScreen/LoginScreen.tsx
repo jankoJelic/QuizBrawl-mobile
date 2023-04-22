@@ -22,15 +22,16 @@ const LoginScreen = ({
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState('');
 
   const loginUser = async () => {
     try {
-      // const { accessToken, refreshToken } = await API.loginUser({
-      //   email,
-      //   password,
-      // });
+      const { accessToken, refreshToken } = await API.loginUser({
+        email,
+        password,
+      });
 
-      // storeTokens(accessToken, refreshToken);
+      storeTokens(accessToken, refreshToken);
 
       navigation.navigate('SetupPinCode', { email, password });
     } catch (e) {}
@@ -44,7 +45,13 @@ const LoginScreen = ({
     <ScreenWrapper style={styles.screen}>
       <NavBackArrow onPress={goBack} />
       <Logo text="Log in" style={styles.title} />
-      <InputField title="E-mail" onChangeText={setEmail} ref={emailInputRef} />
+      <InputField
+        title="E-mail"
+        onChangeText={setEmail}
+        ref={emailInputRef}
+        keyboardType="email-address"
+        autoCapitalize="none"
+      />
       <InputField
         title="Password"
         onChangeText={setPassword}

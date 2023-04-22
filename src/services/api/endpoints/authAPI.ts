@@ -14,6 +14,11 @@ export const authAPI = {
 
     return data;
   },
+
+  getPinEncryptionKey: async (body: { deviceId: string; pin: string }) => {
+    const { data } = await post<string>('/auth/pin', body);
+    return data;
+  },
 };
 
 interface RegisterBody {

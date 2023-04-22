@@ -5,9 +5,10 @@ import TouchableBounce from 'hoc/TouchableBounce';
 import useStyles from 'hooks/styles/useStyles';
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 
-const CTA = ({ onPress = () => {}, title = 'Title' }) => {
+const CTA = ({ onPress = () => {}, title = 'Title', isLoading = false }) => {
   const { styles, colors } = useStyles(createStyles);
   const [pressedIn, setPressedIn] = useState(false);
 
@@ -33,7 +34,14 @@ const CTA = ({ onPress = () => {}, title = 'Title' }) => {
         colors={gradientColors}
         useAngle
         angle={290}>
-        <BodyLarge text={title} color="mainTextColor" weight="bold" />
+        {isLoading ? (
+          <FastImage
+            style={styles.spinner}
+            source={require('../../../assets/spinners/doubleRingSpinner.png')}
+          />
+        ) : (
+          <BodyLarge text={title} color="mainTextColor" weight="bold" />
+        )}
       </LinearGradient>
     </TouchableBounce>
   );
@@ -53,6 +61,11 @@ const createStyles = (colors: Colors) =>
       borderRadius: BORDER_RADIUS,
       alignItems: 'center',
       justifyContent: 'center',
+      flexDirection: 'row',
+    },
+    spinner: {
+      width: AN(30),
+      aspectRatio: 1,
     },
   });
 

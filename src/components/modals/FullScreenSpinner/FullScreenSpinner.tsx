@@ -12,7 +12,7 @@ const FullScreenSpinner = () => {
   const { isLoading } = useAppSelector(state => state.appState);
 
   return (
-    <View style={[styles.container, { opacity: isLoading ? 1 : 0 }]}>
+    <View style={[styles.container, { zIndex: isLoading ? 999 : -1 }]}>
       <FastImage
         source={require('../../../assets/spinners/fullScreenSpinner.png')}
         style={{ width: SCREEN_WIDTH / 2.2, aspectRatio: 1 }}
@@ -31,7 +31,6 @@ const createStyles = (colors: Colors) =>
       alignItems: 'center',
       justifyContent: 'center',
       position: 'absolute',
-      zIndex: 999,
     },
   });
 

@@ -4,18 +4,13 @@ import InputField from 'components/inputs/InputField';
 import BodyMedium from 'components/typography/BodyMedium';
 import Logo from 'components/typography/Logo';
 import { Colors } from 'constants/styles/Colors';
-import { AN, SCREEN_HEIGHT } from 'constants/styles/appStyles';
+import { AN } from 'constants/styles/appStyles';
 import MyScrollView from 'hoc/MyScrollView';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/navConstants';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
-import {
-  decryptData,
-  encryptData,
-  generateKey,
-} from 'services/aesCrypto/aesCrypto';
 import API from 'services/api';
 import { storeTokens } from 'services/encryptedStorage/tokens/tokenStorage';
 
@@ -36,21 +31,6 @@ const RegisterScreen = ({
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const checkKey = async () => {
-    const key = await generateKey('1111', 'salt', 5000, 256);
-    console.log(key);
-
-    const encryptedData = await encryptData('janko', key);
-    console.log(encryptedData);
-
-    const decryptedData = await decryptData(encryptedData, key);
-    console.log(decryptedData);
-  };
-
-  useEffect(() => {
-    checkKey();
-  }, []);
-  console.log(generateKey('1111', 'salt', 3, 4));
   const registerUser = async () => {
     try {
       if (password === confirmPassword) {
@@ -63,9 +43,9 @@ const RegisterScreen = ({
 
         storeTokens(accessToken, refreshToken);
       }
-    } catch (e) {
-      console.log(JSON.stringify(e));
-    }
+
+      navigation.navigate('SetupPinCode', { email, password });
+    } catch (e) {}
   };
 
   const onPressLogin = () => {
@@ -109,6 +89,8 @@ const RegisterScreen = ({
           <InputField
             title="E-mail"
             autoCapitalize="none"
+            keyboardType="email-address"
+            autoCorrect={false}
             inputMode="email"
             ref={emailInputRef}
             onChangeText={setEmail}
@@ -119,6 +101,7 @@ const RegisterScreen = ({
           <InputField
             title="Password"
             ref={passwordInputRef}
+            autoCorrect={false}
             onChangeText={setPassword}
             onSubmitEditing={() => {
               focusNextInput('Password');

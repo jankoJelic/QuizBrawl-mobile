@@ -11,14 +11,21 @@ import { MainStackParamsList } from 'navigation/navConstants';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import PinCodeDots from 'components/inputs/PinCodeKeyboard/PinCodeDots';
-import { generateKey } from 'services/aesCrypto/aesCrypto';
-import { SALT } from 'constants/env/envConstants';
+import {
+  decryptData,
+  encryptData,
+  generateKey,
+} from 'services/aesCrypto/aesCrypto';
+import { DEVICE_ID, SALT } from 'constants/env/envConstants';
 import { useDispatch } from 'react-redux';
+import API from 'services/api';
+import ENCRYPTED_STORAGE from 'services/encryptedStorage';
 
 const EnterPinCodeScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'SetupPinCode'>
-> = ({ navigation }) => {
+> = ({ navigation, route }) => {
   const dispatch = useDispatch();
+  const { email, password } = route.params || {};
   const { styles } = useStyles(createStyles);
 
   const [confirmingInput, setConfirmingInput] = useState(false);
@@ -52,7 +59,30 @@ const EnterPinCodeScreen: React.FC<
   const title = confirmingInput ? 'Confirm PIN code' : 'Set up PIN code';
 
   const onSuccessfullPinSetup = async () => {
-    const encryptionKey = await generateKey(input, SALT, 5000, 256);
+    try {
+      const encryptionKey = await API.getPinEncryptionKey({
+        deviceId: DEVICE_ID,
+        pin: input,
+      });
+
+      const encryptedCredentials = await encryptData(
+        JSON.stringify({ email, password }),
+        encryptionKey,
+      );
+
+      await ENCRYPTED_STORAGE.storeValue('credentials', encryptedCredentials);
+
+      console.log(encryptedCredentials);
+
+      const savedCredentials = await ENCRYPTED_STORAGE.getValue('credentials');
+
+      const decryptedData = await decryptData(
+        JSON.parse(savedCredentials),
+        encryptionKey,
+      );
+
+      console.log(decryptedData);
+    } catch (e) {}
   };
 
   useEffect(() => {
