@@ -21,7 +21,7 @@ const LobbyCarousel = () => {
   const navigation = useNavigation();
   const carouselRef = useRef<Carousel>(null);
 
-  const { styles } = useStyles(createStyles);
+  const { styles, colors } = useStyles(createStyles);
 
   const { lobbies } = useAppSelector((state: RootState) => state.data);
 
@@ -34,6 +34,17 @@ const LobbyCarousel = () => {
     getLobbies();
   }, []);
 
+  const lobbyColor = (lobbyName: LobbyName) => {
+    switch (lobbyName) {
+      case 'Arena':
+        return colors.brand500;
+      case '1v1':
+        return colors.warning800;
+      default:
+        return colors.neutral500;
+    }
+  };
+
   const renderIcon = (lobbyName: LobbyName) => {
     switch (lobbyName) {
       case 'Arena':
@@ -42,6 +53,7 @@ const LobbyCarousel = () => {
             family="fontAwesome5"
             name="users"
             size={SCREEN_WIDTH * 0.2}
+            color="arena"
           />
         );
 
@@ -51,6 +63,7 @@ const LobbyCarousel = () => {
             family="fontAwesome5"
             name="user-friends"
             size={SCREEN_WIDTH * 0.2}
+            color="1v1"
           />
         );
 
@@ -60,6 +73,7 @@ const LobbyCarousel = () => {
             family="fontAwesome5"
             name="user-alt"
             size={SCREEN_WIDTH * 0.2}
+            color="solo"
           />
         );
 
@@ -72,11 +86,11 @@ const LobbyCarousel = () => {
     <TileWrapper style={styles.itemContainer}>
       <Title
         text={item.name}
-        color="brand400"
-        style={{ marginBottom: AN(10) }}
+        color={item.name.toLowerCase()}
+        style={styles.title}
       />
       {renderIcon(item?.name)}
-      <View style={{ alignItems: 'center', marginTop: AN(10) }}>
+      <View style={styles.infoContainer}>
         <BodyMedium text={`Players online: ${String(item.playersCount)}`} />
         <BodyMedium text={`Rooms: ${String(item.playersCount)}`} />
       </View>
@@ -93,6 +107,7 @@ const LobbyCarousel = () => {
         sliderWidth={SCREEN_WIDTH}
         itemWidth={SCREEN_WIDTH / 1.65}
         windowSize={SCREEN_WIDTH}
+        loop
       />
     </View>
   );
@@ -105,6 +120,8 @@ const createStyles = (colors: Colors) =>
       justifyContent: 'center',
       paddingVertical: AN(20),
     },
+    infoContainer: { alignItems: 'center', marginTop: AN(10) },
+    title: { marginBottom: AN(10) },
   });
 
 export default LobbyCarousel;

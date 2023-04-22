@@ -52,6 +52,9 @@ export const lightThemeColors = {
   neutral400: '#9f9f9f',
   neutral500: '#1A1A1A',
   mainTextColor: '#ECECEC',
+  arena: '#BAD7DF',
+  '1v1': '#FFE2E2',
+  solo: '#99DDCC',
 };
 
 export const darkThemeColors = {
