@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import CTA from 'components/buttons/CTA';
+import NavBackArrow from 'components/icons/NavBackArrow';
 import InputField from 'components/inputs/InputField';
 import Logo from 'components/typography/Logo';
 import { Colors } from 'constants/styles/Colors';
@@ -35,8 +36,13 @@ const LoginScreen = ({
     } catch (e) {}
   };
 
+  const goBack = () => {
+    navigation.goBack();
+  };
+
   return (
     <ScreenWrapper style={styles.screen}>
+      <NavBackArrow onPress={goBack} />
       <Logo text="Log in" style={styles.title} />
       <InputField title="E-mail" onChangeText={setEmail} ref={emailInputRef} />
       <InputField
@@ -44,7 +50,12 @@ const LoginScreen = ({
         onChangeText={setPassword}
         ref={passwordInputRef}
       />
-      <CTA title="Log in" />
+      <CTA
+        title="Log in"
+        onPress={() => {
+          navigation.navigate('SetupPinCode');
+        }}
+      />
     </ScreenWrapper>
   );
 };

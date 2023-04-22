@@ -35,6 +35,7 @@ const BaseTextComponent = ({
         fontFamily: fontFamily(),
         color: colors[color],
         fontSize,
+        lineHeight: fontSize * 1.4,
         ...style,
       }}
       onPress={onPress ? onPress : undefined}>
