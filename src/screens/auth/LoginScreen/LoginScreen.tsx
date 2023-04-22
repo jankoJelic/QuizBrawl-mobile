@@ -25,14 +25,14 @@ const LoginScreen = ({
 
   const loginUser = async () => {
     try {
-      const { accessToken, refreshToken } = await API.loginUser({
-        email,
-        password,
-      });
+      // const { accessToken, refreshToken } = await API.loginUser({
+      //   email,
+      //   password,
+      // });
 
-      storeTokens(accessToken, refreshToken);
+      // storeTokens(accessToken, refreshToken);
 
-      navigation.navigate('EnterPinCode');
+      navigation.navigate('SetupPinCode', { email, password });
     } catch (e) {}
   };
 
@@ -50,12 +50,7 @@ const LoginScreen = ({
         onChangeText={setPassword}
         ref={passwordInputRef}
       />
-      <CTA
-        title="Log in"
-        onPress={() => {
-          navigation.navigate('SetupPinCode');
-        }}
-      />
+      <CTA title="Log in" onPress={loginUser} />
     </ScreenWrapper>
   );
 };

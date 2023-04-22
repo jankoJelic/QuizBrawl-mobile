@@ -7,7 +7,7 @@ const Title = (props: TextProps) => {
     <BaseTextComponent
       {...props}
       text={props.text}
-      color="brand500"
+      color={props.color || 'brand500'}
       fontSize={AN(24)}
     />
   );
