@@ -10,7 +10,7 @@ const FeatherIcon = ({
   name,
   size = AN(20),
   style = {},
-  onPress = () => {},
+  onPress,
   color = 'brand500',
   family = 'feather',
 }: Props) => {
@@ -23,7 +23,7 @@ const FeatherIcon = ({
         color={colors[color]}
         size={size}
         style={style}
-        onPress={onPress}
+        onPress={onPress ? onPress : undefined}
       />
     );
 
@@ -34,7 +34,7 @@ const FeatherIcon = ({
         color={colors[color]}
         size={size}
         style={style}
-        onPress={onPress}
+        onPress={onPress ? onPress : undefined}
       />
     );
 
@@ -44,7 +44,7 @@ const FeatherIcon = ({
       color={colors[color]}
       size={size}
       style={style}
-      onPress={onPress}
+      onPress={onPress ? onPress : undefined}
     />
   );
 };
@@ -53,11 +53,18 @@ export default FeatherIcon;
 
 interface Props {
   name: IconName;
-  size: number;
+  size?: number;
   style?: {};
   onPress?: () => void;
   color?: Color;
   family?: 'feather' | 'simpleLine' | 'fontAwesome5';
 }
 
-export type IconName = 'arrow-left' | 'delete' | 'align-justify' | 'trophy';
+export type IconName =
+  | 'arrow-left'
+  | 'delete'
+  | 'align-justify'
+  | 'trophy'
+  | 'users'
+  | 'user-friends'
+  | 'user-alt';

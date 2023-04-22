@@ -1,13 +1,18 @@
 import { Colors } from 'constants/styles/Colors';
 import { AN, BORDER_RADIUS } from 'constants/styles/appStyles';
+import TouchableBounce from 'hoc/TouchableBounce';
 import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-const TileWrapper = ({ children, style = {} }: Props) => {
+const TileWrapper = ({ children, style = {}, onPress = () => {} }: Props) => {
   const { styles } = useStyles(createStyles);
 
-  return <View style={[styles.container, style]}>{children}</View>;
+  return (
+    <TouchableBounce onPress={onPress} style={[styles.container, style]}>
+      {children}
+    </TouchableBounce>
+  );
 };
 
 const createStyles = (colors: Colors) =>
@@ -24,4 +29,5 @@ export default TileWrapper;
 interface Props {
   children: JSX.Element | JSX.Element[];
   style?: {};
+  onPress?: () => void;
 }

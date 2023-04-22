@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import FeatherIcon from 'assets/icons/FeatherIcon';
 import BodyLarge from 'components/typography/BodyLarge';
 import Title from 'components/typography/Title';
@@ -8,11 +9,16 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useAppSelector } from 'store';
 
-const LandingScreenHeader = ({ navigateToProfile = () => {} }) => {
+const LandingScreenHeader = () => {
   const { userData } = useAppSelector(state => state.auth);
+  const navigation = useNavigation();
+
+  const navigateToProfile = () => {
+    navigation.navigate('Profile');
+  };
 
   const { styles } = useStyles(createStyles);
-  console.log(userData);
+
   return (
     <View style={styles.header}>
       <FeatherIcon
@@ -46,4 +52,4 @@ const createStyles = (colors: Colors) =>
     trophiesCount: { marginLeft: AN(6) },
   });
 
-export default LandingScreenHeader;
+export default React.memo(LandingScreenHeader);

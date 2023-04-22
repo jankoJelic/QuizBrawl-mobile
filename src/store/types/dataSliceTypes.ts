@@ -6,7 +6,10 @@ export interface Lobby {
   availableRoomsCount: number;
   topic: Topic;
   rooms: Room[];
+  name: LobbyName;
 }
+
+export type LobbyName = 'Arena' | '1v1' | 'Solo';
 
 export interface Room {
   id: number;
@@ -31,4 +34,3 @@ export type Topic =
   | 'SHOWBIZ';
 
 export type GameType = 'BRAWL' | 'CLASSIC';
-

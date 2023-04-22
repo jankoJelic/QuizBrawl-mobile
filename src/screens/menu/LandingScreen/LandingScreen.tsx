@@ -3,13 +3,11 @@ import { Colors } from 'constants/styles/Colors';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/navConstants';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useAppSelector } from 'store';
 import LandingScreenHeader from './components/LandingScreenHeader';
-import TileWrapper from 'hoc/TileWrapper';
-import FeatherIcon from 'assets/icons/FeatherIcon';
-import HeadingH1 from 'components/typography/HeadingH1';
+import LobbyCarousel from './components/LobbyCarousel';
 
 const LandingScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Landing'>
@@ -19,17 +17,12 @@ const LandingScreen: React.FC<
 
   const [gameType, setGameType] = useState('BRAWL');
 
-  const navigateToProfile = () => {
-    navigation.navigate('Profile');
-  };
+  useEffect(() => {}, []);
 
   return (
     <ScreenWrapper>
-      <LandingScreenHeader navigateToProfile={navigateToProfile} />
-      <TileWrapper>
-        <HeadingH1 text="Arena" />
-        <FeatherIcon family="fontAwesome5" name="users" />
-      </TileWrapper>
+      <LandingScreenHeader />
+      <LobbyCarousel />
     </ScreenWrapper>
   );
 };
