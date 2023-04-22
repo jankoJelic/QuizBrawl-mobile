@@ -3,8 +3,7 @@ import FeatherIcon from 'assets/icons/FeatherIcon';
 import TileWrapper from 'hoc/TileWrapper';
 import Carousel from 'react-native-snap-carousel';
 import { StyleSheet, View } from 'react-native';
-import { RootState } from 'store';
-import { useAppSelector } from 'store';
+import { useAppSelector } from 'store/index';
 import { Lobby, LobbyName } from 'store/types/dataSliceTypes';
 import { AN, SCREEN_WIDTH } from 'constants/styles/appStyles';
 import { useDispatch } from 'react-redux';
@@ -13,17 +12,17 @@ import API from 'services/api';
 import { setLobbies } from 'store/slices/dataSlice';
 import Title from 'components/typography/Title';
 import BodyMedium from 'components/typography/BodyMedium';
-import { Colors } from 'constants/styles/Colors';
+import { Color, Colors } from 'constants/styles/Colors';
 import useStyles from 'hooks/styles/useStyles';
 
 const LobbyCarousel = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const carouselRef = useRef<Carousel>(null);
+  const carouselRef = useRef(null);
 
   const { styles, colors } = useStyles(createStyles);
 
-  const { lobbies } = useAppSelector((state: RootState) => state.data);
+  const { lobbies } = useAppSelector(state => state.data);
 
   const getLobbies = async () => {
     const lobbies = await API.getLobbies();
@@ -33,17 +32,6 @@ const LobbyCarousel = () => {
   useEffect(() => {
     getLobbies();
   }, []);
-
-  const lobbyColor = (lobbyName: LobbyName) => {
-    switch (lobbyName) {
-      case 'Arena':
-        return colors.brand500;
-      case '1v1':
-        return colors.warning800;
-      default:
-        return colors.neutral500;
-    }
-  };
 
   const renderIcon = (lobbyName: LobbyName) => {
     switch (lobbyName) {
@@ -86,7 +74,7 @@ const LobbyCarousel = () => {
     <TileWrapper style={styles.itemContainer}>
       <Title
         text={item.name}
-        color={item.name.toLowerCase()}
+        color={item.name.toLowerCase() as Color}
         style={styles.title}
       />
       {renderIcon(item?.name)}
@@ -98,7 +86,7 @@ const LobbyCarousel = () => {
   );
 
   return (
-    <View style={{ marginTop: AN(40) }}>
+    <View style={{ marginTop: AN(20) }}>
       <Carousel
         layout="default"
         ref={carouselRef}

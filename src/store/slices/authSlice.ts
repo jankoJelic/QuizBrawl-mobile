@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { UserData } from 'store/types/authSliceTypes';
 
 export interface AppState {
-  userData: {};
+  userData: UserData;
   isLoggedIn: boolean;
 }
 
 const initialState: AppState = {
-  userData: {},
+  userData: <UserData>{},
   isLoggedIn: false,
 };
 
