@@ -15,7 +15,6 @@ const createStyles = (colors: Colors) =>
     container: {
       borderRadius: BORDER_RADIUS,
       backgroundColor: colors.tileBackground,
-      width: '100%',
       padding: AN(10),
     },
   });

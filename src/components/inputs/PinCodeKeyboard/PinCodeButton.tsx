@@ -1,4 +1,4 @@
-import FeatherIcon, { FeatherIconName } from 'assets/icons/FeatherIcon';
+import FeatherIcon, { IconName } from 'assets/icons/FeatherIcon';
 import Title from 'components/typography/Title';
 import { Colors } from 'constants/styles/Colors';
 import { AN, SCREEN_WIDTH } from 'constants/styles/appStyles';
@@ -75,6 +75,6 @@ export default PinCodeButton;
 interface Props {
   onPress: (c: string) => void;
   character: string;
-  icon?: FeatherIconName;
+  icon?: IconName;
   style?: {};
 }

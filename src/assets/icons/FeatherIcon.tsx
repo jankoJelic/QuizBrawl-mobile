@@ -3,6 +3,7 @@ import React from 'react';
 import useTheme from 'hooks/styles/useTheme';
 import { AN } from 'constants/styles/appStyles';
 import { Color } from 'constants/styles/Colors';
+import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
 
 const FeatherIcon = ({
   name,
@@ -10,8 +11,20 @@ const FeatherIcon = ({
   style = {},
   onPress = () => {},
   color = 'brand500',
+  family = 'feather',
 }: Props) => {
   const { colors } = useTheme();
+
+  if (family === 'simpleLine')
+    return (
+      <SimpleLineIcon
+        name={name}
+        color={colors[color]}
+        size={size}
+        style={style}
+        onPress={onPress}
+      />
+    );
 
   return (
     <Icon
@@ -27,11 +40,12 @@ const FeatherIcon = ({
 export default FeatherIcon;
 
 interface Props {
-  name: FeatherIconName;
+  name: IconName;
   size: number;
   style?: {};
   onPress?: () => void;
   color?: Color;
+  family: 'feather' | 'simpleLine';
 }
 
-export type FeatherIconName = 'arrow-left' | 'delete';
+export type IconName = 'arrow-left' | 'delete' | 'align-justify' | 'trophy';

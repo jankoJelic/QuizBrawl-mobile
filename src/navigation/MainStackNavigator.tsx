@@ -8,6 +8,7 @@ import LoginScreen from 'screens/auth/LoginScreen';
 import LandingScreen from 'screens/game/LandingScreen';
 import ProfileScreen from 'screens/game/ProfileScreen';
 import SetupPinCodeScreen from 'screens/auth/SetupPinCodeScreen';
+import { slideScreenFromLeft } from './config/slideScreenFromLeft';
 
 const Stack = createNativeStackNavigator<MainStackParamsList>();
 
@@ -27,7 +28,11 @@ const MainStackNavigator = () => (
     <Stack.Screen name="SetupPinCode" component={SetupPinCodeScreen} />
 
     <Stack.Screen name="Landing" component={LandingScreen} />
-    <Stack.Screen name="Profile" component={ProfileScreen} />
+    <Stack.Screen
+      name="Profile"
+      component={ProfileScreen}
+      options={{ animation: 'slide_from_left' }}
+    />
   </Stack.Navigator>
 );
 
