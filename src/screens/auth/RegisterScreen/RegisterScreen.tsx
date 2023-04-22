@@ -52,6 +52,14 @@ const RegisterScreen = ({
     navigation.navigate('Login');
   };
 
+  const formValid =
+    !!firstName &&
+    !!lastName &&
+    !!email &&
+    !!password &&
+    !!confirmPassword &&
+    password === confirmPassword;
+
   const focusNextInput = (title: string) => {
     if (title === 'First name') {
       lastNameInputRef.current?.focus();
@@ -114,7 +122,7 @@ const RegisterScreen = ({
           />
         </View>
 
-        <CTA title="Register" onPress={registerUser} />
+        <CTA title="Register" onPress={registerUser} disabled={!formValid} />
 
         <View style={styles.footer}>
           <BodyMedium

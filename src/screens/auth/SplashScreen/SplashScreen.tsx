@@ -14,9 +14,9 @@ const SplashScreen = ({
   const { styles, colors } = useStyles(createStyles);
 
   const checkForPin = async () => {
-    const pin = await ENCRYPTED_STORAGE.getValue('pin');
+    const storedCredentials = await ENCRYPTED_STORAGE.getValue('credentials');
 
-    if (!!pin) {
+    if (!!storedCredentials) {
       navigation.navigate('EnterPinCode');
     } else {
       navigation.navigate('Register');

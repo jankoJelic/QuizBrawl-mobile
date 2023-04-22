@@ -42,6 +42,8 @@ const EnterPinCodeScreen: React.FC<
 
   const onPressButton = (character: string) => {
     if (confirmingInput) {
+      if (confirmInput.length === 4) return;
+      
       if (character === 'backspace') {
         setConfirmInput(applyBackspace);
       } else {

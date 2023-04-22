@@ -19,6 +19,11 @@ export const authAPI = {
     const { data } = await post<string>('/auth/pin', body);
     return data;
   },
+
+  getUserData: async () => {
+    const { data } = await get('/auth/me');
+    return data;
+  },
 };
 
 interface RegisterBody {
