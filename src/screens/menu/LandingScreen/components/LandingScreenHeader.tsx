@@ -9,17 +9,16 @@ import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { useAppSelector } from 'store';
+import { useAppSelector } from 'store/index';
 
 const LandingScreenHeader = () => {
-  const { userData } = useAppSelector(state => state.auth);
   const navigation = useNavigation();
+  const { styles, colors } = useStyles(createStyles);
+  const { userData } = useAppSelector(state => state.auth);
 
   const navigateToProfile = () => {
     navigation.navigate('Profile');
   };
-
-  const { styles } = useStyles(createStyles);
 
   return (
     <View style={styles.header}>
@@ -27,7 +26,9 @@ const LandingScreenHeader = () => {
         <Title text={`Hi, ${userData.firstName}`} color="mainTextColor" />
         <BodyMedium text="Wanna play a little game?" />
       </View>
-      <TouchableBounce onPress={navigateToProfile} style={styles.userAvatar}>
+      <TouchableBounce
+        onPress={navigateToProfile}
+        style={[styles.userAvatar, { borderColor: userData.color }]}>
         {userData.avatar ? (
           <FastImage source={{ uri: userData.avatar }} />
         ) : (
@@ -55,7 +56,6 @@ const createStyles = (colors: Colors) =>
       aspectRatio: 1,
       borderRadius: AN(48),
       borderWidth: 2,
-      borderColor: colors.brand500,
       alignItems: 'center',
       justifyContent: 'center',
     },

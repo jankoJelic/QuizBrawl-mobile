@@ -9,6 +9,7 @@ import LandingScreen from 'screens/menu/LandingScreen';
 import ProfileScreen from 'screens/menu/ProfileScreen';
 import SetupPinCodeScreen from 'screens/auth/SetupPinCodeScreen';
 import { slideScreenFromLeft } from './config/slideScreenFromLeft';
+import ArenaLobbyScreen from 'screens/arena/ArenaLobbyScreen/ArenaLobbyScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamsList>();
 
@@ -33,6 +34,8 @@ const MainStackNavigator = () => (
       component={ProfileScreen}
       options={{ animation: 'slide_from_left' }}
     />
+
+    <Stack.Screen name="ArenaLobby" component={ArenaLobbyScreen} />
   </Stack.Navigator>
 );
 

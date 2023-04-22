@@ -7,4 +7,10 @@ export type MainStackParamsList = {
 
   Landing: undefined;
   Profile: undefined;
+
+  ArenaLobby: undefined;
+  '1v1Lobby': undefined;
+  SoloLobby: undefined;
+
+  CreateQuiz: undefined;
 };

@@ -14,4 +14,6 @@ export interface UserData {
   updatedAt: string;
   money: number;
   rank: number;
+  avatar: string;
+  color: string;
 }

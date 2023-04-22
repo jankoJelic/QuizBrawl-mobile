@@ -73,7 +73,7 @@ const LobbyCarousel = () => {
   const selectLobby = (name: LobbyName) => {
     switch (name) {
       case 'Arena':
-        
+        navigation.navigate('ArenaLobby');
         break;
       default:
         return;
