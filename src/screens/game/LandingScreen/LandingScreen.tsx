@@ -1,9 +1,8 @@
-import React from 'react'
+import ScreenWrapper from 'hoc/ScreenWrapper';
+import React from 'react';
 
 const LandingScreen = () => {
-  return (
-    <div>LandingScreen</div>
-  )
-}
+  return <ScreenWrapper></ScreenWrapper>;
+};
 
-export default LandingScreen
+export default LandingScreen;

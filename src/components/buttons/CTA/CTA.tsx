@@ -8,7 +8,12 @@ import { StyleSheet } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 
-const CTA = ({ onPress = () => {}, title = 'Title', isLoading = false }) => {
+const CTA = ({
+  onPress = () => {},
+  title = 'Title',
+  isLoading = false,
+  disabled = false,
+}) => {
   const { styles, colors } = useStyles(createStyles);
   const [pressedIn, setPressedIn] = useState(false);
 
@@ -19,7 +24,9 @@ const CTA = ({ onPress = () => {}, title = 'Title', isLoading = false }) => {
     setPressedIn(false);
   };
 
-  const gradientColors = pressedIn
+  const gradientColors = disabled
+    ? [colors.neutral400, colors.neutral400, colors.neutral400]
+    : pressedIn
     ? [colors.brand600, colors.brand700, colors.brand800]
     : [colors.brand400, colors.brand500, colors.brand600];
 
@@ -28,7 +35,8 @@ const CTA = ({ onPress = () => {}, title = 'Title', isLoading = false }) => {
       onPress={onPress}
       style={styles.container}
       onPressIn={onPressIn}
-      onPressOut={onPressOut}>
+      onPressOut={onPressOut}
+      disabled={disabled}>
       <LinearGradient
         style={styles.gradient}
         colors={gradientColors}

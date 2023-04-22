@@ -13,7 +13,7 @@ import React, {
 import { StyleSheet, TextInput, TextInputProps, View } from 'react-native';
 
 const InputField = forwardRef((props: Props, ref) => {
-  const { autoFocus, title } = props;
+  const { autoFocus, title, autoCapitalize = 'none' } = props;
   const inputRef = useRef<TextInput>();
   const { styles, colors } = useStyles(createStyles);
   const [isFocused, setisFocused] = useState(false);
@@ -56,6 +56,7 @@ const InputField = forwardRef((props: Props, ref) => {
         cursorColor={colors.brand500}
         onFocus={onFocus}
         onBlur={onBlur}
+        autoCapitalize={autoCapitalize}
         {...props}
       />
     </View>
