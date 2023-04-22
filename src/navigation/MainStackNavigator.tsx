@@ -5,8 +5,8 @@ import SplashScreen from 'screens/auth/SplashScreen';
 import EnterPinCodeScreen from 'screens/auth/EnterPinCodeScreen';
 import RegisterScreen from 'screens/auth/RegisterScreen/RegisterScreen';
 import LoginScreen from 'screens/auth/LoginScreen';
-import LandingScreen from 'screens/game/LandingScreen';
-import ProfileScreen from 'screens/game/ProfileScreen';
+import LandingScreen from 'screens/menu/LandingScreen';
+import ProfileScreen from 'screens/menu/ProfileScreen';
 import SetupPinCodeScreen from 'screens/auth/SetupPinCodeScreen';
 import { slideScreenFromLeft } from './config/slideScreenFromLeft';
 

@@ -45,7 +45,7 @@ interface Props {
   style?: {};
   onPress?: () => void;
   color?: Color;
-  family: 'feather' | 'simpleLine';
+  family?: 'feather' | 'simpleLine';
 }
 
 export type IconName = 'arrow-left' | 'delete' | 'align-justify' | 'trophy';
