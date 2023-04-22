@@ -12,4 +12,6 @@ export interface UserData {
   registrationOtpCode: '';
   trophies: number;
   updatedAt: string;
+  money: number;
+  rank: number;
 }

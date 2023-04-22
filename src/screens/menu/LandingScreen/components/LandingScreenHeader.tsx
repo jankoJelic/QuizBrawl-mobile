@@ -24,8 +24,8 @@ const LandingScreenHeader = () => {
   return (
     <View style={styles.header}>
       <View>
-        <Title text={`Hi, ${userData.firstName}`} />
-        <BodyMedium text="Wanna play a little game?" color="brand600" />
+        <Title text={`Hi, ${userData.firstName}`} color="mainTextColor" />
+        <BodyMedium text="Wanna play a little game?" />
       </View>
       <TouchableBounce onPress={navigateToProfile} style={styles.userAvatar}>
         {userData.avatar ? (

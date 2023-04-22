@@ -70,23 +70,39 @@ const LobbyCarousel = () => {
     }
   };
 
-  const renderItem = ({ item }: { item: Lobby }) => (
-    <TileWrapper style={styles.itemContainer}>
-      <Title
-        text={item.name}
-        color={item.name.toLowerCase() as Color}
-        style={styles.title}
-      />
-      {renderIcon(item?.name)}
-      <View style={styles.infoContainer}>
-        <BodyMedium text={`Players online: ${String(item.playersCount)}`} />
-        <BodyMedium text={`Rooms: ${String(item.playersCount)}`} />
-      </View>
-    </TileWrapper>
-  );
+  const selectLobby = (name: LobbyName) => {
+    switch (name) {
+      case 'Arena':
+        
+        break;
+      default:
+        return;
+    }
+  };
+
+  const renderItem = ({ item }: { item: Lobby }) => {
+    const onPressTile = () => {
+      selectLobby(item.name);
+    };
+
+    return (
+      <TileWrapper style={styles.itemContainer} onPress={onPressTile}>
+        <Title
+          text={item.name}
+          color={item.name.toLowerCase() as Color}
+          style={styles.title}
+        />
+        {renderIcon(item?.name)}
+        <View style={styles.infoContainer}>
+          <BodyMedium text={`Players online: ${String(item.playersCount)}`} />
+          <BodyMedium text={`Rooms: ${String(item.playersCount)}`} />
+        </View>
+      </TileWrapper>
+    );
+  };
 
   return (
-    <View style={{ marginTop: AN(20) }}>
+    <View style={{ marginTop: AN(12) }}>
       <Carousel
         layout="default"
         ref={carouselRef}

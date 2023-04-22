@@ -21,6 +21,9 @@ const createStyles = (colors: Colors) =>
       borderRadius: BORDER_RADIUS,
       backgroundColor: colors.tileBackground,
       padding: AN(10),
+      shadowRadius: AN(4),
+      shadowOpacity: 0.15,
+      elevation: AN(4),
     },
   });
 
