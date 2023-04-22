@@ -3,7 +3,7 @@ import { Colors } from 'constants/styles/Colors';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/navConstants';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { useAppSelector } from 'store';
 import LandingScreenHeader from './components/LandingScreenHeader';
@@ -14,10 +14,6 @@ const LandingScreen: React.FC<
 > = ({ navigation }) => {
   const { userData } = useAppSelector(state => state.auth);
   const { styles } = useStyles(createStyles);
-
-  const [gameType, setGameType] = useState('BRAWL');
-
-  useEffect(() => {}, []);
 
   return (
     <ScreenWrapper>

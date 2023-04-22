@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import FeatherIcon from 'assets/icons/FeatherIcon';
-import HeadingH1 from 'components/typography/HeadingH1';
 import TileWrapper from 'hoc/TileWrapper';
 import Carousel from 'react-native-snap-carousel';
 import { StyleSheet, View } from 'react-native';
@@ -11,7 +10,6 @@ import { AN, SCREEN_WIDTH } from 'constants/styles/appStyles';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import API from 'services/api';
-import BodyLarge from 'components/typography/BodyLarge';
 import { setLobbies } from 'store/slices/dataSlice';
 import Title from 'components/typography/Title';
 import BodyMedium from 'components/typography/BodyMedium';
@@ -70,23 +68,20 @@ const LobbyCarousel = () => {
     }
   };
 
-  const renderItem = ({ item }: { item: Lobby }) => {
-    console.log(item);
-    return (
-      <TileWrapper style={styles.itemContainer}>
-        <Title
-          text={item.name}
-          color="brand400"
-          style={{ marginBottom: AN(10) }}
-        />
-        {renderIcon(item?.name)}
-        <View style={{ alignItems: 'center', marginTop: AN(10) }}>
-          <BodyMedium text={`Players online: ${String(item.playersCount)}`} />
-          <BodyMedium text={`Rooms: ${String(item.playersCount)}`} />
-        </View>
-      </TileWrapper>
-    );
-  };
+  const renderItem = ({ item }: { item: Lobby }) => (
+    <TileWrapper style={styles.itemContainer}>
+      <Title
+        text={item.name}
+        color="brand400"
+        style={{ marginBottom: AN(10) }}
+      />
+      {renderIcon(item?.name)}
+      <View style={{ alignItems: 'center', marginTop: AN(10) }}>
+        <BodyMedium text={`Players online: ${String(item.playersCount)}`} />
+        <BodyMedium text={`Rooms: ${String(item.playersCount)}`} />
+      </View>
+    </TileWrapper>
+  );
 
   return (
     <View style={{ marginTop: AN(40) }}>
