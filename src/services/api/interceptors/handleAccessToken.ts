@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 import ENCRYPTED_STORAGE from 'services/encryptedStorage';
 
 const handleAccessToken = async (request: AxiosRequestConfig) => {
-  const accessToken = request.headers.RefreshToken
+  const accessToken = request?.headers?.RefreshToken
     ? await ENCRYPTED_STORAGE.getValue('accessToken')
     : await ENCRYPTED_STORAGE.getValue('refreshToken');
 

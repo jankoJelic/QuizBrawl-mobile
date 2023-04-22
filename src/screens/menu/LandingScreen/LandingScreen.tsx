@@ -7,6 +7,9 @@ import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useAppSelector } from 'store';
 import LandingScreenHeader from './components/LandingScreenHeader';
+import TileWrapper from 'hoc/TileWrapper';
+import FeatherIcon from 'assets/icons/FeatherIcon';
+import HeadingH1 from 'components/typography/HeadingH1';
 
 const LandingScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Landing'>
@@ -14,7 +17,7 @@ const LandingScreen: React.FC<
   const { userData } = useAppSelector(state => state.auth);
   const { styles } = useStyles(createStyles);
 
-  const [gameType, setGameType] = useState('arena');
+  const [gameType, setGameType] = useState('BRAWL');
 
   const navigateToProfile = () => {
     navigation.navigate('Profile');
@@ -23,6 +26,10 @@ const LandingScreen: React.FC<
   return (
     <ScreenWrapper>
       <LandingScreenHeader navigateToProfile={navigateToProfile} />
+      <TileWrapper>
+        <HeadingH1 text="Arena" />
+        <FeatherIcon family="fontAwesome5" name="users" />
+      </TileWrapper>
     </ScreenWrapper>
   );
 };

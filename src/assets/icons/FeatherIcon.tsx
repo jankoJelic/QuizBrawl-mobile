@@ -4,6 +4,7 @@ import useTheme from 'hooks/styles/useTheme';
 import { AN } from 'constants/styles/appStyles';
 import { Color } from 'constants/styles/Colors';
 import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const FeatherIcon = ({
   name,
@@ -14,6 +15,17 @@ const FeatherIcon = ({
   family = 'feather',
 }: Props) => {
   const { colors } = useTheme();
+
+  if (family === 'fontAwesome5')
+    return (
+      <FontAwesome5
+        name={name}
+        color={colors[color]}
+        size={size}
+        style={style}
+        onPress={onPress}
+      />
+    );
 
   if (family === 'simpleLine')
     return (
@@ -45,7 +57,7 @@ interface Props {
   style?: {};
   onPress?: () => void;
   color?: Color;
-  family?: 'feather' | 'simpleLine';
+  family?: 'feather' | 'simpleLine' | 'fontAwesome5';
 }
 
 export type IconName = 'arrow-left' | 'delete' | 'align-justify' | 'trophy';
