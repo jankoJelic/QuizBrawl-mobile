@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Pressable, View } from 'react-native';
+import { FlatList } from 'react-native';
 import PinCodeButton from './PinCodeButton';
 import { AN } from 'constants/styles/appStyles';
 import BodyMedium from 'components/typography/BodyMedium';
@@ -20,15 +20,13 @@ const PinCodeKeyboard = ({ onPressButton, errorMessage }: Props) => {
     'backspace',
   ];
 
-  const renderItem = ({ item }: { item: string }) => {
-    return (
-      <PinCodeButton
-        character={item}
-        icon={item === 'backspace' ? 'delete' : undefined}
-        onPress={onPressButton}
-      />
-    );
-  };
+  const renderItem = ({ item }: { item: string }) => (
+    <PinCodeButton
+      character={item}
+      icon={item === 'backspace' ? 'delete' : undefined}
+      onPress={onPressButton}
+    />
+  );
 
   return (
     <>

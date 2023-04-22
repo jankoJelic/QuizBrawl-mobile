@@ -11,10 +11,14 @@ import { MainStackParamsList } from 'navigation/navConstants';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import PinCodeDots from 'components/inputs/PinCodeKeyboard/PinCodeDots';
+import { generateKey } from 'services/aesCrypto/aesCrypto';
+import { SALT } from 'constants/env/envConstants';
+import { useDispatch } from 'react-redux';
 
 const EnterPinCodeScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'SetupPinCode'>
 > = ({ navigation }) => {
+  const dispatch = useDispatch();
   const { styles } = useStyles(createStyles);
 
   const [confirmingInput, setConfirmingInput] = useState(false);
@@ -47,7 +51,9 @@ const EnterPinCodeScreen: React.FC<
 
   const title = confirmingInput ? 'Confirm PIN code' : 'Set up PIN code';
 
-  const onSuccessfullPinSetup = () => {};
+  const onSuccessfullPinSetup = async () => {
+    const encryptionKey = await generateKey(input, SALT, 5000, 256);
+  };
 
   useEffect(() => {
     if (!confirmingInput) {
@@ -76,7 +82,10 @@ const EnterPinCodeScreen: React.FC<
         color="brand600"
         style={styles.description}
       />
-      <PinCodeDots input={confirmingInput ? confirmInput : input} error={error} />
+      <PinCodeDots
+        input={confirmingInput ? confirmInput : input}
+        error={error}
+      />
       <PinCodeKeyboard onPressButton={onPressButton} errorMessage={error} />
     </ScreenWrapper>
   );

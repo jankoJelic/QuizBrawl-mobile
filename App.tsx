@@ -3,6 +3,7 @@ import { SafeAreaView, StatusBar } from 'react-native';
 import { useAppSelector } from './src/store';
 import { NavigationContainer } from '@react-navigation/native';
 import MainStackNavigator from './src/navigation/MainStackNavigator';
+import FullScreenSpinner from './src/components/modals/FullScreenSpinner';
 
 function App(): JSX.Element {
   const { topColor, bottomColor } = useAppSelector(
@@ -13,8 +14,9 @@ function App(): JSX.Element {
     <NavigationContainer>
       <SafeAreaView style={{ flex: 0, backgroundColor: topColor }} />
       <SafeAreaView style={{ backgroundColor: bottomColor, flex: 1 }}>
-        <StatusBar backgroundColor={topColor} barStyle={'light-content'} />
+        <StatusBar backgroundColor={topColor} barStyle="light-content" />
         <MainStackNavigator />
+        <FullScreenSpinner />
       </SafeAreaView>
     </NavigationContainer>
   );
