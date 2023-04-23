@@ -1,5 +1,5 @@
 import ScreenWrapper from 'hoc/ScreenWrapper';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import TileWrapper from 'hoc/TileWrapper';
 import { Colors } from 'constants/styles/Colors';
 import { FlatList, StyleSheet, View } from 'react-native';
@@ -19,6 +19,8 @@ import NavHeader from 'components/layout/NavHeader';
 import BodyLarge from 'components/typography/BodyLarge';
 import InputField from 'components/inputs/InputField';
 import MyScrollView from 'hoc/MyScrollView';
+import CTA from 'components/buttons/CTA';
+import { isIntegerBewteen } from 'util/strings/isIntegerBetween';
 
 const iconSize = AN(36);
 
@@ -34,10 +36,12 @@ export const TOPICS = [
 ];
 
 const CreateArenaRoomScreen = () => {
-  const carouselRef = useRef(null);
   const { styles, colors } = useStyles(createStyles);
 
   const [selectedTopic, setselectedTopic] = useState<Topic>('General');
+  const [roomName, setRoomName] = useState('');
+  const [maxPlayers, setMaxPlayers] = useState('4');
+  const [answerTime, setAnswerTime] = useState('15');
 
   const renderItem = ({ item }: TopicListItem) => {
     const isSelected = item.name === selectedTopic;
@@ -66,6 +70,21 @@ const CreateArenaRoomScreen = () => {
     );
   };
 
+  const onPressConfirm = () => {};
+
+  const maxPlayersValid = isIntegerBewteen({
+    input: maxPlayers,
+    min: 2,
+    max: 16,
+  });
+  const answerTimeValid = isIntegerBewteen({
+    input: answerTime,
+    min: 10,
+    max: 20,
+  });
+  const roomNameValid = roomName.length > 3;
+  const formValid = maxPlayersValid && roomNameValid && answerTimeValid;
+
   return (
     <ScreenWrapper style={{ paddingHorizontal: 0 }}>
       <NavHeader title="Create room" />
@@ -82,13 +101,20 @@ const CreateArenaRoomScreen = () => {
           style={styles.list}
         />
         <View style={{ paddingHorizontal: PADDING_HORIZONTAL }}>
-          <InputField title="Room name" />
+          <InputField title="Room name" onChangeText={setRoomName} />
           <InputField
-            title="Number of players (max 16)"
+            title="Number of players (2-16)"
             keyboardType="numeric"
+            value={maxPlayers}
+            onChangeText={setMaxPlayers}
           />
-          <InputField title="Answer time (seconds)" keyboardType="numeric" />
-          <InputField title="Password (optional)" autoCorrect={false} />
+          <InputField
+            title="Answer time (10-20 seconds)"
+            keyboardType="numeric"
+            value={answerTime}
+            onChangeText={setAnswerTime}
+          />
+          <CTA title="Confirm" onPress={onPressConfirm} disabled={!formValid} />
         </View>
       </MyScrollView>
     </ScreenWrapper>
