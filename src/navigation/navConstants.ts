@@ -13,4 +13,6 @@ export type MainStackParamsList = {
   SoloLobby: undefined;
 
   CreateQuiz: undefined;
+
+  CreateArenaRoom: undefined;
 };
