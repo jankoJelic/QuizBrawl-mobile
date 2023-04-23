@@ -67,4 +67,5 @@ export type IconName =
   | 'trophy'
   | 'users'
   | 'user-friends'
-  | 'user-alt';
+  | 'user-alt'
+  | 'x';

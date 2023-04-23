@@ -75,10 +75,6 @@ const EnterPinCodeScreen: React.FC<
       await ENCRYPTED_STORAGE.storeValue('credentials', encryptedCredentials);
 
       navigation.navigate('Landing');
-
-      // const savedCredentials = await ENCRYPTED_STORAGE.getValue('credentials');
-
-      // const decryptedData = await decryptData(savedCredentials, encryptionKey);
     } catch (e) {}
   };
 

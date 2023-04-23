@@ -25,12 +25,12 @@ export interface Room {
 }
 
 export type Topic =
-  | 'GENERAL'
-  | 'HISTORY'
-  | 'MUSIC'
-  | 'SPORTS'
-  | 'ART'
-  | 'GEOGRAPHY'
-  | 'SHOWBIZ';
+  | 'General'
+  | 'History'
+  | 'Music'
+  | 'Sports'
+  | 'Art'
+  | 'Geography'
+  | 'Showbiz';
 
 export type GameType = 'BRAWL' | 'CLASSIC';
