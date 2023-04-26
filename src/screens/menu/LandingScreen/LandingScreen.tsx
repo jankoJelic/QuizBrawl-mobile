@@ -3,7 +3,7 @@ import { Colors } from 'constants/styles/Colors';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/navConstants';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useAppSelector } from 'store/index';
 import LandingScreenHeader from './components/LandingScreenHeader';
@@ -25,6 +25,8 @@ const LandingScreen: React.FC<
 > = ({ navigation }) => {
   const { userData } = useAppSelector(state => state.auth);
   const { styles, colors } = useStyles(createStyles);
+
+  useEffect(() => {},[])
 
   return (
     <ScreenWrapper style={{ paddingHorizontal: 0 }}>

@@ -14,6 +14,7 @@ import { StyleSheet, View } from 'react-native';
 const ArenaLobbyScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'ArenaLobby'>
 > = ({ navigation }) => {
+  
   const getArenaRooms = () => {};
 
   useEffect(() => {}, []);

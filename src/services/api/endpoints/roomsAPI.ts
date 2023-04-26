@@ -1,11 +1,17 @@
-import { Topic } from 'store/types/dataSliceTypes';
+import { Lobby, Room, Topic } from 'store/types/dataSliceTypes';
 import httpClient from '../httpClient';
 
 const { get, post } = httpClient;
 
 const roomsAPI = {
   createRoom: async (body: CreateRoomBody) => {
-    const { data } = await post('rooms/createRoom', body);
+    const { data } = await post<Room>('rooms/create', body);
+
+    return data;
+  },
+
+  getRooms: async () => {
+    const { data } = await get<Room[]>('rooms');
 
     return data;
   },
@@ -18,6 +24,5 @@ interface CreateRoomBody {
   maxPlayers: number;
   answerTime: number;
   topic: Topic;
+  lobby: Lobby;
 }
-
-interface CreateRoomResponse {}

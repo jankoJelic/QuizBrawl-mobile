@@ -22,6 +22,12 @@ import MyScrollView from 'hoc/MyScrollView';
 import CTA from 'components/buttons/CTA';
 import { isIntegerBewteen } from 'util/strings/isIntegerBetween';
 import API from 'services/api';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { MainStackParamsList } from 'navigation/navConstants';
+import { useDispatch } from 'react-redux';
+import { startLoading, stopLoading } from 'store/slices/appStateSlice';
+import { LOBBY_IDS } from 'constants/constants';
+import { useAppSelector } from 'store/index';
 
 const iconSize = AN(36);
 
@@ -36,8 +42,13 @@ export const TOPICS = [
   { name: 'Art', icon: <ArtIcon style={iconStyle} /> },
 ];
 
-const CreateArenaRoomScreen = () => {
+const CreateArenaRoomScreen: React.FC<
+  NativeStackScreenProps<MainStackParamsList, 'CreateArenaRoom'>
+> = ({ navigation }) => {
+  const dispatch = useDispatch();
+
   const { styles, colors } = useStyles(createStyles);
+  const { lobbies } = useAppSelector(state => state.data);
 
   const [selectedTopic, setselectedTopic] = useState<Topic>('General');
   const [roomName, setRoomName] = useState('');
@@ -72,16 +83,24 @@ const CreateArenaRoomScreen = () => {
   };
 
   const onPressConfirm = async () => {
+    dispatch(startLoading());
     try {
       const body = {
         name: roomName,
         topic: selectedTopic,
-        answerTime: answerTime,
-        maxPlayers: maxPlayers,
+        answerTime: Number(answerTime),
+        maxPlayers: Number(maxPlayers),
+        lobby: lobbies.find(l => l.id === LOBBY_IDS.ARENA),
       };
-      
+
       const room = await API.createRoom(body);
-    } catch (e) {}
+
+      navigation.navigate('ArenaRoom', { room });
+    } catch (e) {
+      console.log(JSON.stringify(e));
+    } finally {
+      dispatch(stopLoading());
+    }
   };
 
   const maxPlayersValid = isIntegerBewteen({

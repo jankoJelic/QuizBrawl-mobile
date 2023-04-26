@@ -1,3 +1,5 @@
+import { Room } from 'store/types/dataSliceTypes';
+
 export type MainStackParamsList = {
   Splash: undefined;
   Register: undefined;
@@ -15,4 +17,5 @@ export type MainStackParamsList = {
   CreateQuiz: undefined;
 
   CreateArenaRoom: undefined;
+  ArenaRoom: { room: Room };
 };

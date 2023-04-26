@@ -11,6 +11,7 @@ import SetupPinCodeScreen from 'screens/auth/SetupPinCodeScreen';
 import { slideScreenFromLeft } from './config/slideScreenFromLeft';
 import ArenaLobbyScreen from 'screens/arena/ArenaLobbyScreen/ArenaLobbyScreen';
 import CreateArenaRoomScreen from 'screens/arena/CreateArenaRoomScreen';
+import ArenaRoomScreen from 'screens/arena/ArenaRoomScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamsList>();
 
@@ -38,6 +39,7 @@ const MainStackNavigator = () => (
 
     <Stack.Screen name="ArenaLobby" component={ArenaLobbyScreen} />
     <Stack.Screen name="CreateArenaRoom" component={CreateArenaRoomScreen} />
+    <Stack.Screen name="ArenaRoom" component={ArenaRoomScreen} />
   </Stack.Navigator>
 );
 
