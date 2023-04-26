@@ -21,6 +21,7 @@ import InputField from 'components/inputs/InputField';
 import MyScrollView from 'hoc/MyScrollView';
 import CTA from 'components/buttons/CTA';
 import { isIntegerBewteen } from 'util/strings/isIntegerBetween';
+import API from 'services/api';
 
 const iconSize = AN(36);
 
@@ -70,7 +71,18 @@ const CreateArenaRoomScreen = () => {
     );
   };
 
-  const onPressConfirm = () => {};
+  const onPressConfirm = async () => {
+    try {
+      const body = {
+        name: roomName,
+        topic: selectedTopic,
+        answerTime: answerTime,
+        maxPlayers: maxPlayers,
+      };
+      
+      const room = await API.createRoom(body);
+    } catch (e) {}
+  };
 
   const maxPlayersValid = isIntegerBewteen({
     input: maxPlayers,
