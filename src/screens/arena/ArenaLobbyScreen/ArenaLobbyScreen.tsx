@@ -1,5 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { QuestionIcon } from 'assets/icons';
 import FeatherIcon from 'assets/icons/FeatherIcon';
+import { GeneralIcon, TopicIcon } from 'assets/icons/topics';
 import CTA from 'components/buttons/CTA';
 import NavHeader from 'components/layout/NavHeader';
 import BodyLarge from 'components/typography/BodyLarge';
@@ -16,7 +18,7 @@ import { MainStackParamsList } from 'navigation/navConstants';
 import React, { useEffect } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { useAppSelector } from 'store/index';
-import { Room } from 'store/types/dataSliceTypes';
+import { Room, Topic } from 'store/types/dataSliceTypes';
 
 const ArenaLobbyScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'ArenaLobby'>
@@ -30,11 +32,19 @@ const ArenaLobbyScreen: React.FC<
     navigation.navigate('CreateArenaRoom');
   };
 
+  const renderIcon = (topic: Topic) => {
+    switch (topic) {
+      case 'General':
+        return <GeneralIcon style={{ width: AN(20), aspectRatio: 1 }} />;
+      default:
+        return <></>;
+    }
+  };
+
   const renderItem = ({ item, index }: { item: Room }) => {
     return (
       <TouchableBounce
         style={{
-          flexDirection: 'row',
           alignItems: 'center',
           backgroundColor: colors.tileBackground,
           borderRadius: BORDER_RADIUS,
@@ -43,16 +53,34 @@ const ArenaLobbyScreen: React.FC<
           ...(index % 2 ? { marginLeft: AN(5) } : { marginRight: AN(5) }),
         }}
         onPress={() => {}}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '100%',
-          }}>
-          <BodyMedium text={item.name} />
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View style={styles.roomRow}>
+          <BodyMedium text={item.name} style={{ flex: 1 }} weight="bold" />
+          {renderIcon(item.topic)}
+        </View>
+        <View style={styles.roomRow}>
+          <BodyMedium text={`Host: ${item.hostName}`} style={{ flex: 0.7 }} />
+          <View
+            style={{ flexDirection: 'row', alignItems: 'center', flex: 0.3 }}>
             <FeatherIcon name="users" size={AN(16)} />
             <BodyMedium text={`  ${item.players.length}/${item.maxPlayers}`} />
+          </View>
+        </View>
+        <View style={styles.roomRow}>
+          {/* <BodyMedium
+            text={`Questions: ${String(item.questionsCount)}`}
+            style={{ flex: 0.7 }}
+          /> */}
+          <View style={{ flexDirection: 'row', flex: 1 }}>
+            <QuestionIcon
+              style={{ width: AN(20), aspectRatio: 1, color: colors.brand200 }}
+            />
+            <BodyMedium text={`  ${String(item.questionsCount)}`} />
+          </View>
+
+          <View
+            style={{ flexDirection: 'row', alignItems: 'center', flex: 0.3 }}>
+            <FeatherIcon name="clock" size={AN(16)} color="warning500" />
+            <BodyMedium text={`  ${String(item.answerTime)}`} />
           </View>
         </View>
       </TouchableBounce>
@@ -81,6 +109,14 @@ const ArenaLobbyScreen: React.FC<
   );
 };
 
-const createStyles = (colors: Colors) => StyleSheet.create({});
+const createStyles = (colors: Colors) =>
+  StyleSheet.create({
+    roomRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'flex-start',
+      marginVertical: AN(4.2),
+    },
+  });
 
 export default ArenaLobbyScreen;

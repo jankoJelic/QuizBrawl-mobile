@@ -23,6 +23,7 @@ export interface Room {
   type: GameType;
   password: string;
   lobby: Lobby;
+  answerTime: number;
 }
 
 export type Topic =
@@ -32,6 +33,7 @@ export type Topic =
   | 'Sports'
   | 'Art'
   | 'Geography'
-  | 'Showbiz';
+  | 'Showbiz'
+  | 'Science';
 
 export type GameType = 'BRAWL' | 'CLASSIC';

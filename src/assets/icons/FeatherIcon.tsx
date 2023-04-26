@@ -70,4 +70,6 @@ export type IconName =
   | 'user-alt'
   | 'x'
   | 'eye'
-  | 'eye-off';
+  | 'eye-off'
+  | 'clock'
+  | 'lock';
