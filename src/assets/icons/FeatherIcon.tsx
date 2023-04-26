@@ -68,4 +68,6 @@ export type IconName =
   | 'users'
   | 'user-friends'
   | 'user-alt'
-  | 'x';
+  | 'x'
+  | 'eye'
+  | 'eye-off';

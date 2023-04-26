@@ -10,14 +10,23 @@ import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/navConstants';
 import React, { useRef, useState } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  TextInput,
+  View,
+} from 'react-native';
+import { useDispatch } from 'react-redux';
 import API from 'services/api';
 import { storeTokens } from 'services/encryptedStorage/tokens/tokenStorage';
+import { startLoading, stopLoading } from 'store/slices/appStateSlice';
 
 const RegisterScreen = ({
   navigation,
 }: NativeStackScreenProps<MainStackParamsList, 'Register'>) => {
   const { styles } = useStyles(createStyles);
+  const dispatch = useDispatch();
 
   const firstNameInputRef = useRef<TextInput>();
   const lastNameInputRef = useRef<TextInput>();
@@ -32,6 +41,8 @@ const RegisterScreen = ({
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const registerUser = async () => {
+    dispatch(startLoading());
+
     try {
       if (password === confirmPassword) {
         const { accessToken, refreshToken } = await API.registerUser({
@@ -45,7 +56,11 @@ const RegisterScreen = ({
       }
 
       navigation.navigate('SetupPinCode', { email, password });
-    } catch (e) {}
+    } catch (e) {
+      console.log(JSON.stringify(e));
+    } finally {
+      dispatch(stopLoading());
+    }
   };
 
   const onPressLogin = () => {
@@ -74,66 +89,72 @@ const RegisterScreen = ({
 
   return (
     <ScreenWrapper style={styles.screen}>
-      <MyScrollView>
-        <Logo text="Welcome" />
-        <View style={styles.formContainer}>
-          <InputField
-            title="First name"
-            ref={firstNameInputRef}
-            onSubmitEditing={() => {
-              focusNextInput('First name');
-            }}
-            autoFocus
-            onChangeText={setFirstName}
-          />
-          <InputField
-            title="Last name"
-            ref={lastNameInputRef}
-            onChangeText={setLastName}
-            onSubmitEditing={() => {
-              focusNextInput('Last name');
-            }}
-          />
-          <InputField
-            title="E-mail"
-            autoCapitalize="none"
-            keyboardType="email-address"
-            autoCorrect={false}
-            inputMode="email"
-            ref={emailInputRef}
-            onChangeText={setEmail}
-            onSubmitEditing={() => {
-              focusNextInput('E-mail');
-            }}
-          />
-          <InputField
-            title="Password"
-            ref={passwordInputRef}
-            autoCorrect={false}
-            onChangeText={setPassword}
-            onSubmitEditing={() => {
-              focusNextInput('Password');
-            }}
-          />
-          <InputField
-            title="Confirm password"
-            ref={confirmPasswordInputRef}
-            onChangeText={setConfirmPassword}
-          />
-        </View>
+      <KeyboardAvoidingView
+        style={{ flex: 1, width: '100%' }}
+        behavior={Platform.select({ android: undefined, ios: 'padding' })}>
+        <MyScrollView>
+          <Logo text="Welcome" />
+          <View style={styles.formContainer}>
+            <InputField
+              title="First name"
+              ref={firstNameInputRef}
+              onSubmitEditing={() => {
+                focusNextInput('First name');
+              }}
+              autoFocus
+              onChangeText={setFirstName}
+            />
+            <InputField
+              title="Last name"
+              ref={lastNameInputRef}
+              onChangeText={setLastName}
+              onSubmitEditing={() => {
+                focusNextInput('Last name');
+              }}
+            />
+            <InputField
+              title="E-mail"
+              autoCapitalize="none"
+              keyboardType="email-address"
+              autoCorrect={false}
+              inputMode="email"
+              ref={emailInputRef}
+              onChangeText={setEmail}
+              onSubmitEditing={() => {
+                focusNextInput('E-mail');
+              }}
+            />
+            <InputField
+              title="Password"
+              ref={passwordInputRef}
+              autoCorrect={false}
+              onChangeText={setPassword}
+              onSubmitEditing={() => {
+                focusNextInput('Password');
+              }}
+              icon="eye"
+            />
+            <InputField
+              title="Confirm password"
+              ref={confirmPasswordInputRef}
+              onChangeText={setConfirmPassword}
+              icon="eye"
+            />
+          </View>
 
-        <CTA title="Register" onPress={registerUser} disabled={!formValid} />
+          <CTA title="Register" onPress={registerUser} disabled={!formValid} />
 
-        <View style={styles.footer}>
-          <BodyMedium
-            text="Already have an account?"
-            color="mainTextColor"
-            style={styles.haveAnAccountText}
-          />
+          <View style={styles.footer}>
+            <BodyMedium
+              text="Already have an account?"
+              color="mainTextColor"
+              style={styles.haveAnAccountText}
+            />
 
-          <CTA title="Log in" onPress={onPressLogin} />
-        </View>
-      </MyScrollView>
+            <CTA title="Log in" onPress={onPressLogin} />
+          </View>
+        </MyScrollView>
+      </KeyboardAvoidingView>
     </ScreenWrapper>
   );
 };

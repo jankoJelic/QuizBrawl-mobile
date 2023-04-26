@@ -1,6 +1,8 @@
+import FeatherIcon, { IconName } from 'assets/icons/FeatherIcon';
 import BodyLarge from 'components/typography/BodyLarge';
 import { Colors } from 'constants/styles/Colors';
 import { AN, BORDER_RADIUS } from 'constants/styles/appStyles';
+import TouchableBounce from 'hoc/TouchableBounce';
 import useStyles from 'hooks/styles/useStyles';
 import React, {
   Ref,
@@ -13,10 +15,11 @@ import React, {
 import { StyleSheet, TextInput, TextInputProps, View } from 'react-native';
 
 const InputField = forwardRef((props: Props, ref) => {
-  const { autoFocus, title, autoCapitalize = 'none' } = props;
+  const { autoFocus, title, autoCapitalize = 'none', icon } = props;
   const inputRef = useRef<TextInput>();
   const { styles, colors } = useStyles(createStyles);
   const [isFocused, setisFocused] = useState(false);
+  const [isSecured, setIsSecured] = useState(icon === 'eye');
 
   useEffect(() => {
     if (autoFocus) {
@@ -36,6 +39,10 @@ const InputField = forwardRef((props: Props, ref) => {
   useImperativeHandle(ref, () => ({
     focus: onFocus,
   }));
+
+  const onPressIcon = () => {
+    setIsSecured(!isSecured);
+  };
 
   return (
     <View style={styles.container}>
@@ -57,8 +64,17 @@ const InputField = forwardRef((props: Props, ref) => {
         onFocus={onFocus}
         onBlur={onBlur}
         autoCapitalize={autoCapitalize}
+        secureTextEntry={isSecured}
         {...props}
       />
+      {!!props.icon && (
+        <FeatherIcon
+          name={isSecured ? 'eye' : 'eye-off'}
+          onPress={onPressIcon}
+          style={styles.eyeIcon}
+          color={isFocused ? 'brand500' : 'neutral300'}
+        />
+      )}
     </View>
   );
 });
@@ -82,10 +98,12 @@ const createStyles = (colors: Colors) =>
       left: AN(5),
       marginBottom: AN(2),
     },
+    eyeIcon: { position: 'absolute', right: AN(12), bottom: AN(11) },
   });
 
 export default InputField;
 
 interface Props extends TextInputProps {
   title?: string;
+  icon?: IconName;
 }

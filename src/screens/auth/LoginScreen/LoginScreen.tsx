@@ -84,6 +84,7 @@ const LoginScreen = ({
         autoCapitalize="none"
         onChangeText={setPassword}
         ref={passwordInputRef}
+        icon="eye"
       />
       <CTA
         title="Log in"
