@@ -11,15 +11,12 @@ import { MainStackParamsList } from 'navigation/navConstants';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import PinCodeDots from 'components/inputs/PinCodeKeyboard/PinCodeDots';
-import {
-  decryptData,
-  encryptData,
-  generateKey,
-} from 'services/aesCrypto/aesCrypto';
-import { DEVICE_ID, SALT } from 'constants/env/envConstants';
+import { encryptData } from 'services/aesCrypto/aesCrypto';
+import { DEVICE_ID } from 'constants/env/envConstants';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
 import ENCRYPTED_STORAGE from 'services/encryptedStorage';
+import { storeUserData } from 'store/slices/authSlice';
 
 const EnterPinCodeScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'SetupPinCode'>
@@ -43,7 +40,7 @@ const EnterPinCodeScreen: React.FC<
   const onPressButton = (character: string) => {
     if (confirmingInput) {
       if (confirmInput.length === 4) return;
-      
+
       if (character === 'backspace') {
         setConfirmInput(applyBackspace);
       } else {
@@ -73,6 +70,9 @@ const EnterPinCodeScreen: React.FC<
       );
 
       await ENCRYPTED_STORAGE.storeValue('credentials', encryptedCredentials);
+
+      const userData = await API.getUserData();
+      dispatch(storeUserData(userData));
 
       navigation.navigate('Landing');
     } catch (e) {}

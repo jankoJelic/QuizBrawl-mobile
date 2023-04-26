@@ -5,7 +5,11 @@ import handleAccessToken from './interceptors/handleAccessToken';
 import handleRefreshToken from './interceptors/handleRefreshToken';
 
 const httpClient = axios.create({
-  baseURL: BASE_URL,
+  baseURL: 'http://10.0.2.2:3000',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
 });
 
 httpClient.interceptors.request.use(handleAccessToken);
