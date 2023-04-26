@@ -57,7 +57,6 @@ const RegisterScreen = ({
 
       navigation.navigate('SetupPinCode', { email, password });
     } catch (e) {
-      console.log(JSON.stringify(e));
     } finally {
       dispatch(stopLoading());
     }

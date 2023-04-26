@@ -42,7 +42,6 @@ const LoginScreen = ({
 
       navigation.navigate('SetupPinCode', { email, password });
     } catch (e: any) {
-      console.log(JSON.stringify(e));
       const { status } = e?.response || {};
 
       switch (status) {

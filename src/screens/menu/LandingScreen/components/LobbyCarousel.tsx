@@ -14,6 +14,7 @@ import Title from 'components/typography/Title';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Color, Colors } from 'constants/styles/Colors';
 import useStyles from 'hooks/styles/useStyles';
+import { setRooms } from 'store/slices/dataSlice';
 
 const LobbyCarousel = () => {
   const dispatch = useDispatch();
@@ -22,15 +23,21 @@ const LobbyCarousel = () => {
 
   const { styles, colors } = useStyles(createStyles);
 
-  const { lobbies } = useAppSelector(state => state.data);
+  const { lobbies, rooms } = useAppSelector(state => state.data);
 
   const getLobbies = async () => {
     const lobbies = await API.getLobbies();
     dispatch(setLobbies(lobbies));
   };
 
+  const getRooms = async () => {
+    const rooms = await API.getRooms();
+    dispatch(setRooms(rooms));
+  };
+
   useEffect(() => {
     getLobbies();
+    getRooms();
   }, []);
 
   const renderIcon = (lobbyName: LobbyName) => {
@@ -80,6 +87,10 @@ const LobbyCarousel = () => {
     }
   };
 
+  const getLobbyRoomsCount = (lobbyId: number) => {
+    return rooms.filter(room => room?.lobby?.id === lobbyId).length;
+  };
+
   const renderItem = ({ item }: { item: Lobby }) => {
     const onPressTile = () => {
       selectLobby(item.name);
@@ -95,7 +106,7 @@ const LobbyCarousel = () => {
         {renderIcon(item?.name)}
         <View style={styles.infoContainer}>
           <BodyMedium text={`Players online: ${String(item.playersCount)}`} />
-          <BodyMedium text={`Rooms: ${String(item.playersCount)}`} />
+          <BodyMedium text={`Rooms: ${String(getLobbyRoomsCount(item.id))}`} />
         </View>
       </TileWrapper>
     );

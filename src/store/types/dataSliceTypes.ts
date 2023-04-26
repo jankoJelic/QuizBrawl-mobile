@@ -22,6 +22,7 @@ export interface Room {
   topic: Topic;
   type: GameType;
   password: string;
+  lobby: Lobby;
 }
 
 export type Topic =

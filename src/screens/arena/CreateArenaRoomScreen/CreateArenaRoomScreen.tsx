@@ -97,7 +97,6 @@ const CreateArenaRoomScreen: React.FC<
 
       navigation.navigate('ArenaRoom', { room });
     } catch (e) {
-      console.log(JSON.stringify(e));
     } finally {
       dispatch(stopLoading());
     }

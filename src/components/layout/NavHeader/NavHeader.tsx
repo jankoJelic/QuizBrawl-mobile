@@ -7,7 +7,13 @@ import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-const NavHeader = ({ title = '', fullWidth = false }) => {
+const NavHeader = ({
+  title = '',
+  fullWidth = false,
+  showLeftIcon = true,
+  showRightIcon = true,
+  style = {},
+}) => {
   const { styles } = useStyles(createStyles);
   const navigation = useNavigation();
 
@@ -26,12 +32,14 @@ const NavHeader = ({ title = '', fullWidth = false }) => {
       style={{
         ...styles.container,
         ...(fullWidth && { paddingHorizontal: 0 }),
+        ...style,
       }}>
       <FeatherIcon
         name="arrow-left"
         size={iconSize}
-        onPress={onPressLeftArrow}
+        onPress={showLeftIcon ? onPressLeftArrow : undefined}
         color="mainTextColor"
+        style={{ opacity: showLeftIcon ? 1 : 0 }}
       />
       <Title text={title} color="mainTextColor" />
       <FeatherIcon

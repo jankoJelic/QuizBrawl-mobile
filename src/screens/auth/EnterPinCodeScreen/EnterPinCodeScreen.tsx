@@ -2,6 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import NavBackArrow from 'components/icons/NavBackArrow';
 import PinCodeKeyboard from 'components/inputs/PinCodeKeyboard';
 import PinCodeDots from 'components/inputs/PinCodeKeyboard/PinCodeDots';
+import BodyMedium from 'components/typography/BodyMedium';
 import Logo from 'components/typography/Logo';
 import { DEVICE_ID } from 'constants/env/envConstants';
 import { Colors } from 'constants/styles/Colors';
@@ -85,6 +86,10 @@ const EnterPinCodeScreen: React.FC<
     }
   }, [input]);
 
+  const onPressLogin = () => {
+    navigation.navigate('Login');
+  };
+
   return (
     <ScreenWrapper>
       <NavBackArrow onPress={goToLogin} />
@@ -94,6 +99,8 @@ const EnterPinCodeScreen: React.FC<
         onPressButton={onPressButton}
         errorMessage={errorMessage}
       />
+      <BodyMedium text="Forgot PIN?" />
+      <BodyMedium text="Log in" color="brand500" onPress={onPressLogin} />
     </ScreenWrapper>
   );
 };
