@@ -17,6 +17,7 @@ import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/navConstants';
 import React, { useEffect } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
+import { SOCKET } from 'services/socket/socket';
 import { useAppSelector } from 'store/index';
 import { Room, Topic } from 'store/types/dataSliceTypes';
 
@@ -42,6 +43,10 @@ const ArenaLobbyScreen: React.FC<
   };
 
   const renderItem = ({ item, index }: { item: Room }) => {
+    const onPressRoom = () => {
+      SOCKET.emit('events', { room: item.id }, data => console.log(data));
+    };
+
     return (
       <TouchableBounce
         style={{
@@ -52,7 +57,7 @@ const ArenaLobbyScreen: React.FC<
           flex: 1,
           ...(index % 2 ? { marginLeft: AN(5) } : { marginRight: AN(5) }),
         }}
-        onPress={() => {}}>
+        onPress={onPressRoom}>
         <View style={styles.roomRow}>
           <BodyMedium text={item.name} style={{ flex: 1 }} weight="bold" />
           {renderIcon(item.topic)}
@@ -86,18 +91,10 @@ const ArenaLobbyScreen: React.FC<
       </TouchableBounce>
     );
   };
+
   return (
     <ScreenWrapper>
       <NavHeader title="Arena" fullWidth />
-      {/* <TileWrapper style={{ marginTop: AN(20) }}>
-        <BodyLarge
-          text="+   Create new room"
-          color="brand500"
-          onPress={() => {
-            navigation.navigate('CreateArenaRoom');
-          }}
-        />
-      </TileWrapper> */}
       <FlatList
         data={arenaRooms}
         renderItem={renderItem}

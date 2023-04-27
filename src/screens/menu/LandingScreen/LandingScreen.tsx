@@ -19,6 +19,8 @@ import {
 import FastImage from 'react-native-fast-image';
 import BodyLarge from 'components/typography/BodyLarge';
 import BodyMedium from 'components/typography/BodyMedium';
+import { SOCKET } from 'services/socket/socket';
+import { BASE_URL } from 'constants/env/envConstants';
 
 const LandingScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Landing'>
@@ -26,7 +28,31 @@ const LandingScreen: React.FC<
   const { userData } = useAppSelector(state => state.auth);
   const { styles, colors } = useStyles(createStyles);
 
-  useEffect(() => {},[])
+  const onLogin = () => {
+    console.log('logged in');
+  };
+
+  const connectToSocket = async () => {
+    try {
+      SOCKET.connect();
+      SOCKET.emit('events', 'message');
+    } catch (e) {}
+
+    // const status = SOCKET.connect();
+
+    // SOCKET.emit('events', { janko: true });
+    console.log('here');
+  };
+
+  useEffect(() => {
+    connectToSocket();
+
+    SOCKET.on('dummyEvent', () => {
+      console.log('dummy event arrive to FE');
+    });
+    // SOCKET.connect();
+    // SOCKET.on('login', onLogin);
+  }, []);
 
   return (
     <ScreenWrapper style={{ paddingHorizontal: 0 }}>
