@@ -1,21 +1,18 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { QuestionIcon } from 'assets/icons';
 import FeatherIcon from 'assets/icons/FeatherIcon';
-import { GeneralIcon, TopicIcon } from 'assets/icons/topics';
+import { GeneralIcon } from 'assets/icons/topics';
 import CTA from 'components/buttons/CTA';
 import NavHeader from 'components/layout/NavHeader';
-import BodyLarge from 'components/typography/BodyLarge';
 import BodyMedium from 'components/typography/BodyMedium';
-import Title from 'components/typography/Title';
 import { LOBBY_IDS } from 'constants/constants';
 import { Colors } from 'constants/styles/Colors';
 import { AN, BORDER_RADIUS } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
-import TileWrapper from 'hoc/TileWrapper';
 import TouchableBounce from 'hoc/TouchableBounce';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/navConstants';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { SOCKET } from 'services/socket/socket';
 import { useAppSelector } from 'store/index';
@@ -42,7 +39,7 @@ const ArenaLobbyScreen: React.FC<
     }
   };
 
-  const renderItem = ({ item, index }: { item: Room }) => {
+  const renderItem = ({ item, index }: { item: Room; index: number }) => {
     const onPressRoom = () => {
       SOCKET.emit('events', { room: item.id }, data => console.log(data));
     };
@@ -67,14 +64,10 @@ const ArenaLobbyScreen: React.FC<
           <View
             style={{ flexDirection: 'row', alignItems: 'center', flex: 0.3 }}>
             <FeatherIcon name="users" size={AN(16)} />
-            <BodyMedium text={`  ${item.players.length}/${item.maxPlayers}`} />
+            <BodyMedium text={`  ${item?.users?.length}/${item.maxPlayers}`} />
           </View>
         </View>
         <View style={styles.roomRow}>
-          {/* <BodyMedium
-            text={`Questions: ${String(item.questionsCount)}`}
-            style={{ flex: 0.7 }}
-          /> */}
           <View style={{ flexDirection: 'row', flex: 1 }}>
             <QuestionIcon
               style={{ width: AN(20), aspectRatio: 1, color: colors.brand200 }}
