@@ -15,11 +15,15 @@ import BodyMedium from 'components/typography/BodyMedium';
 import { Color, Colors } from 'constants/styles/Colors';
 import useStyles from 'hooks/styles/useStyles';
 import { setRooms } from 'store/slices/dataSlice';
+import { SOCKET } from 'services/socket/socket';
+import { LOBBY_IDS } from 'constants/constants';
 
 const LobbyCarousel = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const carouselRef = useRef(null);
+
+  const { userData } = useAppSelector(state => state.auth);
 
   const { styles, colors } = useStyles(createStyles);
 
@@ -80,6 +84,10 @@ const LobbyCarousel = () => {
   const selectLobby = (name: LobbyName) => {
     switch (name) {
       case 'Arena':
+        SOCKET.emit('USER_JOINED_LOBBY', {
+          user: userData,
+          lobbyId: LOBBY_IDS.ARENA,
+        });
         navigation.navigate('ArenaLobby');
         break;
       default:
@@ -105,7 +113,9 @@ const LobbyCarousel = () => {
         />
         {renderIcon(item?.name)}
         <View style={styles.infoContainer}>
-          <BodyMedium text={`Players online: ${String(item.playersCount)}`} />
+          <BodyMedium
+            text={`Players online: ${String(item?.users?.length || '0')}`}
+          />
           <BodyMedium text={`Rooms: ${String(getLobbyRoomsCount(item.id))}`} />
         </View>
       </TileWrapper>

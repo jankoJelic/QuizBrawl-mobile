@@ -21,9 +21,21 @@ export const authSlice = createSlice({
     setLobbies: (state, action) => {
       state.lobbies = action.payload;
     },
+    addUserToLobby: (state, action) => {
+      const { lobbyId, user } = action.payload || {};
+      const updatedLobbies = state.lobbies.map(lobby =>
+        lobby.id === lobbyId
+          ? {
+              ...lobby,
+              users: (lobby?.users || []).concat(user),
+            }
+          : lobby,
+      );
+      state.lobbies = updatedLobbies;
+    },
   },
 });
 
-export const { setLobbies, setRooms } = authSlice.actions;
+export const { setLobbies, setRooms, addUserToLobby } = authSlice.actions;
 
 export default authSlice.reducer;

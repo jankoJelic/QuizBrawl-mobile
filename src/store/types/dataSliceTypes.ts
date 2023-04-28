@@ -7,6 +7,7 @@ export interface Lobby {
   topic: Topic;
   rooms: Room[];
   name: LobbyName;
+  users: UserData[];
 }
 
 export type LobbyName = 'Arena' | '1v1' | 'Solo';
@@ -16,7 +17,7 @@ export interface Room {
   userId: number;
   hostName: string;
   name: string;
-  players: UserData[];
+  users: UserData[];
   maxPlayers: number;
   questionsCount: number;
   topic: Topic;

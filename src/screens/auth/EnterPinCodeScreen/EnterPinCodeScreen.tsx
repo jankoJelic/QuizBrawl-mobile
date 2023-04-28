@@ -2,6 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import NavBackArrow from 'components/icons/NavBackArrow';
 import PinCodeKeyboard from 'components/inputs/PinCodeKeyboard';
 import PinCodeDots from 'components/inputs/PinCodeKeyboard/PinCodeDots';
+import BodyLarge from 'components/typography/BodyLarge';
 import BodyMedium from 'components/typography/BodyMedium';
 import Logo from 'components/typography/Logo';
 import { DEVICE_ID } from 'constants/env/envConstants';
@@ -36,13 +37,15 @@ const EnterPinCodeScreen: React.FC<
     string.substring(0, string.length - 1);
 
   const onPressButton = (character: string) => {
-    if (input.length === 4) return;
+    if (input.length === 4 && character !== 'backspace') return;
 
     if (character === 'backspace') {
-      setInput(applyBackspace);
+      setInput(prevState => applyBackspace(prevState));
     } else {
       setInput(prevState => prevState + character);
     }
+
+    setErrorMessage('');
   };
 
   const validatePin = async () => {
@@ -99,8 +102,13 @@ const EnterPinCodeScreen: React.FC<
         onPressButton={onPressButton}
         errorMessage={errorMessage}
       />
-      <BodyMedium text="Forgot PIN?" />
-      <BodyMedium text="Log in" color="brand500" onPress={onPressLogin} />
+      <BodyMedium text="Forgot PIN?" style={{ textAlign: 'center' }} />
+      <BodyLarge
+        text="Log in"
+        color="brand500"
+        onPress={onPressLogin}
+        style={{ textAlign: 'center' }}
+      />
     </ScreenWrapper>
   );
 };
