@@ -3,6 +3,7 @@ import CTA from 'components/buttons/CTA';
 import NavBackArrow from 'components/icons/NavBackArrow';
 import InputField from 'components/inputs/InputField';
 import BodyLarge from 'components/typography/BodyLarge';
+import BodyMedium from 'components/typography/BodyMedium';
 import Logo from 'components/typography/Logo';
 import { Colors } from 'constants/styles/Colors';
 import { AN } from 'constants/styles/appStyles';
@@ -67,6 +68,10 @@ const LoginScreen = ({
     passwordInputRef.current?.focus();
   };
 
+  const navigateToRegister = () => {
+    navigation.navigate('Register');
+  };
+
   return (
     <ScreenWrapper style={styles.screen}>
       <NavBackArrow onPress={goBack} />
@@ -93,6 +98,16 @@ const LoginScreen = ({
         isLoading={isLoading}
       />
       <BodyLarge text={error} color="danger400" style={styles.errorMessage} />
+      <BodyMedium
+        text="Don't have an account?"
+        style={{ textAlign: 'center' }}
+      />
+      <BodyMedium
+        text="Register"
+        color="brand500"
+        onPress={navigateToRegister}
+        style={{ textAlign: 'center' }}
+      />
     </ScreenWrapper>
   );
 };

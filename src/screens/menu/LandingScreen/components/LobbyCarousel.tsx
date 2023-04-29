@@ -15,7 +15,7 @@ import BodyMedium from 'components/typography/BodyMedium';
 import { Color, Colors } from 'constants/styles/Colors';
 import useStyles from 'hooks/styles/useStyles';
 import { setRooms } from 'store/slices/dataSlice';
-import { SOCKET } from 'services/socket/socket';
+import { SOCKET, SOCKET_EVENTS, SocketEvent } from 'services/socket/socket';
 import { LOBBY_IDS } from 'constants/constants';
 
 const LobbyCarousel = () => {
@@ -81,15 +81,26 @@ const LobbyCarousel = () => {
     }
   };
 
+  const emitJoinLobbyEvent = (lobbyId: number) => {
+    SOCKET.emit(SOCKET_EVENTS.USER_JOINED_LOBBY, {
+      user: userData,
+      lobbyId,
+    });
+  };
+
   const selectLobby = (name: LobbyName) => {
     switch (name) {
       case 'Arena':
-        SOCKET.emit('USER_JOINED_LOBBY', {
-          user: userData,
-          lobbyId: LOBBY_IDS.ARENA,
-        });
+        emitJoinLobbyEvent(LOBBY_IDS.ARENA);
         navigation.navigate('ArenaLobby');
         break;
+      case '1v1':
+        emitJoinLobbyEvent(LOBBY_IDS['1V1']);
+        navigation.navigate('1v1Lobby');
+        break;
+      case 'Solo':
+        emitJoinLobbyEvent(LOBBY_IDS.SOLO);
+        navigation.navigate('SoloLobby');
       default:
         return;
     }

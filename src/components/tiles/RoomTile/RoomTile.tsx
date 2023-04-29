@@ -3,7 +3,7 @@ import FeatherIcon from 'assets/icons/FeatherIcon';
 import { GeneralIcon } from 'assets/icons/topics';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Colors } from 'constants/styles/Colors';
-import { BORDER_RADIUS, AN } from 'constants/styles/appStyles';
+import { BORDER_RADIUS, AN, SCREEN_WIDTH } from 'constants/styles/appStyles';
 import TouchableBounce from 'hoc/TouchableBounce';
 import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
@@ -87,6 +87,8 @@ const createStyles = (colors: Colors) =>
       borderRadius: BORDER_RADIUS,
       padding: AN(10),
       flex: 1,
+      marginVertical: AN(6),
+      maxWidth: SCREEN_WIDTH * 0.45,
     },
     questionIcon: { width: AN(20), aspectRatio: 1, color: colors.brand200 },
   });

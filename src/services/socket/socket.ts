@@ -1,7 +1,8 @@
+import { BASE_URL } from 'constants/env/envConstants';
 import SocketIOClient from 'socket.io-client';
 
 export const SOCKET = SocketIOClient(
-  'http://localhost:3000/events',
+  `${BASE_URL}/events`,
 
   {
     transports: ['websocket'],

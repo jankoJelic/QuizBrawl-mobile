@@ -53,6 +53,7 @@ const RegisterScreen = ({
         });
 
         storeTokens(accessToken, refreshToken);
+        
       }
 
       navigation.navigate('SetupPinCode', { email, password });

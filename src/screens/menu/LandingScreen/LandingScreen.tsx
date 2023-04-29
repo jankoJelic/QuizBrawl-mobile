@@ -20,6 +20,8 @@ const LandingScreen: React.FC<
   const { userData } = useAppSelector(state => state.auth);
   const { styles, colors } = useStyles(createStyles);
 
+  useEffect(() => {}, [userData]);
+
   useEffect(() => {
     connectToSocket();
   }, []);

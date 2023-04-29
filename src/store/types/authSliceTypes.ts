@@ -1,3 +1,5 @@
+import { Lobby, Room } from './dataSliceTypes';
+
 export interface UserData {
   createdAt: string;
   email: string;
@@ -16,4 +18,6 @@ export interface UserData {
   rank: number;
   avatar: string;
   color: string;
+  lobby: Lobby;
+  room: Room;
 }

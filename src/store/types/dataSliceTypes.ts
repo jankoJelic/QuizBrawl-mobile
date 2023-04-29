@@ -2,8 +2,6 @@ import { UserData } from './authSliceTypes';
 
 export interface Lobby {
   id: number;
-  playersCount: number;
-  availableRoomsCount: number;
   topic: Topic;
   rooms: Room[];
   name: LobbyName;
