@@ -76,7 +76,6 @@ const EnterPinCodeScreen: React.FC<
 
       navigation.navigate('Landing');
     } catch (e) {
-      console.log(JSON.stringify(e));
       setErrorMessage('Invalid PIN');
       setInput('');
     } finally {

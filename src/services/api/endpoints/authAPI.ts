@@ -10,7 +10,6 @@ export const authAPI = {
   },
 
   loginUser: async (body: { email: string; password: string }) => {
-    console.log(body);
     const { data } = await post<AccessTokens>('/auth/login', body);
 
     return data;

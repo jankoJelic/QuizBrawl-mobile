@@ -72,6 +72,7 @@ const EnterPinCodeScreen: React.FC<
       await ENCRYPTED_STORAGE.storeValue('credentials', encryptedCredentials);
 
       const userData = await API.getUserData();
+
       dispatch(storeUserData(userData));
 
       navigation.navigate('Landing');
