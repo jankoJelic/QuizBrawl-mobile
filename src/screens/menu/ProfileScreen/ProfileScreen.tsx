@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import NavBackArrow from 'components/icons/NavBackArrow';
+import UserAvatar from 'components/icons/UserAvatar';
 import NavHeader from 'components/layout/NavHeader';
 import BodyLarge from 'components/typography/BodyLarge';
 import BodyMedium from 'components/typography/BodyMedium';
@@ -8,7 +9,7 @@ import { AN } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import { MainStackParamsList } from 'navigation/navConstants';
 import React from 'react';
-import { Pressable } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { useAppSelector } from 'store/index';
 
 const InfoLine = ({ title = '', value = '' }) => {
@@ -38,8 +39,15 @@ const ProfileScreen: React.FC<
   return (
     <ScreenWrapper>
       <NavHeader title="Profile" fullWidth style={{ marginBottom: AN(20) }} />
+      <View style={{ flexDirection: 'row' }}>
+        <UserAvatar />
+        <View style={{ marginLeft: AN(20) }}>
+          <BodyMedium text={`${firstName} ${lastName}`} />
+          <BodyMedium text={email} color="brand500" />
+        </View>
+      </View>
 
-      <InfoLine title="First name" value={firstName} />
+      {/* <InfoLine title="Name" value={firstName} /> */}
     </ScreenWrapper>
   );
 };
