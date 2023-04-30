@@ -46,8 +46,10 @@ const Toast = () => {
   return (
     <Modal
       animationIn="bounceInDown"
+      animationOut="bounceOutUp"
       isVisible={visible}
       hasBackdrop={false}
+      onBackdropPress={hide}
       onModalShow={setAutoHide}
       style={styles.container}>
       <View
