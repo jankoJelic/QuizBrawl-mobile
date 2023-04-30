@@ -45,10 +45,40 @@ export const authSlice = createSlice({
       );
       state.lobbies = updatedLobbies;
     },
+    addUserToRoom: (state, action) => {
+      const { roomId, user } = action.payload || {};
+      const updatedRooms = state.rooms.map(room =>
+        roomId === room.id
+          ? {
+              ...room,
+              users: room.users.concat([user]),
+            }
+          : room,
+      );
+      state.rooms = updatedRooms;
+    },
+    removeUserFromRoom: (state, action) => {
+      const { roomId, user } = action.payload || {};
+      const updatedRooms = state.rooms.map(room =>
+        room.id === roomId
+          ? {
+              ...room,
+              users: room.users.filter(u => u.id !== user.id),
+            }
+          : room,
+      );
+      state.rooms = updatedRooms;
+    },
   },
 });
 
-export const { setLobbies, setRooms, addUserToLobby, removeUserFromLobby } =
-  authSlice.actions;
+export const {
+  setLobbies,
+  setRooms,
+  addUserToLobby,
+  removeUserFromLobby,
+  addUserToRoom,
+  removeUserFromRoom,
+} = authSlice.actions;
 
 export default authSlice.reducer;
