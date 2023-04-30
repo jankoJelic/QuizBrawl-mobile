@@ -1,29 +1,32 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Colors } from 'constants/styles/Colors';
 import ScreenWrapper from 'hoc/ScreenWrapper';
-import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/navConstants';
 import React, { useEffect } from 'react';
-import { StyleSheet } from 'react-native';
-import { useAppSelector } from 'store/index';
 import LandingScreenHeader from './components/LandingScreenHeader';
 import LobbyCarousel from './components/LobbyCarousel';
 import AssetsTile from './components/AssetsTile';
 import MyScrollView from 'hoc/MyScrollView';
-import { SOCKET } from 'services/socket/socket';
 import CreateYourQuizTile from './components/CreateYourQuizTile';
 import { connectToSocket } from 'services/socket/connectToSocket';
+import { useIsFocused } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { exitLobby, exitRoom } from 'store/slices/dataSlice';
 
 const LandingScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Landing'>
 > = ({ navigation }) => {
-  const { userData } = useAppSelector(state => state.auth);
-  const { styles, colors } = useStyles(createStyles);
-
-  useEffect(() => {}, [userData]);
+  const isFocused = useIsFocused();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    connectToSocket();
+    if (isFocused) {
+      dispatch(exitLobby());
+      dispatch(exitRoom());
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
+    connectToSocket(navigation);
   }, []);
 
   return (
@@ -37,7 +40,5 @@ const LandingScreen: React.FC<
     </ScreenWrapper>
   );
 };
-
-const createStyles = (colors: Colors) => StyleSheet.create({});
 
 export default LandingScreen;

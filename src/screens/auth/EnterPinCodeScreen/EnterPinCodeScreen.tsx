@@ -19,7 +19,6 @@ import API from 'services/api';
 import ENCRYPTED_STORAGE from 'services/encryptedStorage';
 import { storeTokens } from 'services/encryptedStorage/tokens/tokenStorage';
 import { startLoading, stopLoading } from 'store/slices/appStateSlice';
-import { storeUserData } from 'store/slices/authSlice';
 
 const EnterPinCodeScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'EnterPinCode'>
@@ -71,8 +70,7 @@ const EnterPinCodeScreen: React.FC<
 
       storeTokens(accessToken, refreshToken);
 
-      const userData = await API.getUserData();
-      dispatch(storeUserData(userData));
+      await API.getUserData();
 
       navigation.navigate('Landing');
     } catch (e) {

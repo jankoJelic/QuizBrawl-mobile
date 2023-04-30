@@ -24,7 +24,7 @@ const Tile = ({ title = 'title', value = '0', Icon = <></> }) => (
 );
 
 const AssetsTile = () => {
-  const { trophies, money } = useAppSelector(state => state.auth.userData);
+  const { trophies, money } = useAppSelector(state => state.data.userData);
   const { styles, colors } = useStyles(createStyles);
 
   return (

@@ -10,16 +10,18 @@ import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/navConstants';
 import React from 'react';
 import { FlatList, StyleSheet } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { useAppSelector } from 'store/index';
+import { joinRoom } from 'store/slices/dataSlice';
 import { Room } from 'store/types/dataSliceTypes';
 
 const ArenaLobbyScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'ArenaLobby'>
 > = ({ navigation }) => {
+  const dispatch = useDispatch();
   const { styles, colors } = useStyles(createStyles);
-  const { rooms } = useAppSelector(state => state.data);
-  const { userData } = useAppSelector(state => state.auth);
+  const { rooms, userData } = useAppSelector(state => state.data);
 
   const arenaRooms = rooms.filter(room => room?.lobby?.id === LOBBY_IDS.ARENA);
 
@@ -35,6 +37,7 @@ const ArenaLobbyScreen: React.FC<
       });
 
       navigation.navigate('ArenaRoom', { room: item });
+      dispatch(joinRoom(item));
     };
 
     return <RoomTile room={item} index={index} onPress={onPressRoom} />;

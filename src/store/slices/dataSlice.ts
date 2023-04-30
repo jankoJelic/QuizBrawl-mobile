@@ -1,14 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { UserData } from 'store/types/authSliceTypes';
 import { Lobby, Room } from 'store/types/dataSliceTypes';
 
 export interface DataState {
   lobbies: Lobby[];
   rooms: Room[];
+  userData: UserData;
 }
 
 const initialState: DataState = {
   lobbies: [],
   rooms: [],
+  userData: <UserData>{},
 };
 
 export const authSlice = createSlice({
@@ -20,6 +23,9 @@ export const authSlice = createSlice({
     },
     setLobbies: (state, action) => {
       state.lobbies = action.payload;
+    },
+    storeUserData: (state, action) => {
+      state.userData = action.payload;
     },
     addUserToLobby: (state, action) => {
       const { lobbyId, user } = action.payload || {};
@@ -77,6 +83,18 @@ export const authSlice = createSlice({
       const currentRooms = state.rooms;
       state.rooms = currentRooms.filter(room => room.id !== action.payload.id);
     },
+    joinRoom: (state, action) => {
+      state.userData.room = action.payload;
+    },
+    joinLobby: (state, action) => {
+      state.userData.lobby = action.payload;
+    },
+    exitLobby: state => {
+      state.userData.lobby = null;
+    },
+    exitRoom: state => {
+      state.userData.room = null;
+    },
   },
 });
 
@@ -89,6 +107,11 @@ export const {
   removeUserFromRoom,
   addNewRoom,
   removeRoom,
+  storeUserData,
+  joinLobby,
+  joinRoom,
+  exitLobby,
+  exitRoom,
 } = authSlice.actions;
 
 export default authSlice.reducer;

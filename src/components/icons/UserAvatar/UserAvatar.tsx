@@ -10,8 +10,8 @@ import { AN } from 'constants/styles/appStyles';
 
 const UserAvatar = ({ onPress = () => {}, size = AN(48) }) => {
   const { styles } = useStyles(createStyles);
-  const { userData } = useAppSelector(state => state.auth);
-  console.log(size);
+  const { userData } = useAppSelector(state => state.data);
+
   return (
     <TouchableBounce
       onPress={onPress}

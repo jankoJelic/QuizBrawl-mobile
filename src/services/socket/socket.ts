@@ -6,7 +6,7 @@ export const SOCKET = SocketIOClient(`${BASE_URL}/events`, {
   transports: ['websocket'],
   autoConnect: true,
   forceNew: true,
-  query: { userId: store.getState().auth.userData.id },
+  query: { userId: store.getState().data.userData.id },
 });
 
 export const SOCKET_EVENTS = {

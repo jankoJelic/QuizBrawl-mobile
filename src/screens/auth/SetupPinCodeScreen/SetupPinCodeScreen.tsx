@@ -16,7 +16,6 @@ import { DEVICE_ID } from 'constants/env/envConstants';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
 import ENCRYPTED_STORAGE from 'services/encryptedStorage';
-import { storeUserData } from 'store/slices/authSlice';
 
 const EnterPinCodeScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'SetupPinCode'>
@@ -71,9 +70,7 @@ const EnterPinCodeScreen: React.FC<
 
       await ENCRYPTED_STORAGE.storeValue('credentials', encryptedCredentials);
 
-      const userData = await API.getUserData();
-
-      dispatch(storeUserData(userData));
+      await API.getUserData();
 
       navigation.navigate('Landing');
     } catch (e) {}

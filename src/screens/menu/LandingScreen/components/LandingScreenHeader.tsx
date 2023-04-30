@@ -12,7 +12,7 @@ import { useAppSelector } from 'store/index';
 const LandingScreenHeader = () => {
   const navigation = useNavigation();
   const { styles } = useStyles(createStyles);
-  const { userData } = useAppSelector(state => state.auth);
+  const { userData } = useAppSelector(state => state.data);
 
   const navigateToProfile = () => {
     navigation.navigate('Profile');

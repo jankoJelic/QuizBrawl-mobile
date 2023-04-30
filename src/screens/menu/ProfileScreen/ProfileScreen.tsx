@@ -16,7 +16,7 @@ import { useAppSelector } from 'store/index';
 const ProfileScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Profile'>
 > = ({ navigation }) => {
-  const { userData } = useAppSelector(state => state.auth);
+  const { userData } = useAppSelector(state => state.data);
 
   const { email, firstName, lastName } = userData || {};
 

@@ -19,9 +19,9 @@ const ArenaRoomScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'ArenaRoom'>
 > = ({ navigation, route }) => {
   const dispatch = useDispatch();
-  const { userData } = useAppSelector(state => state.auth);
-  const { rooms } = useAppSelector(state => state.data);
+  const { rooms, userData } = useAppSelector(state => state.data);
   const room = rooms.find(r => r.id === route.params.room.id);
+
   const {
     name,
     admin,
@@ -54,7 +54,7 @@ const ArenaRoomScreen: React.FC<
     dispatch(startLoading());
     try {
       await API.deleteRoom(route.params.room.id);
-      SOCKET.emit(SOCKET_EVENTS.ROOM_DELETED, room);
+      SOCKET.emit(SOCKET_EVENTS.ROOM_DELETED, route.params.room);
       navigation.navigate('ArenaLobby');
     } catch (e) {
     } finally {
