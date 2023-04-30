@@ -1,15 +1,13 @@
 import { BASE_URL } from 'constants/env/envConstants';
 import SocketIOClient from 'socket.io-client';
+import { store } from 'store/index';
 
-export const SOCKET = SocketIOClient(
-  `${BASE_URL}/events`,
-
-  {
-    transports: ['websocket'],
-    autoConnect: true,
-    forceNew: true,
-  },
-);
+export const SOCKET = SocketIOClient(`${BASE_URL}/events`, {
+  transports: ['websocket'],
+  autoConnect: true,
+  forceNew: true,
+  query: { userId: store.getState().auth.userData.id },
+});
 
 export const SOCKET_EVENTS = {
   USER_JOINED_LOBBY: 'USER_JOINED_LOBBY', // in progress
