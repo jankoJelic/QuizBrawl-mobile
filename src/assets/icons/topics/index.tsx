@@ -27,13 +27,25 @@ export const ScienceIcon = props => (
   <FastImage source={require('./science.png')} {...props} />
 );
 
-export const TopicIcon: Record<Topic, (props: any) => Element> = {
-  Showbiz: ShowbizIcon,
-  Art: ArtIcon,
-  General: GeneralIcon,
-  Geography: GeographyIcon,
-  Sports: SportsIcon,
-  History: HistoryIcon,
-  Music: MusicIcon,
-  Science: ScienceIcon,
+export const TopicIcon = props => {
+  switch (props.topic) {
+    case 'General':
+      return <GeneralIcon {...props} />;
+    case 'Sports':
+      return <SportsIcon {...props} />;
+    case 'Music':
+      return <MusicIcon {...props} />;
+    case 'Art':
+      return <ArtIcon {...props} />;
+    case 'History':
+      return <HistoryIcon {...props} />;
+    case 'Geography':
+      return <GeographyIcon {...props} />;
+    case 'Science':
+      return <ScienceIcon {...props} />;
+    case 'Showbiz':
+      return <ShowbizIcon {...props} />;
+    default:
+      return <></>;
+  }
 };

@@ -14,7 +14,7 @@ import {
 } from 'assets/icons/topics';
 import useStyles from 'hooks/styles/useStyles';
 import BodyMedium from 'components/typography/BodyMedium';
-import { Topic } from 'store/types/dataSliceTypes';
+import { Lobby, Topic } from 'store/types/dataSliceTypes';
 import NavHeader from 'components/layout/NavHeader';
 import BodyLarge from 'components/typography/BodyLarge';
 import InputField from 'components/inputs/InputField';
@@ -28,6 +28,7 @@ import { useDispatch } from 'react-redux';
 import { startLoading, stopLoading } from 'store/slices/appStateSlice';
 import { LOBBY_IDS } from 'constants/constants';
 import { useAppSelector } from 'store/index';
+import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 
 const iconSize = AN(36);
 
@@ -90,10 +91,12 @@ const CreateArenaRoomScreen: React.FC<
         topic: selectedTopic,
         answerTime: Number(answerTime),
         maxPlayers: Number(maxPlayers),
-        lobby: lobbies.find(l => l.id === LOBBY_IDS.ARENA),
+        lobby: lobbies.find(l => l.id === LOBBY_IDS.ARENA) as Lobby,
       };
 
       const room = await API.createRoom(body);
+
+      SOCKET.emit(SOCKET_EVENTS.ROOM_CREATED, room);
 
       navigation.navigate('ArenaRoom', { room });
     } catch (e) {

@@ -72,4 +72,5 @@ export type IconName =
   | 'eye'
   | 'eye-off'
   | 'clock'
-  | 'lock';
+  | 'lock'
+  | 'unlock';

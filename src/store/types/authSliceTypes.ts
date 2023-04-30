@@ -20,4 +20,5 @@ export interface UserData {
   color: string;
   lobby: Lobby;
   room: Room;
+  level: number;
 }

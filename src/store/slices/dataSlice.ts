@@ -69,6 +69,14 @@ export const authSlice = createSlice({
       );
       state.rooms = updatedRooms;
     },
+    addNewRoom: (state, action: { payload: Room }) => {
+      const currentRooms = state.rooms;
+      state.rooms = currentRooms.concat([action.payload]);
+    },
+    removeRoom: (state, action: { payload: Room }) => {
+      const currentRooms = state.rooms;
+      state.rooms = currentRooms.filter(room => room.id !== action.payload.id);
+    },
   },
 });
 
@@ -79,6 +87,8 @@ export const {
   removeUserFromLobby,
   addUserToRoom,
   removeUserFromRoom,
+  addNewRoom,
+  removeRoom,
 } = authSlice.actions;
 
 export default authSlice.reducer;
