@@ -8,14 +8,17 @@ import { useAppSelector } from 'store/index';
 import useStyles from 'hooks/styles/useStyles';
 import { AN } from 'constants/styles/appStyles';
 
-const UserAvatar = ({ onPress = () => {} }) => {
+const UserAvatar = ({ onPress = () => {}, size = AN(48) }) => {
   const { styles } = useStyles(createStyles);
   const { userData } = useAppSelector(state => state.auth);
 
   return (
     <TouchableBounce
       onPress={onPress}
-      style={[styles.userAvatar, { borderColor: userData.color }]}>
+      style={[
+        styles.userAvatar,
+        { borderColor: userData.color, borderRadius: size, width: size },
+      ]}>
       {userData.avatar ? (
         <FastImage source={{ uri: userData.avatar }} />
       ) : (
@@ -28,9 +31,7 @@ const UserAvatar = ({ onPress = () => {} }) => {
 const createStyles = (colors: Colors) =>
   StyleSheet.create({
     userAvatar: {
-      width: AN(48),
       aspectRatio: 1,
-      borderRadius: AN(48),
       borderWidth: 2,
       alignItems: 'center',
       justifyContent: 'center',

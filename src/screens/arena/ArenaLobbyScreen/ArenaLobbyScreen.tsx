@@ -33,6 +33,8 @@ const ArenaLobbyScreen: React.FC<
         roomId: item.id,
         user: userData,
       });
+
+      navigation.navigate('ArenaRoom', { room: item });
     };
 
     return <RoomTile room={item} index={index} onPress={onPressRoom} />;

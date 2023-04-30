@@ -12,18 +12,6 @@ import React from 'react';
 import { Pressable, View } from 'react-native';
 import { useAppSelector } from 'store/index';
 
-const InfoLine = ({ title = '', value = '' }) => {
-  return (
-    <Pressable
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-      }}>
-      <BodyLarge text={title} style={{ marginRight: AN(20) }} />
-      <BodyLarge text={value} color="brand500" weight="bold" />
-    </Pressable>
-  );
-};
 
 const ProfileScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Profile'>
