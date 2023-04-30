@@ -12,7 +12,7 @@ const ArenaRoomScreen: React.FC<
 > = ({ navigation, route }) => {
   const { userData } = useAppSelector(state => state.auth);
   const { room } = route.params || {};
-  const { name, hostName, maxPlayers, players, questionsCount } = room || {};
+  const { name, admin, maxPlayers, users, questionsCount } = room || {};
 
   return (
     <ScreenWrapper>
@@ -22,9 +22,12 @@ const ArenaRoomScreen: React.FC<
         showLeftIcon={false}
         style={{ marginBottom: AN(20) }}
       />
-      <HeadingH1 text={`Host: ${hostName}`} style={{ marginBottom: AN(12) }} />
       <HeadingH1
-        text={`Players: ${String(players.length)}/${String(maxPlayers)}`}
+        text={`Host: ${admin?.firstName}`}
+        style={{ marginBottom: AN(12) }}
+      />
+      <HeadingH1
+        text={`Players: ${String(users.length)}/${String(maxPlayers)}`}
       />
     </ScreenWrapper>
   );

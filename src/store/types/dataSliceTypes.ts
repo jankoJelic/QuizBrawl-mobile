@@ -13,7 +13,7 @@ export type LobbyName = 'Arena' | '1v1' | 'Solo';
 export interface Room {
   id: number;
   userId: number;
-  hostName: string;
+  admin: UserData;
   name: string;
   users: UserData[];
   maxPlayers: number;

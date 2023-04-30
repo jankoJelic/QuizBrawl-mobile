@@ -15,7 +15,7 @@ const RoomTile = ({ index, onPress, room }: Props) => {
   const { styles, colors } = useStyles(createStyles);
   const {
     answerTime,
-    hostName,
+    admin,
     maxPlayers,
     name,
     password,
@@ -52,7 +52,7 @@ const RoomTile = ({ index, onPress, room }: Props) => {
         {renderIcon(topic)}
       </View>
       <View style={styles.roomRow}>
-        <BodyMedium text={`Host: ${hostName}`} style={{ flex: 0.7 }} />
+        <BodyMedium text={`Host: ${admin?.firstName}`} style={{ flex: 0.7 }} />
         <View style={{ flexDirection: 'row', alignItems: 'center', flex: 0.3 }}>
           <FeatherIcon name="users" size={AN(16)} />
           <BodyMedium text={`  ${users?.length}/${maxPlayers}`} />

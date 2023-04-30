@@ -7,14 +7,15 @@ export const connectToSocket = () => {
   SOCKET.on(
     SOCKET_EVENTS.USER_JOINED_LOBBY,
     (payload: UserJoinedLobbyPayload) => {
-      console.log('USER JOINED LOBBY', payload);
       store.dispatch(addUserToLobby(payload));
     },
   );
 
   SOCKET.on(
     SOCKET_EVENTS.USER_LEFT_LOBBY,
-    (payload: UserJoinedLobbyPayload) => {},
+    (payload: UserJoinedLobbyPayload) => {
+      
+    },
   );
 
   SOCKET.on(SOCKET_EVENTS.USER_JOINED_ROOM, () => {});
