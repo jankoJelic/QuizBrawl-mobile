@@ -1,6 +1,15 @@
 import { QuestionIcon } from 'assets/icons';
 import FeatherIcon from 'assets/icons/FeatherIcon';
-import { GeneralIcon } from 'assets/icons/topics';
+import {
+  ShowbizIcon,
+  HistoryIcon,
+  ScienceIcon,
+  GeographyIcon,
+  GeneralIcon,
+  SportsIcon,
+  ArtIcon,
+  MusicIcon,
+} from 'assets/icons/topics';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Colors } from 'constants/styles/Colors';
 import { BORDER_RADIUS, AN, SCREEN_WIDTH } from 'constants/styles/appStyles';
@@ -29,7 +38,21 @@ const RoomTile = ({ index, onPress, room }: Props) => {
   const renderIcon = (topic: Topic) => {
     switch (topic) {
       case 'General':
-        return <GeneralIcon style={{ width: AN(20), aspectRatio: 1 }} />;
+        return <GeneralIcon style={styles.topicIcon} />;
+      case 'Sports':
+        return <SportsIcon style={styles.topicIcon} />;
+      case 'Showbiz':
+        return <ShowbizIcon style={styles.topicIcon} />;
+      case 'History':
+        return <HistoryIcon style={styles.topicIcon} />;
+      case 'Geography':
+        return <GeographyIcon style={styles.topicIcon} />;
+      case 'Science':
+        return <ScienceIcon style={styles.topicIcon} />;
+      case 'Art':
+        return <ArtIcon style={styles.topicIcon} />;
+      case 'Music':
+        return <MusicIcon style={styles.topicIcon} />;
       default:
         return <></>;
     }
@@ -91,6 +114,7 @@ const createStyles = (colors: Colors) =>
       maxWidth: SCREEN_WIDTH * 0.45,
     },
     questionIcon: { width: AN(20), aspectRatio: 1, color: colors.brand200 },
+    topicIcon: { width: AN(20), aspectRatio: 1 },
   });
 
 export default RoomTile;
