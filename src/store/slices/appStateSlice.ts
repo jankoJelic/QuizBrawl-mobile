@@ -9,11 +9,8 @@ export interface AppState {
   theme: 'light' | 'dark';
   colors: Colors;
   isLoading: boolean;
-  statusBar: {
-    topColor: string;
-    bottomColor: string;
-    barStyle: 'light-content' | 'dark-content';
-  };
+  statusBar: StatusBarState;
+  toast: ToastState;
 }
 
 const initialState: AppState = {
@@ -24,6 +21,11 @@ const initialState: AppState = {
     topColor: lightThemeColors.mainThemeBackground,
     bottomColor: lightThemeColors.mainThemeBackground,
     barStyle: 'light-content',
+  },
+  toast: {
+    visible: false,
+    text: '',
+    type: 'success',
   },
 };
 
@@ -46,13 +48,37 @@ export const appStateSlice = createSlice({
     stopLoading: state => {
       state.isLoading = false;
     },
-    setStatusBar: (state, action) => {
+    setStatusBar: (state, action: { payload: Partial<StatusBarState> }) => {
       state.statusBar = { ...state.statusBar, ...action.payload };
+    },
+    showToast: (state, action: { payload: ToastState }) => {
+      state.toast = action.payload;
+    },
+    hideToast: state => {
+      state.toast.visible = false;
     },
   },
 });
 
-export const { toggleTheme, startLoading, stopLoading, setStatusBar } =
-  appStateSlice.actions;
+export const {
+  toggleTheme,
+  startLoading,
+  stopLoading,
+  setStatusBar,
+  showToast,
+  hideToast,
+} = appStateSlice.actions;
 
 export default appStateSlice.reducer;
+
+interface ToastState {
+  visible: boolean;
+  text: string;
+  type: 'success' | 'error' | 'warning';
+}
+
+interface StatusBarState {
+  topColor: string;
+  bottomColor: string;
+  barStyle: 'light-content' | 'dark-content';
+}

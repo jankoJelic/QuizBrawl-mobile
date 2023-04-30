@@ -4,7 +4,7 @@ import { useAppSelector } from './src/store';
 import { NavigationContainer } from '@react-navigation/native';
 import MainStackNavigator from './src/navigation/MainStackNavigator';
 import FullScreenSpinner from './src/components/modals/FullScreenSpinner';
-import Toast from 'react-native-toast-message';
+import Toast from 'components/modals/Toast';
 
 function App(): JSX.Element {
   const { topColor, bottomColor } = useAppSelector(

@@ -13,7 +13,7 @@ import {
   removeUserFromRoom,
 } from 'store/slices/dataSlice';
 import { Room } from 'store/types/dataSliceTypes';
-import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { showToast } from 'store/slices/appStateSlice';
 
 const {
   USER_JOINED_LOBBY,
@@ -58,11 +58,14 @@ export const connectToSocket = (navigation: any) => {
 
       switch (lobbyId) {
         case 1:
+          dispatch(
+            showToast({
+              visible: true,
+              text: 'Room creator has quit the game',
+              type: 'warning',
+            }),
+          );
           navigation.navigate('ArenaLobby');
-          Toast.show({
-            type: 'error',
-            text1: 'Room creator has left',
-          });
         default:
           return;
       }
