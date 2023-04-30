@@ -3,7 +3,12 @@ import { AN } from 'constants/styles/appStyles';
 import React from 'react';
 import { Pressable } from 'react-native';
 
-const InfoLine = ({ title = '', value = '', onPress = () => {} }) => {
+const InfoLine = ({
+  title = '',
+  value = '',
+  onPress = () => {},
+  AdditionalContent = <></>,
+}) => {
   return (
     <Pressable
       onPress={onPress}
@@ -14,6 +19,7 @@ const InfoLine = ({ title = '', value = '', onPress = () => {} }) => {
       }}>
       <BodyLarge text={title} style={{ marginRight: AN(20) }} />
       <BodyLarge text={value} color="brand500" weight="bold" />
+      {AdditionalContent}
     </Pressable>
   );
 };

@@ -13,18 +13,20 @@ const NavHeader = ({
   showLeftIcon = true,
   showRightIcon = true,
   style = {},
-}) => {
+  onPressLeftIcon,
+  onPressRightIcon,
+}: Props) => {
   const { styles } = useStyles(createStyles);
   const navigation = useNavigation();
 
   const iconSize = AN(26);
 
   const onPressLeftArrow = () => {
-    navigation.goBack();
+    onPressLeftIcon ? onPressLeftIcon() : navigation.goBack();
   };
 
   const onPressRightArrow = () => {
-    navigation.navigate('Landing');
+    onPressRightIcon ? onPressRightIcon() : navigation.navigate('Landing');
   };
 
   return (
@@ -47,6 +49,7 @@ const NavHeader = ({
         size={iconSize}
         onPress={onPressRightArrow}
         color="mainTextColor"
+        style={{ opacity: showRightIcon ? 1 : 0 }}
       />
     </View>
   );
@@ -63,3 +66,13 @@ const createStyles = (colors: Colors) =>
   });
 
 export default NavHeader;
+
+interface Props {
+  title: string;
+  fullWidth: boolean;
+  showLeftIcon?: boolean;
+  showRightIcon?: boolean;
+  style?: {};
+  onPressLeftIcon?: () => void;
+  onPressRightIcon?: () => void;
+}

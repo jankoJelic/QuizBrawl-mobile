@@ -39,6 +39,7 @@ const createStyles = (colors: Colors) =>
       alignItems: 'center',
       justifyContent: 'space-between',
       paddingHorizontal: PADDING_HORIZONTAL,
+      marginVertical: AN(2),
     },
     levelContainer: {
       borderWidth: AN(1),

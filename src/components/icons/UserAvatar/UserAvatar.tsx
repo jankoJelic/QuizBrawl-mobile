@@ -11,7 +11,7 @@ import { AN } from 'constants/styles/appStyles';
 const UserAvatar = ({ onPress = () => {}, size = AN(48) }) => {
   const { styles } = useStyles(createStyles);
   const { userData } = useAppSelector(state => state.auth);
-
+  console.log(size);
   return (
     <TouchableBounce
       onPress={onPress}
@@ -20,9 +20,12 @@ const UserAvatar = ({ onPress = () => {}, size = AN(48) }) => {
         { borderColor: userData.color, borderRadius: size, width: size },
       ]}>
       {userData.avatar ? (
-        <FastImage source={{ uri: userData.avatar }} />
+        <FastImage
+          source={{ uri: userData.avatar }}
+          style={{ width: size, aspectRatio: 1 }}
+        />
       ) : (
-        <FeatherIcon family="fontAwesome5" name="user-alt" />
+        <FeatherIcon family="fontAwesome5" name="user-alt" size={size / 2} />
       )}
     </TouchableBounce>
   );

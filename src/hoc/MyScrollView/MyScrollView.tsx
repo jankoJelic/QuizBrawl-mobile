@@ -1,10 +1,11 @@
+import { AN } from 'constants/styles/appStyles';
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 
 const MyScrollView = ({ children, style = {} }: Props) => {
   return (
     <ScrollView
-      style={[styles.content, style]}
+      style={[style]}
       contentContainerStyle={[styles.content, style]}
       showsHorizontalScrollIndicator={false}>
       {children}
@@ -14,9 +15,9 @@ const MyScrollView = ({ children, style = {} }: Props) => {
 
 const styles = StyleSheet.create({
   content: {
-    flex: 1,
     width: '100%',
     flexGrow: 1,
+    paddingBottom: AN(50),
   },
 });
 

@@ -1,7 +1,7 @@
 import { Lobby, Room, Topic } from 'store/types/dataSliceTypes';
 import httpClient from '../httpClient';
 
-const { get, post } = httpClient;
+const { get, post, destroy, patch } = httpClient;
 
 const roomsAPI = {
   createRoom: async (body: CreateRoomBody) => {
@@ -13,6 +13,15 @@ const roomsAPI = {
   getRooms: async () => {
     const { data } = await get<Room[]>('rooms');
 
+    return data;
+  },
+
+  deleteRoom: async (roomId: number) => {
+    await destroy('rooms/delete', { params: { roomId } });
+  },
+
+  updateRoom: async (roomId: number) => {
+    const { data } = await patch('rooms', { params: { roomId } });
     return data;
   },
 };
