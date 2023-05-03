@@ -91,10 +91,21 @@ export const authSlice = createSlice({
     },
     exitLobby: state => {
       state.userData.lobby = null;
+      const currentLobbies = state.lobbies;
+      const updatedLobbies = currentLobbies.map(lobby => {
+        if (lobby.users.some(user => user.id === state.userData.id)) {
+          return {
+            ...lobby,
+            users: lobby.users.filter(u => u.id !== state.userData.id),
+          };
+        } else return lobby;
+      });
+      state.lobbies = updatedLobbies;
     },
     exitRoom: state => {
       state.userData.room = null;
     },
+    
   },
 });
 

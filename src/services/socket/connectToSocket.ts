@@ -14,6 +14,7 @@ import {
 } from 'store/slices/dataSlice';
 import { Room } from 'store/types/dataSliceTypes';
 import { showToast } from 'store/slices/appStateSlice';
+import { UserData } from 'store/types/authSliceTypes';
 
 const {
   USER_JOINED_LOBBY,
@@ -22,6 +23,7 @@ const {
   USER_JOINED_ROOM,
   USER_LEFT_LOBBY,
   USER_LEFT_ROOM,
+  USER_DISCONNECTED
 } = SOCKET_EVENTS;
 
 export const connectToSocket = (navigation: any) => {
@@ -71,4 +73,8 @@ export const connectToSocket = (navigation: any) => {
       }
     }
   });
+
+  // SOCKET.on(USER_DISCONNECTED, (payload: UserData) => {
+    
+  // })
 };

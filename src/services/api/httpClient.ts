@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { BASE_URL } from 'constants/env/envConstants';
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import handleAccessToken from './interceptors/handleAccessToken';
 import handleRefreshToken from './interceptors/handleRefreshToken';
