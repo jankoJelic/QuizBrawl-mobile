@@ -8,9 +8,11 @@ import { useAppSelector } from 'store/index';
 import useStyles from 'hooks/styles/useStyles';
 import { AN } from 'constants/styles/appStyles';
 
-const UserAvatar = ({ onPress = () => {}, size = AN(48) }) => {
+const UserAvatar = ({ onPress = () => {}, size = AN(48), avatar = '' }) => {
   const { styles } = useStyles(createStyles);
   const { userData } = useAppSelector(state => state.data);
+
+  const AVATAR = !!avatar ? avatar : userData.avatar;
 
   return (
     <TouchableBounce
@@ -19,9 +21,9 @@ const UserAvatar = ({ onPress = () => {}, size = AN(48) }) => {
         styles.userAvatar,
         { borderColor: userData.color, borderRadius: size, width: size },
       ]}>
-      {userData.avatar ? (
+      {AVATAR ? (
         <FastImage
-          source={{ uri: userData.avatar }}
+          source={{ uri: AVATAR }}
           style={{ width: size, aspectRatio: 1 }}
         />
       ) : (
