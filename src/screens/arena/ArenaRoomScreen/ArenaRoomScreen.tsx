@@ -1,4 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import CTA from 'components/buttons/CTA';
 import NavHeader from 'components/layout/NavHeader';
 import InfoLine from 'components/tiles/InfoLine/InfoLine';
 import UserTile from 'components/tiles/UserTile/UserTile';
@@ -14,6 +15,8 @@ import API from 'services/api';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { useAppSelector } from 'store/index';
 import { startLoading, stopLoading } from 'store/slices/appStateSlice';
+import { initializeGame } from 'store/slices/gameSlice';
+import { Room } from 'store/types/dataSliceTypes';
 
 const ArenaRoomScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'ArenaRoom'>
@@ -62,6 +65,11 @@ const ArenaRoomScreen: React.FC<
     }
   };
 
+  const startGame = async () => {
+    dispatch(startLoading());
+    SOCKET.emit(SOCKET_EVENTS.GAME_STARTED, room);
+  };
+
   return (
     <ScreenWrapper>
       <NavHeader
@@ -86,7 +94,8 @@ const ArenaRoomScreen: React.FC<
         </View>
 
         <InfoLine title="Answer time:" value={`${answerTime} seconds`} />
-        <InfoLine title="Number of questions:" value={questionsCount} />
+        <InfoLine title="Number of questions:" value={String(questionsCount)} />
+        <CTA onPress={startGame} title="Start Game" />
       </MyScrollView>
       <Popup
         visible={areYouSureModalVisible}

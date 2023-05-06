@@ -1,6 +1,7 @@
 import { store } from 'store/index';
 import { SOCKET, SOCKET_EVENTS } from './socket';
 import {
+  Question,
   UserJoinedLobbyPayload,
   UserJoinedRoomPayload,
 } from './socketPayloads';
@@ -13,8 +14,9 @@ import {
   removeUserFromRoom,
 } from 'store/slices/dataSlice';
 import { Room } from 'store/types/dataSliceTypes';
-import { showToast } from 'store/slices/appStateSlice';
+import { showToast, stopLoading } from 'store/slices/appStateSlice';
 import { UserData } from 'store/types/authSliceTypes';
+import { initializeGame } from 'store/slices/gameSlice';
 
 const {
   USER_JOINED_LOBBY,
@@ -23,7 +25,8 @@ const {
   USER_JOINED_ROOM,
   USER_LEFT_LOBBY,
   USER_LEFT_ROOM,
-  USER_DISCONNECTED
+  USER_DISCONNECTED,
+  GAME_STARTED,
 } = SOCKET_EVENTS;
 
 export const connectToSocket = (navigation: any) => {
@@ -38,6 +41,7 @@ export const connectToSocket = (navigation: any) => {
   });
 
   SOCKET.on(USER_JOINED_ROOM, (payload: UserJoinedRoomPayload) => {
+    console.log('user joined room');
     dispatch(addUserToRoom(payload));
   });
 
@@ -46,6 +50,7 @@ export const connectToSocket = (navigation: any) => {
   });
 
   SOCKET.on(ROOM_CREATED, (payload: Room) => {
+    console.log('room created');
     dispatch(addNewRoom(payload));
   });
 
@@ -74,7 +79,13 @@ export const connectToSocket = (navigation: any) => {
     }
   });
 
+  SOCKET.on(GAME_STARTED, (questions: Question[]) => {
+    const state = store.getState();
+    dispatch(initializeGame({ room: state.data.userData.room, questions }));
+    dispatch(stopLoading());
+  });
+
   // SOCKET.on(USER_DISCONNECTED, (payload: UserData) => {
-    
+
   // })
 };
