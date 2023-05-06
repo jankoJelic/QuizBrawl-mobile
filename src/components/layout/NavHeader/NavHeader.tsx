@@ -69,7 +69,7 @@ export default NavHeader;
 
 interface Props {
   title: string;
-  fullWidth: boolean;
+  fullWidth?: boolean;
   showLeftIcon?: boolean;
   showRightIcon?: boolean;
   style?: {};

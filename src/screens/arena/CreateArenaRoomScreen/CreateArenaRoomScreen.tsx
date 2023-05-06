@@ -11,6 +11,7 @@ import {
   ArtIcon,
   SportsIcon,
   ShowbizIcon,
+  MusicIcon,
 } from 'assets/icons/topics';
 import useStyles from 'hooks/styles/useStyles';
 import BodyMedium from 'components/typography/BodyMedium';
@@ -39,6 +40,7 @@ export const TOPICS = [
   { name: 'Geography', icon: <GeographyIcon style={iconStyle} /> },
   { name: 'History', icon: <HistoryIcon style={iconStyle} /> },
   { name: 'Showbiz', icon: <ShowbizIcon style={iconStyle} /> },
+  { name: 'Music', icon: <MusicIcon style={iconStyle} /> },
   { name: 'Sports', icon: <SportsIcon style={iconStyle} /> },
   { name: 'Art', icon: <ArtIcon style={iconStyle} /> },
 ];
@@ -130,8 +132,8 @@ const CreateArenaRoomScreen: React.FC<
           horizontal
           data={TOPICS}
           renderItem={renderItem}
-          contentContainerStyle={styles.listContainer}
           style={styles.list}
+          showsHorizontalScrollIndicator={false}
         />
         <View style={{ paddingHorizontal: PADDING_HORIZONTAL }}>
           <InputField title="Room name" onChangeText={setRoomName} />
@@ -156,9 +158,6 @@ const CreateArenaRoomScreen: React.FC<
 
 const createStyles = (colors: Colors) =>
   StyleSheet.create({
-    listContainer: {
-      height: AN(54),
-    },
     list: {
       marginVertical: AN(20),
       maxHeight: AN(100),
