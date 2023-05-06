@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { MainStackParamsList } from './navConstants';
+import { MainStackParamsList } from './MainStackParamsList';
 import SplashScreen from 'screens/auth/SplashScreen';
 import EnterPinCodeScreen from 'screens/auth/EnterPinCodeScreen';
 import RegisterScreen from 'screens/auth/RegisterScreen/RegisterScreen';
@@ -12,6 +12,9 @@ import { slideScreenFromLeft } from './config/slideScreenFromLeft';
 import ArenaLobbyScreen from 'screens/arena/ArenaLobbyScreen/ArenaLobbyScreen';
 import CreateArenaRoomScreen from 'screens/arena/CreateArenaRoomScreen';
 import ArenaRoomScreen from 'screens/arena/ArenaRoomScreen';
+import GameSplashScreen from 'screens/games/GameSplashScreen';
+import QuestionScreen from 'screens/games/QuestionScreen';
+import ResultsScreen from 'screens/games/ResultsScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamsList>();
 
@@ -40,6 +43,10 @@ const MainStackNavigator = () => (
     <Stack.Screen name="ArenaLobby" component={ArenaLobbyScreen} />
     <Stack.Screen name="CreateArenaRoom" component={CreateArenaRoomScreen} />
     <Stack.Screen name="ArenaRoom" component={ArenaRoomScreen} />
+
+    <Stack.Screen name="GameSplash" component={GameSplashScreen} />
+    <Stack.Screen name="Question" component={QuestionScreen} />
+    <Stack.Screen name="Results" component={ResultsScreen} />
   </Stack.Navigator>
 );
 

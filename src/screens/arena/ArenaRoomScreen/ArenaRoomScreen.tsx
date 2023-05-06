@@ -7,21 +7,20 @@ import { AN } from 'constants/styles/appStyles';
 import Popup from 'containers/Popup/Popup';
 import MyScrollView from 'hoc/MyScrollView';
 import ScreenWrapper from 'hoc/ScreenWrapper';
-import { MainStackParamsList } from 'navigation/navConstants';
-import React, { useState } from 'react';
+import { MainStackParamsList } from 'navigation/MainStackParamsList';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { useAppSelector } from 'store/index';
 import { startLoading, stopLoading } from 'store/slices/appStateSlice';
-import { initializeGame } from 'store/slices/gameSlice';
-import { Room } from 'store/types/dataSliceTypes';
 
 const ArenaRoomScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'ArenaRoom'>
 > = ({ navigation, route }) => {
   const dispatch = useDispatch();
+  const { onQuestion } = useAppSelector(state => state.game);
   const { rooms, userData } = useAppSelector(state => state.data);
   const room = rooms.find(r => r.id === route.params.room.id);
 
@@ -39,6 +38,12 @@ const ArenaRoomScreen: React.FC<
 
   const [areYouSureModalVisible, setAreYouSureModalVisible] = useState(false);
 
+  useEffect(() => {
+    if (onQuestion === 0) {
+      navigation.navigate('GameSplash');
+    }
+  }, [onQuestion]);
+
   const closeAreYouSureModal = () => {
     setAreYouSureModalVisible(false);
   };
@@ -48,9 +53,14 @@ const ArenaRoomScreen: React.FC<
       setAreYouSureModalVisible(true);
     } else {
       navigation.goBack();
-      SOCKET.emit(SOCKET_EVENTS.USER_LEFT_ROOM, { roomId: id, user: userData });
     }
   };
+
+  useEffect(() => {
+    return () => {
+      SOCKET.emit(SOCKET_EVENTS.USER_LEFT_ROOM, { roomId: id, user: userData });
+    };
+  }, []);
 
   // this one only triggers for room admins
   const exitAndDeleteRoom = async () => {

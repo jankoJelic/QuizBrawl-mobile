@@ -7,11 +7,10 @@ import BodyMedium from 'components/typography/BodyMedium';
 import Logo from 'components/typography/Logo';
 import { AN } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
-import { MainStackParamsList } from 'navigation/navConstants';
+import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React from 'react';
 import { Pressable, View } from 'react-native';
 import { useAppSelector } from 'store/index';
-
 
 const ProfileScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Profile'>

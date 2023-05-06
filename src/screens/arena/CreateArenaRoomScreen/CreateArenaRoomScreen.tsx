@@ -24,12 +24,13 @@ import CTA from 'components/buttons/CTA';
 import { isIntegerBewteen } from 'util/strings/isIntegerBetween';
 import API from 'services/api';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { MainStackParamsList } from 'navigation/navConstants';
+import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import { useDispatch } from 'react-redux';
 import { startLoading, stopLoading } from 'store/slices/appStateSlice';
 import { LOBBY_IDS } from 'constants/constants';
 import { useAppSelector } from 'store/index';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
+import { addNewRoom, joinRoom } from 'store/slices/dataSlice';
 
 const iconSize = AN(36);
 
@@ -97,6 +98,9 @@ const CreateArenaRoomScreen: React.FC<
       };
 
       const room = await API.createRoom(body);
+
+      dispatch(addNewRoom(room));
+      dispatch(joinRoom(room));
 
       SOCKET.emit(SOCKET_EVENTS.ROOM_CREATED, room);
 

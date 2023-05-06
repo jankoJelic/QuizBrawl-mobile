@@ -41,7 +41,6 @@ export const connectToSocket = (navigation: any) => {
   });
 
   SOCKET.on(USER_JOINED_ROOM, (payload: UserJoinedRoomPayload) => {
-    console.log('user joined room');
     dispatch(addUserToRoom(payload));
   });
 
@@ -50,7 +49,6 @@ export const connectToSocket = (navigation: any) => {
   });
 
   SOCKET.on(ROOM_CREATED, (payload: Room) => {
-    console.log('room created');
     dispatch(addNewRoom(payload));
   });
 
@@ -81,7 +79,16 @@ export const connectToSocket = (navigation: any) => {
 
   SOCKET.on(GAME_STARTED, (questions: Question[]) => {
     const state = store.getState();
-    dispatch(initializeGame({ room: state.data.userData.room, questions }));
+    const {
+      data: { userData, rooms },
+    } = state || {};
+
+    dispatch(
+      initializeGame({
+        room: rooms.find(r => r.id === userData.room.id) as Room,
+        questions,
+      }),
+    );
     dispatch(stopLoading());
   });
 

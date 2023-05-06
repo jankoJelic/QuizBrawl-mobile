@@ -8,7 +8,7 @@ import { AN } from 'constants/styles/appStyles';
 import MyScrollView from 'hoc/MyScrollView';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
-import { MainStackParamsList } from 'navigation/navConstants';
+import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React, { useRef, useState } from 'react';
 import {
   KeyboardAvoidingView,
@@ -53,7 +53,6 @@ const RegisterScreen = ({
         });
 
         storeTokens(accessToken, refreshToken);
-        
       }
 
       navigation.navigate('SetupPinCode', { email, password });

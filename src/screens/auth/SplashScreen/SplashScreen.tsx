@@ -2,11 +2,12 @@ import { Colors } from 'constants/styles/Colors';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from '../../../hooks/styles/useStyles';
 import React, { useEffect } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import Logo from 'components/typography/Logo';
 import ENCRYPTED_STORAGE from 'services/encryptedStorage';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { MainStackParamsList, ROUTES } from 'navigation/navConstants';
+import { MainStackParamsList } from 'navigation/MainStackParamsList';
+import API from 'services/api';
 
 const SplashScreen = ({
   navigation,
@@ -14,10 +15,11 @@ const SplashScreen = ({
   const { styles, colors } = useStyles(createStyles);
 
   const checkForPin = async () => {
-    const storedCredentials = await ENCRYPTED_STORAGE.getValue('credentials');
+    const accessToken = await ENCRYPTED_STORAGE.getValue('accessToken');
 
-    if (!!storedCredentials) {
-      navigation.navigate('EnterPinCode');
+    if (!!accessToken) {
+      await API.getUserData();
+      navigation.navigate('Landing');
     } else {
       navigation.navigate('Register');
     }

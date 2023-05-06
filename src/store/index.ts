@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import appStateReducer from './slices/appStateSlice';
 import authReducer from './slices/authSlice';
 import dataReducer from './slices/dataSlice';
+import gameReducer from './slices/gameSlice';
 import { TypedUseSelectorHook, useSelector, useDispatch } from 'react-redux';
 
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
     appState: appStateReducer,
     auth: authReducer,
     data: dataReducer,
+    game: gameReducer,
   },
 });
 

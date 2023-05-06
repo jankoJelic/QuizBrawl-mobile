@@ -7,7 +7,7 @@ import { Colors } from 'constants/styles/Colors';
 import { AN } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
-import { MainStackParamsList } from 'navigation/navConstants';
+import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -51,6 +51,7 @@ const ArenaLobbyScreen: React.FC<
         renderItem={renderItem}
         numColumns={2}
         contentContainerStyle={{ paddingTop: AN(20) }}
+        keyExtractor={item => item.id + 'room'}
       />
       <CTA title="Create new room" onPress={goToCreateArenaRoom} />
     </ScreenWrapper>

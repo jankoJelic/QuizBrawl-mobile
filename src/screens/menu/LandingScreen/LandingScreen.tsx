@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import ScreenWrapper from 'hoc/ScreenWrapper';
-import { MainStackParamsList } from 'navigation/navConstants';
+import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React, { useEffect } from 'react';
 import LandingScreenHeader from './components/LandingScreenHeader';
 import LobbyCarousel from './components/LobbyCarousel';

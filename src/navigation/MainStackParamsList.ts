@@ -18,4 +18,8 @@ export type MainStackParamsList = {
 
   CreateArenaRoom: undefined;
   ArenaRoom: { room: Room };
+
+  GameSplash: undefined;
+  Question: undefined;
+  Results: undefined;
 };

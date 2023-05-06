@@ -6,17 +6,17 @@ import { Room } from 'store/types/dataSliceTypes';
 export interface GameSlice {
   score: Record<string, number>;
   questions: Question[];
-  secondsLeft: number;
   onQuestion: number;
   activeRoom: Room;
+  users: UserData[];
 }
 
 const initialState: GameSlice = {
   score: <Record<string, number>>{},
   questions: [],
-  secondsLeft: 15,
   onQuestion: -1,
   activeRoom: <Room>{},
+  users: [],
 };
 
 export const gameSlice = createSlice({
@@ -25,7 +25,9 @@ export const gameSlice = createSlice({
   reducers: {
     initializeGame: (
       state,
-      action: { payload: { room: Room; questions: Question[] } },
+      action: {
+        payload: { room: Room; questions: Question[] };
+      },
     ) => {
       const { questions, room } = action.payload || {};
       state.questions = questions;
@@ -43,8 +45,12 @@ export const gameSlice = createSlice({
     goToNextQuestion: state => {
       state.onQuestion++;
     },
-    finishGame: (state, action) => {
+    finishGame: state => {
       state.onQuestion = -1;
+      state.activeRoom = {} as Room;
+      state.users = [];
+      state.questions = [];
+      state.score = {};
     },
   },
 });
