@@ -1,19 +1,17 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import CTA from 'components/buttons/CTA';
-import UserAvatar from 'components/icons/UserAvatar';
 import AnswerTile from 'components/tiles/AnswerTile';
 import BodyLarge from 'components/typography/BodyLarge';
 import BodyMedium from 'components/typography/BodyMedium';
-import BodySmall from 'components/typography/BodySmall/BodySmall';
 import { Colors } from 'constants/styles/Colors';
-import { AN, BORDER_RADIUS, SCREEN_WIDTH } from 'constants/styles/appStyles';
+import { AN } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import TileWrapper from 'hoc/TileWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { FlatList, View } from 'react-native';
+import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { CorrectAnswer, Question } from 'services/socket/socketPayloads';
@@ -24,7 +22,8 @@ import {
   selectCorrectQuestion,
   selectWrongQuestion,
 } from 'store/slices/gameSlice';
-import { UserData } from 'store/types/authSliceTypes';
+import UsersTopBar from './components/UsersTopBar';
+import FullScreenSpinner from 'components/modals/FullScreenSpinner';
 
 const nextQuestionTimeout = 2000;
 
@@ -32,7 +31,7 @@ const QuestionScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Question'>
 > = ({ navigation }) => {
   const dispatch = useDispatch();
-  const { colors, styles } = useStyles(createStyles);
+  const { styles } = useStyles(createStyles);
   const countdownInterval = useRef(null);
   const { userData } = useAppSelector(state => state.data);
   const { questions, score, activeRoom, type, selectedAnswers, onQuestion } =
@@ -58,7 +57,6 @@ const QuestionScreen: React.FC<
     wrongUsers.some(id => id === userData.id);
 
   const isLastQuestion = questions.length <= onQuestion + 1;
-  console.log(onQuestion + 1, 'on question', questions.length, isLastQuestion);
 
   const nextQuestion = () => {
     clearCountdownInterval();
@@ -137,31 +135,6 @@ const QuestionScreen: React.FC<
     };
   }, [onQuestion]);
 
-  const renderUser = ({ item }: { item: UserData }) => {
-    const borderColor = () => {
-      if (wrongUsers.includes(item.id)) {
-        return colors.danger500;
-      } else if (correctUser === item.id) {
-        return colors.brand500;
-      } else {
-        return colors.tileBackground;
-      }
-    };
-
-    return (
-      <View
-        style={{
-          ...styles.userTile,
-          width: SCREEN_WIDTH / (activeRoom.users.length + 2),
-          borderColor: borderColor(),
-        }}>
-        <UserAvatar size={AN(20)} avatar={item.avatar} />
-        <BodySmall text={item.firstName} style={{ marginTop: AN(2) }} />
-        <BodySmall text={String(score[item.id])} />
-      </View>
-    );
-  };
-
   const onPressNext = () => {};
 
   const onSelectAnswer = (answer: CorrectAnswer) => {
@@ -211,78 +184,67 @@ const QuestionScreen: React.FC<
     );
   };
 
+  if (onQuestion > questions.length - 1 || !question)
+    return <FullScreenSpinner />;
+
   return (
     <ScreenWrapper style={{ paddingTop: AN(30) }}>
-      <View>
-        <FlatList
-          data={activeRoom.users}
-          renderItem={renderUser}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(item, index) => item.id + 'player' + String(index)}
-          contentContainerStyle={styles.usersList}
-        />
-        {renderCountdown()}
-        <TileWrapper style={styles.questionTile}>
-          <BodyMedium text={question} style={{ textAlign: 'center' }} />
-        </TileWrapper>
-        <AnswerTile
-          disabled={answeringDisabled}
-          status={answerStatus('answer1')}
-          title={answer1}
-          onPress={() => {
-            onSelectAnswer('answer1');
-          }}
-        />
-        <AnswerTile
-          title={answer2}
-          status={answerStatus('answer2')}
-          disabled={answeringDisabled}
-          onPress={() => {
-            onSelectAnswer('answer2');
-          }}
-        />
-        <AnswerTile
-          title={answer3}
-          status={answerStatus('answer3')}
-          disabled={answeringDisabled}
-          onPress={() => {
-            onSelectAnswer('answer3');
-          }}
-        />
-        <AnswerTile
-          title={answer4}
-          status={answerStatus('answer4')}
-          disabled={answeringDisabled}
-          onPress={() => {
-            onSelectAnswer('answer4');
-          }}
-        />
-      </View>
-      {type !== 'brawl' ? (
-        <CTA title="Next" onPress={onPressNext} style={{ marginTop: AN(30) }} />
-      ) : (
-        <></>
-      )}
+      <>
+        <View>
+          <UsersTopBar wrongUsers={wrongUsers} correctUser={correctUser} />
+          {renderCountdown()}
+          <TileWrapper style={styles.questionTile}>
+            <BodyMedium text={question} style={{ textAlign: 'center' }} />
+          </TileWrapper>
+          <AnswerTile
+            disabled={answeringDisabled}
+            status={answerStatus('answer1')}
+            title={answer1}
+            onPress={() => {
+              onSelectAnswer('answer1');
+            }}
+          />
+          <AnswerTile
+            title={answer2}
+            status={answerStatus('answer2')}
+            disabled={answeringDisabled}
+            onPress={() => {
+              onSelectAnswer('answer2');
+            }}
+          />
+          <AnswerTile
+            title={answer3}
+            status={answerStatus('answer3')}
+            disabled={answeringDisabled}
+            onPress={() => {
+              onSelectAnswer('answer3');
+            }}
+          />
+          <AnswerTile
+            title={answer4}
+            status={answerStatus('answer4')}
+            disabled={answeringDisabled}
+            onPress={() => {
+              onSelectAnswer('answer4');
+            }}
+          />
+        </View>
+        {type !== 'brawl' ? (
+          <CTA
+            title="Next"
+            onPress={onPressNext}
+            style={{ marginTop: AN(30) }}
+          />
+        ) : (
+          <></>
+        )}
+      </>
     </ScreenWrapper>
   );
 };
 
 const createStyles = (colors: Colors) =>
   StyleSheet.create({
-    userTile: {
-      borderRadius: BORDER_RADIUS,
-      alignItems: 'center',
-      borderWidth: AN(1),
-      padding: AN(10),
-      justifyContent: 'center',
-    },
-    usersList: {
-      minWidth: SCREEN_WIDTH * 0.9,
-      flexGrow: 1,
-      justifyContent: 'space-evenly',
-      height: AN(70),
-    },
     questionTile: {
       minHeight: AN(100),
       justifyContent: 'center',
