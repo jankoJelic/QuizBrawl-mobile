@@ -1,6 +1,7 @@
 import { store } from 'store/index';
 import { SOCKET, SOCKET_EVENTS } from './socket';
 import {
+  CorrectAnswer,
   Question,
   UserJoinedLobbyPayload,
   UserJoinedRoomPayload,
@@ -16,7 +17,12 @@ import {
 import { Room } from 'store/types/dataSliceTypes';
 import { showToast, stopLoading } from 'store/slices/appStateSlice';
 import { UserData } from 'store/types/authSliceTypes';
-import { initializeGame } from 'store/slices/gameSlice';
+import {
+  SelectedAnswerPayload,
+  initializeGame,
+  selectCorrectQuestion,
+  selectWrongQuestion,
+} from 'store/slices/gameSlice';
 
 const {
   USER_JOINED_LOBBY,
@@ -27,6 +33,8 @@ const {
   USER_LEFT_ROOM,
   USER_DISCONNECTED,
   GAME_STARTED,
+  WRONG_ANSWER_SELECTED,
+  CORRECT_ANSWER_SELECTED,
 } = SOCKET_EVENTS;
 
 export const connectToSocket = (navigation: any) => {

@@ -35,4 +35,4 @@ export type Topic =
   | 'Showbiz'
   | 'Science';
 
-export type GameType = 'BRAWL' | 'CLASSIC';
+export type GameType = 'brawl' | 'classic';

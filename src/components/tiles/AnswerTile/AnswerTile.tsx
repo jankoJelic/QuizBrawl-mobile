@@ -12,7 +12,12 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { View } from 'react-native';
 
-const AnswerTile = ({ onPress, title, status = 'regular' }: Props) => {
+const AnswerTile = ({
+  onPress,
+  title,
+  status = 'regular',
+  disabled = false,
+}: Props) => {
   const { styles, colors } = useStyles(createStyles);
 
   const borderColor = () => {
@@ -28,6 +33,7 @@ const AnswerTile = ({ onPress, title, status = 'regular' }: Props) => {
 
   return (
     <TouchableBounce
+      disabled={disabled}
       style={{ ...styles.container, borderColor: borderColor() }}
       onPress={onPress}>
       <BodyMedium text={title} />
@@ -80,4 +86,5 @@ interface Props {
   onPress: () => void;
   title: string;
   status: 'regular' | 'correct' | 'wrong';
+  disabled: boolean;
 }

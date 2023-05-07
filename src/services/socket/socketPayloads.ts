@@ -11,7 +11,7 @@ export interface UserJoinedRoomPayload {
   user: UserData;
 }
 
-export type CorrectAnswer = 'answer1' | 'asnwer2' | 'asnwer3' | 'answer4';
+export type CorrectAnswer = 'answer1' | 'answer2' | 'answer3' | 'answer4';
 
 export interface Question {
   question: string;
