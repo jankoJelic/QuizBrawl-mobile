@@ -22,6 +22,10 @@ const ResultsScreen: React.FC<
 
   const { users } = activeRoom || {};
 
+  const usersByScore = users.sort((a, b) =>
+    score[a.id] < score[b.id] ? 1 : -1,
+  );
+
   const renderUser = ({ item }: { item: UserData }) => (
     <UserTile user={item} score={String(score[item.id]) || '0'} />
   );
@@ -50,7 +54,7 @@ const ResultsScreen: React.FC<
         fullWidth
       />
       <FlatList
-        data={users}
+        data={usersByScore}
         renderItem={renderUser}
         keyExtractor={item => item.id + 'user_results'}
       />
