@@ -11,16 +11,18 @@ export interface GameSlice {
   users: UserData[];
   type: 'brawl' | 'classic';
   selectedAnswers: CorrectAnswer[];
+  answers: Record<string, CorrectAnswer>;
 }
 
 const initialState: GameSlice = {
-  score: <Record<string, number>>{},
-  questions: [],
-  onQuestion: -1,
-  activeRoom: <Room>{},
-  users: [],
+  score: <Record<string, number>>{}, // score for ewach player {id: score}
+  questions: [], // all questions for a game
+  onQuestion: -1, // index of the active question
+  activeRoom: <Room>{}, // room in which the game is being played
+  users: [], // participants
   type: 'brawl',
-  selectedAnswers: [],
+  selectedAnswers: [], // answers selected for the active question so they can not be selected again (only for brawl?)
+  answers: {}, // first answer for every question (for statistics) - it is being sent at the end of the game
 };
 
 export const gameSlice = createSlice({
@@ -43,6 +45,11 @@ export const gameSlice = createSlice({
         score[userIdString] = 0;
       });
 
+      questions.forEach((question: Question) => {
+        const questionIdString = String(question.id);
+        score[questionIdString] = '';
+      });
+
       state.score = score;
       state.onQuestion = 0;
       state.type = room.type;
@@ -52,6 +59,10 @@ export const gameSlice = createSlice({
       action: { payload: SelectedAnswerPayload },
     ) => {
       const { answer, userId } = action.payload || {};
+      const currentSelectedAnswers = state.selectedAnswers;
+
+      if (!currentSelectedAnswers.length)
+        state.answers[state.questions[state.onQuestion].id] = answer;
 
       if (state.type === 'brawl') {
         state.selectedAnswers = state.selectedAnswers.concat([answer]);
@@ -65,6 +76,11 @@ export const gameSlice = createSlice({
       action: { payload: SelectedAnswerPayload },
     ) => {
       const { answer, userId } = action.payload || {};
+
+      const currentSelectedAnswers = state.selectedAnswers;
+
+      if (!currentSelectedAnswers.length)
+        state.answers[state.questions[state.onQuestion].id] = answer;
 
       if (state.type === 'brawl') {
         const selectedAnswers = state.selectedAnswers;
@@ -90,7 +106,8 @@ export const gameSlice = createSlice({
       }
     },
     goToNextQuestion: state => {
-      state.onQuestion++;
+      const currentOnQuestion = state.onQuestion;
+      state.onQuestion = currentOnQuestion + 1;
       state.selectedAnswers = [];
     },
     finishGame: state => {
@@ -100,6 +117,7 @@ export const gameSlice = createSlice({
       state.questions = [];
       state.score = {};
       state.type = 'brawl';
+      state.answers = {};
     },
   },
 });

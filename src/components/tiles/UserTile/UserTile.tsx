@@ -16,7 +16,7 @@ import { UserData } from 'store/types/authSliceTypes';
 const UserTile = ({ user, score }: Props) => {
   const { styles, colors } = useStyles(createStyles);
 
-  const rightSideText = !!score ? `${score} pts` : `lvl ${user.level}`;
+  const rightSideText = !!score ? `${String(score)} pts` : `lvl ${user.level}`;
 
   return (
     <TileWrapper key={user.id} style={styles.container}>
@@ -56,5 +56,5 @@ export default UserTile;
 
 interface Props {
   user: UserData;
-  score?: number;
+  score?: string;
 }

@@ -5,27 +5,42 @@ import UserTile from 'components/tiles/UserTile/UserTile';
 import { AN } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FlatList } from 'react-native';
+import { useDispatch } from 'react-redux';
+import API from 'services/api';
+import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { useAppSelector } from 'store/index';
+import { finishGame } from 'store/slices/gameSlice';
 import { UserData } from 'store/types/authSliceTypes';
 
 const ResultsScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Results'>
 > = ({ navigation }) => {
-  const { activeRoom, score } = useAppSelector(state => state.game);
-
+  const dispatch = useDispatch();
+  const { activeRoom, score, answers } = useAppSelector(state => state.game);
+  console.log(score);
   const { users } = activeRoom || {};
 
   const goBackToRoom = () => {};
 
   const renderUser = ({ item }: { item: UserData }) => (
-    <UserTile user={item} score={score[item.id] || 0} />
+    <UserTile user={item} score={String(score[item.id]) || '0'} />
   );
 
   const goToRoom = () => {
     navigation.navigate('ArenaRoom', { room: activeRoom });
   };
+
+  useEffect(() => {
+    SOCKET.off(SOCKET_EVENTS.CORRECT_ANSWER_SELECTED).off();
+    SOCKET.off(SOCKET_EVENTS.WRONG_ANSWER_SELECTED).off();
+    //  API.updateQuestionStats(answers);
+
+    return () => {
+      dispatch(finishGame());
+    };
+  }, []);
 
   return (
     <ScreenWrapper>
@@ -34,6 +49,7 @@ const ResultsScreen: React.FC<
         showLeftIcon={false}
         onPressRightIcon={goBackToRoom}
         style={{ marginBottom: AN(24) }}
+        fullWidth
       />
       <FlatList
         data={users}

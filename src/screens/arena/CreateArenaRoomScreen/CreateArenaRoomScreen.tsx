@@ -58,6 +58,7 @@ const CreateArenaRoomScreen: React.FC<
   const [roomName, setRoomName] = useState('');
   const [maxPlayers, setMaxPlayers] = useState('4');
   const [answerTime, setAnswerTime] = useState('15');
+  const [questionsCount, setQuestionsCount] = useState('15');
 
   const renderItem = ({ item }: TopicListItem) => {
     const isSelected = item.name === selectedTopic;
@@ -95,6 +96,7 @@ const CreateArenaRoomScreen: React.FC<
         answerTime: Number(answerTime),
         maxPlayers: Number(maxPlayers),
         lobby: lobbies.find(l => l.id === LOBBY_IDS.ARENA) as Lobby,
+        questionsCount: Number(questionsCount),
       };
 
       const room = await API.createRoom(body);
@@ -152,6 +154,12 @@ const CreateArenaRoomScreen: React.FC<
             keyboardType="numeric"
             value={answerTime}
             onChangeText={setAnswerTime}
+          />
+          <InputField
+            title="Number of questions"
+            keyboardType="numeric"
+            value={questionsCount}
+            onChangeText={setQuestionsCount}
           />
           <CTA title="Confirm" onPress={onPressConfirm} disabled={!formValid} />
         </View>

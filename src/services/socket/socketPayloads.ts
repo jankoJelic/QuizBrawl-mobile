@@ -23,4 +23,5 @@ export interface Question {
   difficulty: 'EASY' | 'MEDIUM' | 'HARD';
   image?: string;
   topic: Topic;
+  id: number;
 }

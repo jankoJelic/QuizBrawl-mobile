@@ -34,4 +34,5 @@ interface CreateRoomBody {
   answerTime: number;
   topic: Topic;
   lobby: Lobby;
+  questionsCount?: number;
 }

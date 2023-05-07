@@ -32,20 +32,21 @@ const GameSplashScreen: React.FC<
   }, []);
 
   return (
-    <ScreenWrapper>
-      <Animated.Text
-        style={{
-          fontFamily: FONTS.bold,
-          color: colors.brand500,
-          textAlign: 'center',
-          fontSize: AN(50),
-        }}>
-        {String(countdown)}
-      </Animated.Text>
+    <ScreenWrapper style={styles.screen}>
+      <Animated.Text style={styles.number}>{String(countdown)}</Animated.Text>
     </ScreenWrapper>
   );
 };
 
-const createStyles = (colors: Colors) => StyleSheet.create({});
+const createStyles = (colors: Colors) =>
+  StyleSheet.create({
+    number: {
+      fontFamily: FONTS.bold,
+      color: colors.brand500,
+      textAlign: 'center',
+      fontSize: AN(55),
+    },
+    screen: { alignItems: 'center', justifyContent: 'center' },
+  });
 
 export default GameSplashScreen;

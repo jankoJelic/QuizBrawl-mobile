@@ -35,7 +35,7 @@ const QuestionScreen: React.FC<
   const { colors, styles } = useStyles(createStyles);
   const countdownInterval = useRef(null);
   const { userData } = useAppSelector(state => state.data);
-  const { questions, onQuestion, score, activeRoom, type, selectedAnswers } =
+  const { questions, score, activeRoom, type, selectedAnswers, onQuestion } =
     useAppSelector(state => state.game);
 
   const { answerTime, id: roomId, users } = activeRoom || {};
@@ -49,28 +49,34 @@ const QuestionScreen: React.FC<
   const [correctUser, setCorrectUser] = useState(0);
 
   const correctAnswerGuessed = selectedAnswers.includes(correctAnswer);
-  const allUsersGuessed = wrongUsers.length === users.length;
+  const allUsersGuessed = wrongUsers?.length === users?.length;
 
   const answeringDisabled =
-    allUsersGuessed || correctAnswerGuessed || secondsLeft < 1;
+    allUsersGuessed ||
+    correctAnswerGuessed ||
+    secondsLeft < 1 ||
+    wrongUsers.some(id => id === userData.id);
+
+  const isLastQuestion = questions.length <= onQuestion + 1;
+  console.log(onQuestion + 1, 'on question', questions.length, isLastQuestion);
 
   const nextQuestion = () => {
-    const isLastQuestion = questions.length <= onQuestion;
+    clearCountdownInterval();
 
-    if (isLastQuestion) {
-      goToResults();
-    } else {
-      clearCountdownInterval();
-      setTimeout(() => {
+    setTimeout(() => {
+      if (isLastQuestion) {
+        goToResults();
+      } else {
         dispatch(goToNextQuestion());
         setWrongUsers([]);
         setCorrectUser(-1);
-      }, nextQuestionTimeout);
-    }
+      }
+    }, nextQuestionTimeout);
   };
 
   const goToResults = () => {
     setTimeout(() => {
+      clearCountdownInterval();
       navigation.navigate('Results');
     }, nextQuestionTimeout);
   };
@@ -81,13 +87,12 @@ const QuestionScreen: React.FC<
       ({ answer, userId }: SelectedAnswerPayload) => {
         if (type === 'brawl') {
           dispatch(selectWrongQuestion({ answer, userId }));
-          setWrongUsers(prevState => {
-            const updatedWrongUsers = prevState.concat([userId]);
-            if (updatedWrongUsers.length === activeRoom.users.length) {
-              nextQuestion();
-            }
-            return updatedWrongUsers;
-          });
+          const updatedWrongUsers = wrongUsers.concat([userId]);
+
+          setWrongUsers(updatedWrongUsers);
+          if (updatedWrongUsers.length === activeRoom.users.length) {
+            nextQuestion();
+          }
         }
       },
     );
@@ -96,9 +101,9 @@ const QuestionScreen: React.FC<
       SOCKET_EVENTS.CORRECT_ANSWER_SELECTED,
       ({ answer, userId }: SelectedAnswerPayload) => {
         if (type === 'brawl') {
-          clearCountdownInterval();
           dispatch(selectCorrectQuestion({ answer, userId }));
           setCorrectUser(userId);
+          nextQuestion();
         }
       },
     );
@@ -111,6 +116,10 @@ const QuestionScreen: React.FC<
 
   useEffect(() => {
     if (onQuestion < 0) return;
+    if (onQuestion > questions.length - 1 || !question) {
+      goToResults();
+      return;
+    }
 
     countdownInterval.current = setInterval(() => {
       setSecondsLeft(prevState => {
@@ -215,10 +224,7 @@ const QuestionScreen: React.FC<
         />
         {renderCountdown()}
         <TileWrapper style={styles.questionTile}>
-          <BodyMedium
-            text={currentQuestion?.question}
-            style={{ textAlign: 'center' }}
-          />
+          <BodyMedium text={question} style={{ textAlign: 'center' }} />
         </TileWrapper>
         <AnswerTile
           disabled={answeringDisabled}
