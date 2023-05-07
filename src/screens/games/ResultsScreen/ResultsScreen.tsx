@@ -19,10 +19,8 @@ const ResultsScreen: React.FC<
 > = ({ navigation }) => {
   const dispatch = useDispatch();
   const { activeRoom, score, answers } = useAppSelector(state => state.game);
-  console.log(score);
-  const { users } = activeRoom || {};
 
-  const goBackToRoom = () => {};
+  const { users } = activeRoom || {};
 
   const renderUser = ({ item }: { item: UserData }) => (
     <UserTile user={item} score={String(score[item.id]) || '0'} />
@@ -33,9 +31,9 @@ const ResultsScreen: React.FC<
   };
 
   useEffect(() => {
-    SOCKET.off(SOCKET_EVENTS.CORRECT_ANSWER_SELECTED).off();
-    SOCKET.off(SOCKET_EVENTS.WRONG_ANSWER_SELECTED).off();
-    //  API.updateQuestionStats(answers);
+    SOCKET.off(SOCKET_EVENTS.CORRECT_ANSWER_SELECTED);
+    SOCKET.off(SOCKET_EVENTS.WRONG_ANSWER_SELECTED);
+    if (!__DEV__) API.updateQuestionStats(answers);
 
     return () => {
       dispatch(finishGame());
@@ -47,7 +45,7 @@ const ResultsScreen: React.FC<
       <NavHeader
         title="Results"
         showLeftIcon={false}
-        onPressRightIcon={goBackToRoom}
+        showRightIcon={false}
         style={{ marginBottom: AN(24) }}
         fullWidth
       />

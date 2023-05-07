@@ -57,6 +57,7 @@ const QuestionScreen: React.FC<
     wrongUsers.some(id => id === userData.id);
 
   const isLastQuestion = questions.length <= onQuestion + 1;
+  const lastQuestionBugCheck = onQuestion > questions.length - 1 || !question;
 
   const nextQuestion = () => {
     clearCountdownInterval();
@@ -79,32 +80,31 @@ const QuestionScreen: React.FC<
     }, nextQuestionTimeout);
   };
 
+  const handleWrongAnswer = ({ answer, userId }: SelectedAnswerPayload) => {
+    if (type === 'brawl') {
+      dispatch(selectWrongQuestion({ answer, userId }));
+      setWrongUsers(prevState => prevState.concat([userId]));
+    }
+  };
+
   useEffect(() => {
-    SOCKET.on(
-      SOCKET_EVENTS.WRONG_ANSWER_SELECTED,
-      ({ answer, userId }: SelectedAnswerPayload) => {
-        if (type === 'brawl') {
-          dispatch(selectWrongQuestion({ answer, userId }));
-          const updatedWrongUsers = wrongUsers.concat([userId]);
+    if (wrongUsers.length === activeRoom.users.length) {
+      nextQuestion();
+    }
+  }, [wrongUsers.length]);
 
-          setWrongUsers(updatedWrongUsers);
-          if (updatedWrongUsers.length === activeRoom.users.length) {
-            nextQuestion();
-          }
-        }
-      },
-    );
+  const handleCorrectAnswer = ({ answer, userId }: SelectedAnswerPayload) => {
+    if (type === 'brawl') {
+      dispatch(selectCorrectQuestion({ answer, userId }));
+      setCorrectUser(userId);
+      nextQuestion();
+    }
+  };
 
-    SOCKET.on(
-      SOCKET_EVENTS.CORRECT_ANSWER_SELECTED,
-      ({ answer, userId }: SelectedAnswerPayload) => {
-        if (type === 'brawl') {
-          dispatch(selectCorrectQuestion({ answer, userId }));
-          setCorrectUser(userId);
-          nextQuestion();
-        }
-      },
-    );
+  useEffect(() => {
+    SOCKET.on(SOCKET_EVENTS.WRONG_ANSWER_SELECTED, handleWrongAnswer);
+
+    SOCKET.on(SOCKET_EVENTS.CORRECT_ANSWER_SELECTED, handleCorrectAnswer);
   }, []);
 
   const clearCountdownInterval = () => {
@@ -114,7 +114,7 @@ const QuestionScreen: React.FC<
 
   useEffect(() => {
     if (onQuestion < 0) return;
-    if (onQuestion > questions.length - 1 || !question) {
+    if (lastQuestionBugCheck) {
       goToResults();
       return;
     }
@@ -152,7 +152,11 @@ const QuestionScreen: React.FC<
   };
 
   const countdownColor =
-    secondsLeft <= 3 || allUsersGuessed ? 'danger500' : 'neutral200';
+    secondsLeft <= 3 || allUsersGuessed
+      ? 'danger500'
+      : correctUser
+      ? 'brand500'
+      : 'neutral200';
 
   const answerStatus = (answer: CorrectAnswer) =>
     correctAnswer === answer && correctAnswerGuessed
@@ -184,8 +188,7 @@ const QuestionScreen: React.FC<
     );
   };
 
-  if (onQuestion > questions.length - 1 || !question)
-    return <FullScreenSpinner />;
+  if (lastQuestionBugCheck) return <FullScreenSpinner />;
 
   return (
     <ScreenWrapper style={{ paddingTop: AN(30) }}>
