@@ -1,3 +1,4 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import CTA from 'components/buttons/CTA';
 import UserAvatar from 'components/icons/UserAvatar';
 import AnswerTile from 'components/tiles/AnswerTile';
@@ -9,6 +10,7 @@ import { AN, BORDER_RADIUS, SCREEN_WIDTH } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import TileWrapper from 'hoc/TileWrapper';
 import useStyles from 'hooks/styles/useStyles';
+import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { FlatList, View } from 'react-native';
@@ -24,7 +26,11 @@ import {
 } from 'store/slices/gameSlice';
 import { UserData } from 'store/types/authSliceTypes';
 
-const QuestionScreen = () => {
+const nextQuestionTimeout = 2000;
+
+const QuestionScreen: React.FC<
+  NativeStackScreenProps<MainStackParamsList, 'Question'>
+> = ({ navigation }) => {
   const dispatch = useDispatch();
   const { colors, styles } = useStyles(createStyles);
   const countdownInterval = useRef(null);
@@ -32,7 +38,7 @@ const QuestionScreen = () => {
   const { questions, onQuestion, score, activeRoom, type, selectedAnswers } =
     useAppSelector(state => state.game);
 
-  const { answerTime, id: roomId } = activeRoom || {};
+  const { answerTime, id: roomId, users } = activeRoom || {};
 
   const currentQuestion: Question = questions[onQuestion];
   const { answer1, answer2, answer3, answer4, correctAnswer, question, image } =
@@ -43,6 +49,31 @@ const QuestionScreen = () => {
   const [correctUser, setCorrectUser] = useState(0);
 
   const correctAnswerGuessed = selectedAnswers.includes(correctAnswer);
+  const allUsersGuessed = wrongUsers.length === users.length;
+
+  const answeringDisabled =
+    allUsersGuessed || correctAnswerGuessed || secondsLeft < 1;
+
+  const nextQuestion = () => {
+    const isLastQuestion = questions.length <= onQuestion;
+
+    if (isLastQuestion) {
+      goToResults();
+    } else {
+      clearCountdownInterval();
+      setTimeout(() => {
+        dispatch(goToNextQuestion());
+        setWrongUsers([]);
+        setCorrectUser(-1);
+      }, nextQuestionTimeout);
+    }
+  };
+
+  const goToResults = () => {
+    setTimeout(() => {
+      navigation.navigate('Results');
+    }, nextQuestionTimeout);
+  };
 
   useEffect(() => {
     SOCKET.on(
@@ -50,7 +81,13 @@ const QuestionScreen = () => {
       ({ answer, userId }: SelectedAnswerPayload) => {
         if (type === 'brawl') {
           dispatch(selectWrongQuestion({ answer, userId }));
-          setWrongUsers(prevState => prevState.concat([userId]));
+          setWrongUsers(prevState => {
+            const updatedWrongUsers = prevState.concat([userId]);
+            if (updatedWrongUsers.length === activeRoom.users.length) {
+              nextQuestion();
+            }
+            return updatedWrongUsers;
+          });
         }
       },
     );
@@ -59,15 +96,9 @@ const QuestionScreen = () => {
       SOCKET_EVENTS.CORRECT_ANSWER_SELECTED,
       ({ answer, userId }: SelectedAnswerPayload) => {
         if (type === 'brawl') {
+          clearCountdownInterval();
           dispatch(selectCorrectQuestion({ answer, userId }));
           setCorrectUser(userId);
-          clearCountdownInterval();
-
-          setTimeout(() => {
-            dispatch(goToNextQuestion());
-            setWrongUsers([]);
-            setCorrectUser(-1);
-          }, 2000);
         }
       },
     );
@@ -79,10 +110,13 @@ const QuestionScreen = () => {
   };
 
   useEffect(() => {
+    if (onQuestion < 0) return;
+
     countdownInterval.current = setInterval(() => {
       setSecondsLeft(prevState => {
         if (prevState === 0) {
           if (type === 'brawl') {
+            nextQuestion();
           }
         }
         return prevState - 1;
@@ -92,7 +126,7 @@ const QuestionScreen = () => {
     return () => {
       clearCountdownInterval();
     };
-  }, []);
+  }, [onQuestion]);
 
   const renderUser = ({ item }: { item: UserData }) => {
     const borderColor = () => {
@@ -135,7 +169,8 @@ const QuestionScreen = () => {
     }
   };
 
-  const countdownColor = secondsLeft <= 3 ? 'danger500' : 'neutral200';
+  const countdownColor =
+    secondsLeft <= 3 || allUsersGuessed ? 'danger500' : 'neutral200';
 
   const answerStatus = (answer: CorrectAnswer) =>
     correctAnswer === answer && correctAnswerGuessed
@@ -146,10 +181,12 @@ const QuestionScreen = () => {
 
   const renderCountdown = () => {
     const text = () => {
-      if (correctAnswerGuessed) {
-        return `Well done ${
+      if (allUsersGuessed || (!correctUser && secondsLeft < 1)) {
+        return 'No correct answers!';
+      } else if (correctAnswerGuessed) {
+        return `${
           activeRoom.users.find(u => correctUser === u.id)?.firstName
-        }!`;
+        } guessed right!`;
       }
       if (secondsLeft < answerTime && secondsLeft > 0) {
         return String(secondsLeft);
@@ -176,13 +213,7 @@ const QuestionScreen = () => {
           keyExtractor={(item, index) => item.id + 'player' + String(index)}
           contentContainerStyle={styles.usersList}
         />
-        {secondsLeft < answerTime && secondsLeft > 0 && (
-          <BodyLarge
-            text={String(secondsLeft)}
-            style={{ textAlign: 'center', marginVertical: AN(12) }}
-            color={countdownColor}
-          />
-        )}
+        {renderCountdown()}
         <TileWrapper style={styles.questionTile}>
           <BodyMedium
             text={currentQuestion?.question}
@@ -190,7 +221,7 @@ const QuestionScreen = () => {
           />
         </TileWrapper>
         <AnswerTile
-          disabled={correctAnswerGuessed}
+          disabled={answeringDisabled}
           status={answerStatus('answer1')}
           title={answer1}
           onPress={() => {
@@ -200,7 +231,7 @@ const QuestionScreen = () => {
         <AnswerTile
           title={answer2}
           status={answerStatus('answer2')}
-          disabled={correctAnswerGuessed}
+          disabled={answeringDisabled}
           onPress={() => {
             onSelectAnswer('answer2');
           }}
@@ -208,7 +239,7 @@ const QuestionScreen = () => {
         <AnswerTile
           title={answer3}
           status={answerStatus('answer3')}
-          disabled={correctAnswerGuessed}
+          disabled={answeringDisabled}
           onPress={() => {
             onSelectAnswer('answer3');
           }}
@@ -216,7 +247,7 @@ const QuestionScreen = () => {
         <AnswerTile
           title={answer4}
           status={answerStatus('answer4')}
-          disabled={correctAnswerGuessed}
+          disabled={answeringDisabled}
           onPress={() => {
             onSelectAnswer('answer4');
           }}

@@ -74,7 +74,7 @@ export const connectToSocket = (navigation: any) => {
           dispatch(
             showToast({
               visible: true,
-              text: 'Room creator has quit the game',
+              text: 'Room dismissed',
               type: 'warning',
             }),
           );

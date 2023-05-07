@@ -97,14 +97,14 @@ const ArenaRoomScreen: React.FC<
           title="Players:"
           value={`${String(users?.length)}/${String(maxPlayers)}`}
         />
+
+        <InfoLine title="Answer time:" value={`${answerTime} seconds`} />
+        <InfoLine title="Number of questions:" value={String(questionsCount)} />
         <View style={{ marginVertical: AN(10) }}>
           {users?.map(u => (
             <UserTile user={u} />
           ))}
         </View>
-
-        <InfoLine title="Answer time:" value={`${answerTime} seconds`} />
-        <InfoLine title="Number of questions:" value={String(questionsCount)} />
         <CTA onPress={startGame} title="Start Game" />
       </MyScrollView>
       <Popup

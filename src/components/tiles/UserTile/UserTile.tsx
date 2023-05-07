@@ -13,8 +13,10 @@ import { StyleSheet } from 'react-native';
 import { View } from 'react-native';
 import { UserData } from 'store/types/authSliceTypes';
 
-const UserTile = ({ user }: Props) => {
+const UserTile = ({ user, score }: Props) => {
   const { styles, colors } = useStyles(createStyles);
+
+  const rightSideText = !!score ? `${score} pts` : `lvl ${user.level}`;
 
   return (
     <TileWrapper key={user.id} style={styles.container}>
@@ -26,7 +28,7 @@ const UserTile = ({ user }: Props) => {
         />
       </View>
       <View style={styles.levelContainer}>
-        <BodyMedium text={`lvl ${user.level}`} />
+        <BodyMedium text={rightSideText} />
       </View>
     </TileWrapper>
   );
@@ -54,4 +56,5 @@ export default UserTile;
 
 interface Props {
   user: UserData;
+  score?: number;
 }
