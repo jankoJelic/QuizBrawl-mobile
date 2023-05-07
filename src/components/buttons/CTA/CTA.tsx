@@ -13,6 +13,7 @@ const CTA = ({
   title = 'Title',
   isLoading = false,
   disabled = false,
+  style = {},
 }) => {
   const { styles, colors } = useStyles(createStyles);
   const [pressedIn, setPressedIn] = useState(false);
@@ -33,7 +34,7 @@ const CTA = ({
   return (
     <TouchableBounce
       onPress={onPress}
-      style={styles.container}
+      style={{ ...styles.container, ...style }}
       onPressIn={onPressIn}
       onPressOut={onPressOut}
       disabled={disabled}>

@@ -9,6 +9,7 @@ export interface GameSlice {
   onQuestion: number;
   activeRoom: Room;
   users: UserData[];
+  type: 'brawl' | 'classic';
 }
 
 const initialState: GameSlice = {
@@ -17,6 +18,7 @@ const initialState: GameSlice = {
   onQuestion: -1,
   activeRoom: <Room>{},
   users: [],
+  type: 'brawl',
 };
 
 export const gameSlice = createSlice({
