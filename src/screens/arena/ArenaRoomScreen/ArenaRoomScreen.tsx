@@ -34,7 +34,10 @@ const ArenaRoomScreen: React.FC<
     password,
     answerTime,
     id,
+    readyUsers
   } = room || {};
+
+  const isRoomAdmin = admin?.id === userData.id;
 
   const [areYouSureModalVisible, setAreYouSureModalVisible] = useState(false);
 
@@ -49,7 +52,7 @@ const ArenaRoomScreen: React.FC<
   };
 
   const onPressLeftArrow = () => {
-    if (admin?.id === userData.id) {
+    if (isRoomAdmin) {
       setAreYouSureModalVisible(true);
     } else {
       navigation.goBack();
@@ -80,6 +83,10 @@ const ArenaRoomScreen: React.FC<
     SOCKET.emit(SOCKET_EVENTS.GAME_STARTED, room);
   };
 
+  const roomIsFull = users?.length === maxPlayers;
+
+  const startGameDisabled = !roomIsFull;
+
   return (
     <ScreenWrapper>
       <NavHeader
@@ -92,12 +99,10 @@ const ArenaRoomScreen: React.FC<
       <MyScrollView>
         <InfoLine title="Host:" value={admin?.firstName} />
         <InfoLine title="Topic:" value={topic} />
-
         <InfoLine
           title="Players:"
           value={`${String(users?.length)}/${String(maxPlayers)}`}
         />
-
         <InfoLine title="Answer time:" value={`${answerTime} seconds`} />
         <InfoLine title="Number of questions:" value={String(questionsCount)} />
         <View style={{ marginVertical: AN(10) }}>
@@ -105,7 +110,11 @@ const ArenaRoomScreen: React.FC<
             <UserTile user={u} />
           ))}
         </View>
-        <CTA onPress={startGame} title="Start Game" />
+        <CTA
+          onPress={startGame}
+          title="Start Game"
+          disabled={startGameDisabled}
+        />
       </MyScrollView>
       <Popup
         visible={areYouSureModalVisible}

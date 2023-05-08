@@ -39,9 +39,10 @@ const LoginScreen = ({
         password,
       });
 
-      storeTokens(accessToken, refreshToken);
+      await storeTokens(accessToken, refreshToken);
 
-      navigation.navigate('SetupPinCode', { email, password });
+      // navigation.navigate('SetupPinCode', { email, password });
+      navigation.navigate('Landing');
     } catch (e: any) {
       const { status } = e?.response || {};
 

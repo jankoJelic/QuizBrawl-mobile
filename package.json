@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "purge": "rm -rf node_modules && yarn cache clean && watchman watch-del-all && yarn && yarn start --reset-cache"
   },
   "dependencies": {
     "@react-native-firebase/app": "^17.4.0",

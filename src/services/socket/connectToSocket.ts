@@ -33,8 +33,6 @@ const {
   USER_LEFT_ROOM,
   USER_DISCONNECTED,
   GAME_STARTED,
-  WRONG_ANSWER_SELECTED,
-  CORRECT_ANSWER_SELECTED,
 } = SOCKET_EVENTS;
 
 export const connectToSocket = (navigation: any) => {
