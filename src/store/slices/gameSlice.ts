@@ -45,12 +45,14 @@ export const gameSlice = createSlice({
         score[userIdString] = 0;
       });
 
+      let answers = {};
       questions.forEach((question: Question) => {
         const questionIdString = String(question.id);
-        score[questionIdString] = '';
+        answers[questionIdString] = '';
       });
 
       state.score = score;
+      state.answers = answers;
       state.onQuestion = 0;
       state.type = room.type;
     },

@@ -35,4 +35,5 @@ interface CreateRoomBody {
   topic: Topic;
   lobby: Lobby;
   questionsCount?: number;
+  readyUsers: number[];
 }

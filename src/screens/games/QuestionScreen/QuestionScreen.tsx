@@ -34,7 +34,7 @@ const QuestionScreen: React.FC<
   const { styles } = useStyles(createStyles);
   const countdownInterval = useRef(null);
   const { userData } = useAppSelector(state => state.data);
-  const { questions, score, activeRoom, type, selectedAnswers, onQuestion } =
+  const { questions, activeRoom, type, selectedAnswers, onQuestion } =
     useAppSelector(state => state.game);
 
   const { answerTime, id: roomId, users } = activeRoom || {};

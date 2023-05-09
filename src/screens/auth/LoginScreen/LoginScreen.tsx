@@ -40,6 +40,7 @@ const LoginScreen = ({
       });
 
       await storeTokens(accessToken, refreshToken);
+      await API.getUserData();
 
       // navigation.navigate('SetupPinCode', { email, password });
       navigation.navigate('Landing');

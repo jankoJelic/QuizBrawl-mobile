@@ -52,7 +52,7 @@ const CreateArenaRoomScreen: React.FC<
   const dispatch = useDispatch();
 
   const { styles, colors } = useStyles(createStyles);
-  const { lobbies } = useAppSelector(state => state.data);
+  const { lobbies, userData } = useAppSelector(state => state.data);
 
   const [selectedTopic, setselectedTopic] = useState<Topic>('General');
   const [roomName, setRoomName] = useState('');
@@ -97,6 +97,7 @@ const CreateArenaRoomScreen: React.FC<
         maxPlayers: Number(maxPlayers),
         lobby: lobbies.find(l => l.id === LOBBY_IDS.ARENA) as Lobby,
         questionsCount: Number(questionsCount),
+        readyUsers: [userData.id],
       };
 
       const room = await API.createRoom(body);

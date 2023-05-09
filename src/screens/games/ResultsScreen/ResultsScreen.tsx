@@ -18,12 +18,13 @@ const ResultsScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Results'>
 > = ({ navigation }) => {
   const dispatch = useDispatch();
-  const { activeRoom, score, answers } = useAppSelector(state => state.game);
+  const { activeRoom, score, answers, type } =
+    useAppSelector(state => state.game) || {};
 
   const { users } = activeRoom || {};
 
   const usersByScore = users.sort((a, b) =>
-    score[a.id] < score[b.id] ? 1 : -1,
+    score[String(a.id)] <= score[String(b.id)] ? 1 : -1,
   );
 
   const renderUser = ({ item }: { item: UserData }) => (

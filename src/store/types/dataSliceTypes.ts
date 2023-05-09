@@ -23,6 +23,7 @@ export interface Room {
   password: string;
   lobby: Lobby;
   answerTime: number;
+  readyUsers: number[];
 }
 
 export type Topic =
