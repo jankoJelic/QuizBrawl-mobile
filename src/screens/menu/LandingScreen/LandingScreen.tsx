@@ -11,10 +11,12 @@ import { connectToSocket } from 'services/socket/connectToSocket';
 import { useIsFocused } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { exitLobby, exitRoom } from 'store/slices/dataSlice';
+import usePreventNativeBackButton from 'navigation/hooks/usePreventNativeBack';
 
 const LandingScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Landing'>
 > = ({ navigation }) => {
+  usePreventNativeBackButton();
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
 

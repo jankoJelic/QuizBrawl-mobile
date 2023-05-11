@@ -1,7 +1,6 @@
 import { store } from 'store/index';
 import { SOCKET, SOCKET_EVENTS } from './socket';
 import {
-  CorrectAnswer,
   Question,
   UserJoinedLobbyPayload,
   UserJoinedRoomPayload,
@@ -13,16 +12,12 @@ import {
   removeRoom,
   removeUserFromLobby,
   removeUserFromRoom,
+  setUserReady,
+  unreadyUsersInRoom,
 } from 'store/slices/dataSlice';
 import { Room } from 'store/types/dataSliceTypes';
 import { showToast, stopLoading } from 'store/slices/appStateSlice';
-import { UserData } from 'store/types/authSliceTypes';
-import {
-  SelectedAnswerPayload,
-  initializeGame,
-  selectCorrectQuestion,
-  selectWrongQuestion,
-} from 'store/slices/gameSlice';
+import { initializeGame } from 'store/slices/gameSlice';
 
 const {
   USER_JOINED_LOBBY,
@@ -33,6 +28,7 @@ const {
   USER_LEFT_ROOM,
   USER_DISCONNECTED,
   GAME_STARTED,
+  USER_READY,
 } = SOCKET_EVENTS;
 
 export const connectToSocket = (navigation: any) => {
@@ -83,20 +79,31 @@ export const connectToSocket = (navigation: any) => {
     }
   });
 
-  SOCKET.on(GAME_STARTED, (questions: Question[]) => {
-    const state = store.getState();
-    const {
-      data: { userData, rooms },
-    } = state || {};
-
-    dispatch(
-      initializeGame({
-        room: rooms.find(r => r.id === userData.room.id) as Room,
-        questions,
-      }),
-    );
-    dispatch(stopLoading());
+  SOCKET.on(USER_READY, ({ roomId, userId }) => {
+    dispatch(setUserReady({ roomId, userId }));
   });
+
+  SOCKET.on(
+    GAME_STARTED,
+    ({ questions, roomId }: { questions: Question[]; roomId: number }) => {
+      const state = store.getState();
+      const {
+        data: { userData, rooms },
+      } = state || {};
+
+      dispatch(unreadyUsersInRoom(roomId));
+
+      if (userData.room.id !== roomId) return;
+
+      dispatch(
+        initializeGame({
+          room: rooms.find(r => r.id === userData.room.id) as Room,
+          questions,
+        }),
+      );
+      dispatch(stopLoading());
+    },
+  );
 
   // SOCKET.on(USER_DISCONNECTED, (payload: UserData) => {
 

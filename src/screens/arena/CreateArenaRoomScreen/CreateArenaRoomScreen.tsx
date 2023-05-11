@@ -55,10 +55,10 @@ const CreateArenaRoomScreen: React.FC<
   const { lobbies, userData } = useAppSelector(state => state.data);
 
   const [selectedTopic, setselectedTopic] = useState<Topic>('General');
-  const [roomName, setRoomName] = useState('');
-  const [maxPlayers, setMaxPlayers] = useState('4');
+  const [roomName, setRoomName] = useState(__DEV__ ? 'test' : '');
+  const [maxPlayers, setMaxPlayers] = useState(__DEV__ ? '2' : '4');
   const [answerTime, setAnswerTime] = useState('15');
-  const [questionsCount, setQuestionsCount] = useState('15');
+  const [questionsCount, setQuestionsCount] = useState(__DEV__ ? '2' : '15');
 
   const renderItem = ({ item }: TopicListItem) => {
     const isSelected = item.name === selectedTopic;

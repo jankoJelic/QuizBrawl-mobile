@@ -70,6 +70,9 @@ export const authSlice = createSlice({
           ? {
               ...room,
               users: room.users.filter(u => u.id !== user.id),
+              readyUsers: room.readyUsers.filter(
+                id => String(id) !== String(user.id),
+              ),
             }
           : room,
       );
@@ -85,6 +88,14 @@ export const authSlice = createSlice({
     },
     joinRoom: (state, action) => {
       state.userData.room = action.payload;
+    },
+    unreadyUsersInRoom: (state, action) => {
+      const roomId = action.payload;
+      const updatedRooms = state.rooms.map(r => {
+        if (r.id !== roomId) return r;
+        return { ...r, readyUsers: [] };
+      });
+      state.rooms = updatedRooms;
     },
     joinLobby: (state, action) => {
       state.userData.lobby = action.payload;
@@ -105,7 +116,20 @@ export const authSlice = createSlice({
     exitRoom: state => {
       state.userData.room = null;
     },
-    
+    setUserReady: (state, action) => {
+      const { userId, roomId } = action.payload || {};
+
+      const updatedRooms = state.rooms.map(r =>
+        r.id === roomId
+          ? {
+              ...r,
+              readyUsers: r.readyUsers.concat([userId]),
+            }
+          : r,
+      );
+
+      state.rooms = updatedRooms;
+    },
   },
 });
 
@@ -123,6 +147,8 @@ export const {
   joinRoom,
   exitLobby,
   exitRoom,
+  setUserReady,
+  unreadyUsersInRoom,
 } = authSlice.actions;
 
 export default authSlice.reducer;

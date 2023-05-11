@@ -5,6 +5,7 @@ import UserTile from 'components/tiles/UserTile/UserTile';
 import { AN } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
+import usePreventNativeBackButton from 'navigation/hooks/usePreventNativeBack';
 import React, { useEffect } from 'react';
 import { FlatList } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -17,6 +18,7 @@ import { UserData } from 'store/types/authSliceTypes';
 const ResultsScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Results'>
 > = ({ navigation }) => {
+  usePreventNativeBackButton();
   const dispatch = useDispatch();
   const { activeRoom, score, answers, type } =
     useAppSelector(state => state.game) || {};
@@ -33,16 +35,13 @@ const ResultsScreen: React.FC<
 
   const goToRoom = () => {
     navigation.navigate('ArenaRoom', { room: activeRoom });
+    dispatch(finishGame());
   };
 
   useEffect(() => {
     SOCKET.off(SOCKET_EVENTS.CORRECT_ANSWER_SELECTED);
     SOCKET.off(SOCKET_EVENTS.WRONG_ANSWER_SELECTED);
     if (!__DEV__) API.updateQuestionStats(answers);
-
-    return () => {
-      dispatch(finishGame());
-    };
   }, []);
 
   return (

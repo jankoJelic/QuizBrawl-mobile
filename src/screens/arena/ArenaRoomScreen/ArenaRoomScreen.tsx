@@ -1,12 +1,14 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import CTA from 'components/buttons/CTA';
+import RoundButton from 'components/buttons/RoundButton/RoundButton';
 import NavHeader from 'components/layout/NavHeader';
 import InfoLine from 'components/tiles/InfoLine/InfoLine';
 import UserTile from 'components/tiles/UserTile/UserTile';
-import { AN } from 'constants/styles/appStyles';
+import { AN, BORDER_RADIUS } from 'constants/styles/appStyles';
 import Popup from 'containers/Popup/Popup';
 import MyScrollView from 'hoc/MyScrollView';
 import ScreenWrapper from 'hoc/ScreenWrapper';
+import TouchableBounce from 'hoc/TouchableBounce';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
@@ -34,7 +36,7 @@ const ArenaRoomScreen: React.FC<
     password,
     answerTime,
     id,
-    readyUsers
+    readyUsers,
   } = room || {};
 
   const isRoomAdmin = admin?.id === userData.id;
@@ -85,7 +87,17 @@ const ArenaRoomScreen: React.FC<
 
   const roomIsFull = users?.length === maxPlayers;
 
-  const startGameDisabled = !roomIsFull;
+  const startGameDisabled = !roomIsFull || readyUsers?.length !== maxPlayers;
+
+  const youAreReady = readyUsers?.includes(userData.id);
+
+  const onPressReady = () => {
+    SOCKET.emit(SOCKET_EVENTS.USER_READY, {
+      isReady: true,
+      userId: userData.id,
+      roomId: room?.id,
+    });
+  };
 
   return (
     <ScreenWrapper>
@@ -107,7 +119,7 @@ const ArenaRoomScreen: React.FC<
         <InfoLine title="Number of questions:" value={String(questionsCount)} />
         <View style={{ marginVertical: AN(10) }}>
           {users?.map(u => (
-            <UserTile user={u} />
+            <UserTile user={u} isReady={readyUsers?.includes(u.id)} />
           ))}
         </View>
         <CTA
@@ -115,6 +127,17 @@ const ArenaRoomScreen: React.FC<
           title="Start Game"
           disabled={startGameDisabled}
         />
+        {!youAreReady ? (
+          <RoundButton
+            title="Ready"
+            style={{ alignSelf: 'center', marginTop: AN(10) }}
+            color="success500"
+            size={AN(50)}
+            onPress={onPressReady}
+          />
+        ) : (
+          <></>
+        )}
       </MyScrollView>
       <Popup
         visible={areYouSureModalVisible}

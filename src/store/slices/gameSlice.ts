@@ -120,6 +120,7 @@ export const gameSlice = createSlice({
       state.score = {};
       state.type = 'brawl';
       state.answers = {};
+      state.selectedAnswers = [];
     },
   },
 });
