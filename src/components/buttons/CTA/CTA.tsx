@@ -1,6 +1,6 @@
 import BodyLarge from 'components/typography/BodyLarge';
 import { Colors } from 'constants/styles/Colors';
-import { AN, BORDER_RADIUS } from 'constants/styles/appStyles';
+import { AN, BORDER_RADIUS, CTA_HEIGHT } from 'constants/styles/appStyles';
 import TouchableBounce from 'hoc/TouchableBounce';
 import useStyles from 'hooks/styles/useStyles';
 import React, { useState } from 'react';
@@ -60,7 +60,7 @@ const createStyles = (colors: Colors) =>
   StyleSheet.create({
     container: {
       borderRadius: BORDER_RADIUS,
-      height: AN(42),
+      height: CTA_HEIGHT,
       width: '100%',
       marginVertical: AN(10),
     },

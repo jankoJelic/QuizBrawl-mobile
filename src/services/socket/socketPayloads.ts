@@ -1,5 +1,5 @@
 import { UserData } from 'store/types/authSliceTypes';
-import { Topic } from 'store/types/dataSliceTypes';
+import { Room, Topic } from 'store/types/dataSliceTypes';
 
 export interface UserJoinedLobbyPayload {
   lobbyId: number;
@@ -7,7 +7,7 @@ export interface UserJoinedLobbyPayload {
 }
 
 export interface UserJoinedRoomPayload {
-  roomId: number;
+  room: Room;
   user: UserData;
 }
 

@@ -1,10 +1,13 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import CTA from 'components/buttons/CTA';
+import GhostButton from 'components/buttons/GhostButton/GhostButton';
 import RoundButton from 'components/buttons/RoundButton/RoundButton';
 import NavHeader from 'components/layout/NavHeader';
 import InfoLine from 'components/tiles/InfoLine/InfoLine';
 import UserTile from 'components/tiles/UserTile/UserTile';
+import BodyLarge from 'components/typography/BodyLarge';
 import { AN, BORDER_RADIUS } from 'constants/styles/appStyles';
+import ActionSheet from 'containers/ActionSheet';
 import Popup from 'containers/Popup/Popup';
 import MyScrollView from 'hoc/MyScrollView';
 import ScreenWrapper from 'hoc/ScreenWrapper';
@@ -17,6 +20,7 @@ import API from 'services/api';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { useAppSelector } from 'store/index';
 import { startLoading, stopLoading } from 'store/slices/appStateSlice';
+import { UserData } from 'store/types/authSliceTypes';
 
 const ArenaRoomScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'ArenaRoom'>
@@ -42,6 +46,8 @@ const ArenaRoomScreen: React.FC<
   const isRoomAdmin = admin?.id === userData.id;
 
   const [areYouSureModalVisible, setAreYouSureModalVisible] = useState(false);
+  const [userActionSheetVisible, setUserActionSheetVisible] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<UserData>();
 
   useEffect(() => {
     if (onQuestion === 0) {
@@ -58,14 +64,9 @@ const ArenaRoomScreen: React.FC<
       setAreYouSureModalVisible(true);
     } else {
       navigation.goBack();
+      SOCKET.emit(SOCKET_EVENTS.USER_LEFT_ROOM, { user: userData, room });
     }
   };
-
-  useEffect(() => {
-    return () => {
-      SOCKET.emit(SOCKET_EVENTS.USER_LEFT_ROOM, { roomId: id, user: userData });
-    };
-  }, []);
 
   // this one only triggers for room admins
   const exitAndDeleteRoom = async () => {
@@ -99,6 +100,26 @@ const ArenaRoomScreen: React.FC<
     });
   };
 
+  const showUserInfo = (user: UserData) => {
+    setSelectedUser(user);
+    setUserActionSheetVisible(true);
+  };
+
+  const kickPlayerFromRoom = () => {
+    SOCKET.emit(SOCKET_EVENTS.KICK_USER_FROM_ROOM, {
+      user: selectedUser,
+      room,
+    });
+    closeUserActionSheet();
+  };
+
+  const closeUserActionSheet = () => {
+    setUserActionSheetVisible(false);
+    setTimeout(() => {
+      setSelectedUser();
+    }, 300);
+  };
+
   return (
     <ScreenWrapper>
       <NavHeader
@@ -119,7 +140,11 @@ const ArenaRoomScreen: React.FC<
         <InfoLine title="Number of questions:" value={String(questionsCount)} />
         <View style={{ marginVertical: AN(10) }}>
           {users?.map(u => (
-            <UserTile user={u} isReady={readyUsers?.includes(u.id)} />
+            <UserTile
+              user={u}
+              isReady={readyUsers?.includes(u.id)}
+              onPress={showUserInfo}
+            />
           ))}
         </View>
         <CTA
@@ -149,6 +174,34 @@ const ArenaRoomScreen: React.FC<
         onPressFirstButton={closeAreYouSureModal}
         onPressSecondButton={exitAndDeleteRoom}
       />
+      <ActionSheet
+        visible={userActionSheetVisible && !!selectedUser}
+        close={closeUserActionSheet}>
+        <BodyLarge
+          text={`${selectedUser?.firstName} ${selectedUser?.lastName}`}
+          weight="bold"
+          style={{ marginBottom: AN(24) }}
+        />
+        <InfoLine title="Level" value={String(selectedUser?.level)} />
+        <InfoLine
+          title="Accuracy"
+          value={String(selectedUser?.accuracyPercentage) + '%'}
+        />
+        <InfoLine
+          title="Favourite topic"
+          value={selectedUser?.favouriteTopic}
+        />
+        <InfoLine title="Rank" value={String(selectedUser?.rank)} />
+        {isRoomAdmin && selectedUser?.id !== userData.id ? (
+          <GhostButton
+            title="Kick from room"
+            onPress={kickPlayerFromRoom}
+            color="danger500"
+          />
+        ) : (
+          <></>
+        )}
+      </ActionSheet>
     </ScreenWrapper>
   );
 };

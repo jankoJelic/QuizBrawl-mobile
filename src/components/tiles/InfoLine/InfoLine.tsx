@@ -16,6 +16,8 @@ const InfoLine = ({
         flexDirection: 'row',
         alignItems: 'center',
         marginVertical: AN(5),
+        justifyContent: 'space-between',
+        width: '100%',
       }}>
       <BodyLarge text={title} style={{ marginRight: AN(20) }} />
       <BodyLarge text={value} color="brand500" weight="bold" />

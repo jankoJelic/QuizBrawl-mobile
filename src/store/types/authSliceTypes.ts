@@ -1,4 +1,4 @@
-import { Lobby, Room } from './dataSliceTypes';
+import { Lobby, Room, Topic } from './dataSliceTypes';
 
 export interface UserData {
   createdAt: string;
@@ -21,4 +21,6 @@ export interface UserData {
   lobby: Lobby;
   room: Room;
   level: number;
+  accuracyPercentage: number;
+  favouriteTopic: Topic
 }

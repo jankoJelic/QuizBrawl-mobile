@@ -18,6 +18,7 @@ import {
 import { Room } from 'store/types/dataSliceTypes';
 import { showToast, stopLoading } from 'store/slices/appStateSlice';
 import { initializeGame } from 'store/slices/gameSlice';
+import { LOBBY_IDS } from 'constants/constants';
 
 const {
   USER_JOINED_LOBBY,
@@ -29,6 +30,7 @@ const {
   USER_DISCONNECTED,
   GAME_STARTED,
   USER_READY,
+  KICK_USER_FROM_ROOM,
 } = SOCKET_EVENTS;
 
 export const connectToSocket = (navigation: any) => {
@@ -48,6 +50,34 @@ export const connectToSocket = (navigation: any) => {
 
   SOCKET.on(USER_LEFT_ROOM, (payload: UserJoinedRoomPayload) => {
     dispatch(removeUserFromRoom(payload));
+  });
+
+  SOCKET.on(KICK_USER_FROM_ROOM, (payload: UserJoinedRoomPayload) => {
+    dispatch(removeUserFromRoom(payload));
+
+    const state = store.getState();
+    const {
+      userData: { id: myId, room: myRoom, lobby },
+    } = state.data || {};
+    const { user, room } = payload || {};
+
+    const iWasKicked = myRoom?.id === room?.id && user?.id === myId;
+
+    if (iWasKicked) {
+      switch (lobby?.id) {
+        case LOBBY_IDS.ARENA:
+          navigation.navigate('ArenaLobby');
+          dispatch(
+            showToast({
+              text: 'You got kicked from the room',
+              visible: true,
+              type: 'error',
+            }),
+          );
+        default:
+          return;
+      }
+    }
   });
 
   SOCKET.on(ROOM_CREATED, (payload: Room) => {

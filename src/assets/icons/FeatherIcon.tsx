@@ -73,4 +73,6 @@ export type IconName =
   | 'eye-off'
   | 'clock'
   | 'lock'
-  | 'unlock' | 'check';
+  | 'unlock'
+  | 'check'
+  | 'check-circle';

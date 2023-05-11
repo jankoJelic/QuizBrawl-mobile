@@ -14,13 +14,17 @@ import { StyleSheet } from 'react-native';
 import { View } from 'react-native';
 import { UserData } from 'store/types/authSliceTypes';
 
-const UserTile = ({ user, score, isReady }: Props) => {
-  const { styles, colors } = useStyles(createStyles);
+const UserTile = ({ user, score, isReady, onPress = () => {} }: Props) => {
+  const { styles } = useStyles(createStyles);
 
   const rightSideText = !!score ? `${String(score)} pts` : `lvl ${user.level}`;
 
+  const onPressMe = () => {
+    onPress(user);
+  };
+
   return (
-    <TileWrapper key={user.id} style={styles.container}>
+    <TileWrapper key={user.id} style={styles.container} onPress={onPressMe}>
       <View style={{ flexDirection: 'row' }}>
         <UserAvatar size={AN(22)} />
         <BodyMedium
@@ -75,4 +79,5 @@ interface Props {
   user: UserData;
   score?: string;
   isReady?: boolean;
+  onPress?: (user: UserData) => void;
 }

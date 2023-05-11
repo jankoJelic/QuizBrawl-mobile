@@ -63,8 +63,14 @@ export const authSlice = createSlice({
       );
       state.rooms = updatedRooms;
     },
-    removeUserFromRoom: (state, action) => {
-      const { roomId, user } = action.payload || {};
+    removeUserFromRoom: (
+      state,
+      action: { payload: { user: UserData; room: Room } },
+    ) => {
+      const {
+        room: { id: roomId },
+        user,
+      } = action.payload || {};
       const updatedRooms = state.rooms.map(room =>
         room.id === roomId
           ? {

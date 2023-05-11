@@ -35,3 +35,5 @@ export const FONTS = {
 };
 
 export const FONT_SIZES = {};
+
+export const CTA_HEIGHT = AN(42);
