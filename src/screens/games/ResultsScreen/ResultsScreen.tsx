@@ -25,9 +25,8 @@ const ResultsScreen: React.FC<
 
   const { users } = activeRoom || {};
 
-  const usersByScore = users.sort((a, b) =>
-    score[String(a.id)] <= score[String(b.id)] ? 1 : -1,
-  );
+  const usersByScore =
+    users?.sort((a, b) => (score[a.id] <= score[b.id] ? 1 : -1)) || users;
 
   const renderUser = ({ item }: { item: UserData }) => (
     <UserTile user={item} score={String(score[item.id]) || '0'} />

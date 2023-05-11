@@ -143,7 +143,11 @@ const CreateArenaRoomScreen: React.FC<
           showsHorizontalScrollIndicator={false}
         />
         <View style={{ paddingHorizontal: PADDING_HORIZONTAL }}>
-          <InputField title="Room name" onChangeText={setRoomName} />
+          <InputField
+            title="Room name"
+            onChangeText={setRoomName}
+            value={roomName}
+          />
           <InputField
             title="Number of players (2-16)"
             keyboardType="numeric"
