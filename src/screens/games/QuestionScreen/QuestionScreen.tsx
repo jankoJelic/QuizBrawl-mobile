@@ -200,7 +200,7 @@ const QuestionScreen: React.FC<
             <BodyMedium text={question} style={{ textAlign: 'center' }} />
           </TileWrapper>
           <AnswerTile
-            disabled={answeringDisabled}
+            disabled={answeringDisabled || selectedAnswers.includes('answer1')}
             status={answerStatus('answer1')}
             title={answer1}
             onPress={() => {
@@ -210,7 +210,7 @@ const QuestionScreen: React.FC<
           <AnswerTile
             title={answer2}
             status={answerStatus('answer2')}
-            disabled={answeringDisabled}
+            disabled={answeringDisabled || selectedAnswers.includes('answer2')}
             onPress={() => {
               onSelectAnswer('answer2');
             }}
@@ -218,14 +218,16 @@ const QuestionScreen: React.FC<
           <AnswerTile
             title={answer3}
             status={answerStatus('answer3')}
-            disabled={answeringDisabled}
+            disabled={answeringDisabled || selectedAnswers.includes('answer3')}
             onPress={() => {
               onSelectAnswer('answer3');
             }}
           />
           <AnswerTile
             title={answer4}
-            status={answerStatus('answer4')}
+            status={
+              answerStatus('answer4') || selectedAnswers.includes('answer4')
+            }
             disabled={answeringDisabled}
             onPress={() => {
               onSelectAnswer('answer4');
