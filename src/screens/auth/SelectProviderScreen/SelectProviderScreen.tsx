@@ -16,9 +16,13 @@ import { startLoading, stopLoading } from 'store/slices/appStateSlice';
 
 const SelectProviderScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'SelectProvider'>
-> = ({ navigation }) => {
+> = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const { styles } = useStyles(createStyles);
+  const { flow } = route.params || {};
+
+  const isLoginFlow = flow === 'login';
+  const action = isLoginFlow ? 'Sign in' : 'Register';
 
   const initializeGoogleSignIn = async () => {
     dispatch(startLoading());
@@ -28,14 +32,15 @@ const SelectProviderScreen: React.FC<
       await API.getUserData();
       navigation.navigate('Landing');
     } catch (e) {
-      console.log(JSON.stringify(e));
     } finally {
       dispatch(stopLoading());
     }
   };
 
-  const goToLogin = () => {
-    navigation.navigate('Login');
+  const chooseAuthWithEmail = () => {
+    isLoginFlow
+      ? navigation.navigate('Login')
+      : navigation.navigate('Register');
   };
 
   return (
@@ -47,7 +52,7 @@ const SelectProviderScreen: React.FC<
       />
 
       <GhostButton
-        title="Sign in with Google"
+        title={`${action} with Google`}
         onPress={initializeGoogleSignIn}
         iconName="googleLogo"
       />
@@ -55,8 +60,8 @@ const SelectProviderScreen: React.FC<
         <BodyMedium text="    or    " />
       </View>
       <GhostButton
-        title="Sign in with email"
-        onPress={goToLogin}
+        title={`${action} with e-mail`}
+        onPress={chooseAuthWithEmail}
         iconName="mail"
         iconColor="neutral300"
       />

@@ -42,7 +42,6 @@ export const authAPI = {
     const {
       data: { accessToken, refreshToken },
     } = await post<AccessTokens>('/auth/google', body);
-    console.log(accessToken, 'accessToken');
     await storeTokens(accessToken, refreshToken);
   },
 };

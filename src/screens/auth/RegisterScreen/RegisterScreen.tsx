@@ -65,7 +65,7 @@ const RegisterScreen = ({
   };
 
   const onPressLogin = () => {
-    navigation.navigate('SelectProvider');
+    navigation.navigate('SelectProvider', { flow: 'login' });
   };
 
   const formValid =
@@ -164,7 +164,7 @@ const createStyles = (colors: Colors) =>
   StyleSheet.create({
     screen: {
       alignItems: 'center',
-      paddingTop: AN(20),
+      paddingTop: AN(30),
     },
     formContainer: { marginTop: AN(30), width: '100%' },
     haveAnAccountText: { marginBottom: AN(6) },

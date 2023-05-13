@@ -21,7 +21,7 @@ const SplashScreen = ({
       await API.getUserData();
       navigation.navigate('Landing');
     } else {
-      navigation.navigate('Register');
+      navigation.navigate('SelectProvider', { flow: 'register' });
     }
   };
 

@@ -12,6 +12,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { exitLobby, exitRoom } from 'store/slices/dataSlice';
 import usePreventNativeBackButton from 'navigation/hooks/usePreventNativeBack';
+import { AN } from 'constants/styles/appStyles';
 
 const LandingScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Landing'>
@@ -32,7 +33,7 @@ const LandingScreen: React.FC<
   }, []);
 
   return (
-    <ScreenWrapper style={{ paddingHorizontal: 0 }}>
+    <ScreenWrapper style={{ paddingHorizontal: 0, paddingTop: AN(15) }}>
       <MyScrollView>
         <LandingScreenHeader />
         <AssetsTile />

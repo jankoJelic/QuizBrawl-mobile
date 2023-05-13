@@ -6,7 +6,7 @@ export type MainStackParamsList = {
   Login: undefined;
   SetupPinCode: { email: string; password: string };
   EnterPinCode: { pin: string } | undefined;
-  SelectProvider: undefined;
+  SelectProvider: { flow: 'register' | 'login' };
 
   Landing: undefined;
   Profile: undefined;
