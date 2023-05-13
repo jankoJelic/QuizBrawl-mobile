@@ -27,6 +27,9 @@ export const authSlice = createSlice({
     storeUserData: (state, action) => {
       state.userData = action.payload;
     },
+    setProfileColor: (state, action) => {
+      state.userData.color = action.payload;
+    },
     addUserToLobby: (state, action) => {
       const { lobbyId, user } = action.payload || {};
       const updatedLobbies = state.lobbies.map(lobby =>
@@ -155,6 +158,7 @@ export const {
   exitRoom,
   setUserReady,
   unreadyUsersInRoom,
+  setProfileColor,
 } = authSlice.actions;
 
 export default authSlice.reducer;

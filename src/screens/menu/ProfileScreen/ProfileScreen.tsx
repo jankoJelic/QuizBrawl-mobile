@@ -32,6 +32,11 @@ const ProfileScreen: React.FC<
         style={{ marginTop: AN(30) }}
         onPress={goToCustomizeProfile}
       />
+      <MenuTile
+        title="Stats"
+        icon="colorPalette"
+        onPress={goToCustomizeProfile}
+      />
 
       {/* <InfoLine title="Name" value={firstName} /> */}
     </ScreenWrapper>

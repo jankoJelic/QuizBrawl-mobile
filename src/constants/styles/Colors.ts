@@ -55,6 +55,19 @@ export const lightThemeColors = {
   arena: '#9384D1',
   '1v1': '#D5B4B4',
   solo: '#088395',
+  // Profile colors
+  pink: '#D4ADFC',
+  beige: '#ECCDB4',
+  purple: '#5C469C',
+  darkPink: '#D25380',
+  pastelBlue: '#73A9AD',
+  brightYellow: '#FFE194',
+  darkGreen: '#1B9C85',
+  orange: '#F99B7D',
+  vividGreen: '#00FFCA',
+  red: '#C92C6D',
+  lightGrey: '#F0EEED',
+  platinum: '#EEE9DA',
 };
 
 export const darkThemeColors = {
