@@ -1,13 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
 import MenuTile from 'components/tiles/MenuTile';
 import BodySmall from 'components/typography/BodySmall/BodySmall';
+import { APP_DISPLAY_NAME } from 'constants/constants';
 import { Colors } from 'constants/styles/Colors';
 import { AN, SCREEN_HEIGHT, SCREEN_WIDTH } from 'constants/styles/appStyles';
 import UserInfoTile from 'containers/UserInfoTile/UserInfoTile';
 import MyScrollView from 'hoc/MyScrollView';
 import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { Share, StyleSheet } from 'react-native';
 import { Drawer } from 'react-native-drawer-layout';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from 'store/index';
@@ -27,6 +28,12 @@ const Sidebar = ({ children }) => {
 
   const goToProfile = () => {
     navigation.navigate('Profile');
+  };
+
+  const onPressShare = async () => {
+    await Share.share({
+      message: `We can playe ${APP_DISPLAY_NAME} together!`,
+    });
   };
 
   return (
@@ -64,7 +71,7 @@ const Sidebar = ({ children }) => {
             <MenuTile
               title="Share to friend"
               icon="share-2"
-              onPress={goToProfile}
+              onPress={onPressShare}
             />
             <MenuTile
               title="Get to know me"
