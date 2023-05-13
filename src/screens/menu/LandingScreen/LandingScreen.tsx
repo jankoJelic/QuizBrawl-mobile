@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 import { exitLobby, exitRoom } from 'store/slices/dataSlice';
 import usePreventNativeBackButton from 'navigation/hooks/usePreventNativeBack';
 import { AN } from 'constants/styles/appStyles';
+import Sidebar from 'containers/SideBar';
 
 const LandingScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Landing'>
@@ -32,14 +33,18 @@ const LandingScreen: React.FC<
     connectToSocket(navigation);
   }, []);
 
+  usePreventNativeBackButton(() => true);
+
   return (
     <ScreenWrapper style={{ paddingHorizontal: 0, paddingTop: AN(15) }}>
-      <MyScrollView>
-        <LandingScreenHeader />
-        <AssetsTile />
-        <LobbyCarousel />
-        <CreateYourQuizTile />
-      </MyScrollView>
+      <Sidebar>
+        <MyScrollView>
+          <LandingScreenHeader />
+          <AssetsTile />
+          <LobbyCarousel />
+          <CreateYourQuizTile />
+        </MyScrollView>
+      </Sidebar>
     </ScreenWrapper>
   );
 };

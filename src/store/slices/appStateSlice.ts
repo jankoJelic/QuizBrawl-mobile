@@ -11,6 +11,7 @@ export interface AppState {
   isLoading: boolean;
   statusBar: StatusBarState;
   toast: ToastState;
+  sideBarVisible: boolean;
 }
 
 const initialState: AppState = {
@@ -27,6 +28,7 @@ const initialState: AppState = {
     text: '',
     type: 'success',
   },
+  sideBarVisible: false,
 };
 
 export const appStateSlice = createSlice({
@@ -52,10 +54,16 @@ export const appStateSlice = createSlice({
       state.statusBar = { ...state.statusBar, ...action.payload };
     },
     showToast: (state, action: { payload: ToastState }) => {
-      state.toast = {...action.payload, visible: true};
+      state.toast = { ...action.payload, visible: true };
     },
     hideToast: state => {
       state.toast.visible = false;
+    },
+    showSideBar: state => {
+      state.sideBarVisible = true;
+    },
+    hideSideBar: state => {
+      state.sideBarVisible = false;
     },
   },
 });
@@ -67,6 +75,8 @@ export const {
   setStatusBar,
   showToast,
   hideToast,
+  showSideBar,
+  hideSideBar
 } = appStateSlice.actions;
 
 export default appStateSlice.reducer;

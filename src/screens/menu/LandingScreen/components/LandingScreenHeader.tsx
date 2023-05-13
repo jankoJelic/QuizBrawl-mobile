@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import UserAvatar from 'components/icons/UserAvatar';
 import BodyMedium from 'components/typography/BodyMedium';
 import Title from 'components/typography/Title';
@@ -6,26 +5,28 @@ import { Colors } from 'constants/styles/Colors';
 import { AN, PADDING_HORIZONTAL } from 'constants/styles/appStyles';
 import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { useAppSelector } from 'store/index';
+import { showSideBar } from 'store/slices/appStateSlice';
 
 const LandingScreenHeader = () => {
-  const navigation = useNavigation();
+  const dispatch = useDispatch();
   const { styles } = useStyles(createStyles);
   const { userData } = useAppSelector(state => state.data);
 
-  const navigateToProfile = () => {
-    navigation.navigate('Profile');
+  const openSideBar = () => {
+    dispatch(showSideBar());
   };
 
   return (
-    <View style={styles.header}>
+    <Pressable style={styles.header} onPress={openSideBar}>
       <View>
         <Title text={`Hi, ${userData.firstName}`} color="mainTextColor" />
         <BodyMedium text="Wanna play a little game?" />
       </View>
-      <UserAvatar onPress={navigateToProfile} />
-    </View>
+      <UserAvatar onPress={openSideBar} />
+    </Pressable>
   );
 };
 
