@@ -1,27 +1,33 @@
-import UserAvatar from 'components/icons/UserAvatar';
-import BodyMedium from 'components/typography/BodyMedium';
+import { useNavigation } from '@react-navigation/native';
+import MenuTile from 'components/tiles/MenuTile';
+import BodySmall from 'components/typography/BodySmall/BodySmall';
 import { Colors } from 'constants/styles/Colors';
 import { AN, SCREEN_HEIGHT, SCREEN_WIDTH } from 'constants/styles/appStyles';
 import UserInfoTile from 'containers/UserInfoTile/UserInfoTile';
+import MyScrollView from 'hoc/MyScrollView';
 import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { View } from 'react-native';
 import { Drawer } from 'react-native-drawer-layout';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from 'store/index';
-import { hideSideBar, showSideBar } from 'store/slices/appStateSlice';
+import { hideSideBar } from 'store/slices/appStateSlice';
 
 const Sidebar = ({ children }) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const { sideBarVisible } = useAppSelector(state => state.appState);
   const { styles, colors } = useStyles(createStyles);
-  console.log(sideBarVisible);
+
   const onClose = () => {
     dispatch(hideSideBar());
   };
 
   const onOpen = () => {};
+
+  const goToProfile = () => {
+    navigation.navigate('Profile');
+  };
 
   return (
     <Drawer
@@ -31,24 +37,62 @@ const Sidebar = ({ children }) => {
       onClose={onClose}
       renderDrawerContent={() => {
         return (
-          <View
+          <MyScrollView
             style={{
               ...styles.container,
               right: sideBarVisible ? 0 : AN(12),
             }}>
             <UserInfoTile />
-            <View
-              style={{
-                width: '90%',
-                height: 1,
-                backgroundColor: colors.brand800,
-                marginVertical: AN(10),
-              }}
+            <BodySmall
+              text="Profile"
+              color="neutral400"
+              style={{ marginTop: AN(18) }}
             />
-            <BodyMedium text="side bar" />
-            <BodyMedium text="side bar" />
-            <BodyMedium text="side bar" />
-          </View>
+            <MenuTile title="My profile" icon="user" onPress={goToProfile} />
+            <MenuTile title="Logout" icon="log-out" onPress={goToProfile} />
+
+            <BodySmall
+              text="Show some love"
+              color="neutral400"
+              style={{ marginTop: AN(18) }}
+            />
+            <MenuTile
+              title="Rate Quiz Clash"
+              icon="star"
+              onPress={goToProfile}
+            />
+            <MenuTile
+              title="Share to friend"
+              icon="share-2"
+              onPress={goToProfile}
+            />
+            <MenuTile
+              title="Get to know me"
+              icon="coffee"
+              onPress={goToProfile}
+            />
+
+            <BodySmall
+              text="Legal"
+              color="neutral400"
+              style={{ marginTop: AN(18) }}
+            />
+            <MenuTile
+              title="Terms of service"
+              icon="columns"
+              onPress={goToProfile}
+            />
+            <MenuTile
+              title="Refund policy"
+              icon="briefcase"
+              onPress={goToProfile}
+            />
+            <MenuTile
+              title="Privacy statement"
+              icon="key"
+              onPress={goToProfile}
+            />
+          </MyScrollView>
         );
       }}>
       {children}
@@ -62,7 +106,7 @@ const createStyles = (colors: Colors) =>
       height: SCREEN_HEIGHT,
       backgroundColor: colors.neutral500,
       width: SCREEN_WIDTH * 0.75,
-      paddingLeft: AN(20),
+      paddingLeft: AN(10),
     },
   });
 
