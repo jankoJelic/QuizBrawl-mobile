@@ -1,4 +1,4 @@
-import { IconName } from 'assets/icons/FeatherIcon';
+import { IconName } from 'assets/icons/MyIcon';
 import BodySmall from 'components/typography/BodySmall/BodySmall';
 import { Color, Colors } from 'constants/styles/Colors';
 import { AN } from 'constants/styles/appStyles';

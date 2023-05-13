@@ -34,12 +34,11 @@ const LoginScreen = ({
   const loginUser = async () => {
     setIsLoading(true);
     try {
-      const { accessToken, refreshToken } = await API.loginUser({
+      await API.loginUser({
         email,
         password,
       });
 
-      await storeTokens(accessToken, refreshToken);
       await API.getUserData();
 
       // navigation.navigate('SetupPinCode', { email, password });

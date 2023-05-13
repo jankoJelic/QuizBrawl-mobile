@@ -5,8 +5,9 @@ import { AN } from 'constants/styles/appStyles';
 import { Color } from 'constants/styles/Colors';
 import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import GoogleLogo from './googleLogo.svg';
 
-const FeatherIcon = ({
+const MyIcon = ({
   name,
   size = AN(20),
   style = {},
@@ -15,6 +16,10 @@ const FeatherIcon = ({
   family = 'feather',
 }: Props) => {
   const { colors } = useTheme();
+
+  if (name === 'googleLogo') {
+    return <GoogleLogo style={style} />;
+  }
 
   if (family === 'fontAwesome5')
     return (
@@ -49,7 +54,7 @@ const FeatherIcon = ({
   );
 };
 
-export default FeatherIcon;
+export default MyIcon;
 
 interface Props {
   name: IconName;
@@ -75,4 +80,6 @@ export type IconName =
   | 'lock'
   | 'unlock'
   | 'check'
-  | 'check-circle';
+  | 'check-circle'
+  | 'googleLogo'
+  | 'mail';

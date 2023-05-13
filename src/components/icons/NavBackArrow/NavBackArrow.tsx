@@ -1,4 +1,4 @@
-import FeatherIcon from 'assets/icons/FeatherIcon';
+import FeatherIcon from 'assets/icons/MyIcon';
 import { Color } from 'constants/styles/Colors';
 import { AN, PADDING_HORIZONTAL } from 'constants/styles/appStyles';
 import React from 'react';

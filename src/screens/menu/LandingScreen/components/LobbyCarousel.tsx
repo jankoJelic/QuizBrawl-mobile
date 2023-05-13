@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import FeatherIcon from 'assets/icons/FeatherIcon';
+import FeatherIcon from 'assets/icons/MyIcon';
 import TileWrapper from 'hoc/TileWrapper';
 import Carousel from 'react-native-snap-carousel';
 import { StyleSheet, View } from 'react-native';

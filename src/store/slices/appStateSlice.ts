@@ -52,7 +52,7 @@ export const appStateSlice = createSlice({
       state.statusBar = { ...state.statusBar, ...action.payload };
     },
     showToast: (state, action: { payload: ToastState }) => {
-      state.toast = action.payload;
+      state.toast = {...action.payload, visible: true};
     },
     hideToast: state => {
       state.toast.visible = false;
@@ -72,7 +72,7 @@ export const {
 export default appStateSlice.reducer;
 
 interface ToastState {
-  visible: boolean;
+  visible?: boolean;
   text: string;
   type: 'success' | 'error' | 'warning';
 }

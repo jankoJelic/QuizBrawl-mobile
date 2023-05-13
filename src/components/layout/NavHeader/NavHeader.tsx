@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import FeatherIcon from 'assets/icons/FeatherIcon';
+import FeatherIcon from 'assets/icons/MyIcon';
 import Title from 'components/typography/Title';
 import { Colors } from 'constants/styles/Colors';
 import { PADDING_HORIZONTAL, AN } from 'constants/styles/appStyles';

@@ -45,17 +45,19 @@ const RegisterScreen = ({
 
     try {
       if (password === confirmPassword) {
-        const { accessToken, refreshToken } = await API.registerUser({
+        await API.registerUser({
           firstName,
           lastName,
           email,
           password,
         });
 
-        storeTokens(accessToken, refreshToken);
+        await API.getUserData();
+
+        navigation.navigate('Landing');
       }
 
-      navigation.navigate('SetupPinCode', { email, password });
+      // navigation.navigate('SetupPinCode', { email, password });
     } catch (e) {
     } finally {
       dispatch(stopLoading());
@@ -63,7 +65,7 @@ const RegisterScreen = ({
   };
 
   const onPressLogin = () => {
-    navigation.navigate('Login');
+    navigation.navigate('SelectProvider');
   };
 
   const formValid =

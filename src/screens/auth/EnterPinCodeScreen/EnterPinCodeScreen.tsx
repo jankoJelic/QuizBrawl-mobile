@@ -64,11 +64,7 @@ const EnterPinCodeScreen: React.FC<
 
       const parsedCredentials = JSON.parse(decryptedCredentials);
 
-      const { accessToken, refreshToken } = await API.loginUser(
-        parsedCredentials,
-      );
-
-      storeTokens(accessToken, refreshToken);
+      await API.loginUser(parsedCredentials);
 
       await API.getUserData();
 

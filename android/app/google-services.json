@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "472448215878-lge45294jkurqb5cu92m1boroq6s4fo9.apps.googleusercontent.com",
+          "client_id": "472448215878-1su0rvcccappui5d2s6eo9jon88ri768.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.crabjourney",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "472448215878-40ks54ct7a917vjg34j3200hd87jbre5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,8 +35,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "472448215878-lge45294jkurqb5cu92m1boroq6s4fo9.apps.googleusercontent.com",
+              "client_id": "472448215878-40ks54ct7a917vjg34j3200hd87jbre5.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "472448215878-g782lms1jp5s1dpa2g6lqnvk9b3m5slg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.crabjourney"
+              }
             }
           ]
         }

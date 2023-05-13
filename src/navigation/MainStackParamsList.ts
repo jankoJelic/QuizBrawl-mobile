@@ -6,6 +6,7 @@ export type MainStackParamsList = {
   Login: undefined;
   SetupPinCode: { email: string; password: string };
   EnterPinCode: { pin: string } | undefined;
+  SelectProvider: undefined;
 
   Landing: undefined;
   Profile: undefined;

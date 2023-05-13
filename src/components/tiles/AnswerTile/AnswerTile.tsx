@@ -1,4 +1,4 @@
-import FeatherIcon from 'assets/icons/FeatherIcon';
+import FeatherIcon from 'assets/icons/MyIcon';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Colors } from 'constants/styles/Colors';
 import {

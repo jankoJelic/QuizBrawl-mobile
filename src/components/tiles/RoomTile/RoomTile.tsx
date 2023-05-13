@@ -1,5 +1,5 @@
 import { QuestionIcon } from 'assets/icons';
-import FeatherIcon from 'assets/icons/FeatherIcon';
+import FeatherIcon from 'assets/icons/MyIcon';
 import { TopicIcon } from 'assets/icons/topics';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Colors } from 'constants/styles/Colors';

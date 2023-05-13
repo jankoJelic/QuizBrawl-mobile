@@ -1,3 +1,5 @@
+import { SvgIcon } from 'assets/icons';
+import MyIcon, { IconName } from 'assets/icons/MyIcon';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Color, Colors } from 'constants/styles/Colors';
 import { AN, BORDER_RADIUS, CTA_HEIGHT } from 'constants/styles/appStyles';
@@ -10,13 +12,24 @@ const GhostButton = ({
   title,
   onPress = () => {},
   color = 'brand500',
+  iconName = '',
+  iconColor = 'neutral300',
 }: Props) => {
   const { colors, styles } = useStyles(createStyles);
+
+  const renderIcon = () => {
+    if (!iconName) return null;
+    const iconStyle = { marginRight: AN(8) };
+
+    return <MyIcon style={iconStyle} name={iconName} color={iconColor} />;
+  };
+
   return (
     <TouchableOpacity
       activeOpacity={0.75}
       onPress={onPress}
       style={{ ...styles.container, borderColor: colors[color] }}>
+      {renderIcon()}
       <BodyMedium text={title} color={color} weight="bold" />
     </TouchableOpacity>
   );
@@ -34,6 +47,8 @@ const createStyles = (colors: Colors) =>
       alignItems: 'center',
       borderWidth: AN(1),
       marginVertical: AN(14),
+      justifyContent: 'center',
+      flexDirection: 'row',
     },
   });
 
@@ -41,4 +56,6 @@ interface Props {
   title: string;
   onPress: () => void;
   color?: Color;
+  iconName?: IconName | '';
+  iconColor?: Color;
 }

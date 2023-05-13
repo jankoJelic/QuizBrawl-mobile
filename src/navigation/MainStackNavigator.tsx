@@ -15,6 +15,7 @@ import ArenaRoomScreen from 'screens/arena/ArenaRoomScreen';
 import GameSplashScreen from 'screens/games/GameSplashScreen';
 import QuestionScreen from 'screens/games/QuestionScreen';
 import ResultsScreen from 'screens/games/ResultsScreen';
+import SelectProviderScreen from 'screens/auth/SelectProviderScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamsList>();
 
@@ -32,6 +33,7 @@ const MainStackNavigator = () => (
     <Stack.Screen name="Login" component={LoginScreen} />
     <Stack.Screen name="EnterPinCode" component={EnterPinCodeScreen} />
     <Stack.Screen name="SetupPinCode" component={SetupPinCodeScreen} />
+    <Stack.Screen name="SelectProvider" component={SelectProviderScreen} />
 
     <Stack.Screen name="Landing" component={LandingScreen} />
     <Stack.Screen

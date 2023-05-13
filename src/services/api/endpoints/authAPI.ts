@@ -2,20 +2,23 @@ import { store } from 'store/index';
 import httpClient from '../httpClient';
 import { storeUserData } from 'store/slices/dataSlice';
 import { UserData } from 'store/types/authSliceTypes';
+import { storeTokens } from 'services/encryptedStorage/tokens/tokenStorage';
 
 const { post, get, patch } = httpClient;
 
 export const authAPI = {
   registerUser: async (body: RegisterBody) => {
-    const { data } = await post<AccessTokens>('/auth/register', body);
-
-    return data;
+    const {
+      data: { accessToken, refreshToken },
+    } = await post<AccessTokens>('/auth/register', body);
+    await storeTokens(accessToken, refreshToken);
   },
 
   loginUser: async (body: { email: string; password: string }) => {
-    const { data } = await post<AccessTokens>('/auth/login', body);
-
-    return data;
+    const {
+      data: { accessToken, refreshToken },
+    } = await post<AccessTokens>('/auth/login', body);
+    await storeTokens(accessToken, refreshToken);
   },
 
   getPinEncryptionKey: async (body: { deviceId: string; pin: string }) => {
@@ -34,6 +37,14 @@ export const authAPI = {
 
     return data;
   },
+
+  loginWithGoogle: async (body: GoogleAuthBody) => {
+    const {
+      data: { accessToken, refreshToken },
+    } = await post<AccessTokens>('/auth/google', body);
+    console.log(accessToken, 'accessToken');
+    await storeTokens(accessToken, refreshToken);
+  },
 };
 
 interface RegisterBody {
@@ -46,4 +57,11 @@ interface RegisterBody {
 interface AccessTokens {
   accessToken: string;
   refreshToken: string;
+}
+
+interface GoogleAuthBody {
+  email: string;
+  photo: string;
+  name: string;
+  googleAuthId: string;
 }

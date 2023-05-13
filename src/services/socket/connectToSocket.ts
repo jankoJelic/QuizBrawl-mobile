@@ -97,7 +97,6 @@ export const connectToSocket = (navigation: any) => {
         case 1:
           dispatch(
             showToast({
-              visible: true,
               text: 'Room dismissed',
               type: 'warning',
             }),

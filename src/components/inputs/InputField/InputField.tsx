@@ -1,4 +1,4 @@
-import FeatherIcon, { IconName } from 'assets/icons/FeatherIcon';
+import FeatherIcon, { IconName } from 'assets/icons/MyIcon';
 import BodyLarge from 'components/typography/BodyLarge';
 import { Colors } from 'constants/styles/Colors';
 import { AN, BORDER_RADIUS } from 'constants/styles/appStyles';

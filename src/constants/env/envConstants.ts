@@ -1,4 +1,11 @@
-import { BASE_URL_DEV, SALT_DEV, WS_URL_DEV, BASE_IMAGES_URL } from '@env';
+import {
+  BASE_URL_DEV,
+  SALT_DEV,
+  WS_URL_DEV,
+  BASE_IMAGES_URL,
+  OAUTH_IOS_CLIENT_ID,
+  OAUTH_WEB_CLIENT_ID,
+} from '@env';
 import { Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
@@ -9,5 +16,7 @@ export const BASE_URL = Platform.select({
 export const SALT = SALT_DEV;
 export const WS_URL = WS_URL_DEV;
 export const BASE_URL_IMAGES = BASE_IMAGES_URL;
+export const GOOGLE_OAUTH_WEB_CLIENT_ID = OAUTH_WEB_CLIENT_ID;
+export const GOOGLE_OAUTH_IOS_CLIENT_ID = OAUTH_IOS_CLIENT_ID;
 
 export const DEVICE_ID = DeviceInfo.getDeviceId();

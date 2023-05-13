@@ -1,4 +1,4 @@
-import FeatherIcon from 'assets/icons/FeatherIcon';
+import FeatherIcon from 'assets/icons/MyIcon';
 import { Colors } from 'constants/styles/Colors';
 import TouchableBounce from 'hoc/TouchableBounce';
 import React from 'react';
