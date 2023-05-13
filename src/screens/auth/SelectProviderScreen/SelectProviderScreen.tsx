@@ -46,7 +46,7 @@ const SelectProviderScreen: React.FC<
   return (
     <ScreenWrapper>
       <NavHeader
-        title="Select login method"
+        title={`Select ${flow} method`}
         showRightIcon={false}
         style={{ marginBottom: SCREEN_HEIGHT * 0.2 }}
       />
