@@ -1,12 +1,9 @@
 import FeatherIcon from 'assets/icons/MyIcon';
 import UserAvatar from 'components/icons/UserAvatar';
+import Tag from 'components/misc/Tag';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Colors } from 'constants/styles/Colors';
-import {
-  PADDING_HORIZONTAL,
-  AN,
-  BORDER_RADIUS,
-} from 'constants/styles/appStyles';
+import { PADDING_HORIZONTAL, AN } from 'constants/styles/appStyles';
 import TileWrapper from 'hoc/TileWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
@@ -44,10 +41,7 @@ const UserTile = ({ user, score, isReady, onPress = () => {} }: Props) => {
             />
           </>
         )}
-
-        <View style={styles.levelContainer}>
-          <BodyMedium text={rightSideText} />
-        </View>
+        <Tag text={rightSideText} color="brand500" />
       </View>
     </TileWrapper>
   );
@@ -61,15 +55,6 @@ const createStyles = (colors: Colors) =>
       justifyContent: 'space-between',
       paddingHorizontal: PADDING_HORIZONTAL,
       marginVertical: AN(2),
-    },
-    levelContainer: {
-      borderWidth: AN(1),
-      borderRadius: BORDER_RADIUS,
-      padding: AN(4),
-      paddingHorizontal: AN(10),
-      borderColor: colors.arena,
-      flexDirection: 'row',
-      alignItems: 'center',
     },
   });
 

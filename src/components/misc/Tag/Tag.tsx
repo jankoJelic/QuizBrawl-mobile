@@ -10,6 +10,7 @@ const Tag = ({
   text = '',
   color = 'success400',
   textColor = 'neutral500',
+  style = {},
 }: Props) => {
   const { colors, styles } = useStyles(createStyles);
 
@@ -18,8 +19,9 @@ const Tag = ({
       style={{
         ...styles.container,
         backgroundColor: colors[color],
+        ...style,
       }}>
-      <BodySmall text={text} color={textColor} />
+      <BodySmall text={text} color={textColor} weight="bold" />
     </View>
   );
 };
@@ -27,8 +29,12 @@ const Tag = ({
 const createStyles = (colors: Colors) =>
   StyleSheet.create({
     container: {
-      padding: AN(10),
+      paddingHorizontal: AN(8),
+      paddingVertical: AN(5),
       borderRadius: BORDER_RADIUS,
+      height: AN(24),
+      alignItems: 'center',
+      justifyContent: 'center',
     },
   });
 
@@ -38,4 +44,5 @@ interface Props {
   color?: Color;
   text: string;
   textColor?: Color;
+  style?: {};
 }

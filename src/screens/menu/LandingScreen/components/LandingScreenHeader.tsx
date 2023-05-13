@@ -1,4 +1,5 @@
 import UserAvatar from 'components/icons/UserAvatar';
+import Tag from 'components/misc/Tag';
 import BodyMedium from 'components/typography/BodyMedium';
 import Title from 'components/typography/Title';
 import { Colors } from 'constants/styles/Colors';
@@ -25,7 +26,14 @@ const LandingScreenHeader = () => {
         <Title text={`Hi, ${userData.firstName}`} color="mainTextColor" />
         <BodyMedium text="Wanna play a little game?" />
       </View>
-      <UserAvatar onPress={openSideBar} />
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <Tag
+          text={`lvl ${String(userData.level)}`}
+          style={{ marginRight: AN(8) }}
+          color="brand500"
+        />
+        <UserAvatar onPress={openSideBar} />
+      </View>
     </Pressable>
   );
 };
