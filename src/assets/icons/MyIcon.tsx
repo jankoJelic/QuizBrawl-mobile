@@ -6,6 +6,7 @@ import { Color } from 'constants/styles/Colors';
 import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import GoogleLogo from './googleLogo.svg';
+import FastImage from 'react-native-fast-image';
 
 const MyIcon = ({
   name,
@@ -19,6 +20,16 @@ const MyIcon = ({
 
   if (name === 'googleLogo') {
     return <GoogleLogo style={style} />;
+  }
+
+  if (name === 'colorPalette') {
+    return (
+      <FastImage
+        source={require('./colorPalette.png')}
+        tintColor={colors[color]}
+        style={{ width: size, height: size, ...style }}
+      />
+    );
   }
 
   if (family === 'fontAwesome5')
@@ -69,6 +80,7 @@ export type IconName =
   | 'arrow-left'
   | 'delete'
   | 'align-justify'
+  | 'colorPalette'
   | 'trophy'
   | 'users'
   | 'user'

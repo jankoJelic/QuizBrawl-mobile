@@ -10,6 +10,7 @@ export type MainStackParamsList = {
 
   Landing: undefined;
   Profile: undefined;
+  CustomizeProfile: undefined;
 
   ArenaLobby: undefined;
   '1v1Lobby': undefined;

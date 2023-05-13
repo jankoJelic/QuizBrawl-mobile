@@ -14,16 +14,17 @@ const MenuTile = ({
   tag,
   icon,
   tagColor,
+  style = {},
 }: Props) => {
-  const { colors, styles } = useStyles(createStyles);
+  const { styles } = useStyles(createStyles);
 
   return (
     <TouchableOpacity
-      style={{ ...styles.row, marginVertical: AN(15) }}
+      style={{ ...styles.row, marginVertical: AN(15), ...style }}
       onPress={onPress}
       activeOpacity={0.8}>
       <View style={styles.row}>
-        <MyIcon name={icon} style={{ marginRight: AN(12) }} />
+        <MyIcon name={icon} style={styles.icon} />
         <BodyMedium text={title} />
       </View>
       {!!tag && <Tag text={tag} color={tagColor} />}
@@ -38,6 +39,7 @@ const createStyles = (colors: Colors) =>
       justifyContent: 'space-between',
       alignItems: 'center',
     },
+    icon: { marginRight: AN(12) },
   });
 
 export default MenuTile;
@@ -48,4 +50,5 @@ interface Props {
   tag?: string;
   icon: IconName;
   tagColor?: Color;
+  style?: {};
 }

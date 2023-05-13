@@ -16,6 +16,7 @@ import GameSplashScreen from 'screens/games/GameSplashScreen';
 import QuestionScreen from 'screens/games/QuestionScreen';
 import ResultsScreen from 'screens/games/ResultsScreen';
 import SelectProviderScreen from 'screens/auth/SelectProviderScreen';
+import CustomizeProfileScreen from 'screens/menu/CustomizeProfileScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamsList>();
 
@@ -36,6 +37,7 @@ const MainStackNavigator = () => (
     <Stack.Screen name="SelectProvider" component={SelectProviderScreen} />
 
     <Stack.Screen name="Landing" component={LandingScreen} />
+    <Stack.Screen name="CustomizeProfile" component={CustomizeProfileScreen} />
     <Stack.Screen
       name="Profile"
       component={ProfileScreen}

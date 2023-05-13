@@ -1,6 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import NavHeader from 'components/layout/NavHeader';
 import MenuTile from 'components/tiles/MenuTile';
+import BodyLarge from 'components/typography/BodyLarge';
 import { AN } from 'constants/styles/appStyles';
 import UserInfoTile from 'containers/UserInfoTile/UserInfoTile';
 import ScreenWrapper from 'hoc/ScreenWrapper';
@@ -8,8 +9,8 @@ import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React from 'react';
 import { useAppSelector } from 'store/index';
 
-const ProfileScreen: React.FC<
-  NativeStackScreenProps<MainStackParamsList, 'Profile'>
+const CustomizeProfileScreen: React.FC<
+  NativeStackScreenProps<MainStackParamsList, 'CustomizeProfile'>
 > = ({ navigation }) => {
   const { userData } = useAppSelector(state => state.data);
 
@@ -23,19 +24,12 @@ const ProfileScreen: React.FC<
 
   return (
     <ScreenWrapper>
-      <NavHeader title="Profile" fullWidth style={{ marginBottom: AN(20) }} />
-      <UserInfoTile />
-
-      <MenuTile
-        title="Customize"
-        icon="colorPalette"
-        style={{ marginTop: AN(30) }}
-        onPress={goToCustomizeProfile}
-      />
+      <NavHeader title="Customize" fullWidth style={{ marginBottom: AN(20) }} />
+      <BodyLarge text="Select color" />
 
       {/* <InfoLine title="Name" value={firstName} /> */}
     </ScreenWrapper>
   );
 };
 
-export default ProfileScreen;
+export default CustomizeProfileScreen;
