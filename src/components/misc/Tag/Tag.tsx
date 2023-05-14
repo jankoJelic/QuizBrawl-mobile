@@ -18,10 +18,10 @@ const Tag = ({
     <View
       style={{
         ...styles.container,
-        backgroundColor: colors[color],
+        borderColor: colors[color],
         ...style,
       }}>
-      <BodySmall text={text} color={textColor} weight="bold" />
+      <BodySmall text={text} color={color} weight="bold" />
     </View>
   );
 };
@@ -30,11 +30,11 @@ const createStyles = (colors: Colors) =>
   StyleSheet.create({
     container: {
       paddingHorizontal: AN(8),
-      paddingVertical: AN(5),
       borderRadius: BORDER_RADIUS,
       height: AN(24),
       alignItems: 'center',
       justifyContent: 'center',
+      borderWidth: 1,
     },
   });
 

@@ -5,6 +5,7 @@ import {
   BASE_IMAGES_URL,
   OAUTH_IOS_CLIENT_ID,
   OAUTH_WEB_CLIENT_ID,
+  FIREBASE_STORAGE_BUCKET,
 } from '@env';
 import { Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
@@ -18,5 +19,6 @@ export const WS_URL = WS_URL_DEV;
 export const BASE_URL_IMAGES = BASE_IMAGES_URL;
 export const GOOGLE_OAUTH_WEB_CLIENT_ID = OAUTH_WEB_CLIENT_ID;
 export const GOOGLE_OAUTH_IOS_CLIENT_ID = OAUTH_IOS_CLIENT_ID;
+export const STORAGE_BUCKET = FIREBASE_STORAGE_BUCKET;
 
 export const DEVICE_ID = DeviceInfo.getDeviceId();

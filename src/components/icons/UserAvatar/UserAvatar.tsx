@@ -25,7 +25,7 @@ const UserAvatar = ({ onPress = () => {}, size = AN(48), avatar = '' }) => {
       {AVATAR ? (
         <FastImage
           source={{ uri: AVATAR }}
-          style={{ width: size, aspectRatio: 1 }}
+          style={{ width: size / 1.5, aspectRatio: 1 }}
         />
       ) : (
         <FeatherIcon

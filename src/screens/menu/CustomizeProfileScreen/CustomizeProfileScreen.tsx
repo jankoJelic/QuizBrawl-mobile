@@ -1,20 +1,20 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import NavHeader from 'components/layout/NavHeader';
-import MenuTile from 'components/tiles/MenuTile';
 import BodyLarge from 'components/typography/BodyLarge';
 import { Colors } from 'constants/styles/Colors';
 import { AN, BORDER_RADIUS } from 'constants/styles/appStyles';
-import UserInfoTile from 'containers/UserInfoTile/UserInfoTile';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import TouchableBounce from 'hoc/TouchableBounce';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
 import { useAppSelector } from 'store/index';
-import { setProfileColor } from 'store/slices/dataSlice';
+import { setProfileColor, setUserAvatar } from 'store/slices/dataSlice';
+import storage from '@react-native-firebase/storage';
+import FastImage from 'react-native-fast-image';
 
 const CustomizeProfileScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'CustomizeProfile'>
@@ -37,10 +37,6 @@ const CustomizeProfileScreen: React.FC<
     brand500,
   } = colors;
 
-  const goToCustomizeProfile = () => {
-    navigation.navigate('CustomizeProfile');
-  };
-
   const profileColors = [
     brand500,
     pink,
@@ -56,6 +52,8 @@ const CustomizeProfileScreen: React.FC<
     orange,
   ];
 
+  const [availableAvatars, setAvailableAvatars] = useState<string[]>([]);
+
   const onPressProfileColor = (color: string) => {
     dispatch(setProfileColor(color));
     API.updateUser({ color });
@@ -64,17 +62,41 @@ const CustomizeProfileScreen: React.FC<
   const renderColor = ({ item }: { item: string }) => {
     return (
       <TouchableBounce
-        style={{
-          backgroundColor: item,
-          width: '20%',
-          aspectRatio: 1,
-          borderRadius: BORDER_RADIUS / 2,
-          margin: '2.5%',
-        }}
+        style={{ ...styles.colorTile, backgroundColor: item }}
         onPress={() => {
           onPressProfileColor(item);
         }}
       />
+    );
+  };
+
+  const avatars = storage().ref('avatars');
+
+  const getAvatars = async () => {
+    const imageRefs = await avatars.list();
+    const urls = await Promise.all(
+      imageRefs.items.map(ref => ref.getDownloadURL()),
+    );
+    setAvailableAvatars(urls);
+  };
+
+  useEffect(() => {
+    getAvatars();
+  }, []);
+
+  const renderAvatar = ({ item }) => {
+    const onSelectAvatar = () => {
+      API.updateUser({ avatar: item });
+      dispatch(setUserAvatar(item));
+    };
+
+    return (
+      <TouchableBounce onPress={onSelectAvatar} style={styles.avatar}>
+        <FastImage
+          source={{ uri: item }}
+          style={styles.fullWidth}
+        />
+      </TouchableBounce>
     );
   };
 
@@ -87,13 +109,41 @@ const CustomizeProfileScreen: React.FC<
         renderItem={renderColor}
         numColumns={4}
         keyExtractor={item => item + 'profileColor'}
+        ListFooterComponent={
+          <>
+            <BodyLarge text="Select avatar" style={{ marginTop: AN(20) }} />
+            <FlatList
+              data={availableAvatars}
+              renderItem={renderAvatar}
+              numColumns={4}
+              keyExtractor={item => item + 'avatarProfile'}
+            />
+          </>
+        }
       />
-
-      {/* <InfoLine title="Name" value={firstName} /> */}
     </ScreenWrapper>
   );
 };
 
-const createStyles = (colors: Colors) => StyleSheet.create({});
+const createStyles = (colors: Colors) =>
+  StyleSheet.create({
+    colorTile: {
+      width: '20%',
+      aspectRatio: 1,
+      borderRadius: BORDER_RADIUS / 2,
+      margin: '2.5%',
+    },
+    avatar: {
+      width: '20%',
+      aspectRatio: 1,
+      borderRadius: BORDER_RADIUS,
+      margin: '2.5%',
+      overflow: 'hidden',
+    },
+    fullWidth: {
+      width: '100%',
+      aspectRatio: 1,
+    },
+  });
 
 export default CustomizeProfileScreen;
