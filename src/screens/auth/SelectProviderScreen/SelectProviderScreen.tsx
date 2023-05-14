@@ -1,4 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import CTA from 'components/buttons/CTA';
 import GhostButton from 'components/buttons/GhostButton/GhostButton';
 import NavHeader from 'components/layout/NavHeader';
 import BodyMedium from 'components/typography/BodyMedium';
@@ -43,12 +44,17 @@ const SelectProviderScreen: React.FC<
       : navigation.navigate('Register');
   };
 
+  const onPressRegister = () => {
+    navigation.navigate('Register');
+  };
+
   return (
     <ScreenWrapper>
       <NavHeader
         title={`Select ${flow} method`}
         showRightIcon={false}
         style={{ marginBottom: SCREEN_HEIGHT * 0.2 }}
+        showLeftIcon={flow === 'login'}
       />
 
       <GhostButton
@@ -65,6 +71,17 @@ const SelectProviderScreen: React.FC<
         iconName="mail"
         iconColor="neutral300"
       />
+      {flow === 'login' && (
+        <View style={styles.footer}>
+          <BodyMedium
+            text="Don't have an account?"
+            color="mainTextColor"
+            style={styles.haveAnAccountText}
+          />
+
+          <CTA title="Register" onPress={onPressRegister} />
+        </View>
+      )}
     </ScreenWrapper>
   );
 };
@@ -82,6 +99,14 @@ const createStyles = (colors: Colors) =>
       justifyContent: 'center',
       marginVertical: AN(24),
     },
+    footer: {
+      position: 'absolute',
+      bottom: AN(10),
+      width: '100%',
+      alignSelf: 'center',
+      alignItems: 'center',
+    },
+    haveAnAccountText: { marginBottom: AN(6) },
   });
 
 export default SelectProviderScreen;

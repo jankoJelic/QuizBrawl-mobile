@@ -21,6 +21,7 @@ export const signInWithGoogle = async () => {
   const { idToken, user } = await GoogleSignin.signIn();
   const { email, name, photo } = user || {};
 
+
   await API.loginWithGoogle({
     email,
     googleAuthId: idToken as string,

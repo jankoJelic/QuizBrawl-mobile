@@ -17,7 +17,6 @@ import { useDispatch } from 'react-redux';
 import { decryptData } from 'services/aesCrypto/aesCrypto';
 import API from 'services/api';
 import ENCRYPTED_STORAGE from 'services/encryptedStorage';
-import { storeTokens } from 'services/encryptedStorage/tokens/tokenStorage';
 import { startLoading, stopLoading } from 'store/slices/appStateSlice';
 
 const EnterPinCodeScreen: React.FC<

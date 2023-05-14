@@ -15,3 +15,8 @@ export const getAccessToken = async () => {
 export const getRefreshToken = async () => {
   return await ENCRYPTED_STORAGE.getValue('refreshToken');
 };
+
+export const deleteTokens = () => {
+  ENCRYPTED_STORAGE.removeValue('accessToken').catch(() => {});
+  ENCRYPTED_STORAGE.removeValue('refreshToken').catch(() => {});
+};

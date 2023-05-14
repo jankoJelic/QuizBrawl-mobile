@@ -44,6 +44,10 @@ export const authAPI = {
     } = await post<AccessTokens>('/auth/google', body);
     await storeTokens(accessToken, refreshToken);
   },
+
+  logoutUser: async () => {
+    await post('/auth/logout');
+  },
 };
 
 interface RegisterBody {

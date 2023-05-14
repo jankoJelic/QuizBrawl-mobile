@@ -13,7 +13,6 @@ import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 import API from 'services/api';
-import { storeTokens } from 'services/encryptedStorage/tokens/tokenStorage';
 
 const LoginScreen = ({
   navigation,
@@ -70,7 +69,7 @@ const LoginScreen = ({
   };
 
   const navigateToRegister = () => {
-    navigation.navigate('Register');
+    navigation.navigate('SelectProvider', { flow: 'register' });
   };
 
   return (

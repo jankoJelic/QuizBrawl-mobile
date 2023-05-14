@@ -7,13 +7,12 @@ import ScreenWrapper from 'hoc/ScreenWrapper';
 import TouchableBounce from 'hoc/TouchableBounce';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
 import { useAppSelector } from 'store/index';
 import { setProfileColor, setUserAvatar } from 'store/slices/dataSlice';
-import storage from '@react-native-firebase/storage';
 import FastImage from 'react-native-fast-image';
 
 const CustomizeProfileScreen: React.FC<
@@ -21,7 +20,8 @@ const CustomizeProfileScreen: React.FC<
 > = ({ navigation }) => {
   const dispatch = useDispatch();
   const { styles, colors } = useStyles(createStyles);
-  const { userData } = useAppSelector(state => state.data);
+  const { avatars } = useAppSelector(state => state.data.userData);
+
   const {
     pink,
     beige,
@@ -70,20 +70,6 @@ const CustomizeProfileScreen: React.FC<
     );
   };
 
-  const avatars = storage().ref('avatars');
-
-  const getAvatars = async () => {
-    const imageRefs = await avatars.list();
-    const urls = await Promise.all(
-      imageRefs.items.map(ref => ref.getDownloadURL()),
-    );
-    setAvailableAvatars(urls);
-  };
-
-  useEffect(() => {
-    getAvatars();
-  }, []);
-
   const renderAvatar = ({ item }) => {
     const onSelectAvatar = () => {
       API.updateUser({ avatar: item });
@@ -92,10 +78,7 @@ const CustomizeProfileScreen: React.FC<
 
     return (
       <TouchableBounce onPress={onSelectAvatar} style={styles.avatar}>
-        <FastImage
-          source={{ uri: item }}
-          style={styles.fullWidth}
-        />
+        <FastImage source={{ uri: item }} style={styles.fullWidth} />
       </TouchableBounce>
     );
   };
@@ -113,7 +96,7 @@ const CustomizeProfileScreen: React.FC<
           <>
             <BodyLarge text="Select avatar" style={{ marginTop: AN(20) }} />
             <FlatList
-              data={availableAvatars}
+              data={avatars}
               renderItem={renderAvatar}
               numColumns={4}
               keyExtractor={item => item + 'avatarProfile'}

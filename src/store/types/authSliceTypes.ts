@@ -22,5 +22,6 @@ export interface UserData {
   room: Room;
   level: number;
   accuracyPercentage: number;
-  favouriteTopic: Topic
+  favouriteTopic: Topic;
+  avatars: string[];
 }

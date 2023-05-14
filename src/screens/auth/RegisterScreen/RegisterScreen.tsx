@@ -19,7 +19,6 @@ import {
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
-import { storeTokens } from 'services/encryptedStorage/tokens/tokenStorage';
 import { startLoading, stopLoading } from 'store/slices/appStateSlice';
 
 const RegisterScreen = ({

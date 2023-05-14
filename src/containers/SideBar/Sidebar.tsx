@@ -11,6 +11,7 @@ import React from 'react';
 import { Share, StyleSheet } from 'react-native';
 import { Drawer } from 'react-native-drawer-layout';
 import { useDispatch } from 'react-redux';
+import { deleteTokens } from 'services/encryptedStorage/tokens/tokenStorage';
 import { useAppSelector } from 'store/index';
 import { hideSideBar } from 'store/slices/appStateSlice';
 
@@ -28,6 +29,11 @@ const Sidebar = ({ children }) => {
 
   const goToProfile = () => {
     navigation.navigate('Profile');
+  };
+
+  const onPressLogout = () => {
+    deleteTokens();
+    navigation.navigate('SelectProvider', { flow: 'login' });
   };
 
   const onPressShare = async () => {
@@ -56,7 +62,7 @@ const Sidebar = ({ children }) => {
               style={{ marginTop: AN(18) }}
             />
             <MenuTile title="My profile" icon="user" onPress={goToProfile} />
-            <MenuTile title="Logout" icon="log-out" onPress={goToProfile} />
+            <MenuTile title="Logout" icon="log-out" onPress={onPressLogout} />
 
             <BodySmall
               text="Show some love"
