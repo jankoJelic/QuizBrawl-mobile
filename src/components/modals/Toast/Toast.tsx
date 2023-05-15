@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import BodyLarge from 'components/typography/BodyLarge';
 import { Colors } from 'constants/styles/Colors';
 import {
@@ -6,6 +7,7 @@ import {
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
 } from 'constants/styles/appStyles';
+import TouchableBounce from 'hoc/TouchableBounce';
 import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -16,6 +18,7 @@ import { hideToast } from 'store/slices/appStateSlice';
 
 const Toast = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const { styles, colors } = useStyles(createStyles);
   const { toast } = useAppSelector(state => state.appState);
   const { visible, text, type } = toast;
@@ -43,6 +46,12 @@ const Toast = () => {
     }
   };
 
+  const onPressToast = () => {
+    if (toast?.text.includes('friend request')) {
+      navigation.navigate('Inbox');
+    }
+  };
+
   return (
     <Modal
       animationIn="bounceInDown"
@@ -52,13 +61,15 @@ const Toast = () => {
       onBackdropPress={hide}
       onModalShow={setAutoHide}
       style={styles.container}>
-      <View
-        style={{
-          ...styles.statusBar,
-          backgroundColor: statusColor(),
-        }}
-      />
-      <BodyLarge text={text} style={{ marginLeft: AN(15) }} />
+      <TouchableBounce onPress={onPressToast}>
+        <View
+          style={{
+            ...styles.statusBar,
+            backgroundColor: statusColor(),
+          }}
+        />
+        <BodyLarge text={text} style={{ marginLeft: AN(15) }} />
+      </TouchableBounce>
     </Modal>
   );
 };

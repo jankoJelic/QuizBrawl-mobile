@@ -8,7 +8,6 @@ import LoginScreen from 'screens/auth/LoginScreen';
 import LandingScreen from 'screens/menu/LandingScreen';
 import ProfileScreen from 'screens/menu/ProfileScreen';
 import SetupPinCodeScreen from 'screens/auth/SetupPinCodeScreen';
-import { slideScreenFromLeft } from './config/slideScreenFromLeft';
 import ArenaLobbyScreen from 'screens/arena/ArenaLobbyScreen/ArenaLobbyScreen';
 import CreateArenaRoomScreen from 'screens/arena/CreateArenaRoomScreen';
 import ArenaRoomScreen from 'screens/arena/ArenaRoomScreen';
@@ -17,6 +16,7 @@ import QuestionScreen from 'screens/games/QuestionScreen';
 import ResultsScreen from 'screens/games/ResultsScreen';
 import SelectProviderScreen from 'screens/auth/SelectProviderScreen';
 import CustomizeProfileScreen from 'screens/menu/CustomizeProfileScreen';
+import InboxScreen from 'screens/profile/InboxScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamsList>();
 
@@ -36,13 +36,16 @@ const MainStackNavigator = () => (
     <Stack.Screen name="SetupPinCode" component={SetupPinCodeScreen} />
     <Stack.Screen name="SelectProvider" component={SelectProviderScreen} />
 
-    <Stack.Screen name="Landing" component={LandingScreen} />
+    {/* PROFILE SCREENS */}
     <Stack.Screen name="CustomizeProfile" component={CustomizeProfileScreen} />
+    <Stack.Screen name="Inbox" component={InboxScreen} />
     <Stack.Screen
       name="Profile"
       component={ProfileScreen}
       options={{ animation: 'slide_from_left' }}
     />
+
+    <Stack.Screen name="Landing" component={LandingScreen} />
 
     <Stack.Screen name="ArenaLobby" component={ArenaLobbyScreen} />
     <Stack.Screen name="CreateArenaRoom" component={CreateArenaRoomScreen} />

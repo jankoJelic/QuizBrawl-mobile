@@ -10,6 +10,7 @@ export type MainStackParamsList = {
 
   Landing: undefined;
   Profile: undefined;
+  Inbox: undefined;
   CustomizeProfile: undefined;
 
   ArenaLobby: undefined;

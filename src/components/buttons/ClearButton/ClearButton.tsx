@@ -10,12 +10,18 @@ const ClearButton = ({
   onPress,
   disabled,
   isLoading = false,
+  style = {},
 }: Props) => {
   return (
     <TouchableBounce
       onPress={onPress}
       disabled={disabled || isLoading}
-      style={{ alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+      style={{
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        ...style,
+      }}>
       {isLoading ? (
         <FastImage
           source={require('../../../assets/spinners/doubleRingSpinner.png')}
@@ -36,4 +42,5 @@ interface Props {
   onPress: () => void;
   disabled?: boolean;
   isLoading?: boolean;
+  style?: {};
 }

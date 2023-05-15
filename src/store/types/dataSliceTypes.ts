@@ -37,3 +37,11 @@ export type Topic =
   | 'Science';
 
 export type GameType = 'brawl' | 'classic';
+
+export interface Message {
+  title: string;
+  payload?: any;
+  type: 'REWARD' | 'GAME_INVITE' | 'FRIEND_REQUEST';
+  senderId: number;
+  createdAt: number
+}

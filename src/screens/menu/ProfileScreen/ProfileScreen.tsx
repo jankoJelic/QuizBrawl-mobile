@@ -13,8 +13,8 @@ const ProfileScreen: React.FC<
 > = ({ navigation }) => {
   const { userData } = useAppSelector(state => state.data);
 
-  const goToLanding = () => {
-    navigation.navigate('Landing');
+  const goToInbox = () => {
+    navigation.navigate('Inbox');
   };
 
   const goToCustomizeProfile = () => {
@@ -26,6 +26,12 @@ const ProfileScreen: React.FC<
       <NavHeader title="Profile" fullWidth style={{ marginBottom: AN(20) }} />
       <UserInfoTile />
 
+      <MenuTile
+        title="Inbox"
+        icon="mail"
+        style={{ marginTop: AN(30) }}
+        onPress={goToInbox}
+      />
       <MenuTile
         title="Customize"
         icon="colorPalette"

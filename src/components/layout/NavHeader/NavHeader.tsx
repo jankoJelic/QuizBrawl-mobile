@@ -62,6 +62,7 @@ const createStyles = (colors: Colors) =>
       alignItems: 'center',
       justifyContent: 'space-between',
       paddingHorizontal: PADDING_HORIZONTAL,
+      marginBottom: AN(20),
     },
   });
 

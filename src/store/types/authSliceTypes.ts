@@ -1,4 +1,4 @@
-import { Lobby, Room, Topic } from './dataSliceTypes';
+import { Lobby, Message, Room, Topic } from './dataSliceTypes';
 
 export interface UserData {
   createdAt: string;
@@ -24,4 +24,5 @@ export interface UserData {
   accuracyPercentage: number;
   favouriteTopic: Topic;
   avatars: string[];
+  inbox: Message[] | null;
 }

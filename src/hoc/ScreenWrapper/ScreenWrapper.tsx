@@ -8,10 +8,14 @@ import useStyles from '../../hooks/styles/useStyles';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-const ScreenWrapper = ({ children, style }: Props) => {
+const ScreenWrapper = ({ children, style, fullWidth }: Props) => {
   const { styles } = useStyles(createStyles);
 
-  return <View style={[styles.screen, style]}>{children}</View>;
+  return (
+    <View style={[styles.screen, style, fullWidth && { paddingHorizontal: 0 }]}>
+      {children}
+    </View>
+  );
 };
 
 export default ScreenWrapper;
@@ -30,4 +34,5 @@ const createStyles = (colors: Colors) =>
 interface Props {
   children: JSX.Element | JSX.Element[];
   style?: {};
+  fullWidth?: boolean;
 }

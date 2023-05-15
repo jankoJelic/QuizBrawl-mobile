@@ -142,6 +142,10 @@ export const authSlice = createSlice({
 
       state.rooms = updatedRooms;
     },
+    addMessageToInbox: (state, action) => {
+      const currentInbox = !!state.userData.inbox ? state.userData.inbox : [];
+      state.userData.inbox = [action.payload].concat(currentInbox);
+    },
   },
 });
 
@@ -163,6 +167,7 @@ export const {
   unreadyUsersInRoom,
   setProfileColor,
   setUserAvatar,
+  addMessageToInbox,
 } = authSlice.actions;
 
 export default authSlice.reducer;

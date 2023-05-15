@@ -1,4 +1,5 @@
 import UserAvatar from 'components/icons/UserAvatar';
+import NotificationBadge from 'components/misc/NotificationBadge';
 import Tag from 'components/misc/Tag';
 import BodyMedium from 'components/typography/BodyMedium';
 import Title from 'components/typography/Title';
@@ -34,6 +35,14 @@ const LandingScreenHeader = () => {
         />
         <UserAvatar onPress={openSideBar} />
       </View>
+      {userData.inbox?.length ? (
+        <NotificationBadge
+          text={String(userData.inbox.length)}
+          style={{ position: 'absolute', top: AN(2), right: AN(6) }}
+        />
+      ) : (
+        <></>
+      )}
     </Pressable>
   );
 };

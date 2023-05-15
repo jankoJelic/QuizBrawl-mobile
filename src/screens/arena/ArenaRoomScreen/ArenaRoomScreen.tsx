@@ -48,6 +48,8 @@ const ArenaRoomScreen: React.FC<
   const [userActionSheetVisible, setUserActionSheetVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserData>();
 
+  const youAreSelected = selectedUser?.id === userData.id;
+
   useEffect(() => {
     if (onQuestion === 0) {
       navigation.navigate('GameSplash');
@@ -108,6 +110,14 @@ const ArenaRoomScreen: React.FC<
     SOCKET.emit(SOCKET_EVENTS.KICK_USER_FROM_ROOM, {
       user: selectedUser,
       room,
+    });
+    closeUserActionSheet();
+  };
+
+  const sendFriendRequest = async () => {
+    SOCKET.emit(SOCKET_EVENTS.FRIEND_REQUEST_SENT, {
+      user: userData,
+      recipientId: selectedUser?.id,
     });
     closeUserActionSheet();
   };
@@ -191,12 +201,18 @@ const ArenaRoomScreen: React.FC<
           value={selectedUser?.favouriteTopic}
         />
         <InfoLine title="Rank" value={String(selectedUser?.rank)} />
-        {isRoomAdmin && selectedUser?.id !== userData.id ? (
-          <GhostButton
-            title="Kick from room"
-            onPress={kickPlayerFromRoom}
-            color="danger500"
-          />
+        {isRoomAdmin && !youAreSelected ? (
+          <>
+            <GhostButton
+              title="+ Send friend request"
+              onPress={sendFriendRequest}
+            />
+            <GhostButton
+              title="Kick from room"
+              onPress={kickPlayerFromRoom}
+              color="danger500"
+            />
+          </>
         ) : (
           <></>
         )}

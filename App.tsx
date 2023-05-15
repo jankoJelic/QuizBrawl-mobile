@@ -25,8 +25,8 @@ function App(): JSX.Element {
           <MainStackNavigator />
           <FullScreenSpinner />
         </SafeAreaView>
+        <Toast />
       </NavigationContainer>
-      <Toast />
     </>
   );
 }

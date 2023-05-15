@@ -6,6 +6,7 @@ import {
   UserJoinedRoomPayload,
 } from './socketPayloads';
 import {
+  addMessageToInbox,
   addNewRoom,
   addUserToLobby,
   addUserToRoom,
@@ -31,6 +32,7 @@ const {
   GAME_STARTED,
   USER_READY,
   KICK_USER_FROM_ROOM,
+  FRIEND_REQUEST_SENT,
 } = SOCKET_EVENTS;
 
 export const connectToSocket = (navigation: any) => {
@@ -133,6 +135,15 @@ export const connectToSocket = (navigation: any) => {
       dispatch(stopLoading());
     },
   );
+
+  SOCKET.on(FRIEND_REQUEST_SENT, ({ friendRequest }) => {
+    const state = store.getState();
+
+    dispatch(
+      showToast({ text: friendRequest.title, type: friendRequest.type }),
+    );
+    dispatch(addMessageToInbox(friendRequest));
+  });
 
   // SOCKET.on(USER_DISCONNECTED, (payload: UserData) => {
 
