@@ -14,6 +14,8 @@ import { exitLobby, exitRoom } from 'store/slices/dataSlice';
 import usePreventNativeBackButton from 'navigation/hooks/usePreventNativeBack';
 import { AN } from 'constants/styles/appStyles';
 import Sidebar from 'containers/SideBar';
+import { PermissionsAndroid } from 'react-native';
+import useFCM from 'services/fcm/useFCM';
 
 const LandingScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Landing'>
@@ -21,6 +23,8 @@ const LandingScreen: React.FC<
   usePreventNativeBackButton();
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
+
+  useFCM();
 
   useEffect(() => {
     if (isFocused) {
@@ -31,6 +35,10 @@ const LandingScreen: React.FC<
 
   useEffect(() => {
     connectToSocket(navigation);
+
+    PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+    );
   }, []);
 
   usePreventNativeBackButton(() => true);

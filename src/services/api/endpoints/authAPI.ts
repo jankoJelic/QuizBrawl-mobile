@@ -48,6 +48,10 @@ export const authAPI = {
   logoutUser: async () => {
     await post('/auth/logout');
   },
+
+  connectToFCM: async (fcmToken: string) => {
+    get('/messages/fcmToken', { params: { fcmToken } });
+  },
 };
 
 interface RegisterBody {

@@ -201,12 +201,16 @@ const ArenaRoomScreen: React.FC<
           value={selectedUser?.favouriteTopic}
         />
         <InfoLine title="Rank" value={String(selectedUser?.rank)} />
+        {youAreSelected ? (
+          <></>
+        ) : (
+          <GhostButton
+            title="+ Send friend request"
+            onPress={sendFriendRequest}
+          />
+        )}
         {isRoomAdmin && !youAreSelected ? (
           <>
-            <GhostButton
-              title="+ Send friend request"
-              onPress={sendFriendRequest}
-            />
             <GhostButton
               title="Kick from room"
               onPress={kickPlayerFromRoom}
