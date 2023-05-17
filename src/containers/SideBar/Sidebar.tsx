@@ -29,17 +29,23 @@ const Sidebar = ({ children }) => {
 
   const goToProfile = () => {
     navigation.navigate('Profile');
+    onClose();
   };
 
   const onPressLogout = () => {
     deleteTokens();
     navigation.navigate('SelectProvider', { flow: 'login' });
+    onClose();
   };
 
   const onPressShare = async () => {
-    await Share.share({
-      message: `We can playe ${APP_DISPLAY_NAME} together!`,
-    });
+    try {
+      await Share.share({
+        message: `We can playe ${APP_DISPLAY_NAME} together!`,
+      });
+    } catch (e) {
+    } finally {
+    }
   };
 
   return (

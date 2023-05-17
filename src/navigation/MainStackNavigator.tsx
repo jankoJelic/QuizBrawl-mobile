@@ -42,7 +42,7 @@ const MainStackNavigator = () => (
     <Stack.Screen
       name="Profile"
       component={ProfileScreen}
-      options={{ animation: 'slide_from_left' }}
+      options={{ animation: 'slide_from_right' }}
     />
 
     <Stack.Screen name="Landing" component={LandingScreen} />

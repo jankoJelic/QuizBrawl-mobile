@@ -18,10 +18,10 @@ const Tag = ({
     <View
       style={{
         ...styles.container,
-        borderColor: colors[color],
+        // borderColor: colors[color],
         ...style,
       }}>
-      <BodySmall text={text} color={color} weight="bold" />
+      <BodySmall text={`- ${text} -`} color={color} weight="bold" />
     </View>
   );
 };
@@ -34,7 +34,7 @@ const createStyles = (colors: Colors) =>
       height: AN(24),
       alignItems: 'center',
       justifyContent: 'center',
-      borderWidth: 1,
+      // borderWidth: 1,
     },
   });
 
