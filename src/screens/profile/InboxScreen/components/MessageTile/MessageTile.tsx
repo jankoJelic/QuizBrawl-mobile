@@ -11,7 +11,7 @@ const MessageTile = ({ message }: Props) => {
     <TouchableOpacity
       style={{ paddingHorizontal: PADDING_HORIZONTAL, marginBottom: AN(20) }}>
       <BodyMedium
-        text={new Date(createdAt).toLocaleString()}
+        text={new Date(Number(createdAt)).toLocaleString()}
         color="neutral400"
       />
       <BodyMedium text={title} />
