@@ -96,6 +96,8 @@ const QuestionScreen: React.FC<
   };
 
   const handleWrongAnswer = ({ answer, userId }: SelectedAnswerPayload) => {
+    if (selectedAnswers.includes(answer)) return;
+
     if (type === 'brawl') {
       dispatch(selectWrongQuestion({ answer, userId }));
       setWrongUsers(prevState => prevState.concat([userId]));
@@ -111,6 +113,8 @@ const QuestionScreen: React.FC<
   }, [wrongUsers.length]);
 
   const handleCorrectAnswer = ({ answer, userId }: SelectedAnswerPayload) => {
+    if (selectedAnswers.includes(answer)) return;
+
     if (type === 'brawl') {
       dispatch(selectCorrectQuestion({ answer, userId }));
       setCorrectUser(userId);
