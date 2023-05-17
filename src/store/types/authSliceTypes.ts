@@ -25,4 +25,5 @@ export interface UserData {
   favouriteTopic: Topic;
   avatars: string[];
   inbox: Message[] | null;
+  friends: Partial<UserData>[];
 }

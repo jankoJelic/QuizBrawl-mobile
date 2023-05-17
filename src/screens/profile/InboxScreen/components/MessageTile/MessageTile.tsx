@@ -1,5 +1,4 @@
 import ClearButton from 'components/buttons/ClearButton';
-import RoundButton from 'components/buttons/RoundButton/RoundButton';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Colors } from 'constants/styles/Colors';
 import { AN, PADDING_HORIZONTAL } from 'constants/styles/appStyles';
@@ -8,11 +7,18 @@ import useStyles from 'hooks/styles/useStyles';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useDispatch } from 'react-redux';
+import API from 'services/api';
+import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
+import { useAppSelector } from 'store/index';
+import { addFriend, deleteMessage } from 'store/slices/dataSlice';
 import { Message } from 'store/types/dataSliceTypes';
 
 const MessageTile = ({ message }: Props) => {
+  const dispatch = useDispatch();
   const { styles, colors } = useStyles(createStyles);
-  const { createdAt, title, payload, type } = message || {};
+  const { userData } = useAppSelector(state => state.data);
+  const { createdAt, title, payload, type, id, senderId } = message || {};
 
   const [collapsed, setCollapsed] = useState(true);
 
@@ -22,11 +28,22 @@ const MessageTile = ({ message }: Props) => {
 
   const rejectFriendRequest = async () => {
     try {
-    } catch (e) {}
+      await API.deleteMessage(id);
+      dispatch(deleteMessage(id));
+    } catch (e) {
+      console.log(JSON.stringify(e));
+    }
   };
 
   const acceptFriendRequest = async () => {
     try {
+      const user = await API.getUser(String(senderId));
+      dispatch(addFriend(user));
+
+      SOCKET.emit(SOCKET_EVENTS.FRIEND_REQUEST_ACCEPTED, {
+        user: userData,
+        senderId,
+      });
     } catch (e) {}
   };
 

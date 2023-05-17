@@ -6,6 +6,7 @@ import {
   UserJoinedRoomPayload,
 } from './socketPayloads';
 import {
+  addFriend,
   addMessageToInbox,
   addNewRoom,
   addUserToLobby,
@@ -20,6 +21,7 @@ import { Room } from 'store/types/dataSliceTypes';
 import { showToast, stopLoading } from 'store/slices/appStateSlice';
 import { initializeGame } from 'store/slices/gameSlice';
 import { LOBBY_IDS } from 'constants/constants';
+import { UserData } from 'store/types/authSliceTypes';
 
 const {
   USER_JOINED_LOBBY,
@@ -33,6 +35,7 @@ const {
   USER_READY,
   KICK_USER_FROM_ROOM,
   FRIEND_REQUEST_SENT,
+  FRIEND_REQUEST_ACCEPTED,
 } = SOCKET_EVENTS;
 
 export const connectToSocket = (navigation: any) => {
@@ -137,15 +140,23 @@ export const connectToSocket = (navigation: any) => {
   );
 
   SOCKET.on(FRIEND_REQUEST_SENT, ({ friendRequest }) => {
-    const state = store.getState();
-
     dispatch(
       showToast({ text: friendRequest.title, type: friendRequest.type }),
     );
     dispatch(addMessageToInbox(friendRequest));
   });
 
-  // SOCKET.on(USER_DISCONNECTED, (payload: UserData) => {
+  SOCKET.on(FRIEND_REQUEST_ACCEPTED, (user: UserData) => {
+    dispatch(
+      showToast({
+        text: `${user.firstName} accepted your friend request`,
+        type: 'success',
+      }),
+    );
+     dispatch(addFriend(user))
+  });
 
-  // })
+  SOCKET.on(USER_DISCONNECTED, (userId: number) => {
+    
+  });
 };

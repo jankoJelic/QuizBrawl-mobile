@@ -43,5 +43,6 @@ export interface Message {
   payload?: any;
   type: 'REWARD' | 'GAME_INVITE' | 'FRIEND_REQUEST';
   senderId: number;
-  createdAt: number
+  createdAt: number;
+  id: string;
 }

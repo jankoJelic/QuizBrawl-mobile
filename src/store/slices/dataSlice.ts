@@ -146,6 +146,22 @@ export const authSlice = createSlice({
       const currentInbox = !!state.userData.inbox ? state.userData.inbox : [];
       state.userData.inbox = [action.payload].concat(currentInbox);
     },
+    deleteMessage: (state, action: { payload: string }) => {
+      const currentInbox = !!state.userData.inbox ? state.userData.inbox : [];
+      state.userData.inbox = currentInbox.filter(
+        mess => mess.id !== action.payload,
+      );
+    },
+    addFriend: (state, action: { payload: Partial<UserData> }) => {
+      const currentFriends = state.userData.friends;
+      state.userData.friends = [action.payload].concat(currentFriends || []);
+    },
+    removeFriend: (state, action: { payload: Partial<UserData> }) => {
+      const currentFriends = state.userData.friends;
+      state.userData.friends = currentFriends.filter(
+        f => f.id !== action.payload.id,
+      );
+    },
   },
 });
 
@@ -168,6 +184,9 @@ export const {
   setProfileColor,
   setUserAvatar,
   addMessageToInbox,
+  addFriend,
+  removeFriend,
+  deleteMessage
 } = authSlice.actions;
 
 export default authSlice.reducer;
