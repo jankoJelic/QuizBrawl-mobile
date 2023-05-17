@@ -44,8 +44,8 @@ const SelectProviderScreen: React.FC<
       : navigation.navigate('Register');
   };
 
-  const onPressRegister = () => {
-    navigation.navigate('Register');
+  const onPressCTA = () => {
+    navigation.navigate(isLoginFlow ? 'Register' : 'Login');
   };
 
   return (
@@ -71,17 +71,17 @@ const SelectProviderScreen: React.FC<
         iconName="mail"
         iconColor="neutral300"
       />
-      {flow === 'login' && (
-        <View style={styles.footer}>
-          <BodyMedium
-            text="Don't have an account?"
-            color="mainTextColor"
-            style={styles.haveAnAccountText}
-          />
+      <View style={styles.footer}>
+        <BodyMedium
+          text={
+            isLoginFlow ? "Don't have an account?" : 'Already have an account?'
+          }
+          color="mainTextColor"
+          style={styles.haveAnAccountText}
+        />
 
-          <CTA title="Register" onPress={onPressRegister} />
-        </View>
-      )}
+        <CTA title={isLoginFlow ? 'Register' : 'Login'} onPress={onPressCTA} />
+      </View>
     </ScreenWrapper>
   );
 };

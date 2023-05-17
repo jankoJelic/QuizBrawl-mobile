@@ -1,6 +1,7 @@
 import FeatherIcon from 'assets/icons/MyIcon';
 import BodyMedium from 'components/typography/BodyMedium';
-import { Colors } from 'constants/styles/Colors';
+import BodySmall from 'components/typography/BodySmall/BodySmall';
+import { Color, Colors } from 'constants/styles/Colors';
 import {
   AN,
   BORDER_RADIUS,
@@ -17,31 +18,39 @@ const AnswerTile = ({
   title,
   status = 'regular',
   disabled = false,
+  userName = '',
 }: Props) => {
   const { styles, colors } = useStyles(createStyles);
 
   const borderColor = () => {
     switch (status) {
       case 'regular':
-        return colors.neutral400;
+        return 'neutral400';
       case 'correct':
-        return colors.brand500;
+        return 'brand500';
       case 'wrong':
-        return colors.danger500;
+        return 'danger500';
+      default:
+        return 'neutral400';
     }
   };
 
   return (
     <TouchableBounce
       disabled={disabled}
-      style={{ ...styles.container, borderColor: borderColor() }}
+      style={{ ...styles.container, borderColor: colors[borderColor()] }}
       onPress={onPress}>
       <BodyMedium text={title} />
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <BodySmall
+          text={status === 'regular' ? '' : userName}
+          color={borderColor() as Color}
+          style={{ marginRight: AN(10) }}
+        />
         <View
           style={{
             ...styles.icon,
-            borderColor: borderColor(),
+            borderColor: colors[borderColor()],
             ...(status === 'correct' && { backgroundColor: colors.brand500 }),
             ...(status === 'wrong' && { backgroundColor: colors.danger500 }),
           }}>
@@ -87,4 +96,5 @@ interface Props {
   title: string;
   status: 'regular' | 'correct' | 'wrong';
   disabled: boolean;
+  userName?: string;
 }

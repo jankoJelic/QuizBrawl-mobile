@@ -8,10 +8,7 @@ const useFCM = () => {
     messaging()
       .getToken()
       .then(token => {
-        console.log(token);
-        API.connectToFCM(token).catch(e => {
-          console.log(JSON.stringify(e));
-        });
+        API.connectToFCM(token).catch(e => {});
       });
 
     return messaging().onTokenRefresh(token => {

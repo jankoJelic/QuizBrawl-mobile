@@ -27,6 +27,13 @@ import FullScreenSpinner from 'components/modals/FullScreenSpinner';
 
 const nextQuestionTimeout = 2000;
 
+const startingUsersByAnswer = {
+  answer1: '',
+  answer2: '',
+  answer3: '',
+  answer4: '',
+};
+
 const QuestionScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Question'>
 > = ({ navigation }) => {
@@ -47,7 +54,14 @@ const QuestionScreen: React.FC<
   const [wrongUsers, setWrongUsers] = useState<number[]>([]);
   const [correctUser, setCorrectUser] = useState(0);
 
-  const correctAnswerGuessed = selectedAnswers.includes(correctAnswer);
+  const [userNameByAnswer, setUserNameByAnswer] = useState<
+    Record<CorrectAnswer, string>
+  >(startingUsersByAnswer);
+
+  const isSelected = (answer: CorrectAnswer) =>
+    selectedAnswers.includes(answer);
+
+  const correctAnswerGuessed = isSelected(correctAnswer);
   const allUsersGuessed = wrongUsers?.length === users?.length;
 
   const answeringDisabled =
@@ -60,6 +74,7 @@ const QuestionScreen: React.FC<
   const lastQuestionBugCheck = onQuestion > questions.length - 1 || !question;
 
   const nextQuestion = () => {
+    setUserNameByAnswer(startingUsersByAnswer);
     clearCountdownInterval();
 
     setTimeout(() => {
@@ -84,21 +99,34 @@ const QuestionScreen: React.FC<
     if (type === 'brawl') {
       dispatch(selectWrongQuestion({ answer, userId }));
       setWrongUsers(prevState => prevState.concat([userId]));
+      setUserNameForAnswer(answer, userId);
     }
   };
 
   useEffect(() => {
-    if (wrongUsers.length === activeRoom.users.length) {
-      nextQuestion();
-    }
+    const allUsersHaveAnsweredWrong =
+      wrongUsers.length === activeRoom.users.length;
+
+    if (allUsersHaveAnsweredWrong) nextQuestion();
   }, [wrongUsers.length]);
 
   const handleCorrectAnswer = ({ answer, userId }: SelectedAnswerPayload) => {
     if (type === 'brawl') {
       dispatch(selectCorrectQuestion({ answer, userId }));
       setCorrectUser(userId);
+      setUserNameForAnswer(answer, userId);
       nextQuestion();
     }
+  };
+
+  const setUserNameForAnswer = (answer: CorrectAnswer, userId: number) => {
+    setUserNameByAnswer(prevState => {
+      let updatedState = prevState;
+      updatedState[answer] = users.find(u => u.id === userId)
+        ?.firstName as string;
+
+      return updatedState;
+    });
   };
 
   useEffect(() => {
@@ -108,7 +136,7 @@ const QuestionScreen: React.FC<
   }, []);
 
   const clearCountdownInterval = () => {
-    clearInterval(countdownInterval.current);
+    clearInterval(countdownInterval?.current);
     setSecondsLeft(15);
   };
 
@@ -161,7 +189,7 @@ const QuestionScreen: React.FC<
   const answerStatus = (answer: CorrectAnswer) =>
     correctAnswer === answer && correctAnswerGuessed
       ? 'correct'
-      : selectedAnswers.includes(answer)
+      : isSelected(answer)
       ? 'wrong'
       : 'regular';
 
@@ -200,38 +228,40 @@ const QuestionScreen: React.FC<
             <BodyMedium text={question} style={{ textAlign: 'center' }} />
           </TileWrapper>
           <AnswerTile
-            disabled={answeringDisabled || selectedAnswers.includes('answer1')}
+            disabled={answeringDisabled || isSelected('answer1')}
             status={answerStatus('answer1')}
             title={answer1}
             onPress={() => {
               onSelectAnswer('answer1');
             }}
+            userName={userNameByAnswer['answer1']}
           />
           <AnswerTile
             title={answer2}
             status={answerStatus('answer2')}
-            disabled={answeringDisabled || selectedAnswers.includes('answer2')}
+            disabled={answeringDisabled || isSelected('answer2')}
             onPress={() => {
               onSelectAnswer('answer2');
             }}
+            userName={userNameByAnswer['answer2']}
           />
           <AnswerTile
             title={answer3}
             status={answerStatus('answer3')}
-            disabled={answeringDisabled || selectedAnswers.includes('answer3')}
+            disabled={answeringDisabled || isSelected('answer3')}
             onPress={() => {
               onSelectAnswer('answer3');
             }}
+            userName={userNameByAnswer['answer3']}
           />
           <AnswerTile
             title={answer4}
-            status={
-              answerStatus('answer4') || selectedAnswers.includes('answer4')
-            }
+            status={answerStatus('answer4') || isSelected('answer4')}
             disabled={answeringDisabled}
             onPress={() => {
               onSelectAnswer('answer4');
             }}
+            userName={userNameByAnswer['answer4']}
           />
         </View>
         {type !== 'brawl' ? (
