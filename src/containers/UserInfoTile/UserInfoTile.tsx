@@ -1,25 +1,25 @@
 import UserAvatar from 'components/icons/UserAvatar';
-import Tag from 'components/misc/Tag';
 import BodyMedium from 'components/typography/BodyMedium';
 import { lightThemeColors } from 'constants/styles/Colors';
 import { AN } from 'constants/styles/appStyles';
 import React from 'react';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { useAppSelector } from 'store/index';
 import { getKeyByValue } from 'util/objects/getKeyByValue';
 
-const UserInfoTile = () => {
+const UserInfoTile = ({ onPress = () => {} }) => {
   const { firstName, lastName, email, color } = useAppSelector(
     state => state.data.userData,
   );
 
   return (
-    <View
+    <Pressable
+      onPress={onPress}
       style={{
         flexDirection: 'row',
         alignItems: 'center',
       }}>
-      <UserAvatar />
+      <UserAvatar onPress={onPress} />
       <View style={{ marginLeft: AN(20) }}>
         <BodyMedium text={`${firstName} ${lastName}`} />
         <BodyMedium
@@ -27,7 +27,7 @@ const UserInfoTile = () => {
           color={getKeyByValue(lightThemeColors, color)}
         />
       </View>
-    </View>
+    </Pressable>
   );
 };
 
