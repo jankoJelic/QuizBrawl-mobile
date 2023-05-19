@@ -100,3 +100,4 @@ https://www.iconfinder.com/search?q=music&price=free
 <a href="https://www.flaticon.com/free-icons/premium-quality" title="premium quality icons">Premium quality icons created by Freepik - Flaticon</a>
 <a href="https://www.flaticon.com/free-icons/medal" title="medal icons">Medal icons created by justicon - Flaticon</a>
 <a href="https://www.flaticon.com/free-icons/best-friends" title="best friends icons">Best friends icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/gaming" title="gaming icons">Gaming icons created by Freepik - Flaticon</a>

@@ -5,6 +5,7 @@ import { AN } from 'constants/styles/appStyles';
 import { Color } from 'constants/styles/Colors';
 import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import GoogleLogo from './googleLogo.svg';
 import FastImage from 'react-native-fast-image';
 
@@ -18,11 +19,16 @@ const MyIcon = ({
 }: Props) => {
   const { colors } = useTheme();
 
-  if (name === 'googleLogo') {
-    return <GoogleLogo style={style} />;
-  }
+  const vectorIconProps = {
+    name,
+    color: colors[color],
+    size,
+    style,
+    onPress: onPress ? onPress : undefined,
+  };
 
-  if (name === 'colorPalette') {
+  if (name === 'googleLogo') return <GoogleLogo style={style} />;
+  if (name === 'colorPalette')
     return (
       <FastImage
         source={require('./colorPalette.png')}
@@ -30,39 +36,11 @@ const MyIcon = ({
         style={{ width: size, height: size, ...style }}
       />
     );
-  }
 
-  if (family === 'fontAwesome5')
-    return (
-      <FontAwesome5
-        name={name}
-        color={colors[color]}
-        size={size}
-        style={style}
-        onPress={onPress ? onPress : undefined}
-      />
-    );
-
-  if (family === 'simpleLine')
-    return (
-      <SimpleLineIcon
-        name={name}
-        color={colors[color]}
-        size={size}
-        style={style}
-        onPress={onPress ? onPress : undefined}
-      />
-    );
-
-  return (
-    <Icon
-      name={name}
-      color={colors[color]}
-      size={size}
-      style={style}
-      onPress={onPress ? onPress : undefined}
-    />
-  );
+  if (family === 'material') return <MaterialIcon {...vectorIconProps} />;
+  if (family === 'fontAwesome5') return <FontAwesome5 {...vectorIconProps} />;
+  if (family === 'simpleLine') return <SimpleLineIcon {...vectorIconProps} />;
+  return <Icon {...vectorIconProps} />;
 };
 
 export default MyIcon;
@@ -73,7 +51,7 @@ interface Props {
   style?: {};
   onPress?: () => void;
   color?: Color;
-  family?: 'feather' | 'simpleLine' | 'fontAwesome5';
+  family?: 'feather' | 'simpleLine' | 'fontAwesome5' | 'material';
 }
 
 export type IconName =
