@@ -8,7 +8,6 @@ import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React, { useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import API from 'services/api';
 import { useAppSelector } from 'store/index';
 import { Message } from 'store/types/dataSliceTypes';
 import MessageTile from './components/MessageTile';

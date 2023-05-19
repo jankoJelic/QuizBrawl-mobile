@@ -7,6 +7,7 @@ import { AN, SCREEN_HEIGHT, SCREEN_WIDTH } from 'constants/styles/appStyles';
 import UserInfoTile from 'containers/UserInfoTile/UserInfoTile';
 import MyScrollView from 'hoc/MyScrollView';
 import useStyles from 'hooks/styles/useStyles';
+import { useUserData } from 'hooks/useUserData';
 import React from 'react';
 import { Share, StyleSheet } from 'react-native';
 import { Drawer } from 'react-native-drawer-layout';
@@ -21,6 +22,7 @@ const Sidebar = ({ children }) => {
   const { sideBarVisible } = useAppSelector(state => state.appState);
   const { inbox } = useAppSelector(state => state.data.userData);
   const { styles, colors } = useStyles(createStyles);
+  const { unreadMessages } = useUserData();
 
   const onClose = () => {
     dispatch(hideSideBar());
@@ -73,7 +75,11 @@ const Sidebar = ({ children }) => {
               title="My profile"
               icon="user"
               onPress={goToProfile}
-              notification={inbox?.length ? String(inbox.length) : undefined}
+              notification={
+                unreadMessages?.length
+                  ? String(unreadMessages.length)
+                  : undefined
+              }
             />
             <MenuTile title="Logout" icon="log-out" onPress={onPressLogout} />
 

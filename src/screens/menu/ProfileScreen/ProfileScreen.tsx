@@ -4,6 +4,7 @@ import MenuTile from 'components/tiles/MenuTile';
 import { AN } from 'constants/styles/appStyles';
 import UserInfoTile from 'containers/UserInfoTile/UserInfoTile';
 import ScreenWrapper from 'hoc/ScreenWrapper';
+import { useUserData } from 'hooks/useUserData';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React from 'react';
 import { useAppSelector } from 'store/index';
@@ -12,6 +13,7 @@ const ProfileScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Profile'>
 > = ({ navigation }) => {
   const { inbox } = useAppSelector(state => state.data.userData);
+  const { unreadMessages } = useUserData();
 
   const goToInbox = () => {
     navigation.navigate('Inbox');
@@ -31,7 +33,9 @@ const ProfileScreen: React.FC<
         icon="mail"
         style={{ marginTop: AN(30) }}
         onPress={goToInbox}
-        notification={inbox?.length ? String(inbox.length) : undefined}
+        notification={
+          unreadMessages?.length ? String(unreadMessages.length) : undefined
+        }
       />
       <MenuTile
         title="Customize"

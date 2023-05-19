@@ -6,6 +6,7 @@ import Title from 'components/typography/Title';
 import { Colors } from 'constants/styles/Colors';
 import { AN, PADDING_HORIZONTAL } from 'constants/styles/appStyles';
 import useStyles from 'hooks/styles/useStyles';
+import { useUserData } from 'hooks/useUserData';
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -16,6 +17,7 @@ const LandingScreenHeader = () => {
   const dispatch = useDispatch();
   const { styles } = useStyles(createStyles);
   const { userData } = useAppSelector(state => state.data);
+  const { unreadMessages } = useUserData();
 
   const openSideBar = () => {
     dispatch(showSideBar());
@@ -35,9 +37,9 @@ const LandingScreenHeader = () => {
         />
         <UserAvatar onPress={openSideBar} />
       </View>
-      {userData.inbox?.length ? (
+      {unreadMessages?.length ? (
         <NotificationBadge
-          text={String(userData.inbox.length)}
+          text={String(unreadMessages.length)}
           style={{ position: 'absolute', top: AN(2), right: AN(6) }}
         />
       ) : (
