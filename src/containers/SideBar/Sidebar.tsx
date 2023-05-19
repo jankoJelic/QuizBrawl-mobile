@@ -19,6 +19,7 @@ const Sidebar = ({ children }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { sideBarVisible } = useAppSelector(state => state.appState);
+  const { inbox } = useAppSelector(state => state.data.userData);
   const { styles, colors } = useStyles(createStyles);
 
   const onClose = () => {
@@ -54,6 +55,7 @@ const Sidebar = ({ children }) => {
       drawerType="slide"
       onOpen={onOpen}
       onClose={onClose}
+      swipeEnabled={false}
       renderDrawerContent={() => {
         return (
           <MyScrollView
@@ -67,7 +69,12 @@ const Sidebar = ({ children }) => {
               color="neutral400"
               style={{ marginTop: AN(18) }}
             />
-            <MenuTile title="My profile" icon="user" onPress={goToProfile} />
+            <MenuTile
+              title="My profile"
+              icon="user"
+              onPress={goToProfile}
+              notification={inbox?.length ? String(inbox.length) : undefined}
+            />
             <MenuTile title="Logout" icon="log-out" onPress={onPressLogout} />
 
             <BodySmall

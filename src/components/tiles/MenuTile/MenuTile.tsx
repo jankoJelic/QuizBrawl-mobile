@@ -1,4 +1,5 @@
 import MyIcon, { IconName } from 'assets/icons/MyIcon';
+import NotificationBadge from 'components/misc/NotificationBadge';
 import Tag from 'components/misc/Tag';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Color, Colors } from 'constants/styles/Colors';
@@ -15,6 +16,7 @@ const MenuTile = ({
   icon,
   tagColor,
   style = {},
+  notification = '',
 }: Props) => {
   const { styles } = useStyles(createStyles);
 
@@ -28,6 +30,15 @@ const MenuTile = ({
         <BodyMedium text={title} />
       </View>
       {!!tag && <Tag text={tag} color={tagColor} />}
+      {!!notification ? (
+        <NotificationBadge
+          color="danger500"
+          text={notification}
+          style={{ position: 'absolute', right: AN(20) }}
+        />
+      ) : (
+        <></>
+      )}
     </TouchableOpacity>
   );
 };
@@ -51,4 +62,5 @@ interface Props {
   icon: IconName;
   tagColor?: Color;
   style?: {};
+  notification?: string;
 }

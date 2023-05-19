@@ -8,7 +8,7 @@ import { View } from 'react-native';
 
 const NotificationBadge = ({
   color = 'danger500',
-  size = AN(20),
+  size = AN(17),
   text = '0',
   style = {},
 }: Props) => {
@@ -40,7 +40,7 @@ const createStyles = (color: Colors) =>
 export default NotificationBadge;
 
 interface Props {
-  color: Color;
+  color?: Color;
   size?: number;
   text: string;
   style?: {};

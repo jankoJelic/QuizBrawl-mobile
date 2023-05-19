@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import MyIcon, { IconName } from 'assets/icons/MyIcon';
+import MyIcon, { IconFamily, IconName } from 'assets/icons/MyIcon';
 import BodySmall from 'components/typography/BodySmall/BodySmall';
 import { Colors } from 'constants/styles/Colors';
 import { AN } from 'constants/styles/appStyles';
@@ -7,15 +7,26 @@ import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
-const NavIcon = ({ title = '', icon = 'check', onPress }: NavIconProps) => {
+const NavIcon = ({
+  title = '',
+  icon = 'check',
+  onPress,
+  iconFamily = 'feather',
+}: NavIconProps) => {
   const onPressMe = () => {
     onPress(title);
   };
 
   return (
-    <TouchableOpacity style={{ alignItems: 'center' }} onPress={onPressMe}>
-      <MyIcon name={icon} color="neutral400" />
-      <BodySmall text={title} color="neutral400" />
+    <TouchableOpacity
+      style={{ alignItems: 'center', justifyContent: 'center' }}
+      onPress={onPressMe}>
+      <MyIcon name={icon} color="neutral400" family={iconFamily} />
+      <BodySmall
+        text={title}
+        color="neutral400"
+        style={{ textAlign: 'center' }}
+      />
     </TouchableOpacity>
   );
 };
@@ -34,7 +45,7 @@ const BottomNavigation = () => {
 
   const startQuickGame = () => {};
 
-  const goToExploreScreen = () => {}
+  const goToExploreScreen = () => {};
 
   return (
     <View style={styles.container}>
@@ -45,12 +56,13 @@ const BottomNavigation = () => {
         <MyIcon name="shopping-cart" color="neutral400" />
         <BodySmall text="Shop" color="neutral400" />
       </TouchableOpacity>
-      <TouchableOpacity style={{ alignItems: 'center' }}>
-        <MyIcon name="shopping-cart" color="neutral400" />
-        <BodySmall text="Shop" color="neutral400" />
-      </TouchableOpacity>
-      <NavIcon title="Explore" icon="users" onPress={goToFriendsScreen} />
-
+      <NavIcon title="Ranks" icon="trophyRank" />
+      <NavIcon
+        title="Explore"
+        icon="explore"
+        iconFamily="material"
+        onPress={goToFriendsScreen}
+      />
     </View>
   );
 };
@@ -75,4 +87,5 @@ interface NavIconProps {
   title: string;
   icon: IconName;
   onPress: (title: string) => any;
+  iconFamily?: IconFamily;
 }

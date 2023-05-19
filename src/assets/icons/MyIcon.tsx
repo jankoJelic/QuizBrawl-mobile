@@ -27,13 +27,22 @@ const MyIcon = ({
     onPress: onPress ? onPress : undefined,
   };
 
+  const imageStyle = { width: size, height: size, ...style };
+
+  if (name === 'trophyRank')
+    return (
+      <FastImage
+        source={require('../icons/trophyRank.png')}
+        style={imageStyle}
+      />
+    );
   if (name === 'googleLogo') return <GoogleLogo style={style} />;
   if (name === 'colorPalette')
     return (
       <FastImage
         source={require('./colorPalette.png')}
         tintColor={colors[color]}
-        style={{ width: size, height: size, ...style }}
+        style={imageStyle}
       />
     );
 
@@ -51,8 +60,10 @@ interface Props {
   style?: {};
   onPress?: () => void;
   color?: Color;
-  family?: 'feather' | 'simpleLine' | 'fontAwesome5' | 'material';
+  family?: IconFamily;
 }
+
+export type IconFamily = 'feather' | 'simpleLine' | 'fontAwesome5' | 'material';
 
 export type IconName =
   | 'arrow-left'
@@ -81,4 +92,6 @@ export type IconName =
   | 'briefcase'
   | 'columns'
   | 'key'
-  | 'mail';
+  | 'mail'
+  | 'explore'
+  | 'trophyRank';

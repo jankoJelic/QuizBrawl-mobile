@@ -17,6 +17,8 @@ import useStyles from 'hooks/styles/useStyles';
 import { setRooms } from 'store/slices/dataSlice';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { LOBBY_IDS } from 'constants/constants';
+import FastImage from 'react-native-fast-image';
+import BodySmall from 'components/typography/BodySmall/BodySmall';
 
 const LobbyCarousel = () => {
   const dispatch = useDispatch();
@@ -46,11 +48,9 @@ const LobbyCarousel = () => {
     switch (lobbyName) {
       case 'Arena':
         return (
-          <FeatherIcon
-            family="fontAwesome5"
-            name="users"
-            size={SCREEN_WIDTH * 0.2}
-            color="arena"
+          <FastImage
+            source={require('../../../../assets/icons/lobbies/arena.png')}
+            style={{ width: SCREEN_WIDTH * 0.2, aspectRatio: 1 }}
           />
         );
 
@@ -116,13 +116,34 @@ const LobbyCarousel = () => {
       selectLobby(item.name);
     };
 
+    const renderDescription = (lobbyName: string) => {
+      switch (lobbyName) {
+        case 'Arena':
+          return (
+            <BodySmall
+              text="Play real-time multiplayer game to win trophies"
+              style={{ textAlign: 'center', marginBottom: AN(6) }}
+              color="warning100"
+            />
+          );
+      }
+    };
+
+    const color = (lobbyName: string) => {
+      switch (lobbyName) {
+        case 'Arena':
+          return 'warning100';
+      }
+    };
+
     return (
       <TileWrapper style={styles.itemContainer} onPress={onPressTile}>
         <Title
           text={item.name}
-          color={item.name.toLowerCase() as Color}
+          color={color(item.name) as Color}
           style={styles.title}
         />
+        {renderDescription(item.name)}
         {renderIcon(item?.name)}
         <View style={styles.infoContainer}>
           <BodyMedium

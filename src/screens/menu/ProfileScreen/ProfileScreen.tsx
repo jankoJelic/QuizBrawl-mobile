@@ -11,7 +11,7 @@ import { useAppSelector } from 'store/index';
 const ProfileScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Profile'>
 > = ({ navigation }) => {
-  const { userData } = useAppSelector(state => state.data);
+  const { inbox } = useAppSelector(state => state.data.userData);
 
   const goToInbox = () => {
     navigation.navigate('Inbox');
@@ -31,6 +31,7 @@ const ProfileScreen: React.FC<
         icon="mail"
         style={{ marginTop: AN(30) }}
         onPress={goToInbox}
+        notification={inbox?.length ? String(inbox.length) : undefined}
       />
       <MenuTile
         title="Customize"
