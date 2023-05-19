@@ -90,6 +90,7 @@ export type IconName =
   | 'eye'
   | 'eye-off'
   | 'log-out'
+  | 'shopping-cart'
   | 'clock'
   | 'lock'
   | 'unlock'

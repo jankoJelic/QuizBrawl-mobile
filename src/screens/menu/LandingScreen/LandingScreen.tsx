@@ -14,13 +14,24 @@ import { exitLobby, exitRoom } from 'store/slices/dataSlice';
 import usePreventNativeBackButton from 'navigation/hooks/usePreventNativeBack';
 import { AN } from 'constants/styles/appStyles';
 import Sidebar from 'containers/SideBar';
-import { PermissionsAndroid } from 'react-native';
+import {
+  PermissionsAndroid,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import useFCM from 'services/fcm/useFCM';
+import MyIcon from 'assets/icons/MyIcon';
+import { Colors } from 'constants/styles/Colors';
+import useStyles from 'hooks/styles/useStyles';
+import BodySmall from 'components/typography/BodySmall/BodySmall';
+import BottomNavigation from 'navigation/BottomNavigation';
 
 const LandingScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Landing'>
 > = ({ navigation }) => {
   usePreventNativeBackButton();
+  const { colors } = useStyles(createStyles);
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
 
@@ -53,8 +64,11 @@ const LandingScreen: React.FC<
           <CreateYourQuizTile />
         </MyScrollView>
       </Sidebar>
+      <BottomNavigation />
     </ScreenWrapper>
   );
 };
+
+const createStyles = (colors: Colors) => StyleSheet.create({});
 
 export default LandingScreen;
