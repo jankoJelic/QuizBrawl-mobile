@@ -45,4 +45,5 @@ export interface Message {
   senderId: number;
   createdAt: number;
   id: string;
+  read: 'true' | 'false';
 }

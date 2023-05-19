@@ -61,7 +61,7 @@ const Sidebar = ({ children }) => {
               ...styles.container,
               right: sideBarVisible ? 0 : AN(12),
             }}>
-            <UserInfoTile />
+            <UserInfoTile onPress={goToProfile} />
             <BodySmall
               text="Profile"
               color="neutral400"

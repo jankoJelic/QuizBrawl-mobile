@@ -7,7 +7,7 @@ import ScreenWrapper from 'hoc/ScreenWrapper';
 import TouchableBounce from 'hoc/TouchableBounce';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
@@ -83,6 +83,16 @@ const CustomizeProfileScreen: React.FC<
     );
   };
 
+  const getMyAvatars = async () => {
+    const avatars = await API.getMyAvatars();
+
+    setAvailableAvatars(avatars);
+  };
+
+  useEffect(() => {
+    getMyAvatars();
+  }, []);
+
   return (
     <ScreenWrapper>
       <NavHeader title="Customize" fullWidth style={{ marginBottom: AN(20) }} />
@@ -96,7 +106,7 @@ const CustomizeProfileScreen: React.FC<
           <>
             <BodyLarge text="Select avatar" style={{ marginTop: AN(20) }} />
             <FlatList
-              data={avatars}
+              data={availableAvatars}
               renderItem={renderAvatar}
               numColumns={4}
               keyExtractor={item => item + 'avatarProfile'}

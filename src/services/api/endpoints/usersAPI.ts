@@ -11,4 +11,10 @@ export const usersAPI = {
 
     return data;
   },
+
+  getMyAvatars: async () => {
+    const { data } = await get<string[]>('/users/avatars');
+
+    return data;
+  },
 };

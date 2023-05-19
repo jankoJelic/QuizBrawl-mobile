@@ -56,8 +56,9 @@ const createStyles = (colors: Colors) =>
     buttonsFooter: {
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'space-evenly',
+      justifyContent: 'space-around',
       marginTop: AN(10),
+      width: '100%',
     },
   });
 

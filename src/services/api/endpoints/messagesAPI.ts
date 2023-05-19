@@ -1,7 +1,7 @@
 import { Message } from 'store/types/dataSliceTypes';
 import httpClient from '../httpClient';
 
-const { destroy, patch } = httpClient;
+const { destroy, patch, get } = httpClient;
 
 export const messagesAPI = {
   deleteMessage: async (id: string) => {
@@ -16,4 +16,8 @@ export const messagesAPI = {
     });
     return data;
   },
+
+  readMessage: async (id:string) => {
+    const {data} = await get('/messages/message/read', {params: {id}})
+  }
 };
