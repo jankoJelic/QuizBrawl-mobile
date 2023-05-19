@@ -21,7 +21,7 @@ const Tag = ({
         // borderColor: colors[color],
         ...style,
       }}>
-      <BodySmall text={`- ${text} -`} color={color} weight="bold" />
+      <BodySmall text={`• ${text} •`} color={color} weight="bold" />
     </View>
   );
 };
