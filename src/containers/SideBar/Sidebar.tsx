@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import MenuTile from 'components/tiles/MenuTile';
 import BodySmall from 'components/typography/BodySmall/BodySmall';
 import { APP_DISPLAY_NAME } from 'constants/constants';

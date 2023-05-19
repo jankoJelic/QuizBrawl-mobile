@@ -17,7 +17,7 @@ export const messagesAPI = {
     return data;
   },
 
-  readMessage: async (id:string) => {
-    const {data} = await get('/messages/message/read', {params: {id}})
-  }
+  readMessage: (id: string) => {
+    get('/messages/message/read', { params: { id } });
+  },
 };

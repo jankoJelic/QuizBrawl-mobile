@@ -1,4 +1,5 @@
 import ClearButton from 'components/buttons/ClearButton';
+import { FontWeight } from 'components/typography/BaseTextComponent';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Colors } from 'constants/styles/Colors';
 import { AN, PADDING_HORIZONTAL } from 'constants/styles/appStyles';
@@ -11,18 +12,22 @@ import { useDispatch } from 'react-redux';
 import API from 'services/api';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { useAppSelector } from 'store/index';
-import { addFriend, deleteMessage } from 'store/slices/dataSlice';
+import { addFriend, deleteMessage, readMessage } from 'store/slices/dataSlice';
 import { Message } from 'store/types/dataSliceTypes';
 
 const MessageTile = ({ message }: Props) => {
   const dispatch = useDispatch();
-  const { styles, colors } = useStyles(createStyles);
+  const { styles } = useStyles(createStyles);
   const { userData } = useAppSelector(state => state.data);
-  const { createdAt, title, payload, type, id, senderId } = message || {};
+  const { createdAt, title, payload, type, id, senderId, read } = message || {};
 
   const [collapsed, setCollapsed] = useState(true);
 
   const toggleCollapsed = () => {
+    if (read === 'false') {
+      dispatch(readMessage(id));
+      API.readMessage(id);
+    }
     setCollapsed(!collapsed);
   };
 
@@ -30,9 +35,7 @@ const MessageTile = ({ message }: Props) => {
     try {
       await API.deleteMessage(id);
       dispatch(deleteMessage(id));
-    } catch (e) {
-      console.log(JSON.stringify(e));
-    }
+    } catch (e) {}
   };
 
   const acceptFriendRequest = async () => {
@@ -69,6 +72,8 @@ const MessageTile = ({ message }: Props) => {
     }
   };
 
+  const fontWeight = read === 'false' ? 'bold' : 'true';
+
   return (
     <>
       <TouchableOpacity
@@ -78,8 +83,13 @@ const MessageTile = ({ message }: Props) => {
           onPress={toggleCollapsed}
           text={new Date(Number(createdAt)).toLocaleString()}
           color="neutral400"
+          weight={fontWeight as FontWeight}
         />
-        <BodyMedium text={title} onPress={toggleCollapsed} />
+        <BodyMedium
+          text={title}
+          onPress={toggleCollapsed}
+          weight={fontWeight as FontWeight}
+        />
       </TouchableOpacity>
       <MyCollapsible collapsed={collapsed}>
         {renderCollapsiblePart()}

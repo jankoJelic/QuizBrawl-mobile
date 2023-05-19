@@ -162,6 +162,20 @@ export const authSlice = createSlice({
         f => f.id !== action.payload.id,
       );
     },
+    readMessage: (state, action) => {
+      const currentInbox = state.userData.inbox;
+
+      const updatedInbox = currentInbox?.map(mess =>
+        mess.id === action.payload
+          ? {
+              ...mess,
+              read: 'true',
+            }
+          : mess,
+      );
+
+      state.userData.inbox = updatedInbox || [];
+    },
   },
 });
 
@@ -186,7 +200,8 @@ export const {
   addMessageToInbox,
   addFriend,
   removeFriend,
-  deleteMessage
+  deleteMessage,
+  readMessage
 } = authSlice.actions;
 
 export default authSlice.reducer;
