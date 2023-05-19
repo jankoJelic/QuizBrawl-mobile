@@ -112,3 +112,5 @@ https://www.iconfinder.com/search?q=music&price=free
 <a href="https://www.flaticon.com/free-icons/sports-and-competition" title="sports and competition icons">Sports and competition icons created by Prosymbols Premium - Flaticon</a>
 <a href="https://www.flaticon.com/free-icons/laurel" title="laurel icons">Laurel icons created by Prosymbols Premium - Flaticon</a>
 <a href="https://www.flaticon.com/free-icons/stadium" title="stadium icons">Stadium icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/vs" title="vs icons">Vs icons created by vectorsmarket15 - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/money" title="money icons">Money icons created by vectorsmarket15 - Flaticon</a>

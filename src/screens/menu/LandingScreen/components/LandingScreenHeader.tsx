@@ -17,7 +17,7 @@ const LandingScreenHeader = () => {
   const dispatch = useDispatch();
   const { styles } = useStyles(createStyles);
   const { userData } = useAppSelector(state => state.data);
-  const { unreadMessages } = useUserData();
+  const { notificationsCount } = useUserData();
 
   const openSideBar = () => {
     dispatch(showSideBar());
@@ -37,9 +37,9 @@ const LandingScreenHeader = () => {
         />
         <UserAvatar onPress={openSideBar} />
       </View>
-      {unreadMessages?.length ? (
+      {notificationsCount?.length ? (
         <NotificationBadge
-          text={String(unreadMessages.length)}
+          text={String(notificationsCount.length)}
           style={{ position: 'absolute', top: AN(2), right: AN(6) }}
         />
       ) : (

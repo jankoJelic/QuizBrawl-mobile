@@ -20,9 +20,8 @@ const Sidebar = ({ children }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { sideBarVisible } = useAppSelector(state => state.appState);
-  const { inbox } = useAppSelector(state => state.data.userData);
   const { styles, colors } = useStyles(createStyles);
-  const { unreadMessages } = useUserData();
+  const { notificationsCount } = useUserData();
 
   const onClose = () => {
     dispatch(hideSideBar());
@@ -76,8 +75,8 @@ const Sidebar = ({ children }) => {
               icon="user"
               onPress={goToProfile}
               notification={
-                unreadMessages?.length
-                  ? String(unreadMessages.length)
+                notificationsCount?.length
+                  ? String(notificationsCount.length)
                   : undefined
               }
             />
