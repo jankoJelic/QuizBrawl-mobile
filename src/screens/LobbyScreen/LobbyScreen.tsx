@@ -6,7 +6,7 @@ import RoomTile from 'components/tiles/RoomTile';
 import BodyLarge from 'components/typography/BodyLarge';
 import { LOBBY_IDS } from 'constants/constants';
 import { Colors } from 'constants/styles/Colors';
-import { AN, SCREEN_WIDTH } from 'constants/styles/appStyles';
+import { AN } from 'constants/styles/appStyles';
 import Popup from 'containers/Popup/Popup';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
@@ -30,6 +30,9 @@ const LobbyScreen: React.FC<
   const lobbyRooms = rooms.filter(room => room?.lobby?.id === lobbyId);
 
   const [passwordPopupVisible, setPasswordPopupVisible] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [passwordInputError, setPasswordInputError] = useState(false);
+  const [selectedRoom, setSelectedRoom] = useState<Room>();
 
   const openPasswordPopup = () => {
     setPasswordPopupVisible(true);
@@ -45,24 +48,35 @@ const LobbyScreen: React.FC<
 
   const renderItem = ({ item, index }: { item: Room; index: number }) => {
     const onPressRoom = () => {
+      setSelectedRoom(item);
+
       if (!!item.password) {
         openPasswordPopup();
-        return;
+      } else {
+        enterRoom(item);
       }
-
-      SOCKET.emit(SOCKET_EVENTS.USER_JOINED_ROOM, {
-        roomId: item.id,
-        user: userData,
-      });
-
-      navigation.navigate('Room', { room: item });
-      dispatch(joinRoom(item));
     };
 
     return <RoomTile room={item} index={index} onPress={onPressRoom} />;
   };
 
-  const submitPassword = () => {};
+  const enterRoom = (room: Room) => {
+    SOCKET.emit(SOCKET_EVENTS.USER_JOINED_ROOM, {
+      roomId: room.id,
+      user: userData,
+    });
+
+    navigation.navigate('Room', { room });
+    dispatch(joinRoom(room));
+  };
+
+  const submitPassword = () => {
+    if (passwordInput === selectedRoom?.password) {
+      enterRoom(selectedRoom);
+    } else {
+      setPasswordInputError(true);
+    }
+  };
 
   const title = () => {
     if (lobbyId === LOBBY_IDS.ARENA) return 'Arena';
@@ -98,7 +112,13 @@ const LobbyScreen: React.FC<
         secondButtonTitle="Cancel"
         onPressFirstButton={submitPassword}
         onPressSecondButton={closePasswordPopup}
-        Content={<InputField />}
+        Content={
+          <InputField
+            value={passwordInput}
+            onChangeText={setPasswordInput}
+            error={passwordInputError}
+          />
+        }
       />
     </ScreenWrapper>
   );
