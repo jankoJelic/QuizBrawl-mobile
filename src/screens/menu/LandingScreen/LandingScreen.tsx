@@ -27,22 +27,29 @@ import useStyles from 'hooks/styles/useStyles';
 import BodySmall from 'components/typography/BodySmall/BodySmall';
 import BottomNavigation from 'navigation/BottomNavigation';
 import API from 'services/api';
+import { useAppSelector } from 'store/index';
 
 const LandingScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Landing'>
 > = ({ navigation }) => {
   usePreventNativeBackButton();
   const { colors } = useStyles(createStyles);
+  const { friends } = useAppSelector(state => state.data.userData);
+
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
 
   useFCM();
 
-  // useEffect(() => {
-  //   API.getFriends()
-  //     .then(friends => dispatch(setFriends(friends)))
-  //     .catch(() => {});
-  // }, []);
+  useEffect(() => {
+    if (friends === null) return;
+    if (!friends.length) return;
+    if (!!friends[0]?.id) return;
+
+    API.getFriends()
+      .then(friends => dispatch(setFriends(friends)))
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (isFocused) {

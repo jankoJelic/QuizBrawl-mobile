@@ -9,6 +9,7 @@ import React from 'react';
 import { FlatList } from 'react-native';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
+import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { useAppSelector } from 'store/index';
 import { removeFriend } from 'store/slices/dataSlice';
 
@@ -31,14 +32,13 @@ const FriendScreen: React.FC<
     id,
   } = route.params || {};
 
-  console.log(route.params);
-
   const renderFriend = ({ item }) => <UserTile user={item} />;
 
   const deleteFriend = () => {
     dispatch(removeFriend(route.params));
     API.removeFriend(id as number);
     navigation.navigate('Friends');
+    SOCKET.emit(SOCKET_EVENTS);
   };
 
   return (

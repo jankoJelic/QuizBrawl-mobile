@@ -12,7 +12,7 @@ const FriendsScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Friends'>
 > = ({ navigation }) => {
   const { friends } = useAppSelector(state => state.data.userData);
-  console.log(friends);
+
   const renderFriend = ({ item }: { item: Partial<UserData> }) => {
     const onPressFriend = () => {
       navigation.navigate('Friend', item);

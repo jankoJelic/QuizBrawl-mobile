@@ -162,11 +162,9 @@ export const authSlice = createSlice({
     },
     removeFriend: (state, action: { payload: Partial<UserData> }) => {
       const currentFriends = state.userData.friends;
-      console.log(currentFriends, action.payload.id);
       const updatedFriends = currentFriends.filter(
         f => f.id != action.payload.id,
       );
-      console.log(updatedFriends);
       state.userData.friends = updatedFriends;
     },
     readMessage: (state, action) => {

@@ -17,12 +17,11 @@ export const usersAPI = {
   },
 
   removeFriend: (id: number) => {
-    destroy('/users/removeFriend', { params: { id } });
+    destroy('/removeFriend', { params: { id } });
   },
 
   getFriends: async () => {
     const { data } = await get<Partial<UserData>[]>('/users/friends');
-    console.log(data?.length);
     return data;
   },
 };
