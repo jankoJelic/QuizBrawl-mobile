@@ -21,8 +21,8 @@ import { useAppSelector } from 'store/index';
 import { startLoading, stopLoading } from 'store/slices/appStateSlice';
 import { UserData } from 'store/types/authSliceTypes';
 
-const ArenaRoomScreen: React.FC<
-  NativeStackScreenProps<MainStackParamsList, 'ArenaRoom'>
+const RoomScreen: React.FC<
+  NativeStackScreenProps<MainStackParamsList, 'Room'>
 > = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const { onQuestion } = useAppSelector(state => state.game);
@@ -225,4 +225,4 @@ const ArenaRoomScreen: React.FC<
   );
 };
 
-export default ArenaRoomScreen;
+export default RoomScreen;

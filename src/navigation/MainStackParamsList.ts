@@ -19,8 +19,7 @@ export type MainStackParamsList = {
 
   CreateQuiz: undefined;
   CreateRoom: { lobbyId: number };
-
-  ArenaRoom: { room: Room };
+  Room: { room: Room };
 
   GameSplash: undefined;
   Question: undefined;
