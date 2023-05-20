@@ -54,23 +54,19 @@ const LobbyCarousel = () => {
           />
         );
 
-      case '1v1':
+      case 'Cash game':
         return (
-          <FeatherIcon
-            family="fontAwesome5"
-            name="user-friends"
-            size={SCREEN_WIDTH * 0.2}
-            color="1v1"
+          <FastImage
+            source={require('../../../../assets/icons/lobbies/money.png')}
+            style={{ width: SCREEN_WIDTH * 0.2, aspectRatio: 1 }}
           />
         );
 
       case 'Solo':
         return (
-          <FeatherIcon
-            family="fontAwesome5"
-            name="user-alt"
-            size={SCREEN_WIDTH * 0.2}
-            color="solo"
+          <FastImage
+            source={require('../../../../assets/icons/lobbies/shield.png')}
+            style={{ width: SCREEN_WIDTH * 0.2, aspectRatio: 1 }}
           />
         );
 
@@ -93,10 +89,10 @@ const LobbyCarousel = () => {
         dispatch(joinLobby(lobbies.find(l => l.id === LOBBY_IDS.ARENA)));
         navigation.navigate('ArenaLobby');
         break;
-      case '1v1':
-        emitJoinLobbyEvent(LOBBY_IDS['1V1']);
-        dispatch(joinLobby(lobbies.find(l => l.id === LOBBY_IDS['1V1'])));
-        navigation.navigate('1v1Lobby');
+      case 'Cash game':
+        emitJoinLobbyEvent(LOBBY_IDS.CASH_GAME);
+        dispatch(joinLobby(lobbies.find(l => l.id === LOBBY_IDS.CASH_GAME)));
+        navigation.navigate('CashGameLobby');
         break;
       case 'Solo':
         emitJoinLobbyEvent(LOBBY_IDS.SOLO);
@@ -122,10 +118,28 @@ const LobbyCarousel = () => {
           return (
             <BodySmall
               text="Play real-time multiplayer game to win trophies"
-              style={{ textAlign: 'center', marginBottom: AN(6) }}
+              style={styles.description}
               color="warning100"
             />
           );
+        case 'Cash game':
+          return (
+            <BodySmall
+              text="Play different game modes with other players for cash or for fun"
+              style={styles.description}
+              color="success500"
+            />
+          );
+        case 'Solo':
+          return (
+            <BodySmall
+              text="Play solo events to win prizes"
+              style={styles.description}
+              color="brand500"
+            />
+          );
+        default:
+          return <></>;
       }
     };
 
@@ -133,6 +147,10 @@ const LobbyCarousel = () => {
       switch (lobbyName) {
         case 'Arena':
           return 'warning100';
+        case 'Cash game':
+          return 'success500';
+        case 'Solo':
+          return 'brand500';
       }
     };
 
@@ -143,7 +161,7 @@ const LobbyCarousel = () => {
           color={color(item.name) as Color}
           style={styles.title}
         />
-        {renderDescription(item.name)}
+        {renderDescription(item?.name)}
         {renderIcon(item?.name)}
         <View style={styles.infoContainer}>
           <BodyMedium
@@ -180,6 +198,7 @@ const createStyles = (colors: Colors) =>
     },
     infoContainer: { alignItems: 'center', marginTop: AN(10) },
     title: { marginBottom: AN(10) },
+    description: { textAlign: 'center', marginBottom: AN(6), opacity: 0.7 },
   });
 
 export default LobbyCarousel;

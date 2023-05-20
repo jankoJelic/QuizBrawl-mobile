@@ -13,6 +13,7 @@ import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 import API from 'services/api';
+import ENCRYPTED_STORAGE from 'services/encryptedStorage';
 
 const LoginScreen = ({
   navigation,

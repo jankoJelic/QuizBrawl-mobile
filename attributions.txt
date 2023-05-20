@@ -114,3 +114,4 @@ https://www.iconfinder.com/search?q=music&price=free
 <a href="https://www.flaticon.com/free-icons/stadium" title="stadium icons">Stadium icons created by Freepik - Flaticon</a>
 <a href="https://www.flaticon.com/free-icons/vs" title="vs icons">Vs icons created by vectorsmarket15 - Flaticon</a>
 <a href="https://www.flaticon.com/free-icons/money" title="money icons">Money icons created by vectorsmarket15 - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/economy" title="economy icons">Economy icons created by Freepik - Flaticon</a>

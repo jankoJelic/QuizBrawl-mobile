@@ -8,7 +8,7 @@ export interface Lobby {
   users: UserData[];
 }
 
-export type LobbyName = 'Arena' | '1v1' | 'Solo';
+export type LobbyName = 'Arena' | 'Cash game' | 'Solo';
 
 export interface Room {
   id: number;

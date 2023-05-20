@@ -28,7 +28,8 @@ export const authAPI = {
 
   getUserData: async () => {
     const { data } = await get('/auth/me');
-    store.dispatch(storeUserData(data));
+    store.dispatch(storeUserData(data.userData));
+    storeTokens(data.accessToken, data.refreshToken);
     return data;
   },
 

@@ -35,8 +35,8 @@ const BottomNavigation = () => {
   const { colors, styles } = useStyles(createStyles);
   const navigation = useNavigation();
 
-  const goToShop = () => {
-    navigation.navigate('Shop');
+  const goTopMarket = () => {
+    navigation.navigate('Market');
   };
 
   const goToFriendsScreen = () => {
@@ -49,7 +49,7 @@ const BottomNavigation = () => {
 
   return (
     <View style={styles.container}>
-      <NavIcon title="Shop" icon="shopping-cart" onPress={goToShop} />
+      <NavIcon title="Market" icon="shopping-cart" onPress={goTopMarket} />
       <NavIcon title="Friends" icon="users" onPress={goToFriendsScreen} />
 
       <TouchableOpacity style={{ alignItems: 'center' }}>
