@@ -2,6 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import CTA from 'components/buttons/CTA';
 import NavHeader from 'components/layout/NavHeader';
 import RoomTile from 'components/tiles/RoomTile';
+import BodyLarge from 'components/typography/BodyLarge';
 import { LOBBY_IDS } from 'constants/constants';
 import { Colors } from 'constants/styles/Colors';
 import { AN } from 'constants/styles/appStyles';
@@ -27,7 +28,7 @@ const LobbyScreen: React.FC<
   const lobbyRooms = rooms.filter(room => room?.lobby?.id === lobbyId);
 
   const goToCreateRoom = () => {
-    navigation.navigate('CreateRoom', {lobbyId});
+    navigation.navigate('CreateRoom', { lobbyId });
   };
 
   const renderItem = ({ item, index }: { item: Room; index: number }) => {
@@ -54,14 +55,22 @@ const LobbyScreen: React.FC<
   return (
     <ScreenWrapper>
       <NavHeader title={title()} fullWidth />
-      <FlatList
-        data={lobbyRooms}
-        renderItem={renderItem}
-        numColumns={2}
-        contentContainerStyle={{ paddingTop: AN(20) }}
-        keyExtractor={item => item.id + 'room'}
+      {lobbyRooms?.length ? (
+        <FlatList
+          data={lobbyRooms}
+          renderItem={renderItem}
+          numColumns={2}
+          contentContainerStyle={{ paddingTop: AN(20) }}
+          keyExtractor={item => item.id + 'room'}
+        />
+      ) : (
+        <BodyLarge text="No open rooms" style={styles.emptyState} />
+      )}
+      <CTA
+        title="Create new room"
+        onPress={goToCreateRoom}
+        style={styles.cta}
       />
-      <CTA title="Create new room" onPress={goToCreateRoom} />
     </ScreenWrapper>
   );
 };
@@ -74,6 +83,8 @@ const createStyles = (colors: Colors) =>
       alignItems: 'flex-start',
       marginVertical: AN(4.2),
     },
+    cta: { position: 'absolute', bottom: AN(10), alignSelf: 'center' },
+    emptyState: { textAlign: 'center', marginTop: AN(30) },
   });
 
 export default LobbyScreen;

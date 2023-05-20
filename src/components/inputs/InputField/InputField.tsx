@@ -15,7 +15,7 @@ import React, {
 import { StyleSheet, TextInput, TextInputProps, View } from 'react-native';
 
 const InputField = forwardRef((props: Props, ref) => {
-  const { autoFocus, title, autoCapitalize = 'none', icon } = props;
+  const { autoFocus, title, autoCapitalize = 'none', icon, error } = props;
   const inputRef = useRef<TextInput>();
   const { styles, colors } = useStyles(createStyles);
   const [isFocused, setisFocused] = useState(false);
@@ -44,19 +44,17 @@ const InputField = forwardRef((props: Props, ref) => {
     setIsSecured(!isSecured);
   };
 
+  const color = error ? 'danger500' : isFocused ? 'brand400' : 'mainTextColor';
+
   return (
     <View style={styles.container}>
-      <BodyLarge
-        text={title}
-        style={styles.title}
-        color={isFocused ? 'brand400' : 'mainTextColor'}
-      />
+      <BodyLarge text={title} style={styles.title} color={color} />
       <TextInput
         ref={inputRef}
         style={[
           styles.inputField,
           {
-            borderColor: isFocused ? colors.brand500 : colors.neutral400,
+            borderColor: colors[color],
           },
         ]}
         selectionColor={colors.brand500}
@@ -106,4 +104,5 @@ export default InputField;
 interface Props extends TextInputProps {
   title?: string;
   icon?: IconName;
+  error?: boolean;
 }
