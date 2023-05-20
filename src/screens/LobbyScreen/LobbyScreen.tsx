@@ -1,15 +1,17 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import CTA from 'components/buttons/CTA';
+import InputField from 'components/inputs/InputField';
 import NavHeader from 'components/layout/NavHeader';
 import RoomTile from 'components/tiles/RoomTile';
 import BodyLarge from 'components/typography/BodyLarge';
 import { LOBBY_IDS } from 'constants/constants';
 import { Colors } from 'constants/styles/Colors';
-import { AN } from 'constants/styles/appStyles';
+import { AN, SCREEN_WIDTH } from 'constants/styles/appStyles';
+import Popup from 'containers/Popup/Popup';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
-import React from 'react';
+import React, { useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
@@ -23,9 +25,19 @@ const LobbyScreen: React.FC<
   const dispatch = useDispatch();
   const { lobbyId } = route.params || {};
   const { styles, colors } = useStyles(createStyles);
-  const { rooms, userData } = useAppSelector(state => state.data);
 
+  const { rooms, userData } = useAppSelector(state => state.data);
   const lobbyRooms = rooms.filter(room => room?.lobby?.id === lobbyId);
+
+  const [passwordPopupVisible, setPasswordPopupVisible] = useState(false);
+
+  const openPasswordPopup = () => {
+    setPasswordPopupVisible(true);
+  };
+
+  const closePasswordPopup = () => {
+    setPasswordPopupVisible(false);
+  };
 
   const goToCreateRoom = () => {
     navigation.navigate('CreateRoom', { lobbyId });
@@ -33,6 +45,11 @@ const LobbyScreen: React.FC<
 
   const renderItem = ({ item, index }: { item: Room; index: number }) => {
     const onPressRoom = () => {
+      if (!!item.password) {
+        openPasswordPopup();
+        return;
+      }
+
       SOCKET.emit(SOCKET_EVENTS.USER_JOINED_ROOM, {
         roomId: item.id,
         user: userData,
@@ -44,6 +61,8 @@ const LobbyScreen: React.FC<
 
     return <RoomTile room={item} index={index} onPress={onPressRoom} />;
   };
+
+  const submitPassword = () => {};
 
   const title = () => {
     if (lobbyId === LOBBY_IDS.ARENA) return 'Arena';
@@ -70,6 +89,16 @@ const LobbyScreen: React.FC<
         title="Create new room"
         onPress={goToCreateRoom}
         style={styles.cta}
+      />
+      <Popup
+        visible={passwordPopupVisible}
+        closeModal={closePasswordPopup}
+        title="Enter password"
+        firstButtonTitle="Submit"
+        secondButtonTitle="Cancel"
+        onPressFirstButton={submitPassword}
+        onPressSecondButton={closePasswordPopup}
+        Content={<InputField />}
       />
     </ScreenWrapper>
   );

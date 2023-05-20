@@ -2,10 +2,8 @@ import FeatherIcon, { IconName } from 'assets/icons/MyIcon';
 import BodyLarge from 'components/typography/BodyLarge';
 import { Colors } from 'constants/styles/Colors';
 import { AN, BORDER_RADIUS } from 'constants/styles/appStyles';
-import TouchableBounce from 'hoc/TouchableBounce';
 import useStyles from 'hooks/styles/useStyles';
 import React, {
-  Ref,
   forwardRef,
   useEffect,
   useImperativeHandle,

@@ -18,6 +18,7 @@ const Popup = ({
   secondButtonTitle,
   onPressFirstButton = () => {},
   onPressSecondButton = () => {},
+  Content = <></>,
 }: Props) => {
   const { styles } = useStyles(createStyles);
 
@@ -26,6 +27,7 @@ const Popup = ({
       <TileWrapper style={styles.container}>
         <BodyLarge text={title} weight="bold" style={styles.title} />
         <BodyMedium text={text} style={styles.text} color="neutral300" />
+        <View style={{ width: '100%' }}>{Content}</View>
         <View style={styles.buttonsFooter}>
           {!!secondButtonTitle && (
             <ClearButton
@@ -71,4 +73,5 @@ interface Props {
   secondButtonTitle?: string;
   onPressFirstButton: () => void;
   onPressSecondButton?: () => void;
+  Content?: JSX.Element | JSX.Element[];
 }

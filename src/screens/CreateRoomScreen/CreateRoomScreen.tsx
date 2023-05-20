@@ -55,6 +55,8 @@ const CreateRoomScreen: React.FC<
 
   const [selectedTopic, setselectedTopic] = useState<Topic>('General');
   const [roomName, setRoomName] = useState(`${userData.firstName}'s room`);
+  const [bet, setBet] = useState('0');
+  const [password, setPassword] = useState('');
   const [maxPlayers, setMaxPlayers] = useState(__DEV__ ? '2' : '4');
   const [answerTime, setAnswerTime] = useState('15');
   const [questionsCount, setQuestionsCount] = useState(__DEV__ ? '2' : '15');
@@ -70,6 +72,8 @@ const CreateRoomScreen: React.FC<
         lobby: lobbies.find(l => l.id === lobbyId) as Lobby,
         questionsCount: Number(questionsCount),
         readyUsers: [userData.id],
+        password,
+        bet,
       };
 
       const room = await API.createRoom(body);
@@ -96,8 +100,16 @@ const CreateRoomScreen: React.FC<
     min: 10,
     max: 20,
   });
+  const questionsCountValid = isIntegerBewteen({
+    input: questionsCount,
+    min: __DEV__ ? 2 : 10,
+    max: 20,
+  });
   const roomNameValid = roomName.length > 3;
-  const formValid = maxPlayersValid && roomNameValid && answerTimeValid;
+  const betValid = Number(bet) <= userData.money;
+
+  const formValid =
+    maxPlayersValid && roomNameValid && answerTimeValid && questionsCountValid;
 
   return (
     <ScreenWrapper style={{ paddingHorizontal: 0 }}>
@@ -112,25 +124,48 @@ const CreateRoomScreen: React.FC<
             title="Room name"
             onChangeText={setRoomName}
             value={roomName}
+            error={!roomNameValid}
           />
+          {lobbyId === LOBBY_IDS.CASH_GAME ? (
+            <InputField
+              title={`Bet cash (your balance: ${String(userData.money)})`}
+              onChangeText={setBet}
+              value={bet}
+              error={!betValid}
+            />
+          ) : (
+            <></>
+          )}
           <InputField
             title="Number of players (2-16)"
             keyboardType="numeric"
             value={maxPlayers}
             onChangeText={setMaxPlayers}
+            error={!maxPlayersValid}
           />
           <InputField
             title="Answer time (10-20 seconds)"
             keyboardType="numeric"
             value={answerTime}
             onChangeText={setAnswerTime}
+            error={!answerTimeValid}
           />
           <InputField
-            title="Number of questions"
+            title="Number of questions (10-20)"
             keyboardType="numeric"
             value={questionsCount}
             onChangeText={setQuestionsCount}
+            error={!questionsCountValid}
           />
+          {lobbyId !== LOBBY_IDS.ARENA ? (
+            <InputField
+              title="Password"
+              onChangeText={setPassword}
+              value={password}
+            />
+          ) : (
+            <></>
+          )}
           <CTA title="Confirm" onPress={onPressConfirm} disabled={!formValid} />
         </View>
       </MyScrollView>
@@ -138,22 +173,7 @@ const CreateRoomScreen: React.FC<
   );
 };
 
-const createStyles = (colors: Colors) =>
-  StyleSheet.create({
-    list: {
-      marginVertical: AN(20),
-      maxHeight: AN(100),
-    },
-    topic: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginHorizontal: AN(7),
-      aspectRatio: 1,
-      width: iconSize * 2,
-      borderWidth: 1,
-    },
-    tileName: { textAlign: 'center', marginTop: AN(6) },
-  });
+const createStyles = (colors: Colors) => StyleSheet.create({});
 export default CreateRoomScreen;
 
 interface TopicListItem {

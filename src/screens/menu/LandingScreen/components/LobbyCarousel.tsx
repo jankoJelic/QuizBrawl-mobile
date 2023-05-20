@@ -125,7 +125,7 @@ const LobbyCarousel = () => {
         case 'Cash game':
           return (
             <BodySmall
-              text="Play different game modes with other players for cash or for fun"
+              text="Play different game modes with other players for cash or for fun. Winner takes all"
               style={styles.description}
               color="success500"
             />

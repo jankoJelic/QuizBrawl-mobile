@@ -22,6 +22,8 @@ const RoomTile = ({ index, onPress, room }: Props) => {
     topic,
     users,
     questionsCount,
+    bet,
+    teams,
   } = room || {};
 
   const disabled = users.length === maxPlayers;

@@ -25,6 +25,7 @@ export interface Room {
   answerTime: number;
   readyUsers: number[];
   teams: { players: number[] }[];
+  bet?: number;
 }
 
 export type Topic =
