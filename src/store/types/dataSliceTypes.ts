@@ -24,6 +24,7 @@ export interface Room {
   lobby: Lobby;
   answerTime: number;
   readyUsers: number[];
+  teams: { players: number[] }[];
 }
 
 export type Topic =
