@@ -10,7 +10,7 @@ import CreateYourQuizTile from './components/CreateYourQuizTile';
 import { connectToSocket } from 'services/socket/connectToSocket';
 import { useIsFocused } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { exitLobby, exitRoom } from 'store/slices/dataSlice';
+import { exitLobby, exitRoom, setFriends } from 'store/slices/dataSlice';
 import usePreventNativeBackButton from 'navigation/hooks/usePreventNativeBack';
 import { AN } from 'constants/styles/appStyles';
 import Sidebar from 'containers/SideBar';
@@ -26,6 +26,7 @@ import { Colors } from 'constants/styles/Colors';
 import useStyles from 'hooks/styles/useStyles';
 import BodySmall from 'components/typography/BodySmall/BodySmall';
 import BottomNavigation from 'navigation/BottomNavigation';
+import API from 'services/api';
 
 const LandingScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Landing'>
@@ -36,6 +37,12 @@ const LandingScreen: React.FC<
   const dispatch = useDispatch();
 
   useFCM();
+
+  // useEffect(() => {
+  //   API.getFriends()
+  //     .then(friends => dispatch(setFriends(friends)))
+  //     .catch(() => {});
+  // }, []);
 
   useEffect(() => {
     if (isFocused) {

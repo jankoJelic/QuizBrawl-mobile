@@ -24,6 +24,9 @@ export const authSlice = createSlice({
     setLobbies: (state, action) => {
       state.lobbies = action.payload;
     },
+    setFriends: (state, action) => {
+      state.userData.friends = action.payload;
+    },
     storeUserData: (state, action) => {
       state.userData = action.payload;
     },
@@ -159,9 +162,12 @@ export const authSlice = createSlice({
     },
     removeFriend: (state, action: { payload: Partial<UserData> }) => {
       const currentFriends = state.userData.friends;
-      state.userData.friends = currentFriends.filter(
-        f => f.id !== action.payload.id,
+      console.log(currentFriends, action.payload.id);
+      const updatedFriends = currentFriends.filter(
+        f => f.id != action.payload.id,
       );
+      console.log(updatedFriends);
+      state.userData.friends = updatedFriends;
     },
     readMessage: (state, action) => {
       const currentInbox = state.userData.inbox;
@@ -203,6 +209,7 @@ export const {
   removeFriend,
   deleteMessage,
   readMessage,
+  setFriends,
 } = authSlice.actions;
 
 export default authSlice.reducer;

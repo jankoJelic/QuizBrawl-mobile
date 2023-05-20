@@ -6,13 +6,20 @@ import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React from 'react';
 import { FlatList } from 'react-native';
 import { useAppSelector } from 'store/index';
+import { UserData } from 'store/types/authSliceTypes';
 
 const FriendsScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Friends'>
-> = () => {
+> = ({ navigation }) => {
   const { friends } = useAppSelector(state => state.data.userData);
+  console.log(friends);
+  const renderFriend = ({ item }: { item: Partial<UserData> }) => {
+    const onPressFriend = () => {
+      navigation.navigate('Friend', item);
+    };
 
-  const renderFriend = ({ item }) => <UserTile user={item} />;
+    return <UserTile user={item} onPress={onPressFriend} />;
+  };
 
   return (
     <ScreenWrapper>

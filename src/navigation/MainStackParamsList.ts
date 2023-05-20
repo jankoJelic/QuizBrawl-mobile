@@ -1,3 +1,4 @@
+import { UserData } from 'store/types/authSliceTypes';
 import { Room } from 'store/types/dataSliceTypes';
 
 export type MainStackParamsList = {
@@ -12,6 +13,7 @@ export type MainStackParamsList = {
   Profile: undefined;
   Inbox: undefined;
   CustomizeProfile: undefined;
+  Friend: Partial<UserData>;
   Friends: undefined;
 
   Lobby: { lobbyId: number };

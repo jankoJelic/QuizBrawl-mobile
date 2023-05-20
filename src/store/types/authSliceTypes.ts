@@ -1,29 +1,36 @@
 import { Lobby, Message, Room, Topic } from './dataSliceTypes';
 
-export interface UserData {
+export interface UserData extends ShallowUser {
   createdAt: string;
-  email: string;
-  firstName: string;
-  id: number;
-  isAdmin: boolean;
   isEmailConfirmed: boolean;
-  isPremium: boolean;
-  lastName: string;
   password: string;
   refreshToken: string;
   registrationOtpCode: '';
-  trophies: number;
   updatedAt: string;
   money: number;
-  rank: number;
-  avatar: string;
-  color: string;
   lobby: Lobby;
   room: Room;
-  level: number;
-  accuracyPercentage: number;
-  favouriteTopic: Topic;
   avatars: string[];
   inbox: Message[] | null;
-  friends: Partial<UserData>[];
+}
+
+export interface ShallowUser {
+  email: string;
+  id: number;
+  isAdmin: string;
+  isBanned: boolean;
+  isPremium: boolean;
+  trophies: number;
+  firstName: string;
+  lastName: string;
+  level: number;
+  rank: string;
+  accuracyPercentage: number;
+  favouriteTopic: Topic;
+  avatar: string;
+  isOnline: boolean;
+  totalAnswers: number;
+  correctAnswers: number;
+  friends: number[];
+  color: string;
 }
