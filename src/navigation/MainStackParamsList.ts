@@ -18,8 +18,8 @@ export type MainStackParamsList = {
   SoloLobby: undefined;
 
   CreateQuiz: undefined;
+  CreateRoom: { lobbyId: number };
 
-  CreateArenaRoom: undefined;
   ArenaRoom: { room: Room };
 
   GameSplash: undefined;

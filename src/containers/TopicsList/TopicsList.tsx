@@ -7,7 +7,7 @@ import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { TOPICS } from 'screens/arena/CreateArenaRoomScreen/CreateArenaRoomScreen';
+import { TOPICS } from 'screens/CreateRoomScreen/CreateRoomScreen';
 import { Topic } from 'store/types/dataSliceTypes';
 
 const iconSize = AN(36);

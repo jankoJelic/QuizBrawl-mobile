@@ -1,8 +1,7 @@
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import React, { useState } from 'react';
-import TileWrapper from 'hoc/TileWrapper';
 import { Colors } from 'constants/styles/Colors';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { AN, PADDING_HORIZONTAL } from 'constants/styles/appStyles';
 import {
   GeneralIcon,
@@ -26,10 +25,10 @@ import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import { useDispatch } from 'react-redux';
 import { startLoading, stopLoading } from 'store/slices/appStateSlice';
 import { LOBBY_IDS } from 'constants/constants';
-import { useAppSelector } from 'store/index';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { addNewRoom, joinRoom } from 'store/slices/dataSlice';
 import TopicsList from 'containers/TopicsList/TopicsList';
+import { useAppSelector } from 'store/index';
 
 const iconSize = AN(36);
 
@@ -45,10 +44,11 @@ export const TOPICS = [
   { name: 'Art', icon: <ArtIcon style={iconStyle} /> },
 ];
 
-const CreateArenaRoomScreen: React.FC<
-  NativeStackScreenProps<MainStackParamsList, 'CreateArenaRoom'>
-> = ({ navigation }) => {
+const CreateRoomScreen: React.FC<
+  NativeStackScreenProps<MainStackParamsList, 'CreateRoom'>
+> = ({ navigation, route }) => {
   const dispatch = useDispatch();
+  const { lobbyId } = route.params;
 
   const { styles, colors } = useStyles(createStyles);
   const { lobbies, userData } = useAppSelector(state => state.data);
@@ -67,7 +67,7 @@ const CreateArenaRoomScreen: React.FC<
         topic: selectedTopic,
         answerTime: Number(answerTime),
         maxPlayers: Number(maxPlayers),
-        lobby: lobbies.find(l => l.id === LOBBY_IDS.ARENA) as Lobby,
+        lobby: lobbies.find(l => l.id === lobbyId) as Lobby,
         questionsCount: Number(questionsCount),
         readyUsers: [userData.id],
       };
@@ -154,7 +154,7 @@ const createStyles = (colors: Colors) =>
     },
     tileName: { textAlign: 'center', marginTop: AN(6) },
   });
-export default CreateArenaRoomScreen;
+export default CreateRoomScreen;
 
 interface TopicListItem {
   item: { name: Topic; icon: JSX.Element };

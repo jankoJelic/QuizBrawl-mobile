@@ -26,8 +26,8 @@ const LobbyScreen: React.FC<
 
   const arenaRooms = rooms.filter(room => room?.lobby?.id === lobbyId);
 
-  const goToCreateArenaRoom = () => {
-    navigation.navigate('CreateArenaRoom');
+  const goToCreateRoom = () => {
+    navigation.navigate('CreateRoom', {lobbyId});
   };
 
   const renderItem = ({ item, index }: { item: Room; index: number }) => {
@@ -61,7 +61,7 @@ const LobbyScreen: React.FC<
         contentContainerStyle={{ paddingTop: AN(20) }}
         keyExtractor={item => item.id + 'room'}
       />
-      <CTA title="Create new room" onPress={goToCreateArenaRoom} />
+      <CTA title="Create new room" onPress={goToCreateRoom} />
     </ScreenWrapper>
   );
 };

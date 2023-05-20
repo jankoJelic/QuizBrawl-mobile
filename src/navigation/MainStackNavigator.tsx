@@ -9,7 +9,7 @@ import LandingScreen from 'screens/menu/LandingScreen';
 import ProfileScreen from 'screens/menu/ProfileScreen';
 import SetupPinCodeScreen from 'screens/auth/SetupPinCodeScreen';
 import LobbyScreen from 'screens/LobbyScreen/LobbyScreen';
-import CreateArenaRoomScreen from 'screens/arena/CreateArenaRoomScreen';
+import CreateRoomScreen from 'screens/CreateRoomScreen';
 import ArenaRoomScreen from 'screens/arena/ArenaRoomScreen';
 import GameSplashScreen from 'screens/games/GameSplashScreen';
 import QuestionScreen from 'screens/games/QuestionScreen';
@@ -49,7 +49,7 @@ const MainStackNavigator = () => (
 
     <Stack.Screen name="Lobby" component={LobbyScreen} />
 
-    <Stack.Screen name="CreateArenaRoom" component={CreateArenaRoomScreen} />
+    <Stack.Screen name="CreateRoom" component={CreateRoomScreen} />
     <Stack.Screen name="ArenaRoom" component={ArenaRoomScreen} />
 
     <Stack.Screen name="GameSplash" component={GameSplashScreen} />
