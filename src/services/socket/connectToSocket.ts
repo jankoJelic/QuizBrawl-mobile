@@ -71,7 +71,7 @@ export const connectToSocket = (navigation: any) => {
     if (iWasKicked) {
       switch (lobby?.id) {
         case LOBBY_IDS.ARENA:
-          navigation.navigate('ArenaLobby');
+          navigation.navigate('Lobby', { lobbyId: LOBBY_IDS.ARENA });
           dispatch(
             showToast({
               text: 'You got kicked from the room',
@@ -99,14 +99,14 @@ export const connectToSocket = (navigation: any) => {
       const lobbyId = userData.lobby.id;
 
       switch (lobbyId) {
-        case 1:
+        case LOBBY_IDS.ARENA:
           dispatch(
             showToast({
               text: 'Room dismissed',
               type: 'warning',
             }),
           );
-          navigation.navigate('ArenaLobby');
+          navigation.navigate('Lobby', { lobbyId: LOBBY_IDS.ARENA });
         default:
           return;
       }
@@ -153,10 +153,8 @@ export const connectToSocket = (navigation: any) => {
         type: 'success',
       }),
     );
-     dispatch(addFriend(user))
+    dispatch(addFriend(user));
   });
 
-  SOCKET.on(USER_DISCONNECTED, (userId: number) => {
-    
-  });
+  SOCKET.on(USER_DISCONNECTED, (userId: number) => {});
 };

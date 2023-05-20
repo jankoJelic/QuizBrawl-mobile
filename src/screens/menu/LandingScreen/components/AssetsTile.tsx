@@ -41,7 +41,7 @@ const AssetsTile = () => {
       />
       <View style={styles.separator} />
       <Tile
-        title="Cash"
+        title="Bank"
         value={String(money)}
         Icon={
           <FastImage

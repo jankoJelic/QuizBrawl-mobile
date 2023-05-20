@@ -16,14 +16,15 @@ import { useAppSelector } from 'store/index';
 import { joinRoom } from 'store/slices/dataSlice';
 import { Room } from 'store/types/dataSliceTypes';
 
-const ArenaLobbyScreen: React.FC<
-  NativeStackScreenProps<MainStackParamsList, 'ArenaLobby'>
-> = ({ navigation }) => {
+const LobbyScreen: React.FC<
+  NativeStackScreenProps<MainStackParamsList, 'Lobby'>
+> = ({ navigation, route }) => {
   const dispatch = useDispatch();
+  const { lobbyId } = route.params || {};
   const { styles, colors } = useStyles(createStyles);
   const { rooms, userData } = useAppSelector(state => state.data);
 
-  const arenaRooms = rooms.filter(room => room?.lobby?.id === LOBBY_IDS.ARENA);
+  const arenaRooms = rooms.filter(room => room?.lobby?.id === lobbyId);
 
   const goToCreateArenaRoom = () => {
     navigation.navigate('CreateArenaRoom');
@@ -43,9 +44,16 @@ const ArenaLobbyScreen: React.FC<
     return <RoomTile room={item} index={index} onPress={onPressRoom} />;
   };
 
+  const title = () => {
+    if (lobbyId === LOBBY_IDS.ARENA) return 'Arena';
+    if (lobbyId === LOBBY_IDS.CASH_GAME) return 'Cash game';
+    if (lobbyId === LOBBY_IDS.SOLO) return 'Solo';
+    return '';
+  };
+
   return (
     <ScreenWrapper>
-      <NavHeader title="Arena" fullWidth />
+      <NavHeader title={title()} fullWidth />
       <FlatList
         data={arenaRooms}
         renderItem={renderItem}
@@ -68,4 +76,4 @@ const createStyles = (colors: Colors) =>
     },
   });
 
-export default ArenaLobbyScreen;
+export default LobbyScreen;

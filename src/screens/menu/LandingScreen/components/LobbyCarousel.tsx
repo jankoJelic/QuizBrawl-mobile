@@ -87,17 +87,17 @@ const LobbyCarousel = () => {
       case 'Arena':
         emitJoinLobbyEvent(LOBBY_IDS.ARENA);
         dispatch(joinLobby(lobbies.find(l => l.id === LOBBY_IDS.ARENA)));
-        navigation.navigate('ArenaLobby');
+        navigation.navigate('Lobby', {lobbyId: LOBBY_IDS.ARENA});
         break;
       case 'Cash game':
         emitJoinLobbyEvent(LOBBY_IDS.CASH_GAME);
         dispatch(joinLobby(lobbies.find(l => l.id === LOBBY_IDS.CASH_GAME)));
-        navigation.navigate('CashGameLobby');
+        navigation.navigate('Lobby', {lobbyId: LOBBY_IDS.CASH_GAME});
         break;
       case 'Solo':
         emitJoinLobbyEvent(LOBBY_IDS.SOLO);
         dispatch(joinLobby(lobbies.find(l => l.id === LOBBY_IDS.SOLO)));
-        navigation.navigate('SoloLobby');
+        navigation.navigate('Lobby', {lobbyId: LOBBY_IDS.SOLO});
       default:
         return;
     }

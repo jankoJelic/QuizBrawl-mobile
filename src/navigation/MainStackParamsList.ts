@@ -13,8 +13,8 @@ export type MainStackParamsList = {
   Inbox: undefined;
   CustomizeProfile: undefined;
 
-  ArenaLobby: undefined;
-  '1v1Lobby': undefined;
+  Lobby: { lobbyId: number };
+  CashGameLobby: undefined;
   SoloLobby: undefined;
 
   CreateQuiz: undefined;
