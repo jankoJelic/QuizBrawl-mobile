@@ -17,6 +17,7 @@ import ResultsScreen from 'screens/games/ResultsScreen';
 import SelectProviderScreen from 'screens/auth/SelectProviderScreen';
 import CustomizeProfileScreen from 'screens/menu/CustomizeProfileScreen';
 import InboxScreen from 'screens/profile/InboxScreen';
+import FriendsScreen from 'screens/menu/FriendsScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamsList>();
 
@@ -55,6 +56,8 @@ const MainStackNavigator = () => (
     <Stack.Screen name="GameSplash" component={GameSplashScreen} />
     <Stack.Screen name="Question" component={QuestionScreen} />
     <Stack.Screen name="Results" component={ResultsScreen} />
+
+    <Stack.Screen name="Friends" component={FriendsScreen} />
   </Stack.Navigator>
 );
 

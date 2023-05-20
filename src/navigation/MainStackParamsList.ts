@@ -12,6 +12,7 @@ export type MainStackParamsList = {
   Profile: undefined;
   Inbox: undefined;
   CustomizeProfile: undefined;
+  Friends: undefined;
 
   Lobby: { lobbyId: number };
   CashGameLobby: undefined;
