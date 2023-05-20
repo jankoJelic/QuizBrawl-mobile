@@ -88,6 +88,7 @@ export const authSlice = createSlice({
             }
           : room,
       );
+      state.userData.room = null;
       state.rooms = updatedRooms;
     },
     addNewRoom: (state, action: { payload: Room }) => {
@@ -201,7 +202,7 @@ export const {
   addFriend,
   removeFriend,
   deleteMessage,
-  readMessage
+  readMessage,
 } = authSlice.actions;
 
 export default authSlice.reducer;

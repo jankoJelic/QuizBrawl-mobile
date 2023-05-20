@@ -79,7 +79,7 @@ const CreateRoomScreen: React.FC<
 
       SOCKET.emit(SOCKET_EVENTS.ROOM_CREATED, room);
 
-      navigation.navigate('ArenaRoom', { room });
+      navigation.navigate('Room', { room });
     } catch (e) {
     } finally {
       dispatch(stopLoading());

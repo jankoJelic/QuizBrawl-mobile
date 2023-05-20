@@ -24,7 +24,7 @@ const LobbyScreen: React.FC<
   const { styles, colors } = useStyles(createStyles);
   const { rooms, userData } = useAppSelector(state => state.data);
 
-  const arenaRooms = rooms.filter(room => room?.lobby?.id === lobbyId);
+  const lobbyRooms = rooms.filter(room => room?.lobby?.id === lobbyId);
 
   const goToCreateRoom = () => {
     navigation.navigate('CreateRoom', {lobbyId});
@@ -37,7 +37,7 @@ const LobbyScreen: React.FC<
         user: userData,
       });
 
-      navigation.navigate('ArenaRoom', { room: item });
+      navigation.navigate('Room', { room: item });
       dispatch(joinRoom(item));
     };
 
@@ -55,7 +55,7 @@ const LobbyScreen: React.FC<
     <ScreenWrapper>
       <NavHeader title={title()} fullWidth />
       <FlatList
-        data={arenaRooms}
+        data={lobbyRooms}
         renderItem={renderItem}
         numColumns={2}
         contentContainerStyle={{ paddingTop: AN(20) }}

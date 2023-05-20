@@ -19,7 +19,12 @@ import API from 'services/api';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { useAppSelector } from 'store/index';
 import { startLoading, stopLoading } from 'store/slices/appStateSlice';
+import {
+  removeUserFromLobby,
+  removeUserFromRoom,
+} from 'store/slices/dataSlice';
 import { UserData } from 'store/types/authSliceTypes';
+import { Room } from 'store/types/dataSliceTypes';
 
 const RoomScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Room'>
@@ -66,6 +71,7 @@ const RoomScreen: React.FC<
     } else {
       navigation.goBack();
       SOCKET.emit(SOCKET_EVENTS.USER_LEFT_ROOM, { user: userData, room });
+      dispatch(removeUserFromRoom({ room: room as Room, user: userData }));
     }
   };
 
@@ -75,7 +81,7 @@ const RoomScreen: React.FC<
     try {
       await API.deleteRoom(route.params.room.id);
       SOCKET.emit(SOCKET_EVENTS.ROOM_DELETED, route.params.room);
-      navigation.navigate('ArenaLobby');
+      navigation.navigate('Lobby', { lobbyId: room?.lobby.id as number });
     } catch (e) {
     } finally {
       dispatch(stopLoading());

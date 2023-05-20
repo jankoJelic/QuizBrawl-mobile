@@ -33,7 +33,7 @@ const ResultsScreen: React.FC<
   );
 
   const goToRoom = () => {
-    navigation.navigate('ArenaRoom', { room: activeRoom });
+    navigation.navigate('Room', { room: activeRoom });
     dispatch(finishGame());
   };
 
