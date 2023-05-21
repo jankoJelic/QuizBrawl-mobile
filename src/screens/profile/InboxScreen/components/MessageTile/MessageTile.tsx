@@ -31,7 +31,7 @@ const MessageTile = ({ message }: Props) => {
     setCollapsed(!collapsed);
   };
 
-  const rejectFriendRequest = async () => {
+  const removeMessage = async () => {
     try {
       await API.deleteMessage(id);
       dispatch(deleteMessage(id));
@@ -47,6 +47,7 @@ const MessageTile = ({ message }: Props) => {
         user: userData,
         senderId,
       });
+      removeMessage();
     } catch (e) {}
   };
 
@@ -58,7 +59,7 @@ const MessageTile = ({ message }: Props) => {
             <ClearButton
               title="Reject"
               color="danger500"
-              onPress={rejectFriendRequest}
+              onPress={removeMessage}
             />
             <ClearButton
               title="Accept"
