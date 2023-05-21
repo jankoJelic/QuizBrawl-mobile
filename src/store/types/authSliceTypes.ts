@@ -12,9 +12,11 @@ export interface UserData extends ShallowUser {
   room: Room;
   avatars: string[];
   inbox: Message[] | null;
+  rewards: Reward[];
+  achievements: Reward[];
 }
 
-export interface ShallowUser {
+export interface ShallowUser { // data in JWT token
   email: string;
   id: number;
   isAdmin: string;
@@ -31,6 +33,12 @@ export interface ShallowUser {
   isOnline: boolean;
   totalAnswers: number;
   correctAnswers: number;
-  friends: number[] | ShallowUser[];
+  friends: number[] | ShallowUser[]; // in JWT it is number[] and then we fetch the rest
   color: string;
+}
+
+export interface Reward {
+  name: string;
+  image: string;
+  description?: string;
 }
