@@ -47,8 +47,13 @@ const Toast = () => {
   };
 
   const onPressToast = () => {
-    if (toast?.text.includes('friend request')) {
+    if (
+      toast?.text.includes('friend request') &&
+      toast?.text.includes('accepted')
+    ) {
       navigation.navigate('Friends');
+    } else if (toast?.text.includes('friend request')) {
+      navigation.navigate('Inbox');
     }
   };
 

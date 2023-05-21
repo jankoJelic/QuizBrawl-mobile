@@ -76,7 +76,7 @@ export const {
   showToast,
   hideToast,
   showSideBar,
-  hideSideBar
+  hideSideBar,
 } = appStateSlice.actions;
 
 export default appStateSlice.reducer;
