@@ -14,7 +14,7 @@ import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React, { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
@@ -24,6 +24,7 @@ import { setStatusBar } from 'store/slices/appStateSlice';
 import { removeFriend } from 'store/slices/dataSlice';
 import ProfileBadge from './components/ProfileBadge';
 import { setColorOpacity } from 'util/strings/setColorOpacity';
+import BodyMedium from 'components/typography/BodyMedium';
 
 const FriendScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Friend'>
@@ -108,6 +109,17 @@ const FriendScreen: React.FC<
           />
         </View>
       </View>
+
+      <BodyMedium
+        weight="bold"
+        text="Rewards"
+        style={{
+          marginLeft: PADDING_HORIZONTAL,
+          marginTop: AN(24),
+          marginBottom: AN(6),
+        }}
+      />
+      <FlatList horizontal data={[]} />
       <GhostButton onPress={deleteFriend} title="Remove friend" />
     </ScreenWrapper>
   );

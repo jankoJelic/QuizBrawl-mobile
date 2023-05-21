@@ -35,16 +35,6 @@ const LandingScreen: React.FC<
   useFCM();
 
   useEffect(() => {
-    if (friends === null) return;
-    if (!friends.length) return;
-    if (!!friends[0]?.id) return;
-
-    API.getFriends()
-      .then(friends => dispatch(setFriends(friends)))
-      .catch(() => {});
-  }, []);
-
-  useEffect(() => {
     if (isFocused) {
       dispatch(exitLobby());
       dispatch(exitRoom());
