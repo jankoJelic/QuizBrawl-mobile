@@ -41,6 +41,8 @@ const {
 } = SOCKET_EVENTS;
 
 export const connectToSocket = (navigation: any) => {
+  if (SOCKET.connected) return;
+
   const { dispatch } = store;
 
   SOCKET.on(USER_JOINED_LOBBY, (payload: UserJoinedLobbyPayload) => {

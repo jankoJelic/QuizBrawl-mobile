@@ -23,7 +23,7 @@ const UserTile = ({ user, score, isReady, onPress = () => {} }: Props) => {
   return (
     <TileWrapper key={user.id} style={styles.container} onPress={onPressMe}>
       <View style={{ flexDirection: 'row' }}>
-        <UserAvatar size={AN(22)} avatar={user.avatar} />
+        <UserAvatar size={AN(22)} avatar={user.avatar} color={user.color} />
         <BodyMedium
           text={`${user.firstName} ${user.lastName}`}
           style={{ marginLeft: AN(10) }}

@@ -1,5 +1,5 @@
 import FeatherIcon from 'assets/icons/MyIcon';
-import { Colors, lightThemeColors } from 'constants/styles/Colors';
+import { Color, Colors, lightThemeColors } from 'constants/styles/Colors';
 import TouchableBounce from 'hoc/TouchableBounce';
 import React from 'react';
 import FastImage from 'react-native-fast-image';
@@ -9,18 +9,30 @@ import useStyles from 'hooks/styles/useStyles';
 import { AN } from 'constants/styles/appStyles';
 import { getKeyByValue } from 'util/objects/getKeyByValue';
 
-const UserAvatar = ({ onPress = () => {}, size = AN(48), avatar = '' }) => {
+const UserAvatar = ({
+  onPress = () => {},
+  size = AN(48),
+  avatar = '',
+  color = '',
+  showBorder = true,
+}) => {
   const { styles } = useStyles(createStyles);
   const { userData } = useAppSelector(state => state.data);
 
   const AVATAR = !!avatar ? avatar : userData.avatar;
+  const COLOR = color || userData.color;
 
   return (
     <TouchableBounce
       onPress={onPress}
       style={[
         styles.userAvatar,
-        { borderColor: userData.color, borderRadius: size, width: size },
+        {
+          borderColor: COLOR,
+          borderRadius: size,
+          width: size,
+          borderWidth: showBorder ? 2 : 0,
+        },
       ]}>
       {AVATAR ? (
         <FastImage
@@ -32,7 +44,7 @@ const UserAvatar = ({ onPress = () => {}, size = AN(48), avatar = '' }) => {
           family="fontAwesome5"
           name="user-alt"
           size={size / 2}
-          color={getKeyByValue(lightThemeColors, userData.color)}
+          color={getKeyByValue(lightThemeColors, COLOR) as Color}
         />
       )}
     </TouchableBounce>
@@ -43,7 +55,6 @@ const createStyles = (colors: Colors) =>
   StyleSheet.create({
     userAvatar: {
       aspectRatio: 1,
-      borderWidth: 2,
       alignItems: 'center',
       justifyContent: 'center',
     },
