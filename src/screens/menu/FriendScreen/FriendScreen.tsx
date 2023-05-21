@@ -17,6 +17,7 @@ const FriendScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Friend'>
 > = ({ navigation, route }) => {
   const dispatch = useDispatch();
+  const { userData } = useAppSelector(state => state.data);
   const {
     avatar,
     accuracyPercentage,
@@ -38,7 +39,10 @@ const FriendScreen: React.FC<
     dispatch(removeFriend(route.params));
     API.removeFriend(id as number);
     navigation.navigate('Friends');
-    SOCKET.emit(SOCKET_EVENTS);
+    SOCKET.emit(SOCKET_EVENTS.FRIEND_REMOVED, {
+      userId: userData.id,
+      removedFriendId: id,
+    });
   };
 
   return (

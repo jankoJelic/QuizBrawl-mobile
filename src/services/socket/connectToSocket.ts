@@ -11,6 +11,7 @@ import {
   addNewRoom,
   addUserToLobby,
   addUserToRoom,
+  removeFriend,
   removeRoom,
   removeUserFromLobby,
   removeUserFromRoom,
@@ -21,7 +22,7 @@ import { Room } from 'store/types/dataSliceTypes';
 import { showToast, stopLoading } from 'store/slices/appStateSlice';
 import { initializeGame } from 'store/slices/gameSlice';
 import { LOBBY_IDS } from 'constants/constants';
-import { UserData } from 'store/types/authSliceTypes';
+import { ShallowUser, UserData } from 'store/types/authSliceTypes';
 
 const {
   USER_JOINED_LOBBY,
@@ -36,6 +37,7 @@ const {
   KICK_USER_FROM_ROOM,
   FRIEND_REQUEST_SENT,
   FRIEND_REQUEST_ACCEPTED,
+  FRIEND_REMOVED,
 } = SOCKET_EVENTS;
 
 export const connectToSocket = (navigation: any) => {
@@ -154,6 +156,15 @@ export const connectToSocket = (navigation: any) => {
       }),
     );
     dispatch(addFriend(user));
+  });
+
+  SOCKET.on(FRIEND_REMOVED, (userId: number) => {
+    const state = store.getState();
+
+    const friendThatNeedsToBeRemoved = state.data.userData.friends?.find(
+      (fr: ShallowUser) => fr?.id == userId,
+    );
+    dispatch(removeFriend(friendThatNeedsToBeRemoved as ShallowUser));
   });
 
   SOCKET.on(USER_DISCONNECTED, (userId: number) => {});

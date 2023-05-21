@@ -31,6 +31,6 @@ export interface ShallowUser {
   isOnline: boolean;
   totalAnswers: number;
   correctAnswers: number;
-  friends: number[];
+  friends: number[] | ShallowUser[];
   color: string;
 }
