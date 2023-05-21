@@ -14,9 +14,9 @@ const UserAvatar = ({
   size = AN(48),
   avatar = '',
   color = '',
-  showBorder = true,
+  showBorder = false,
 }) => {
-  const { styles } = useStyles(createStyles);
+  const { styles, colors } = useStyles(createStyles);
   const { userData } = useAppSelector(state => state.data);
 
   const AVATAR = !!avatar ? avatar : userData.avatar;
@@ -28,10 +28,11 @@ const UserAvatar = ({
       style={[
         styles.userAvatar,
         {
-          borderColor: COLOR,
+          backgroundColor: COLOR,
           borderRadius: size,
           width: size,
-          borderWidth: showBorder ? 2 : 0,
+          borderWidth: showBorder ? 1 : 0,
+          borderColor: colors.neutral500,
         },
       ]}>
       {AVATAR ? (

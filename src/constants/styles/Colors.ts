@@ -68,6 +68,7 @@ export const lightThemeColors = {
   red: '#C92C6D',
   lightGrey: '#F0EEED',
   platinum: '#EEE9DA',
+  transparent: ' #00FFFFFF',
 };
 
 export const darkThemeColors = {

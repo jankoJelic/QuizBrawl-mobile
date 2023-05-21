@@ -56,7 +56,7 @@ const BottomNavigation = () => {
         <MyIcon name="shopping-cart" color="neutral400" />
         <BodySmall text="Shop" color="neutral400" />
       </TouchableOpacity>
-      <NavIcon title="Ranks" icon="trophyRank" />
+      <NavIcon title="Ranks" icon="ranking" />
       <NavIcon
         title="Explore"
         icon="explore"

@@ -29,12 +29,9 @@ const MyIcon = ({
 
   const imageStyle = { width: size, height: size, ...style };
 
-  if (name === 'trophyRank')
+  if (name === 'ranking')
     return (
-      <FastImage
-        source={require('../icons/trophyRank.png')}
-        style={imageStyle}
-      />
+      <FastImage source={require('../icons/ranking.png')} style={imageStyle} />
     );
   if (name === 'googleLogo') return <GoogleLogo style={style} />;
   if (name === 'colorPalette')
@@ -94,4 +91,4 @@ export type IconName =
   | 'key'
   | 'mail'
   | 'explore'
-  | 'trophyRank';
+  | 'ranking';
