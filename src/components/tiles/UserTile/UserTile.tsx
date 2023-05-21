@@ -9,7 +9,7 @@ import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { View } from 'react-native';
-import { UserData } from 'store/types/authSliceTypes';
+import { ShallowUser } from 'store/types/authSliceTypes';
 
 const UserTile = ({ user, score, isReady, onPress = () => {} }: Props) => {
   const { styles } = useStyles(createStyles);
@@ -61,8 +61,8 @@ const createStyles = (colors: Colors) =>
 export default UserTile;
 
 interface Props {
-  user: UserData;
+  user: ShallowUser;
   score?: string;
   isReady?: boolean;
-  onPress?: (user: UserData) => void;
+  onPress?: (user: ShallowUser) => void;
 }
