@@ -13,7 +13,7 @@ import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React, { useEffect } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
@@ -24,20 +24,8 @@ import { removeFriend } from 'store/slices/dataSlice';
 import ProfileBadge from './components/ProfileBadge';
 import { setColorOpacity } from 'util/strings/setColorOpacity';
 import BodyMedium from 'components/typography/BodyMedium';
-import { TOPICS } from 'screens/CreateRoomScreen/CreateRoomScreen';
-import TileWrapper from 'hoc/TileWrapper';
 import { Topic } from 'store/types/dataSliceTypes';
-
-const initialAnswers = {
-  General: 0,
-  Sports: 0,
-  Music: 0,
-  History: 0,
-  Geography: 0,
-  Showbiz: 0,
-  Art: 0,
-  Science: 0,
-};
+import StatsSection from './components/StatsSection';
 
 const FriendScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Friend'>
@@ -63,9 +51,6 @@ const FriendScreen: React.FC<
     totalAnswers,
   } = route.params || {};
 
-  const realCorrectAnswers = correctAnswers || initialAnswers;
-  const realTotalAnswers = totalAnswers || initialAnswers;
-
   useEffect(() => {
     dispatch(setStatusBar({ topColor: color }));
 
@@ -82,44 +67,6 @@ const FriendScreen: React.FC<
       userId: userData.id,
       removedFriendId: id,
     });
-  };
-
-  const correctAnswersCount = Object.values(realCorrectAnswers).reduce(
-    (a, b) => a + b,
-    0,
-  );
-
-  const totalAnswersCount = Object.values(realTotalAnswers).reduce(
-    (a, b) => a + b,
-    0,
-  );
-
-  const totalAccuracy =
-    totalAnswersCount === 0
-      ? '0.00'
-      : ((correctAnswersCount / totalAnswersCount) * 100).toFixed(2);
-
-  const renderStats = ({
-    item,
-  }: {
-    item: { name: Topic; icon: JSX.Element };
-  }) => {
-    return (
-      <TileWrapper style={styles.statsTile}>
-        <>{item.icon}</>
-        <>
-          <BodyMedium text={item.name} style={{ marginTop: AN(6) }} />
-          <BodyMedium
-            text={
-              (
-                (realCorrectAnswers[item.name] * 100) /
-                (realTotalAnswers[item.name] || 1)
-              ).toFixed(2) + '%'
-            }
-          />
-        </>
-      </TileWrapper>
-    );
   };
 
   return (
@@ -165,13 +112,10 @@ const FriendScreen: React.FC<
           />
         </View>
       </View>
-
-      <BodyMedium
-        weight="bold"
-        text={`${totalAccuracy}% accuracy`}
-        style={styles.subtitle}
+      <StatsSection
+        correctAnswers={correctAnswers as Record<Topic, number>}
+        totalAnswers={totalAnswers as Record<Topic, number>}
       />
-      <FlatList horizontal data={TOPICS} renderItem={renderStats} />
       <GhostButton onPress={deleteFriend} title="Remove friend" />
     </ScreenWrapper>
   );
