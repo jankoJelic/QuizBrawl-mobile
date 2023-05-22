@@ -16,8 +16,9 @@ const FriendsScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Friends'>
 > = ({ navigation }) => {
   const dispatch = useDispatch();
-  const { friends } = useAppSelector(state => state.data.userData);
-
+  const { friends, totalAnswers } = useAppSelector(
+    state => state.data.userData,
+  );
   const [isLoading, setIsLoading] = useState(false);
 
   const getFriendsInfo = async () => {

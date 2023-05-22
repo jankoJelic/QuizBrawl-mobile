@@ -7,7 +7,6 @@ import { Colors } from 'constants/styles/Colors';
 import {
   AN,
   PADDING_HORIZONTAL,
-  SCREEN_HEIGHT,
   SCREEN_WIDTH,
 } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
@@ -25,6 +24,20 @@ import { removeFriend } from 'store/slices/dataSlice';
 import ProfileBadge from './components/ProfileBadge';
 import { setColorOpacity } from 'util/strings/setColorOpacity';
 import BodyMedium from 'components/typography/BodyMedium';
+import { TOPICS } from 'screens/CreateRoomScreen/CreateRoomScreen';
+import TileWrapper from 'hoc/TileWrapper';
+import { Topic } from 'store/types/dataSliceTypes';
+
+const initialAnswers = {
+  General: 0,
+  Sports: 0,
+  Music: 0,
+  History: 0,
+  Geography: 0,
+  Showbiz: 0,
+  Art: 0,
+  Science: 0,
+};
 
 const FriendScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Friend'>
@@ -46,7 +59,12 @@ const FriendScreen: React.FC<
     trophies,
     id,
     // team,
+    correctAnswers,
+    totalAnswers,
   } = route.params || {};
+
+  const realCorrectAnswers = correctAnswers || initialAnswers;
+  const realTotalAnswers = totalAnswers || initialAnswers;
 
   useEffect(() => {
     dispatch(setStatusBar({ topColor: color }));
@@ -66,18 +84,56 @@ const FriendScreen: React.FC<
     });
   };
 
+  const correctAnswersCount = Object.values(realCorrectAnswers).reduce(
+    (a, b) => a + b,
+    0,
+  );
+
+  const totalAnswersCount = Object.values(realTotalAnswers).reduce(
+    (a, b) => a + b,
+    0,
+  );
+
+  const totalAccuracy =
+    totalAnswersCount === 0
+      ? '0.00'
+      : ((correctAnswersCount / totalAnswersCount) * 100).toFixed(2);
+
+  const renderStats = ({
+    item,
+  }: {
+    item: { name: Topic; icon: JSX.Element };
+  }) => {
+    return (
+      <TileWrapper style={styles.statsTile}>
+        <>{item.icon}</>
+        <>
+          <BodyMedium text={item.name} style={{ marginTop: AN(6) }} />
+          <BodyMedium
+            text={
+              (
+                (realCorrectAnswers[item.name] * 100) /
+                (realTotalAnswers[item.name] || 1)
+              ).toFixed(2) + '%'
+            }
+          />
+        </>
+      </TileWrapper>
+    );
+  };
+
   return (
     <ScreenWrapper fullWidth>
       <View style={[styles.upperView, { backgroundColor: color }]}>
         <LinearGradient
-          colors={[color as string, setColorOpacity(colors.neutral500, 0.7)]}
-          angle={180}
+          colors={[color as string, setColorOpacity(colors.neutral500, 0.6)]}
+          angle={120}
           style={styles.linearGradient}
         />
         <MyIcon
           name="arrow-left"
           style={styles.arrowLeft}
-          color="mainTextColor"
+          color="neutral500"
           size={AN(22)}
           onPress={navigation.goBack}
         />
@@ -112,14 +168,10 @@ const FriendScreen: React.FC<
 
       <BodyMedium
         weight="bold"
-        text="Rewards"
-        style={{
-          marginLeft: PADDING_HORIZONTAL,
-          marginTop: AN(24),
-          marginBottom: AN(6),
-        }}
+        text={`${totalAccuracy}% accuracy`}
+        style={styles.subtitle}
       />
-      <FlatList horizontal data={[]} />
+      <FlatList horizontal data={TOPICS} renderItem={renderStats} />
       <GhostButton onPress={deleteFriend} title="Remove friend" />
     </ScreenWrapper>
   );
@@ -151,6 +203,17 @@ const createStyles = (colors: Colors) =>
       position: 'absolute',
       bottom: 0,
       height: '100%',
+    },
+    statsTile: {
+      alignItems: 'center',
+      height: AN(96),
+      marginRight: AN(10),
+      minWidth: AN(90),
+    },
+    subtitle: {
+      marginLeft: PADDING_HORIZONTAL,
+      marginTop: AN(24),
+      marginBottom: AN(7),
     },
   });
 

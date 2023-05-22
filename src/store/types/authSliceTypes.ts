@@ -14,9 +14,12 @@ export interface UserData extends ShallowUser {
   inbox: Message[] | null;
   rewards: Reward[];
   achievements: Reward[];
+  correctAnswers: Record<Topic, number>;
+  totalAnswers: Record<Topic, number>;
 }
 
-export interface ShallowUser { // data in JWT token
+export interface ShallowUser {
+  // data in JWT token
   email: string;
   id: number;
   isAdmin: string;

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { UserData } from 'store/types/authSliceTypes';
-import { Lobby, Room } from 'store/types/dataSliceTypes';
+import { Lobby, Room, Topic } from 'store/types/dataSliceTypes';
 
 export interface DataState {
   lobbies: Lobby[];
@@ -181,6 +181,20 @@ export const authSlice = createSlice({
 
       state.userData.inbox = updatedInbox || [];
     },
+    registerAnswer: (
+      state,
+      action: { payload: { topic: Topic; correct: boolean } },
+    ) => {
+      const { correct, topic } = action.payload;
+      const currentCorrectAnswers = state.userData.correctAnswers || {};
+      const currentTotalAnswers = state.userData.totalAnswers || {};
+
+      if (correct) {
+        state.userData.correctAnswers[topic] =
+          currentCorrectAnswers[topic] || 0 + 1;
+      }
+      state.userData.totalAnswers[topic] = currentTotalAnswers[topic] || 0 + 1;
+    },
   },
 });
 
@@ -208,6 +222,7 @@ export const {
   deleteMessage,
   readMessage,
   setFriends,
+  registerAnswer,
 } = authSlice.actions;
 
 export default authSlice.reducer;

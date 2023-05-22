@@ -24,6 +24,7 @@ import {
 } from 'store/slices/gameSlice';
 import UsersTopBar from './components/UsersTopBar';
 import FullScreenSpinner from 'components/modals/FullScreenSpinner';
+import { registerAnswer } from 'store/slices/dataSlice';
 
 const nextQuestionTimeout = 2000;
 
@@ -44,7 +45,7 @@ const QuestionScreen: React.FC<
   const { questions, activeRoom, type, selectedAnswers, onQuestion } =
     useAppSelector(state => state.game);
 
-  const { answerTime, id: roomId, users } = activeRoom || {};
+  const { answerTime, id: roomId, users, topic } = activeRoom || {};
 
   const currentQuestion: Question = questions[onQuestion];
   const { answer1, answer2, answer3, answer4, correctAnswer, question, image } =
@@ -174,6 +175,7 @@ const QuestionScreen: React.FC<
       answer,
       userId: userData.id,
       roomId,
+      topic,
     };
 
     if (answer === correctAnswer) {
@@ -181,6 +183,13 @@ const QuestionScreen: React.FC<
     } else {
       SOCKET.emit(SOCKET_EVENTS.WRONG_ANSWER_SELECTED, payload);
     }
+
+    dispatch(
+      registerAnswer({
+        correct: answer === correctAnswer,
+        topic,
+      }),
+    );
   };
 
   const countdownColor =

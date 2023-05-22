@@ -20,9 +20,8 @@ const ResultsScreen: React.FC<
 > = ({ navigation }) => {
   usePreventNativeBackButton();
   const dispatch = useDispatch();
-  const { activeRoom, score, answers, type } =
+  const { activeRoom, score, answers, type, selectedAnswers } =
     useAppSelector(state => state.game) || {};
-
   const { users } = activeRoom || {};
 
   const usersByScore =

@@ -6,6 +6,17 @@ import { storeTokens } from 'services/encryptedStorage/tokens/tokenStorage';
 
 const { post, get, patch } = httpClient;
 
+const initialTotalAnswers = {
+  General: 0,
+  Sports: 0,
+  Music: 0,
+  History: 0,
+  Geography: 0,
+  Showbiz: 0,
+  Art: 0,
+  Science: 0,
+};
+
 export const authAPI = {
   registerUser: async (body: RegisterBody) => {
     const {
@@ -28,8 +39,21 @@ export const authAPI = {
 
   getUserData: async () => {
     const { data } = await get('/auth/me');
-    store.dispatch(storeUserData(data.userData));
+    console.log(data.userData.correctAnswers);
+    store.dispatch(
+      storeUserData({
+        ...data.userData,
+        ...(!data.userData.totalAnswers && {
+          totalAnswers: initialTotalAnswers,
+        }),
+        ...((!data.userData.correctAnswers ||
+          !data.userData.correctAnswers?.General) && {
+          correctAnswers: initialTotalAnswers,
+        }),
+      }),
+    );
     storeTokens(data.accessToken, data.refreshToken);
+
     return data;
   },
 

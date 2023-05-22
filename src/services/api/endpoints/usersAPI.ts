@@ -1,7 +1,8 @@
 import { UserData } from 'store/types/authSliceTypes';
 import httpClient from '../httpClient';
+import { Topic } from 'store/types/dataSliceTypes';
 
-const { get, destroy } = httpClient;
+const { get, destroy, post } = httpClient;
 
 export const usersAPI = {
   getUser: async (id: string) => {
@@ -23,5 +24,9 @@ export const usersAPI = {
   getFriends: async () => {
     const { data } = await get<Partial<UserData>[]>('/users/friends');
     return data;
+  },
+
+  registerAnswers: async (correct: boolean, topic: Topic) => {
+    post('/users/registerAnswer', { correct, topic });
   },
 };
