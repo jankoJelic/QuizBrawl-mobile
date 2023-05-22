@@ -2,6 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import CTA from 'components/buttons/CTA';
 import NavHeader from 'components/layout/NavHeader';
 import UserTile from 'components/tiles/UserTile/UserTile';
+import { LOBBY_IDS } from 'constants/constants';
 import { AN } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
@@ -23,6 +24,8 @@ const ResultsScreen: React.FC<
   const { activeRoom, score, answers, type, selectedAnswers } =
     useAppSelector(state => state.game) || {};
   const { users } = activeRoom || {};
+
+  const isArenaGame = activeRoom.lobby.id === LOBBY_IDS.ARENA;
 
   const usersByScore =
     users?.sort((a, b) => (score[a.id] <= score[b.id] ? 1 : -1)) || users;

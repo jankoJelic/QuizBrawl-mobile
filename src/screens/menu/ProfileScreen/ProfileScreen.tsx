@@ -89,7 +89,7 @@ const ProfileScreen: React.FC<
           />
           <UserAvatar
             avatar={avatar}
-            color={colors.transparent}
+            color={colors.neutral500}
             size={SCREEN_WIDTH * 0.2}
           />
 
