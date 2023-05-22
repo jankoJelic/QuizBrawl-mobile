@@ -26,6 +26,8 @@ import { setColorOpacity } from 'util/strings/setColorOpacity';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Topic } from 'store/types/dataSliceTypes';
 import StatsSection from './components/StatsSection';
+import RewardsSection from './components/RewardsSection';
+import MyScrollView from 'hoc/MyScrollView';
 
 const ProfileScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Profile'>
@@ -71,52 +73,68 @@ const ProfileScreen: React.FC<
 
   return (
     <ScreenWrapper fullWidth>
-      <View style={[styles.upperView, { backgroundColor: color }]}>
-        <LinearGradient
-          colors={[color as string, setColorOpacity(colors.neutral500, 0.6)]}
-          angle={120}
-          style={styles.linearGradient}
-        />
-        <MyIcon
-          name="arrow-left"
-          style={styles.arrowLeft}
-          color="neutral500"
-          size={AN(22)}
-          onPress={navigation.goBack}
-        />
-        <UserAvatar
-          avatar={avatar}
-          color={colors.transparent}
-          size={SCREEN_WIDTH * 0.2}
-        />
+      <MyScrollView>
+        <View style={[styles.upperView, { backgroundColor: color }]}>
+          <LinearGradient
+            colors={[color as string, setColorOpacity(colors.neutral500, 0.6)]}
+            angle={120}
+            style={styles.linearGradient}
+          />
+          <MyIcon
+            name="arrow-left"
+            style={styles.arrowLeft}
+            color="neutral500"
+            size={AN(22)}
+            onPress={navigation.goBack}
+          />
+          <UserAvatar
+            avatar={avatar}
+            color={colors.transparent}
+            size={SCREEN_WIDTH * 0.2}
+          />
 
-        <BodyLarge
-          text={`${firstName} ${lastName}`}
-          style={{ marginTop: AN(4) }}
+          <BodyLarge
+            text={`${firstName} ${lastName}`}
+            style={{ marginTop: AN(4) }}
+          />
+          <View style={styles.profileBadges}>
+            <ProfileBadge
+              amount={String(rank)}
+              imageSource={require('../../../assets/icons/lobbies/shield.png')}
+              color="brand500"
+            />
+            <ProfileBadge
+              imageSource={require('../../../assets/icons/trophy.png')}
+              amount={String(trophies)}
+              color="warning500"
+            />
+            <ProfileBadge
+              imageSource={require('../../../assets/icons/ranking.png')}
+              amount={!!rank ? String(rank) : 'n/a'}
+              color="danger500"
+            />
+          </View>
+        </View>
+        <StatsSection
+          correctAnswers={correctAnswers as Record<Topic, number>}
+          totalAnswers={totalAnswers as Record<Topic, number>}
         />
-        <View style={styles.profileBadges}>
-          <ProfileBadge
-            amount={String(rank)}
-            imageSource={require('../../../assets/icons/lobbies/shield.png')}
+        {/* <RewardsSection /> */}
+
+        <BodyMedium text="Achievements" />
+        <View style={{ paddingHorizontal: PADDING_HORIZONTAL }}>
+          <GhostButton
+            onPress={deleteFriend}
+            title="Send gift"
             color="brand500"
           />
-          <ProfileBadge
-            imageSource={require('../../../assets/icons/trophy.png')}
-            amount={String(trophies)}
-            color="warning500"
-          />
-          <ProfileBadge
-            imageSource={require('../../../assets/icons/ranking.png')}
-            amount={!!rank ? String(rank) : 'n/a'}
+          <GhostButton
+            onPress={deleteFriend}
+            title="Remove friend"
             color="danger500"
           />
         </View>
-      </View>
-      <StatsSection
-        correctAnswers={correctAnswers as Record<Topic, number>}
-        totalAnswers={totalAnswers as Record<Topic, number>}
-      />
-      <GhostButton onPress={deleteFriend} title="Remove friend" />
+      </MyScrollView>
     </ScreenWrapper>
   );
 };

@@ -78,10 +78,13 @@ const StatsSection = ({ correctAnswers, totalAnswers }: Props) => {
         data={TOPICS}
         renderItem={renderStats}
         keyExtractor={item => item.name + '_accuracyByTopic'}
+        showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
           left: PADDING_HORIZONTAL,
           paddingRight: PADDING_HORIZONTAL,
+          height: AN(110),
         }}
+        // style={{ height: AN(100) }}
       />
     </>
   );
