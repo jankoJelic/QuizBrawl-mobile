@@ -16,9 +16,7 @@ const FriendsScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Friends'>
 > = ({ navigation }) => {
   const dispatch = useDispatch();
-  const { friends, totalAnswers } = useAppSelector(
-    state => state.data.userData,
-  );
+  const { friends } = useAppSelector(state => state.data.userData);
   const [isLoading, setIsLoading] = useState(false);
 
   const getFriendsInfo = async () => {
@@ -34,12 +32,14 @@ const FriendsScreen: React.FC<
     getFriendsInfo();
   }, []);
 
-  const renderFriend = ({ item }: { item: ShallowUser }) => {
+  const renderFriend = ({ item }: { item: Partial<UserData> }) => {
     const onPressFriend = () => {
-      navigation.navigate('Friend', item);
+      navigation.navigate('Profile', item);
     };
 
-    return <UserTile user={item as ShallowUser} onPress={onPressFriend} />;
+    return (
+      <UserTile user={item as unknown as ShallowUser} onPress={onPressFriend} />
+    );
   };
 
   return (

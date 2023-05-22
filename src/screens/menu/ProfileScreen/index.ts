@@ -1,2 +1,2 @@
-import ProfileScreen from './ProfileScreen';
-export default ProfileScreen;
+import FriendScreen from './ProfileScreen';
+export default FriendScreen;

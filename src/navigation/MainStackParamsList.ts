@@ -10,10 +10,9 @@ export type MainStackParamsList = {
   SelectProvider: { flow: 'register' | 'login' };
 
   Landing: undefined;
-  Profile: undefined;
   Inbox: undefined;
   CustomizeProfile: undefined;
-  Friend: Partial<UserData>;
+  Profile: Partial<UserData>;
   Friends: undefined;
 
   Lobby: { lobbyId: number };

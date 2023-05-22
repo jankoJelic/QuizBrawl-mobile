@@ -20,8 +20,9 @@ const Sidebar = ({ children }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { sideBarVisible } = useAppSelector(state => state.appState);
+  const { userData } = useAppSelector(state => state.data);
   const { styles, colors } = useStyles(createStyles);
-  const { notificationsCount } = useUserData();
+  const { notificationsCount, unreadMessages } = useUserData();
 
   const onClose = () => {
     dispatch(hideSideBar());
@@ -30,7 +31,7 @@ const Sidebar = ({ children }) => {
   const onOpen = () => {};
 
   const goToProfile = () => {
-    navigation.navigate('Profile');
+    navigation.navigate('Profile', userData);
     onClose();
   };
 
@@ -48,6 +49,14 @@ const Sidebar = ({ children }) => {
     } catch (e) {
     } finally {
     }
+  };
+
+  const goToInbox = () => {
+    navigation.navigate('Inbox');
+  };
+
+  const goToCustomizeProfile = () => {
+    navigation.navigate('CustomizeProfile');
   };
 
   return (
@@ -75,10 +84,24 @@ const Sidebar = ({ children }) => {
               icon="user"
               onPress={goToProfile}
               notification={
-                notificationsCount?.length
-                  ? String(notificationsCount.length)
+                notificationsCount ? String(notificationsCount) : undefined
+              }
+            />
+            <MenuTile
+              title="Inbox"
+              icon="mail"
+              onPress={goToInbox}
+              notification={
+                unreadMessages?.length
+                  ? String(unreadMessages.length)
                   : undefined
               }
+            />
+            <MenuTile
+              title="Customize"
+              icon="colorPalette"
+              // style={{ marginTop: AN(30) }}
+              onPress={goToCustomizeProfile}
             />
             <MenuTile title="Logout" icon="log-out" onPress={onPressLogout} />
 
