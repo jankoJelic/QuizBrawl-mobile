@@ -39,7 +39,6 @@ export const authAPI = {
 
   getUserData: async () => {
     const { data } = await get('/auth/me');
-    console.log(data.userData.correctAnswers);
     store.dispatch(
       storeUserData({
         ...data.userData,

@@ -136,7 +136,6 @@ const QuestionScreen: React.FC<
 
   useEffect(() => {
     SOCKET.on(SOCKET_EVENTS.WRONG_ANSWER_SELECTED, handleWrongAnswer);
-
     SOCKET.on(SOCKET_EVENTS.CORRECT_ANSWER_SELECTED, handleCorrectAnswer);
   }, []);
 

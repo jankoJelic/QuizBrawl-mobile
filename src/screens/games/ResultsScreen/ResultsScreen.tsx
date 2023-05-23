@@ -23,12 +23,13 @@ const ResultsScreen: React.FC<
   const dispatch = useDispatch();
   const { activeRoom, score, answers, type, selectedAnswers } =
     useAppSelector(state => state.game) || {};
-  const { users } = activeRoom || {};
-
-  const isArenaGame = activeRoom.lobby.id === LOBBY_IDS.ARENA;
+  const { users } = activeRoom || [];
 
   const usersByScore =
-    users?.sort((a, b) => (score[a.id] <= score[b.id] ? 1 : -1)) || users;
+    users?.slice().sort((a, b) => (score[a.id] <= score[b.id] ? 1 : -1)) ||
+    users;
+
+  const isArenaGame = activeRoom.lobby.id === LOBBY_IDS.ARENA;
 
   const renderUser = ({ item }: { item: UserData }) => (
     <UserTile user={item} score={String(score[item.id]) || '0'} />
@@ -42,7 +43,8 @@ const ResultsScreen: React.FC<
   useEffect(() => {
     SOCKET.off(SOCKET_EVENTS.CORRECT_ANSWER_SELECTED);
     SOCKET.off(SOCKET_EVENTS.WRONG_ANSWER_SELECTED);
-    if (!__DEV__) API.updateQuestionStats(answers);
+    if (isArenaGame) API.registerArenaGameScore(score);
+    // API.updateQuestionStats(answers);
   }, []);
 
   return (
