@@ -11,7 +11,13 @@ import { StyleSheet } from 'react-native';
 import { View } from 'react-native';
 import { ShallowUser } from 'store/types/authSliceTypes';
 
-const UserTile = ({ user, score, isReady, onPress = () => {} }: Props) => {
+const UserTile = ({
+  user,
+  score,
+  isReady,
+  onPress = () => {},
+  isOnline,
+}: Props) => {
   const { styles } = useStyles(createStyles);
 
   const rightSideText = !!score ? `${String(score)} pts` : `lvl ${user.level}`;
@@ -41,6 +47,7 @@ const UserTile = ({ user, score, isReady, onPress = () => {} }: Props) => {
             />
           </>
         )}
+        {isOnline && <View style={styles.onlineIndicator} />}
         <Tag text={rightSideText} color="brand500" />
       </View>
     </TileWrapper>
@@ -56,6 +63,13 @@ const createStyles = (colors: Colors) =>
       paddingHorizontal: PADDING_HORIZONTAL,
       marginVertical: AN(2),
     },
+    onlineIndicator: {
+      backgroundColor: colors.success500,
+      width: AN(7),
+      aspectRatio: 1,
+      borderRadius: AN(7),
+      marginRight: AN(6),
+    },
   });
 
 export default UserTile;
@@ -65,4 +79,5 @@ interface Props {
   score?: string;
   isReady?: boolean;
   onPress?: (user: ShallowUser) => void;
+  isOnline?: boolean;
 }

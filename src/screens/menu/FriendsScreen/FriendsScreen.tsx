@@ -38,7 +38,11 @@ const FriendsScreen: React.FC<
     };
 
     return (
-      <UserTile user={item as unknown as ShallowUser} onPress={onPressFriend} />
+      <UserTile
+        user={item as unknown as ShallowUser}
+        onPress={onPressFriend}
+        isOnline={item.isOnline}
+      />
     );
   };
 
