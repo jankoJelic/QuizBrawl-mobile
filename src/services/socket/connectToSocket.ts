@@ -90,6 +90,12 @@ export const connectToSocket = (navigation: any) => {
   });
 
   SOCKET.on(ROOM_CREATED, (payload: Room) => {
+    const state = store.getState();
+    const {
+      data: { rooms },
+    } = state;
+    const roomAlreadyExists = rooms.some(r => r.id === payload.id);
+    if (roomAlreadyExists) return;
     dispatch(addNewRoom(payload));
   });
 
