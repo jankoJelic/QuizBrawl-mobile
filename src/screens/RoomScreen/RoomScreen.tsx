@@ -8,21 +8,16 @@ import UserTile from 'components/tiles/UserTile/UserTile';
 import BodyLarge from 'components/typography/BodyLarge';
 import { AN } from 'constants/styles/appStyles';
 import ActionSheet from 'containers/ActionSheet';
-import Popup from 'containers/Popup/Popup';
 import MyScrollView from 'hoc/MyScrollView';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import API from 'services/api';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { useAppSelector } from 'store/index';
-import { startLoading, stopLoading } from 'store/slices/appStateSlice';
-import {
-  removeUserFromLobby,
-  removeUserFromRoom,
-} from 'store/slices/dataSlice';
+import { startLoading } from 'store/slices/appStateSlice';
+import { removeUserFromRoom } from 'store/slices/dataSlice';
 import { UserData } from 'store/types/authSliceTypes';
 import { Room } from 'store/types/dataSliceTypes';
 
@@ -43,13 +38,11 @@ const RoomScreen: React.FC<
     topic,
     password,
     answerTime,
-    id,
     readyUsers,
   } = room || {};
 
   const isRoomAdmin = admin?.id === userData.id;
 
-  const [areYouSureModalVisible, setAreYouSureModalVisible] = useState(false);
   const [userActionSheetVisible, setUserActionSheetVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserData>();
 
@@ -61,31 +54,10 @@ const RoomScreen: React.FC<
     }
   }, [onQuestion]);
 
-  const closeAreYouSureModal = () => {
-    setAreYouSureModalVisible(false);
-  };
-
   const onPressLeftArrow = () => {
-    // if (isRoomAdmin) {
-    //   setAreYouSureModalVisible(true);
-    // } else {
-      navigation.goBack();
-      SOCKET.emit(SOCKET_EVENTS.USER_LEFT_ROOM, { user: userData, room });
-      dispatch(removeUserFromRoom({ room: room as Room, user: userData }));
-    // }
-  };
-
-  // this one only triggers for room admins
-  const exitAndDeleteRoom = async () => {
-    dispatch(startLoading());
-    try {
-      await API.deleteRoom(route.params.room.id);
-      SOCKET.emit(SOCKET_EVENTS.ROOM_DELETED, route.params.room);
-      navigation.navigate('Lobby', { lobbyId: room?.lobby.id as number });
-    } catch (e) {
-    } finally {
-      dispatch(stopLoading());
-    }
+    navigation.navigate('Lobby', { lobbyId: room?.lobby.id as number });
+    SOCKET.emit(SOCKET_EVENTS.USER_LEFT_ROOM, { user: userData, room });
+    dispatch(removeUserFromRoom({ room: room as Room, user: userData }));
   };
 
   const startGame = async () => {
@@ -131,7 +103,7 @@ const RoomScreen: React.FC<
   const closeUserActionSheet = () => {
     setUserActionSheetVisible(false);
     setTimeout(() => {
-      setSelectedUser();
+      setSelectedUser(undefined);
     }, 300);
   };
 
@@ -179,16 +151,6 @@ const RoomScreen: React.FC<
           <></>
         )}
       </MyScrollView>
-      <Popup
-        visible={areYouSureModalVisible}
-        closeModal={closeAreYouSureModal}
-        title="Are you sure you want to exit room?"
-        text="You are the room creator. If you exit, the room will be deleted"
-        firstButtonTitle="No, stay"
-        secondButtonTitle="Yes, exit"
-        onPressFirstButton={closeAreYouSureModal}
-        onPressSecondButton={exitAndDeleteRoom}
-      />
       <ActionSheet
         visible={userActionSheetVisible && !!selectedUser}
         close={closeUserActionSheet}>
