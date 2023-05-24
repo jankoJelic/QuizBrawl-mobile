@@ -19,6 +19,7 @@ import CustomizeProfileScreen from 'screens/menu/CustomizeProfileScreen';
 import InboxScreen from 'screens/profile/InboxScreen';
 import FriendsScreen from 'screens/menu/FriendsScreen';
 import FriendScreen from 'screens/menu/FriendScreen';
+import MarketScreen from 'screens/menu/MarketScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamsList>();
 
@@ -59,6 +60,7 @@ const MainStackNavigator = () => (
     <Stack.Screen name="Results" component={ResultsScreen} />
 
     <Stack.Screen name="Friends" component={FriendsScreen} />
+    <Stack.Screen name="Market" component={MarketScreen} />
   </Stack.Navigator>
 );
 

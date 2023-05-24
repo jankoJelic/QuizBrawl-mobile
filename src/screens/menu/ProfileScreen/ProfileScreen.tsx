@@ -53,6 +53,8 @@ const ProfileScreen: React.FC<
     totalAnswers,
   } = route.params || {};
 
+  const yourProfile = id === userData.id;
+
   useEffect(() => {
     dispatch(setStatusBar({ topColor: color }));
 
@@ -122,18 +124,22 @@ const ProfileScreen: React.FC<
         {/* <RewardsSection /> */}
 
         <BodyMedium text="Achievements" />
-        <View style={{ paddingHorizontal: PADDING_HORIZONTAL }}>
-          <GhostButton
-            onPress={deleteFriend}
-            title="Send gift"
-            color="brand500"
-          />
-          <GhostButton
-            onPress={deleteFriend}
-            title="Remove friend"
-            color="danger500"
-          />
-        </View>
+        {yourProfile ? (
+          <></>
+        ) : (
+          <View style={{ paddingHorizontal: PADDING_HORIZONTAL }}>
+            <GhostButton
+              onPress={deleteFriend}
+              title="Send gift"
+              color="brand500"
+            />
+            <GhostButton
+              onPress={deleteFriend}
+              title="Remove friend"
+              color="danger500"
+            />
+          </View>
+        )}
       </MyScrollView>
     </ScreenWrapper>
   );

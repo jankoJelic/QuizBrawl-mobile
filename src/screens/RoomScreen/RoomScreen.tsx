@@ -66,13 +66,13 @@ const RoomScreen: React.FC<
   };
 
   const onPressLeftArrow = () => {
-    if (isRoomAdmin) {
-      setAreYouSureModalVisible(true);
-    } else {
+    // if (isRoomAdmin) {
+    //   setAreYouSureModalVisible(true);
+    // } else {
       navigation.goBack();
       SOCKET.emit(SOCKET_EVENTS.USER_LEFT_ROOM, { user: userData, room });
       dispatch(removeUserFromRoom({ room: room as Room, user: userData }));
-    }
+    // }
   };
 
   // this one only triggers for room admins

@@ -85,9 +85,19 @@ const LobbyScreen: React.FC<
     return '';
   };
 
+  const leaveLobby = () => {
+    SOCKET.emit(SOCKET_EVENTS.USER_LEFT_LOBBY, { lobbyId, user: userData });
+    navigation.navigate('Landing');
+  };
+
   return (
     <ScreenWrapper>
-      <NavHeader title={title()} fullWidth />
+      <NavHeader
+        title={title()}
+        fullWidth
+        onPressLeftIcon={leaveLobby}
+        onPressRightIcon={leaveLobby}
+      />
       {lobbyRooms?.length ? (
         <FlatList
           data={lobbyRooms}
