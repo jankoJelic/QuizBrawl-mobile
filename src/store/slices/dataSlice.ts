@@ -27,7 +27,7 @@ export const authSlice = createSlice({
     updateTrophies: (state, action) => {
       const currentTrophies = state.userData.trophies;
       const trophiesSum = currentTrophies + action.payload;
-      const updatedTrophies = !!trophiesSum ? trophiesSum : 0;
+      const updatedTrophies = trophiesSum > 0 ? trophiesSum : 0;
       state.userData.trophies = updatedTrophies;
     },
     setFriends: (state, action) => {
