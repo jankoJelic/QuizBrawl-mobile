@@ -97,7 +97,7 @@ export const authSlice = createSlice({
             }
           : room,
       );
-      state.userData.room = null;
+      if (state.userData.id === user.id) state.userData.room = null;
       state.rooms = updatedRooms;
     },
     addNewRoom: (state, action: { payload: Room }) => {

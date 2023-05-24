@@ -72,6 +72,7 @@ const ResultsScreen: React.FC<
   useEffect(() => {
     submitScoreAndGetReward();
     if (isArenaGame) API.registerArenaGameScore(score);
+    SOCKET.emit(SOCKET_EVENTS.GAME_ENDED, activeRoom);
     SOCKET.off(SOCKET_EVENTS.CORRECT_ANSWER_SELECTED);
     SOCKET.off(SOCKET_EVENTS.WRONG_ANSWER_SELECTED);
     API.updateQuestionStats(answers);

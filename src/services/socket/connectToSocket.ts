@@ -136,12 +136,11 @@ export const connectToSocket = (navigation: any) => {
       } = state || {};
 
       dispatch(unreadyUsersInRoom(roomId));
-
-      if (userData.room.id !== roomId) return;
+      if (userData?.room?.id !== roomId) return;
 
       dispatch(
         initializeGame({
-          room: rooms.find(r => r.id === userData.room.id) as Room,
+          room: rooms?.find(r => r?.id === userData?.room?.id) as Room,
           questions,
         }),
       );

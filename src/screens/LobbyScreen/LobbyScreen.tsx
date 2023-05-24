@@ -61,13 +61,13 @@ const LobbyScreen: React.FC<
   };
 
   const enterRoom = (room: Room) => {
+    dispatch(joinRoom(room));
     SOCKET.emit(SOCKET_EVENTS.USER_JOINED_ROOM, {
       roomId: room.id,
       user: userData,
     });
 
     navigation.navigate('Room', { room });
-    dispatch(joinRoom(room));
   };
 
   const submitPassword = () => {
