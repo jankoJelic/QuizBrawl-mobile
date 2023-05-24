@@ -12,7 +12,8 @@ export const questionsAPI = {
   },
 
   updateQuestionStats: async (body: Record<string, CorrectAnswer>) => {
-    patch('/questions/stats', body);
+    const { data } = await patch('/questions/stats', body);
+    return data;
   },
 };
 

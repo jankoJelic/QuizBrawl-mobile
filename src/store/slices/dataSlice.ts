@@ -24,6 +24,12 @@ export const authSlice = createSlice({
     setLobbies: (state, action) => {
       state.lobbies = action.payload;
     },
+    updateTrophies: (state, action) => {
+      const currentTrophies = state.userData.trophies;
+      const trophiesSum = currentTrophies + action.payload;
+      const updatedTrophies = !!trophiesSum ? trophiesSum : 0;
+      state.userData.trophies = updatedTrophies;
+    },
     setFriends: (state, action) => {
       state.userData.friends = action.payload;
     },
@@ -223,6 +229,7 @@ export const {
   readMessage,
   setFriends,
   registerAnswer,
+  updateTrophies,
 } = authSlice.actions;
 
 export default authSlice.reducer;
