@@ -37,10 +37,10 @@ const LandingScreenHeader = () => {
         />
         <UserAvatar onPress={openSideBar} />
       </View>
-      {notificationsCount?.length ? (
+      {notificationsCount ? (
         <NotificationBadge
-          text={String(notificationsCount.length)}
-          style={{ position: 'absolute', top: AN(2), right: AN(6) }}
+          text={String(notificationsCount)}
+          style={styles.notificationBadge}
         />
       ) : (
         <></>
@@ -61,6 +61,7 @@ const createStyles = (colors: Colors) =>
       flexDirection: 'row',
     },
     trophiesCount: { marginLeft: AN(6) },
+    notificationBadge: { position: 'absolute', top: AN(2), right: AN(6) },
   });
 
 export default React.memo(LandingScreenHeader);
