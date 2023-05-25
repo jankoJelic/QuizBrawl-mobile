@@ -70,22 +70,17 @@ export const connectToSocket = (navigation: any) => {
     } = state.data || {};
     const { user, room } = payload || {};
 
-    const iWasKicked = myRoom?.id === room?.id && user?.id === myId;
+    const iWasKicked = user?.id === myId;
 
     if (iWasKicked) {
-      switch (lobby?.id) {
-        case LOBBY_IDS.ARENA:
-          navigation.navigate('Lobby', { lobbyId: LOBBY_IDS.ARENA });
-          dispatch(
-            showToast({
-              text: 'You got kicked from the room',
-              visible: true,
-              type: 'error',
-            }),
-          );
-        default:
-          return;
-      }
+      navigation.navigate('Lobby', { lobbyId: lobby?.id });
+      dispatch(
+        showToast({
+          text: 'You got kicked from the room',
+          visible: true,
+          type: 'error',
+        }),
+      );
     }
   });
 
