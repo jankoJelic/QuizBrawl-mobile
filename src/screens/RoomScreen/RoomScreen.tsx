@@ -31,7 +31,7 @@ const RoomScreen: React.FC<
 
   const {
     name,
-    admin,
+    userId,
     maxPlayers,
     users,
     questionsCount,
@@ -39,9 +39,10 @@ const RoomScreen: React.FC<
     password,
     answerTime,
     readyUsers,
+    hostName,
   } = room || {};
 
-  const isRoomAdmin = admin?.id === userData.id;
+  const isRoomAdmin = userId === userData.id;
 
   const [userActionSheetVisible, setUserActionSheetVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserData>();
@@ -55,7 +56,7 @@ const RoomScreen: React.FC<
   }, [onQuestion]);
 
   const onPressLeftArrow = () => {
-    navigation.navigate('Lobby', { lobbyId: room?.lobby?.id as number });
+    navigation.navigate('Lobby', { lobbyId: room?.lobbyId as number });
     SOCKET.emit(SOCKET_EVENTS.USER_LEFT_ROOM, { user: userData, room });
     dispatch(removeUserFromRoom({ room: room as Room, user: userData }));
   };
@@ -68,7 +69,7 @@ const RoomScreen: React.FC<
   const roomIsFull = users?.length === maxPlayers;
   const startGameDisabled = !roomIsFull || readyUsers?.length !== maxPlayers;
   const youAreReady = readyUsers?.includes(userData?.id);
-  
+
   const onPressReady = () => {
     SOCKET.emit(SOCKET_EVENTS.USER_READY, {
       isReady: true,
@@ -115,7 +116,7 @@ const RoomScreen: React.FC<
         showRightIcon={false}
       />
       <MyScrollView>
-        <InfoLine title="Host:" value={admin?.firstName} />
+        <InfoLine title="Host:" value={hostName} />
         <InfoLine title="Topic:" value={topic} />
         <InfoLine
           title="Players:"

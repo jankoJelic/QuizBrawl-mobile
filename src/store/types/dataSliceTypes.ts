@@ -13,7 +13,6 @@ export type LobbyName = 'Arena' | 'Cash game' | 'Solo';
 export interface Room {
   id: number;
   userId: number;
-  admin: UserData;
   name: string;
   users: UserData[];
   maxPlayers: number;
@@ -21,11 +20,12 @@ export interface Room {
   topic: Topic;
   type: GameType;
   password: string;
-  lobby: Lobby;
+  lobbyId: number;
   answerTime: number;
   readyUsers: number[];
   teams: { players: number[] }[];
   bet?: number;
+  hostName: string;
 }
 
 export type Topic =

@@ -45,6 +45,9 @@ const QuestionScreen: React.FC<
   const { questions, activeRoom, type, selectedAnswers, onQuestion } =
     useAppSelector(state => state.game);
 
+  const isBrawlGame = type === 'brawl';
+  const isClassicGame = type === 'classic';
+
   const { answerTime, id: roomId, users, topic } = activeRoom || {};
 
   const currentQuestion: Question = questions[onQuestion];
@@ -99,7 +102,7 @@ const QuestionScreen: React.FC<
   const handleWrongAnswer = ({ answer, userId }: SelectedAnswerPayload) => {
     if (selectedAnswers.includes(answer)) return;
 
-    if (type === 'brawl') {
+    if (isBrawlGame) {
       dispatch(selectWrongQuestion({ answer, userId }));
       setWrongUsers(prevState => prevState.concat([userId]));
       setUserNameForAnswer(answer, userId);
@@ -116,7 +119,7 @@ const QuestionScreen: React.FC<
   const handleCorrectAnswer = ({ answer, userId }: SelectedAnswerPayload) => {
     if (selectedAnswers.includes(answer)) return;
 
-    if (type === 'brawl') {
+    if (isBrawlGame) {
       dispatch(selectCorrectQuestion({ answer, userId }));
       setCorrectUser(userId);
       setUserNameForAnswer(answer, userId);
@@ -154,9 +157,7 @@ const QuestionScreen: React.FC<
     countdownInterval.current = setInterval(() => {
       setSecondsLeft(prevState => {
         if (prevState === 0) {
-          if (type === 'brawl') {
-            nextQuestion();
-          }
+          if (isBrawlGame) nextQuestion();
         }
         return prevState - 1;
       });
@@ -170,17 +171,25 @@ const QuestionScreen: React.FC<
   const onPressNext = () => {};
 
   const onSelectAnswer = (answer: CorrectAnswer) => {
-    const payload = {
-      answer,
-      userId: userData.id,
-      roomId,
-      topic,
-    };
+    if (isBrawlGame) {
+      const payload = {
+        answer,
+        userId: userData.id,
+        roomId,
+        topic,
+      };
 
-    if (answer === correctAnswer) {
-      SOCKET.emit(SOCKET_EVENTS.CORRECT_ANSWER_SELECTED, payload);
-    } else {
-      SOCKET.emit(SOCKET_EVENTS.WRONG_ANSWER_SELECTED, payload);
+      if (answer === correctAnswer) {
+        SOCKET.emit(SOCKET_EVENTS.CORRECT_ANSWER_SELECTED, payload);
+      } else {
+        SOCKET.emit(SOCKET_EVENTS.WRONG_ANSWER_SELECTED, payload);
+      }
+    } else if (type === 'classic') {
+      if (answer === correctAnswer) {
+        
+      } else {
+
+      }
     }
 
     dispatch(
@@ -276,7 +285,7 @@ const QuestionScreen: React.FC<
             userName={userNameByAnswer['answer4']}
           />
         </View>
-        {type !== 'brawl' ? (
+        {type === 'classic' ? (
           <CTA
             title="Next"
             onPress={onPressNext}

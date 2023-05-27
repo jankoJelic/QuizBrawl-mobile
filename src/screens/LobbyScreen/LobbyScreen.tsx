@@ -2,8 +2,10 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import CTA from 'components/buttons/CTA';
 import InputField from 'components/inputs/InputField';
 import NavHeader from 'components/layout/NavHeader';
+import EventTile from 'components/tiles/EventTile';
 import RoomTile from 'components/tiles/RoomTile';
 import BodyLarge from 'components/typography/BodyLarge';
+import BodyMedium from 'components/typography/BodyMedium';
 import { LOBBY_IDS } from 'constants/constants';
 import { Colors } from 'constants/styles/Colors';
 import { AN } from 'constants/styles/appStyles';
@@ -27,12 +29,14 @@ const LobbyScreen: React.FC<
   const { styles, colors } = useStyles(createStyles);
 
   const { rooms, userData } = useAppSelector(state => state.data);
-  const lobbyRooms = rooms.filter(room => room?.lobby?.id === lobbyId);
+  const lobbyRooms = rooms.filter(room => room.lobbyId === lobbyId);
 
   const [passwordPopupVisible, setPasswordPopupVisible] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
   const [passwordInputError, setPasswordInputError] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<Room>();
+
+  const isSoloLobby = lobbyId === LOBBY_IDS.SOLO;
 
   const openPasswordPopup = () => {
     setPasswordPopupVisible(true);
@@ -57,9 +61,14 @@ const LobbyScreen: React.FC<
       }
     };
 
+    const onPressEvent = () => {};
+
+    if (isSoloLobby)
+      return <EventTile room={item} index={index} onPress={onPressEvent} />;
+
     return <RoomTile room={item} index={index} onPress={onPressRoom} />;
   };
-
+  
   const enterRoom = (room: Room) => {
     dispatch(joinRoom(room));
     SOCKET.emit(SOCKET_EVENTS.USER_JOINED_ROOM, {
@@ -98,6 +107,11 @@ const LobbyScreen: React.FC<
         onPressLeftIcon={leaveLobby}
         onPressRightIcon={leaveLobby}
       />
+      {isSoloLobby ? (
+        <BodyMedium text="Daily challenges" weight="semiBold" />
+      ) : (
+        <></>
+      )}
       {lobbyRooms?.length ? (
         <FlatList
           data={lobbyRooms}
@@ -109,11 +123,15 @@ const LobbyScreen: React.FC<
       ) : (
         <BodyLarge text="No open rooms" style={styles.emptyState} />
       )}
-      <CTA
-        title="Create new room"
-        onPress={goToCreateRoom}
-        style={styles.cta}
-      />
+      {lobbyId !== LOBBY_IDS.SOLO ? (
+        <CTA
+          title="Create new room"
+          onPress={goToCreateRoom}
+          style={styles.cta}
+        />
+      ) : (
+        <></>
+      )}
       <Popup
         visible={passwordPopupVisible}
         closeModal={closePasswordPopup}

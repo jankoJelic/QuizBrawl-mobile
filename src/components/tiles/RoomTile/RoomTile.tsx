@@ -15,7 +15,6 @@ const RoomTile = ({ index, onPress, room }: Props) => {
   const { styles, colors } = useStyles(createStyles);
   const {
     answerTime,
-    admin,
     maxPlayers,
     name,
     password,
@@ -24,13 +23,15 @@ const RoomTile = ({ index, onPress, room }: Props) => {
     questionsCount,
     bet,
     teams,
+    hostName,
   } = room || {};
-
   const disabled = users.length === maxPlayers;
 
   const onPressRoom = () => {
     onPress(room);
   };
+
+  const isMultiPlayer = maxPlayers > 1;
 
   return (
     <TouchableBounce
@@ -41,37 +42,43 @@ const RoomTile = ({ index, onPress, room }: Props) => {
       }}
       onPress={onPressRoom}
       disabled={disabled}>
-      <View style={styles.roomRow}>
-        <BodyMedium text={name} style={{ flex: 1 }} weight="bold" />
-        <TopicIcon style={styles.topicIcon} topic={topic} />
-      </View>
-      <View style={styles.roomRow}>
-        <BodyMedium text={`Host: ${admin?.firstName}`} style={{ flex: 0.7 }} />
-        <View style={styles.rightSideInfo}>
-          <FeatherIcon name="users" size={AN(16)} />
-          <BodyMedium text={`  ${users?.length}/${maxPlayers}`} />
-        </View>
-      </View>
-      <View style={styles.roomRow}>
-        <View style={{ flexDirection: 'row', flex: 1 }}>
-          <QuestionIcon style={styles.questionIcon} />
-          <BodyMedium text={`  ${String(questionsCount)}`} />
-        </View>
-        <View style={styles.rightSideInfo}>
-          <FeatherIcon name="clock" size={AN(16)} color="warning500" />
-          <BodyMedium text={`  ${String(answerTime)}`} />
-        </View>
-      </View>
-      <View style={styles.roomRow}>
-        <View style={{ flexDirection: 'row', flex: 1 }}>
-          {!!password ? (
-            <FeatherIcon name="lock" color="danger500" />
-          ) : (
-            <FeatherIcon name="unlock" color="success500" />
-          )}
-        </View>
-        <View style={styles.rightSideInfo}></View>
-      </View>
+      {isMultiPlayer ? (
+        <>
+          <View style={styles.roomRow}>
+            <BodyMedium text={name} style={{ flex: 1 }} weight="bold" />
+            <TopicIcon style={styles.topicIcon} topic={topic} />
+          </View>
+          <View style={styles.roomRow}>
+            <BodyMedium text={`Host: ${hostName}`} style={{ flex: 0.7 }} />
+            <View style={styles.rightSideInfo}>
+              <FeatherIcon name="users" size={AN(16)} />
+              <BodyMedium text={`  ${users?.length}/${maxPlayers}`} />
+            </View>
+          </View>
+          <View style={styles.roomRow}>
+            <View style={{ flexDirection: 'row', flex: 1 }}>
+              <QuestionIcon style={styles.questionIcon} />
+              <BodyMedium text={`  ${String(questionsCount)}`} />
+            </View>
+            <View style={styles.rightSideInfo}>
+              <FeatherIcon name="clock" size={AN(16)} color="warning500" />
+              <BodyMedium text={`  ${String(answerTime)}`} />
+            </View>
+          </View>
+          <View style={styles.roomRow}>
+            <View style={{ flexDirection: 'row', flex: 1 }}>
+              {!!password ? (
+                <FeatherIcon name="lock" color="danger500" />
+              ) : (
+                <FeatherIcon name="unlock" color="success500" />
+              )}
+            </View>
+            <View style={styles.rightSideInfo}></View>
+          </View>
+        </>
+      ) : (
+        <></>
+      )}
     </TouchableBounce>
   );
 };

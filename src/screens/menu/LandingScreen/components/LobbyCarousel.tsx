@@ -104,7 +104,7 @@ const LobbyCarousel = () => {
   };
 
   const getLobbyRoomsCount = (lobbyId: number) => {
-    return rooms.filter(room => room?.lobby?.id === lobbyId).length;
+    return rooms.filter(room => room?.lobbyId === lobbyId).length;
   };
 
   const renderItem = ({ item }: { item: Lobby }) => {

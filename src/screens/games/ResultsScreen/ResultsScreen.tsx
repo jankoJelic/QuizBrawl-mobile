@@ -51,7 +51,7 @@ const ResultsScreen: React.FC<
     users?.slice().sort((a, b) => (score[a.id] <= score[b.id] ? 1 : -1)) ||
     users;
 
-  const isArenaGame = activeRoom.lobby.id === LOBBY_IDS.ARENA;
+  const isArenaGame = activeRoom.lobbyId === LOBBY_IDS.ARENA;
 
   const renderUser = ({ item }: { item: UserData }) => (
     <UserTile user={item} score={String(score[item.id]) || '0'} />
