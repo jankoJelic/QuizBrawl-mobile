@@ -43,6 +43,10 @@ export interface ShallowUser {
 
 export interface Reward {
   name: string;
-  image: string;
+  image?: string;
   description?: string;
+  payload: string;
+  type: RewardType;
 }
+
+export type RewardType = 'AVATAR' | 'ACHIEVEMENT' | 'MEDAL';

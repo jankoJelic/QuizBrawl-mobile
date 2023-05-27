@@ -66,11 +66,11 @@ export const gameSlice = createSlice({
       if (!currentSelectedAnswers.length)
         state.answers[state.questions[state.onQuestion].id] = answer;
 
+      state.selectedAnswers = state.selectedAnswers.concat([answer]);
+
       if (state.type === 'brawl') {
-        state.selectedAnswers = state.selectedAnswers.concat([answer]);
         const currentUserScore = state.score[userId];
         state.score[userId] = currentUserScore - 1;
-      } else if (state.type === 'classic') {
       }
     },
     selectCorrectQuestion: (
@@ -84,10 +84,11 @@ export const gameSlice = createSlice({
       if (!currentSelectedAnswers.length)
         state.answers[state.questions[state.onQuestion].id] = answer;
 
-      if (state.type === 'brawl') {
-        const selectedAnswers = state.selectedAnswers;
-        const currentUserScore = state.score[userId];
+      const currentUserScore = state.score[userId];
+      const selectedAnswers = state.selectedAnswers;
+      state.selectedAnswers = selectedAnswers.concat([answer]);
 
+      if (state.type === 'brawl') {
         const pointsWon = () => {
           switch (selectedAnswers.length) {
             case 0:
@@ -101,10 +102,9 @@ export const gameSlice = createSlice({
           }
         };
 
-        state.selectedAnswers = selectedAnswers.concat([answer]);
-
         state.score[userId] = currentUserScore + pointsWon();
       } else if (state.type === 'classic') {
+        state.score[userId] = currentUserScore + 1;
       }
     },
     goToNextQuestion: state => {

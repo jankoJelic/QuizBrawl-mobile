@@ -6,6 +6,7 @@ import { Color } from 'constants/styles/Colors';
 import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import GoogleLogo from './googleLogo.svg';
 import FastImage from 'react-native-fast-image';
 
@@ -46,6 +47,7 @@ const MyIcon = ({
   if (family === 'material') return <MaterialIcon {...vectorIconProps} />;
   if (family === 'fontAwesome5') return <FontAwesome5 {...vectorIconProps} />;
   if (family === 'simpleLine') return <SimpleLineIcon {...vectorIconProps} />;
+  if (family === 'antDesign') return <AntDesignIcon {...vectorIconProps} />;
   return <Icon {...vectorIconProps} />;
 };
 
@@ -60,7 +62,12 @@ interface Props {
   family?: IconFamily;
 }
 
-export type IconFamily = 'feather' | 'simpleLine' | 'fontAwesome5' | 'material';
+export type IconFamily =
+  | 'feather'
+  | 'simpleLine'
+  | 'fontAwesome5'
+  | 'material'
+  | 'antDesign';
 
 export type IconName =
   | 'arrow-left'
@@ -91,4 +98,6 @@ export type IconName =
   | 'key'
   | 'mail'
   | 'explore'
-  | 'ranking';
+  | 'ranking'
+  | 'like2'
+  | 'dislike2';

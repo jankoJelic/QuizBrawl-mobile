@@ -11,19 +11,19 @@ import { Room } from 'store/types/dataSliceTypes';
 
 const EventTile = ({ room, index, onPress }: Props) => {
   const { styles, colors } = useStyles(createStyles);
-  const { topic, name } = room || {};
+  const { topic, name, id } = room || {};
   const { dailies } = useAppSelector(state => state.data.userData) || {};
 
   const dailiesToCheck = dailies ? dailies : {};
 
-  const notYetPlayed = !(room.id in dailiesToCheck);
-  const eventWon = dailiesToCheck[room.id] === 10;
+  const notYetPlayed = !(id in dailiesToCheck);
+  const eventWon = dailiesToCheck[id] === 10;
 
   const status = eventWon
     ? 'Completed'
     : notYetPlayed
     ? 'Play'
-    : `${String(dailiesToCheck[room.id])}/10`;
+    : `${String(dailiesToCheck[id])}/10`;
 
   const statusColor = eventWon
     ? 'success500'
@@ -31,13 +31,17 @@ const EventTile = ({ room, index, onPress }: Props) => {
     ? 'brand500'
     : 'neutral300';
 
+  const alreadyPlayed = dailiesToCheck[id] !== undefined;
+
   return (
     <TileWrapper
+      disabled={alreadyPlayed}
       onPress={onPress}
       style={{
         ...styles.container,
-        marginTop: index > 1 ? AN(26) : AN(10),
+        marginTop: index > 1 ? AN(32) : AN(10),
         marginRight: index % 2 === 1 ? 0 : AN(10),
+        opacity: alreadyPlayed ? 0.7 : 1,
       }}>
       <TopicIcon topic={topic} style={styles.icon} />
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>

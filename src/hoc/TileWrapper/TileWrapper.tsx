@@ -6,7 +6,12 @@ import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { setColorOpacity } from 'util/strings/setColorOpacity';
 
-const TileWrapper = ({ children, style = {}, onPress = () => {} }: Props) => {
+const TileWrapper = ({
+  children,
+  style = {},
+  onPress = () => {},
+  disabled,
+}: Props) => {
   const { styles, colors } = useStyles(createStyles);
   const [backgroundOpacity, setBackgroundOpacity] = useState(1);
 
@@ -20,6 +25,7 @@ const TileWrapper = ({ children, style = {}, onPress = () => {} }: Props) => {
 
   return (
     <TouchableBounce
+      disabled={disabled}
       onPress={onPress}
       onPressIn={onPressIn}
       onPressOut={onPressOut}
@@ -56,4 +62,5 @@ interface Props {
   children: JSX.Element | JSX.Element[];
   style?: {};
   onPress?: () => void;
+  disabled?: boolean;
 }

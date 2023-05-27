@@ -5,10 +5,10 @@ import { AN } from 'constants/styles/appStyles';
 const Title = (props: TextProps) => {
   return (
     <BaseTextComponent
+      fontSize={AN(24)}
       {...props}
       text={props.text}
       color={props.color || 'brand500'}
-      fontSize={AN(24)}
     />
   );
 };

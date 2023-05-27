@@ -25,8 +25,7 @@ import {
 import UsersTopBar from './components/UsersTopBar';
 import FullScreenSpinner from 'components/modals/FullScreenSpinner';
 import { registerAnswer } from 'store/slices/dataSlice';
-
-const nextQuestionTimeout = 2000;
+import RateQuestionBar from './components/RateQuestionBar';
 
 const startingUsersByAnswer = {
   answer1: '',
@@ -47,6 +46,7 @@ const QuestionScreen: React.FC<
 
   const isBrawlGame = type === 'brawl';
   const isClassicGame = type === 'classic';
+  const nextQuestionTimeout = isBrawlGame ? 2000 : 0;
 
   const { answerTime, id: roomId, users, topic } = activeRoom || {};
 
@@ -57,6 +57,7 @@ const QuestionScreen: React.FC<
   const [secondsLeft, setSecondsLeft] = useState(answerTime);
   const [wrongUsers, setWrongUsers] = useState<number[]>([]);
   const [correctUser, setCorrectUser] = useState(0);
+  const [liked, setLiked] = useState<undefined | boolean>(undefined);
 
   const [userNameByAnswer, setUserNameByAnswer] = useState<
     Record<CorrectAnswer, string>
@@ -82,6 +83,9 @@ const QuestionScreen: React.FC<
     clearCountdownInterval();
 
     setTimeout(() => {
+      if (isClassicGame) {
+        setLiked(undefined);
+      }
       if (isLastQuestion) {
         goToResults();
       } else {
@@ -100,31 +104,29 @@ const QuestionScreen: React.FC<
   };
 
   const handleWrongAnswer = ({ answer, userId }: SelectedAnswerPayload) => {
+    if (isClassicGame) clearCountdownInterval();
     if (selectedAnswers.includes(answer)) return;
 
-    if (isBrawlGame) {
-      dispatch(selectWrongQuestion({ answer, userId }));
-      setWrongUsers(prevState => prevState.concat([userId]));
-      setUserNameForAnswer(answer, userId);
-    }
+    dispatch(selectWrongQuestion({ answer, userId }));
+    setWrongUsers(prevState => prevState.concat([userId]));
+    setUserNameForAnswer(answer, userId);
   };
 
   useEffect(() => {
     const allUsersHaveAnsweredWrong =
       wrongUsers.length === activeRoom.users.length;
 
-    if (allUsersHaveAnsweredWrong) nextQuestion();
+    if (allUsersHaveAnsweredWrong && isBrawlGame) nextQuestion();
   }, [wrongUsers.length]);
 
   const handleCorrectAnswer = ({ answer, userId }: SelectedAnswerPayload) => {
+    if (isClassicGame) clearCountdownInterval();
     if (selectedAnswers.includes(answer)) return;
 
-    if (isBrawlGame) {
-      dispatch(selectCorrectQuestion({ answer, userId }));
-      setCorrectUser(userId);
-      setUserNameForAnswer(answer, userId);
-      nextQuestion();
-    }
+    dispatch(selectCorrectQuestion({ answer, userId }));
+    setCorrectUser(userId);
+    setUserNameForAnswer(answer, userId);
+    if (isBrawlGame) nextQuestion();
   };
 
   const setUserNameForAnswer = (answer: CorrectAnswer, userId: number) => {
@@ -138,13 +140,15 @@ const QuestionScreen: React.FC<
   };
 
   useEffect(() => {
-    SOCKET.on(SOCKET_EVENTS.WRONG_ANSWER_SELECTED, handleWrongAnswer);
-    SOCKET.on(SOCKET_EVENTS.CORRECT_ANSWER_SELECTED, handleCorrectAnswer);
+    if (isBrawlGame) {
+      SOCKET.on(SOCKET_EVENTS.WRONG_ANSWER_SELECTED, handleWrongAnswer);
+      SOCKET.on(SOCKET_EVENTS.CORRECT_ANSWER_SELECTED, handleCorrectAnswer);
+    }
   }, []);
 
   const clearCountdownInterval = () => {
     clearInterval(countdownInterval?.current);
-    setSecondsLeft(15);
+    setSecondsLeft(answerTime);
   };
 
   useEffect(() => {
@@ -168,7 +172,9 @@ const QuestionScreen: React.FC<
     };
   }, [onQuestion]);
 
-  const onPressNext = () => {};
+  const onPressNext = () => {
+    nextQuestion();
+  };
 
   const onSelectAnswer = (answer: CorrectAnswer) => {
     if (isBrawlGame) {
@@ -185,10 +191,11 @@ const QuestionScreen: React.FC<
         SOCKET.emit(SOCKET_EVENTS.WRONG_ANSWER_SELECTED, payload);
       }
     } else if (type === 'classic') {
+      const payload = { answer, userId: userData.id };
       if (answer === correctAnswer) {
-        
+        handleCorrectAnswer(payload);
       } else {
-
+        handleWrongAnswer(payload);
       }
     }
 
@@ -216,6 +223,11 @@ const QuestionScreen: React.FC<
 
   const renderCountdown = () => {
     const text = () => {
+      if (isClassicGame) {
+        if (secondsLeft < 1) return 'Time is up!';
+        if (allUsersGuessed) return '';
+        return String(secondsLeft);
+      }
       if (allUsersGuessed || (!correctUser && secondsLeft < 1)) {
         return 'No correct answers!';
       } else if (correctAnswerGuessed) {
@@ -243,7 +255,11 @@ const QuestionScreen: React.FC<
     <ScreenWrapper style={{ paddingTop: AN(30) }}>
       <>
         <View>
-          <UsersTopBar wrongUsers={wrongUsers} correctUser={correctUser} />
+          {isBrawlGame ? (
+            <UsersTopBar wrongUsers={wrongUsers} correctUser={correctUser} />
+          ) : (
+            <></>
+          )}
           {renderCountdown()}
           <TileWrapper style={styles.questionTile}>
             <BodyMedium text={question} style={{ textAlign: 'center' }} />
@@ -286,11 +302,18 @@ const QuestionScreen: React.FC<
           />
         </View>
         {type === 'classic' ? (
-          <CTA
-            title="Next"
-            onPress={onPressNext}
-            style={{ marginTop: AN(30) }}
-          />
+          <>
+            {liked === undefined ? (
+              <RateQuestionBar onRate={setLiked} />
+            ) : (
+              <></>
+            )}
+            <CTA
+              title="Next"
+              onPress={onPressNext}
+              style={{ marginTop: AN(30) }}
+            />
+          </>
         ) : (
           <></>
         )}

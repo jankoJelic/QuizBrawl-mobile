@@ -16,9 +16,11 @@ import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React, { useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
+import API from 'services/api';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { useAppSelector } from 'store/index';
 import { joinRoom } from 'store/slices/dataSlice';
+import { initializeGame } from 'store/slices/gameSlice';
 import { Room } from 'store/types/dataSliceTypes';
 
 const LobbyScreen: React.FC<
@@ -61,8 +63,17 @@ const LobbyScreen: React.FC<
       }
     };
 
-    const onPressEvent = () => {
-      
+    const onPressEvent = async () => {
+      const questions = await API.startDailyEvent(item.id);
+
+      dispatch(
+        initializeGame({
+          room: { ...item, users: [userData] },
+          questions,
+        }),
+      );
+
+      navigation.navigate('GameSplash');
     };
 
     if (isSoloLobby)
@@ -114,8 +125,8 @@ const LobbyScreen: React.FC<
           <BodyMedium text="Daily challenges" weight="semiBold" />
           <BodyMedium
             color="neutral300"
-            text="Win a buck for every correct answer and special rewards for completing an event with 100% efficiency"
-            style={{ marginBottom: AN(10) }}
+            text="Win a buck for every correct answer and special rewards for completing an event with 100% accuracy"
+            style={{ marginBottom: AN(10), marginTop: AN(4) }}
           />
         </>
       ) : (

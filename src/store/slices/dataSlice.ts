@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { UserData } from 'store/types/authSliceTypes';
+import { Reward, UserData } from 'store/types/authSliceTypes';
 import { Lobby, Room, Topic } from 'store/types/dataSliceTypes';
 
 export interface DataState {
@@ -201,6 +201,21 @@ export const authSlice = createSlice({
       }
       state.userData.totalAnswers[topic] = currentTotalAnswers[topic] || 0 + 1;
     },
+    updateMoneyBalance: (state, action: { payload: number }) => {
+      const currentMoney = state.userData.money;
+      const updatedMoney = currentMoney + action.payload;
+      state.userData.money = updatedMoney;
+    },
+    storeReward: (state, action: { payload: Reward }) => {
+      switch (action.payload.type) {
+        case 'AVATAR':
+          const currentUserAvatars = state.userData.avatars;
+          const updatedAvatars = currentUserAvatars.concat([
+            action.payload.payload,
+          ]);
+          state.userData.avatars = updatedAvatars;
+      }
+    },
   },
 });
 
@@ -230,6 +245,8 @@ export const {
   setFriends,
   registerAnswer,
   updateTrophies,
+  updateMoneyBalance,
+  storeReward,
 } = authSlice.actions;
 
 export default authSlice.reducer;

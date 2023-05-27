@@ -1,4 +1,5 @@
 import { authAPI } from './endpoints/authAPI';
+import gameAPI from './endpoints/gameAPI';
 import { lobbiesAPI } from './endpoints/lobbiesAPI';
 import { messagesAPI } from './endpoints/messagesAPI';
 import { questionsAPI } from './endpoints/questionsAPI';
@@ -16,6 +17,7 @@ const API = {
   ...messagesAPI,
   ...usersAPI,
   ...rewardsAPI,
+  ...gameAPI,
 };
 
 export default API;
