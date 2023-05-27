@@ -224,8 +224,8 @@ const QuestionScreen: React.FC<
   const renderCountdown = () => {
     const text = () => {
       if (isClassicGame) {
+        if (selectedAnswers.length) return '';
         if (secondsLeft < 1) return 'Time is up!';
-        if (allUsersGuessed) return '';
         return String(secondsLeft);
       }
       if (allUsersGuessed || (!correctUser && secondsLeft < 1)) {
