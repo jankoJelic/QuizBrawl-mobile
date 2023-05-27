@@ -216,6 +216,14 @@ export const authSlice = createSlice({
           state.userData.avatars = updatedAvatars;
       }
     },
+    registerDailyResult: (
+      state,
+      action: { payload: { id: number; score: number } },
+    ) => {
+      let updatedDailies = state.userData.dailies ? state.userData.dailies : {};
+      updatedDailies[action.payload.id] = action.payload.score;
+      state.userData.dailies = updatedDailies;
+    },
   },
 });
 
@@ -247,6 +255,7 @@ export const {
   updateTrophies,
   updateMoneyBalance,
   storeReward,
+  registerDailyResult,
 } = authSlice.actions;
 
 export default authSlice.reducer;

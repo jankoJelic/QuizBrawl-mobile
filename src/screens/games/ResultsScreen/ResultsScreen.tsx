@@ -19,6 +19,7 @@ import API from 'services/api';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { useAppSelector } from 'store/index';
 import {
+  registerDailyResult,
   storeReward,
   updateMoneyBalance,
   updateTrophies,
@@ -93,7 +94,9 @@ const ResultsScreen: React.FC<
         myScore,
       );
 
+      setReward(String(money));
       dispatch(updateMoneyBalance(money));
+      dispatch(registerDailyResult({ id: activeRoom.id, score: myScore }));
 
       if (reward) {
         dispatch(storeReward(reward));
