@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import CTA from 'components/buttons/CTA';
+import MyImage from 'components/icons/MyImage';
 import NavHeader from 'components/layout/NavHeader';
 import UserTile from 'components/tiles/UserTile/UserTile';
 import BodyLarge from 'components/typography/BodyLarge';
@@ -13,7 +14,6 @@ import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import usePreventNativeBackButton from 'navigation/hooks/usePreventNativeBack';
 import React, { useEffect, useState } from 'react';
 import { Animated, FlatList, StyleSheet } from 'react-native';
-import FastImage from 'react-native-fast-image';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
@@ -76,6 +76,7 @@ const ResultsScreen: React.FC<
   };
 
   const goToLobby = () => {
+    console.log('here');
     navigation.navigate('Lobby', { lobbyId: activeRoom.lobbyId });
     dispatch(finishGame());
   };
@@ -84,19 +85,22 @@ const ResultsScreen: React.FC<
     if (isArenaGame) {
       const myRewardInTrophies = await API.registerArenaGameScore(score);
       setReward(String(myRewardInTrophies));
-      displayReward();
+
       dispatch(updateTrophies(myRewardInTrophies));
     } else if (isSoloGame) {
       const { money, reward } = await API.registerDailyScore(
         activeRoom.id,
         myScore,
       );
+
       dispatch(updateMoneyBalance(money));
 
       if (reward) {
         dispatch(storeReward(reward));
       }
     }
+
+    displayReward();
   };
 
   useEffect(() => {
@@ -158,8 +162,8 @@ const ResultsScreen: React.FC<
           opacity: rewardOpacity,
           ...styles.trophyContainer,
         }}>
-        <FastImage
-          source={require('../../../assets/icons/trophy.png')}
+        <MyImage
+          name={isArenaGame ? 'trophy' : 'money'}
           style={styles.trophy}
         />
         <Title color="warning400" text={reward} />
