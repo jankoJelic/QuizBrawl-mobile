@@ -137,7 +137,7 @@ const LobbyScreen: React.FC<
           data={lobbyRooms}
           renderItem={renderItem}
           numColumns={2}
-          contentContainerStyle={{ paddingTop: AN(20) }}
+          contentContainerStyle={{ paddingTop: AN(20), paddingBottom: AN(40) }}
           keyExtractor={item => item.id + 'room'}
         />
       ) : (

@@ -77,7 +77,6 @@ const ResultsScreen: React.FC<
   };
 
   const goToLobby = () => {
-    console.log('here');
     navigation.navigate('Lobby', { lobbyId: activeRoom.lobbyId });
     dispatch(finishGame());
   };
@@ -98,7 +97,7 @@ const ResultsScreen: React.FC<
       dispatch(updateMoneyBalance(money));
       dispatch(registerDailyResult({ id: activeRoom.id, score: myScore }));
 
-      if (reward) {
+      if (!!reward) {
         dispatch(storeReward(reward));
       }
     }
