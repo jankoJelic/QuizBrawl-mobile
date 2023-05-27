@@ -16,6 +16,7 @@ export interface UserData extends ShallowUser {
   achievements: Reward[];
   correctAnswers: Record<Topic, number>;
   totalAnswers: Record<Topic, number>;
+  dailies: null | {};
 }
 
 export interface ShallowUser {

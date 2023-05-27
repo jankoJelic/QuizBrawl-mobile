@@ -61,14 +61,16 @@ const LobbyScreen: React.FC<
       }
     };
 
-    const onPressEvent = () => {};
+    const onPressEvent = () => {
+      
+    };
 
     if (isSoloLobby)
       return <EventTile room={item} index={index} onPress={onPressEvent} />;
 
     return <RoomTile room={item} index={index} onPress={onPressRoom} />;
   };
-  
+
   const enterRoom = (room: Room) => {
     dispatch(joinRoom(room));
     SOCKET.emit(SOCKET_EVENTS.USER_JOINED_ROOM, {
@@ -108,7 +110,14 @@ const LobbyScreen: React.FC<
         onPressRightIcon={leaveLobby}
       />
       {isSoloLobby ? (
-        <BodyMedium text="Daily challenges" weight="semiBold" />
+        <>
+          <BodyMedium text="Daily challenges" weight="semiBold" />
+          <BodyMedium
+            color="neutral300"
+            text="Win a buck for every correct answer and special rewards for completing an event with 100% efficiency"
+            style={{ marginBottom: AN(10) }}
+          />
+        </>
       ) : (
         <></>
       )}
