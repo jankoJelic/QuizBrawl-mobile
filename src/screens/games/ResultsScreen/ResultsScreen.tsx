@@ -13,7 +13,8 @@ import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import usePreventNativeBackButton from 'navigation/hooks/usePreventNativeBack';
 import React, { useEffect, useState } from 'react';
-import { Animated, FlatList, StyleSheet } from 'react-native';
+import { Animated, FlatList, StyleSheet, View } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
@@ -25,7 +26,7 @@ import {
   updateTrophies,
 } from 'store/slices/dataSlice';
 import { finishGame } from 'store/slices/gameSlice';
-import { UserData } from 'store/types/authSliceTypes';
+import { Reward, UserData } from 'store/types/authSliceTypes';
 
 const ResultsScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Results'>
@@ -41,6 +42,7 @@ const ResultsScreen: React.FC<
   const [rewardOpacity] = useState(new Animated.Value(0));
   const [rewardTranslateY] = useState(new Animated.Value(0));
   const [reward, setReward] = useState('0');
+  const [specialReward, setSpecialReward] = useState<Reward>();
 
   const displayReward = () => {
     Animated.sequence([
@@ -99,6 +101,7 @@ const ResultsScreen: React.FC<
 
       if (!!reward) {
         dispatch(storeReward(reward));
+        setSpecialReward(reward);
       }
     }
 
@@ -153,6 +156,20 @@ const ResultsScreen: React.FC<
             }}
           />
         </>
+      )}
+      {!!specialReward ? (
+        <View style={{ alignItems: 'center' }}>
+          <FastImage
+            source={{ uri: specialReward.payload }}
+            style={{ width: SCREEN_WIDTH * 0.6, aspectRatio: 1 }}
+          />
+          <BodyLarge text="Congrats!" style={{ textAlign: 'center' }} />
+          <BodyLarge
+            text={`Your knowledge in ${activeRoom.topic.toLowerCase()} has won you a cool avatar to show off!`}
+          />
+        </View>
+      ) : (
+        <></>
       )}
       <CTA
         title={isArenaGame ? 'Go to room' : 'Go to lobby'}
