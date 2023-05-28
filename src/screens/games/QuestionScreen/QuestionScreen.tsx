@@ -1,7 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import CTA from 'components/buttons/CTA';
 import AnswerTile from 'components/tiles/AnswerTile';
-import BodyLarge from 'components/typography/BodyLarge';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Colors } from 'constants/styles/Colors';
 import { AN } from 'constants/styles/appStyles';
@@ -26,6 +25,7 @@ import UsersTopBar from './components/UsersTopBar';
 import FullScreenSpinner from 'components/modals/FullScreenSpinner';
 import { registerAnswer } from 'store/slices/dataSlice';
 import RateQuestionBar from './components/RateQuestionBar';
+import QuestionCountdown from './components/QuestionCountdown';
 
 const startingUsersByAnswer = {
   answer1: '',
@@ -33,6 +33,13 @@ const startingUsersByAnswer = {
   answer3: '',
   answer4: '',
 };
+
+const answersArray: CorrectAnswer[] = [
+  'answer1',
+  'answer2',
+  'answer3',
+  'answer4',
+];
 
 const QuestionScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Question'>
@@ -207,47 +214,12 @@ const QuestionScreen: React.FC<
     );
   };
 
-  const countdownColor =
-    secondsLeft <= 3 || allUsersGuessed
-      ? 'danger500'
-      : correctUser
-      ? 'brand500'
-      : 'neutral200';
-
   const answerStatus = (answer: CorrectAnswer) =>
     correctAnswer === answer && correctAnswerGuessed
       ? 'correct'
       : isSelected(answer)
       ? 'wrong'
       : 'regular';
-
-  const renderCountdown = () => {
-    const text = () => {
-      if (isClassicGame) {
-        if (selectedAnswers.length) return '';
-        if (secondsLeft < 1) return 'Time is up!';
-        return String(secondsLeft);
-      }
-      if (allUsersGuessed || (!correctUser && secondsLeft < 1)) {
-        return 'No correct answers!';
-      } else if (correctAnswerGuessed) {
-        return `${
-          activeRoom.users.find(u => correctUser === u.id)?.firstName
-        } guessed right!`;
-      }
-      if (secondsLeft < answerTime && secondsLeft > 0) {
-        return String(secondsLeft);
-      }
-    };
-
-    return (
-      <BodyLarge
-        text={text()}
-        style={{ textAlign: 'center', marginVertical: AN(12) }}
-        color={countdownColor}
-      />
-    );
-  };
 
   if (lastQuestionBugCheck) return <FullScreenSpinner />;
 
@@ -260,46 +232,35 @@ const QuestionScreen: React.FC<
           ) : (
             <></>
           )}
-          {renderCountdown()}
+          <QuestionCountdown
+            allUSersGuessed={allUsersGuessed}
+            correctUser={correctUser}
+            isClassicGame={isClassicGame}
+            secondsLeft={secondsLeft}
+            correctAnswerGuessed={correctAnswerGuessed}
+          />
           <TileWrapper style={styles.questionTile}>
             <BodyMedium text={question} style={{ textAlign: 'center' }} />
           </TileWrapper>
-          <AnswerTile
-            disabled={answeringDisabled || isSelected('answer1')}
-            status={answerStatus('answer1')}
-            title={answer1}
-            onPress={() => {
-              onSelectAnswer('answer1');
-            }}
-            userName={userNameByAnswer['answer1']}
-          />
-          <AnswerTile
-            title={answer2}
-            status={answerStatus('answer2')}
-            disabled={answeringDisabled || isSelected('answer2')}
-            onPress={() => {
-              onSelectAnswer('answer2');
-            }}
-            userName={userNameByAnswer['answer2']}
-          />
-          <AnswerTile
-            title={answer3}
-            status={answerStatus('answer3')}
-            disabled={answeringDisabled || isSelected('answer3')}
-            onPress={() => {
-              onSelectAnswer('answer3');
-            }}
-            userName={userNameByAnswer['answer3']}
-          />
-          <AnswerTile
-            title={answer4}
-            status={answerStatus('answer4') || isSelected('answer4')}
-            disabled={answeringDisabled}
-            onPress={() => {
-              onSelectAnswer('answer4');
-            }}
-            userName={userNameByAnswer['answer4']}
-          />
+          {answersArray.map((a: CorrectAnswer, index: number) => (
+            <AnswerTile
+              disabled={answeringDisabled || isSelected(a)}
+              status={answerStatus(a)}
+              title={
+                index === 0
+                  ? answer1
+                  : index === 1
+                  ? answer2
+                  : index === 2
+                  ? answer3
+                  : answer4
+              }
+              onPress={() => {
+                onSelectAnswer(a);
+              }}
+              userName={userNameByAnswer[a]}
+            />
+          ))}
         </View>
         {type === 'classic' ? (
           <>

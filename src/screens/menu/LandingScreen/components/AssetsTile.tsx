@@ -41,11 +41,11 @@ const AssetsTile = () => {
       />
       <View style={styles.separator} />
       <Tile
-        title="Bank"
+        title="Money"
         value={String(money)}
         Icon={
           <FastImage
-            source={require('../../../../assets/icons/piggyBank.png')}
+            source={require('../../../../assets/icons/lobbies/money.png')}
             style={styles.icon}
           />
         }
