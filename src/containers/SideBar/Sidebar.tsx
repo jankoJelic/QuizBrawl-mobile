@@ -1,4 +1,4 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import MenuTile from 'components/tiles/MenuTile';
 import BodySmall from 'components/typography/BodySmall/BodySmall';
 import { APP_DISPLAY_NAME } from 'constants/constants';
@@ -100,7 +100,6 @@ const Sidebar = ({ children }) => {
             <MenuTile
               title="Customize"
               icon="colorPalette"
-              // style={{ marginTop: AN(30) }}
               onPress={goToCustomizeProfile}
             />
             <MenuTile title="Logout" icon="log-out" onPress={onPressLogout} />
