@@ -22,7 +22,7 @@ const QuestionCountdown = ({
 
   const text = () => {
     if (isClassicGame) {
-      if (selectedAnswers.length) return '';
+      if (selectedAnswers.length) return ' ';
       if (secondsLeft < 1) return 'Time is up!';
       return String(secondsLeft);
     }

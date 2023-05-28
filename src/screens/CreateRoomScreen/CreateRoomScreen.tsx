@@ -55,11 +55,13 @@ const CreateRoomScreen: React.FC<
 
   const [selectedTopic, setselectedTopic] = useState<Topic>('General');
   const [roomName, setRoomName] = useState(`${userData.firstName}'s room`);
-  const [bet, setBet] = useState('0');
+  const [bet, setBet] = useState('1');
   const [password, setPassword] = useState('');
   const [maxPlayers, setMaxPlayers] = useState(__DEV__ ? '2' : '4');
   const [answerTime, setAnswerTime] = useState('15');
   const [questionsCount, setQuestionsCount] = useState(__DEV__ ? '2' : '15');
+
+  const isCashGame = lobbyId === LOBBY_IDS.CASH_GAME;
 
   const onPressConfirm = async () => {
     dispatch(startLoading());
@@ -105,10 +107,15 @@ const CreateRoomScreen: React.FC<
     max: 20,
   });
   const roomNameValid = roomName.length > 3;
-  const betValid = Number(bet) <= userData.money;
+  const betValid = Number(bet) <= userData.money && Number(bet) > 0;
+  const betValidation = isCashGame ? betValid : true;
 
   const formValid =
-    maxPlayersValid && roomNameValid && answerTimeValid && questionsCountValid;
+    maxPlayersValid &&
+    roomNameValid &&
+    answerTimeValid &&
+    questionsCountValid &&
+    betValidation;
 
   return (
     <ScreenWrapper style={{ paddingHorizontal: 0 }}>
@@ -174,7 +181,3 @@ const CreateRoomScreen: React.FC<
 
 const createStyles = (colors: Colors) => StyleSheet.create({});
 export default CreateRoomScreen;
-
-interface TopicListItem {
-  item: { name: Topic; icon: JSX.Element };
-}

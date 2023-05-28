@@ -272,7 +272,7 @@ const QuestionScreen: React.FC<
             <CTA
               title="Next"
               onPress={onPressNext}
-              style={{ marginTop: AN(30) }}
+              style={styles.nextQuestionCta}
             />
           </>
         ) : (
@@ -290,6 +290,11 @@ const createStyles = (colors: Colors) =>
       justifyContent: 'center',
       padding: AN(20),
       marginVertical: AN(20),
+    },
+    nextQuestionCta: {
+      position: 'absolute',
+      bottom: AN(20),
+      alignSelf: 'center',
     },
   });
 
