@@ -37,7 +37,9 @@ const ResultsScreen: React.FC<
   const { id } = useAppSelector(state => state.data.userData);
   const { activeRoom, score, answers, type, selectedAnswers } =
     useAppSelector(state => state.game) || {};
-  const { users, bet } = activeRoom || [];
+  const { users, bet, maxPlayers } = activeRoom || [];
+
+  const isMultiPlayerGame = maxPlayers > 1;
 
   const [rewardOpacity] = useState(new Animated.Value(0));
   const [rewardTranslateY] = useState(new Animated.Value(0));
@@ -124,8 +126,7 @@ const ResultsScreen: React.FC<
   useEffect(() => {
     submitScoreAndGetReward();
 
-    if (isArenaGame) {
-      API.registerArenaGameScore(score);
+    if (isMultiPlayerGame) {
       SOCKET.emit(SOCKET_EVENTS.GAME_ENDED, activeRoom);
       SOCKET.off(SOCKET_EVENTS.CORRECT_ANSWER_SELECTED);
       SOCKET.off(SOCKET_EVENTS.WRONG_ANSWER_SELECTED);
@@ -143,7 +144,7 @@ const ResultsScreen: React.FC<
         style={{ marginBottom: AN(24) }}
         fullWidth
       />
-      {isArenaGame ? (
+      {isMultiPlayerGame ? (
         <FlatList
           data={usersByScore}
           renderItem={renderUser}
@@ -153,21 +154,9 @@ const ResultsScreen: React.FC<
         <>
           <Title
             text={`${String(myScore)} / ${String(activeRoom.questionsCount)}`}
-            style={{
-              textAlign: 'center',
-              fontSize: AN(50),
-              lineHeight: AN(50),
-              marginTop: AN(30),
-            }}
+            style={styles.score}
           />
-          <BodyLarge
-            text={myAccuracy + '%'}
-            style={{
-              textAlign: 'center',
-              marginTop: AN(10),
-              marginBottom: AN(20),
-            }}
-          />
+          <BodyLarge text={myAccuracy + '%'} style={styles.accuracy} />
         </>
       )}
       {!!specialReward ? (
@@ -190,8 +179,8 @@ const ResultsScreen: React.FC<
         <></>
       )}
       <CTA
-        title={isArenaGame ? 'Go to room' : 'Go to lobby'}
-        onPress={isArenaGame ? goToRoom : goToLobby}
+        title={isMultiPlayerGame ? 'Go to room' : 'Go to lobby'}
+        onPress={isMultiPlayerGame ? goToRoom : goToLobby}
       />
       <Animated.View
         style={{
@@ -222,6 +211,17 @@ const createStyles = (colors: Colors) =>
       width: SCREEN_WIDTH * 0.4,
       aspectRatio: 1,
       marginTop: SCREEN_HEIGHT * 0.2,
+    },
+    score: {
+      textAlign: 'center',
+      fontSize: AN(50),
+      lineHeight: AN(50),
+      marginTop: AN(30),
+    },
+    accuracy: {
+      textAlign: 'center',
+      marginTop: AN(10),
+      marginBottom: AN(20),
     },
   });
 

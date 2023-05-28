@@ -26,6 +26,7 @@ import FullScreenSpinner from 'components/modals/FullScreenSpinner';
 import { registerAnswer } from 'store/slices/dataSlice';
 import RateQuestionBar from './components/RateQuestionBar';
 import QuestionCountdown from './components/QuestionCountdown';
+import API from 'services/api';
 
 const startingUsersByAnswer = {
   answer1: '',
@@ -58,8 +59,16 @@ const QuestionScreen: React.FC<
   const { answerTime, id: roomId, users, topic } = activeRoom || {};
 
   const currentQuestion: Question = questions[onQuestion];
-  const { answer1, answer2, answer3, answer4, correctAnswer, question, image } =
-    currentQuestion || {};
+  const {
+    answer1,
+    answer2,
+    answer3,
+    answer4,
+    correctAnswer,
+    question,
+    image,
+    id,
+  } = currentQuestion || {};
 
   const [secondsLeft, setSecondsLeft] = useState(answerTime);
   const [wrongUsers, setWrongUsers] = useState<number[]>([]);
@@ -223,6 +232,11 @@ const QuestionScreen: React.FC<
 
   if (lastQuestionBugCheck) return <FullScreenSpinner />;
 
+  const onRate = (like: boolean) => {
+    setLiked(like);
+    API.likeQuestion(id, like);
+  };
+
   return (
     <ScreenWrapper style={{ paddingTop: AN(30) }}>
       <>
@@ -264,11 +278,7 @@ const QuestionScreen: React.FC<
         </View>
         {type === 'classic' ? (
           <>
-            {liked === undefined ? (
-              <RateQuestionBar onRate={setLiked} />
-            ) : (
-              <></>
-            )}
+            {liked === undefined ? <RateQuestionBar onRate={onRate} /> : <></>}
             <CTA
               title="Next"
               onPress={onPressNext}
