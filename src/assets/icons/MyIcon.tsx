@@ -29,6 +29,13 @@ const MyIcon = ({
   };
 
   const imageStyle = { width: size, height: size, ...style };
+  if (name === 'money')
+    return (
+      <FastImage
+        source={require('../../assets/icons/lobbies/money.png')}
+        style={imageStyle}
+      />
+    );
 
   if (name === 'ranking')
     return (

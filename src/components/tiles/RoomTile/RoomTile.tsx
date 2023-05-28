@@ -1,4 +1,5 @@
 import { QuestionIcon } from 'assets/icons';
+import MyIcon from 'assets/icons/MyIcon';
 import FeatherIcon from 'assets/icons/MyIcon';
 import { TopicIcon } from 'assets/icons/topics';
 import BodyMedium from 'components/typography/BodyMedium';
@@ -9,10 +10,12 @@ import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { View } from 'react-native';
+import { useAppSelector } from 'store/index';
 import { Room } from 'store/types/dataSliceTypes';
 
 const RoomTile = ({ index, onPress, room }: Props) => {
   const { styles, colors } = useStyles(createStyles);
+  const { money } = useAppSelector(state => state.data.userData);
   const {
     answerTime,
     maxPlayers,
@@ -25,7 +28,7 @@ const RoomTile = ({ index, onPress, room }: Props) => {
     teams,
     hostName,
   } = room || {};
-  const disabled = users.length === maxPlayers;
+  const disabled = users.length === maxPlayers || Number(bet) > money;
 
   const onPressRoom = () => {
     onPress(room);
@@ -73,7 +76,10 @@ const RoomTile = ({ index, onPress, room }: Props) => {
                 <FeatherIcon name="unlock" color="success500" />
               )}
             </View>
-            <View style={styles.rightSideInfo}></View>
+            <View style={styles.rightSideInfo}>
+              <MyIcon name="money" />
+              <BodyMedium text={`   ${String(bet)}`} />
+            </View>
           </View>
         </>
       ) : (

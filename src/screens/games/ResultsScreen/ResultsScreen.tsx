@@ -67,7 +67,7 @@ const ResultsScreen: React.FC<
   const isSoloGame = activeRoom.lobbyId === LOBBY_IDS.SOLO;
   const myScore = score[id];
   const myAccuracy = ((myScore * 100) / activeRoom.questionsCount).toFixed(2);
-  const perfectScore = myAccuracy === '100.00';
+  const isCashGame = !!bet;
 
   const renderUser = ({ item }: { item: UserData }) => (
     <UserTile user={item} score={String(score[item.id]) || '0'} />
@@ -98,6 +98,19 @@ const ResultsScreen: React.FC<
       setReward(String(money));
       dispatch(updateMoneyBalance(money));
       dispatch(registerDailyResult({ id: activeRoom.id, score: myScore }));
+
+      if (!!reward) {
+        dispatch(storeReward(reward));
+        setSpecialReward(reward);
+      }
+    } else if (isCashGame) {
+      const { money, reward } = await API.registerCashGameScore(
+        activeRoom.id,
+        score,
+      );
+
+      setReward(String(money));
+      dispatch(updateMoneyBalance(money));
 
       if (!!reward) {
         dispatch(storeReward(reward));
@@ -163,8 +176,13 @@ const ResultsScreen: React.FC<
             source={{ uri: specialReward.payload }}
             style={{ width: SCREEN_WIDTH * 0.6, aspectRatio: 1 }}
           />
-          <BodyLarge text="Congrats!" style={{ textAlign: 'center' }} />
           <BodyLarge
+            text="Congrats!"
+            style={{ textAlign: 'center', marginTop: AN(20) }}
+            weight="bold"
+          />
+          <BodyLarge
+            style={{ textAlign: 'center', marginVertical: AN(10) }}
             text={`Your knowledge in ${activeRoom.topic.toLowerCase()} has won you a cool avatar to show off!`}
           />
         </View>
