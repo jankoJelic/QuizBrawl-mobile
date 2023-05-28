@@ -20,6 +20,7 @@ import InboxScreen from 'screens/profile/InboxScreen';
 import FriendsScreen from 'screens/menu/FriendsScreen';
 import FriendScreen from 'screens/menu/FriendScreen';
 import MarketScreen from 'screens/menu/MarketScreen';
+import CreateQuizScreen from 'screens/menu/CreateQuizScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamsList>();
 
@@ -61,6 +62,8 @@ const MainStackNavigator = () => (
 
     <Stack.Screen name="Friends" component={FriendsScreen} />
     <Stack.Screen name="Market" component={MarketScreen} />
+
+    <Stack.Screen name="CreateQuiz" component={CreateQuizScreen} />
   </Stack.Navigator>
 );
 

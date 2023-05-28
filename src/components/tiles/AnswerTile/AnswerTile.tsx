@@ -6,11 +6,12 @@ import {
   AN,
   BORDER_RADIUS,
   PADDING_HORIZONTAL,
+  SCREEN_WIDTH,
 } from 'constants/styles/appStyles';
 import TouchableBounce from 'hoc/TouchableBounce';
 import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
 import { View } from 'react-native';
 
 const AnswerTile = ({
@@ -19,6 +20,7 @@ const AnswerTile = ({
   status = 'regular',
   disabled = false,
   userName = '',
+  inputMode = false,
 }: Props) => {
   const { styles, colors } = useStyles(createStyles);
 
@@ -40,7 +42,11 @@ const AnswerTile = ({
       disabled={disabled}
       style={{ ...styles.container, borderColor: colors[borderColor()] }}
       onPress={onPress}>
-      <BodyMedium text={title} />
+      {inputMode ? (
+        <TextInput style={styles.textInput} />
+      ) : (
+        <BodyMedium text={title} />
+      )}
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <BodySmall
           text={status === 'regular' ? '' : userName}
@@ -87,6 +93,7 @@ const createStyles = (colors: Colors) =>
       alignItems: 'center',
       justifyContent: 'center',
     },
+    textInput: { color: colors.mainTextColor, width: SCREEN_WIDTH * 0.6 },
   });
 
 export default AnswerTile;
@@ -97,4 +104,5 @@ interface Props {
   status: 'regular' | 'correct' | 'wrong';
   disabled: boolean;
   userName?: string;
+  inputMode?: boolean;
 }

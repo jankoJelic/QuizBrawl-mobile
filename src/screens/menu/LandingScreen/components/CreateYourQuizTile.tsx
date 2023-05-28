@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import BodyLarge from 'components/typography/BodyLarge';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Colors } from 'constants/styles/Colors';
@@ -13,10 +14,15 @@ import { View, StyleSheet } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 const CreateYourQuizTile = () => {
+  const navigation = useNavigation();
   const { styles } = useStyles(createStyles);
 
+  const goToCreateQuiz = () => {
+    navigation.navigate('CreateQuiz');
+  };
+
   return (
-    <TileWrapper style={styles.container}>
+    <TileWrapper style={styles.container} onPress={goToCreateQuiz}>
       <FastImage
         style={styles.icon}
         source={require('../../../../assets/icons/mushroom.png')}

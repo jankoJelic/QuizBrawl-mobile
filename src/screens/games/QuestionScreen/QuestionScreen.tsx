@@ -35,7 +35,7 @@ const startingUsersByAnswer = {
   answer4: '',
 };
 
-const answersArray: CorrectAnswer[] = [
+export const answersArray: CorrectAnswer[] = [
   'answer1',
   'answer2',
   'answer3',

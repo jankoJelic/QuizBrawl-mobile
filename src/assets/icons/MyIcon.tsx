@@ -107,4 +107,7 @@ export type IconName =
   | 'explore'
   | 'ranking'
   | 'like2'
-  | 'dislike2';
+  | 'dislike2'
+  | 'money'
+  | 'chevron-down'
+  | 'chevron-up';
