@@ -1,46 +1,38 @@
 import BodyLarge from 'components/typography/BodyLarge';
 import { Colors } from 'constants/styles/Colors';
-import { AN, BORDER_RADIUS, CTA_HEIGHT } from 'constants/styles/appStyles';
+import { AN } from 'constants/styles/appStyles';
 import BlueGradient from 'hoc/BlueGradient/BlueGradient';
 import TouchableBounce from 'hoc/TouchableBounce';
 import useStyles from 'hooks/styles/useStyles';
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import FastImage from 'react-native-fast-image';
 
-const CTA = ({
-  onPress = () => {},
-  title = 'Title',
-  isLoading = false,
-  disabled = false,
-  style = {},
-}) => {
+const FloatingButton = ({ onPress, disabled, title, style = {} }: Props) => {
   const { styles } = useStyles(createStyles);
   const [pressedIn, setPressedIn] = useState(false);
 
   const onPressIn = () => {
     setPressedIn(true);
   };
+
   const onPressOut = () => {
     setPressedIn(false);
   };
 
   return (
     <TouchableBounce
-      onPress={onPress}
-      style={{ ...styles.container, ...style }}
       onPressIn={onPressIn}
       onPressOut={onPressOut}
+      onPress={onPress}
+      style={styles.container}
       disabled={disabled}>
-      <BlueGradient pressedIn={pressedIn} disabled={disabled}>
-        {isLoading ? (
-          <FastImage
-            style={styles.spinner}
-            source={require('../../../assets/spinners/doubleRingSpinner.png')}
-          />
-        ) : (
-          <BodyLarge text={title} color="mainTextColor" weight="bold" />
-        )}
+      <BlueGradient disabled={disabled} pressedIn={pressedIn}>
+        <BodyLarge
+          weight="bold"
+          text={title}
+          color={pressedIn ? 'neutral200' : 'neutral500'}
+          style={styles.title}
+        />
       </BlueGradient>
     </TouchableBounce>
   );
@@ -49,15 +41,23 @@ const CTA = ({
 const createStyles = (colors: Colors) =>
   StyleSheet.create({
     container: {
-      borderRadius: BORDER_RADIUS,
-      height: CTA_HEIGHT,
-      width: '100%',
-      marginVertical: AN(10),
-    },
-    spinner: {
-      width: AN(30),
+      width: AN(70),
       aspectRatio: 1,
+      borderRadius: AN(70),
+      backgroundColor: colors.brand600,
+      bottom: AN(30),
+      alignItems: 'center',
+      justifyContent: 'center',
+      overflow: 'hidden',
     },
+    title: { textAlign: 'center' },
   });
 
-export default CTA;
+export default FloatingButton;
+
+interface Props {
+  onPress?: () => any;
+  disabled?: boolean;
+  title: string;
+  style?: {};
+}

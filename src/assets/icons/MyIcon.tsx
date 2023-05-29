@@ -29,6 +29,12 @@ const MyIcon = ({
   };
 
   const imageStyle = { width: size, height: size, ...style };
+  if (name === 'league') return (
+    <FastImage
+      source={require('../../assets/icons/leagues.png')}
+      style={imageStyle}
+    />
+  );
   if (name === 'money')
     return (
       <FastImage
@@ -109,5 +115,6 @@ export type IconName =
   | 'like2'
   | 'dislike2'
   | 'money'
+  | 'league'
   | 'chevron-down'
   | 'chevron-up';

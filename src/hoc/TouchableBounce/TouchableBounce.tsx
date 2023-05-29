@@ -51,7 +51,7 @@ const TouchableBounce = ({
 export default TouchableBounce;
 
 interface Props {
-  onPress: (a?: any) => void;
+  onPress: (a?: any) => any;
   onPressOut?: () => void;
   onPressIn?: () => void;
   style?: {};

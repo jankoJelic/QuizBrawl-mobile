@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import MyIcon, { IconFamily, IconName } from 'assets/icons/MyIcon';
+import FloatingButton from 'components/buttons/FloatingButton';
 import BodySmall from 'components/typography/BodySmall/BodySmall';
 import { Colors } from 'constants/styles/Colors';
 import { AN } from 'constants/styles/appStyles';
@@ -21,7 +22,12 @@ const NavIcon = ({
     <TouchableOpacity
       style={{ alignItems: 'center', justifyContent: 'center' }}
       onPress={onPressMe}>
-      <MyIcon name={icon} color="neutral400" family={iconFamily} />
+      <MyIcon
+        name={icon}
+        color="neutral400"
+        family={iconFamily}
+        style={{ width: AN(32), height: AN(32) }}
+      />
       <BodySmall
         text={title}
         color="neutral400"
@@ -51,15 +57,11 @@ const BottomNavigation = () => {
     <View style={styles.container}>
       <NavIcon title="Market" icon="shopping-cart" onPress={goTopMarket} />
       <NavIcon title="Friends" icon="users" onPress={goToFriendsScreen} />
-
-      <TouchableOpacity style={{ alignItems: 'center' }}>
-        <MyIcon name="shopping-cart" color="neutral400" />
-        <BodySmall text="Shop" color="neutral400" />
-      </TouchableOpacity>
+      <FloatingButton title="Quick game" onPress={startQuickGame} />
       <NavIcon title="Ranks" icon="ranking" />
       <NavIcon
-        title="Explore"
-        icon="explore"
+        title="Leagues"
+        icon="league"
         iconFamily="material"
         onPress={goToFriendsScreen}
       />
@@ -72,8 +74,8 @@ const createStyles = (colors: Colors) =>
     container: {
       flexDirection: 'row',
       position: 'absolute',
-      height: AN(54),
-      justifyContent: 'space-around',
+      height: AN(70),
+      justifyContent: 'space-evenly',
       bottom: 0,
       backgroundColor: colors.tileBackground,
       width: '100%',
