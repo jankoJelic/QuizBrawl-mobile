@@ -162,3 +162,8 @@ https://www.iconfinder.com/search?q=music&price=free
 <a href="https://www.flaticon.com/free-icons/medal" title="medal icons">Medal icons created by Freepik - Flaticon</a>
 <a href="https://www.flaticon.com/free-icons/museum" title="museum icons">Museum icons created by Freepik - Flaticon</a>
 <a href="https://www.flaticon.com/free-icons/war" title="war icons">War icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/teamwork" title="teamwork icons">Teamwork icons created by Becris - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/real-madrid" title="real madrid icons">Real madrid icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/barcelona" title="barcelona icons">Barcelona icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/friendship" title="friendship icons">Friendship icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/market" title="market icons">Market icons created by Freepik - Flaticon</a>

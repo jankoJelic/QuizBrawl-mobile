@@ -29,33 +29,51 @@ const MyIcon = ({
   };
 
   const imageStyle = { width: size, height: size, ...style };
-  if (name === 'league') return (
-    <FastImage
-      source={require('../../assets/icons/leagues.png')}
-      style={imageStyle}
-    />
-  );
-  if (name === 'money')
-    return (
-      <FastImage
-        source={require('../../assets/icons/lobbies/money.png')}
-        style={imageStyle}
-      />
-    );
 
-  if (name === 'ranking')
-    return (
-      <FastImage source={require('../icons/ranking.png')} style={imageStyle} />
-    );
-  if (name === 'googleLogo') return <GoogleLogo style={style} />;
-  if (name === 'colorPalette')
-    return (
-      <FastImage
-        source={require('./colorPalette.png')}
-        tintColor={colors[color]}
-        style={imageStyle}
-      />
-    );
+  switch (name) {
+    case 'market':
+      return (
+        <FastImage source={require('../icons/market.png')} style={imageStyle} />
+      );
+    case 'friends':
+      return (
+        <FastImage
+          source={require('../icons/friends.png')}
+          style={imageStyle}
+        />
+      );
+    case 'league':
+      return (
+        <FastImage
+          source={require('../../assets/icons/leagues.png')}
+          style={imageStyle}
+        />
+      );
+    case 'money':
+      return (
+        <FastImage
+          source={require('../../assets/icons/lobbies/money.png')}
+          style={imageStyle}
+        />
+      );
+    case 'ranking':
+      return (
+        <FastImage
+          source={require('../icons/ranking.png')}
+          style={imageStyle}
+        />
+      );
+    case 'googleLogo':
+      return <GoogleLogo style={style} />;
+    case 'colorPalette':
+      return (
+        <FastImage
+          source={require('./colorPalette.png')}
+          tintColor={colors[color]}
+          style={imageStyle}
+        />
+      );
+  }
 
   if (family === 'material') return <MaterialIcon {...vectorIconProps} />;
   if (family === 'fontAwesome5') return <FontAwesome5 {...vectorIconProps} />;
@@ -109,12 +127,14 @@ export type IconName =
   | 'briefcase'
   | 'columns'
   | 'key'
+  | 'market'
   | 'mail'
   | 'explore'
   | 'ranking'
   | 'like2'
   | 'dislike2'
   | 'money'
+  | 'friends'
   | 'league'
   | 'chevron-down'
   | 'chevron-up';

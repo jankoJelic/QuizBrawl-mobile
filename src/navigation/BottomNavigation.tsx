@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import MyIcon, { IconFamily, IconName } from 'assets/icons/MyIcon';
 import FloatingButton from 'components/buttons/FloatingButton';
 import BodySmall from 'components/typography/BodySmall/BodySmall';
@@ -7,6 +6,7 @@ import { AN } from 'constants/styles/appStyles';
 import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { useMyNavigation } from './hooks/useMyNavigation';
 
 const NavIcon = ({
   title = '',
@@ -39,7 +39,7 @@ const NavIcon = ({
 
 const BottomNavigation = () => {
   const { colors, styles } = useStyles(createStyles);
-  const navigation = useNavigation();
+  const navigation = useMyNavigation();
 
   const goTopMarket = () => {
     navigation.navigate('Market');
@@ -55,8 +55,8 @@ const BottomNavigation = () => {
 
   return (
     <View style={styles.container}>
-      <NavIcon title="Market" icon="shopping-cart" onPress={goTopMarket} />
-      <NavIcon title="Friends" icon="users" onPress={goToFriendsScreen} />
+      <NavIcon title="Market" icon="market" onPress={goTopMarket} />
+      <NavIcon title="Friends" icon="friends" onPress={goToFriendsScreen} />
       <FloatingButton title="Quick game" onPress={startQuickGame} />
       <NavIcon title="Ranks" icon="ranking" />
       <NavIcon
