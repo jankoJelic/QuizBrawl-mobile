@@ -51,19 +51,21 @@ const BottomNavigation = () => {
 
   const startQuickGame = () => {};
 
-  const goToExploreScreen = () => {};
+  const goToRankings = () => {};
+
+  const goToLeagues = () => {};
 
   return (
     <View style={styles.container}>
       <NavIcon title="Market" icon="market" onPress={goTopMarket} />
       <NavIcon title="Friends" icon="friends" onPress={goToFriendsScreen} />
       <FloatingButton title="Quick game" onPress={startQuickGame} />
-      <NavIcon title="Ranks" icon="ranking" />
+      <NavIcon title="Ranks" icon="ranking" onPress={goToRankings} />
       <NavIcon
         title="Leagues"
         icon="league"
         iconFamily="material"
-        onPress={goToFriendsScreen}
+        onPress={goToLeagues}
       />
     </View>
   );

@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import BodyLarge from 'components/typography/BodyLarge';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Colors } from 'constants/styles/Colors';
@@ -9,12 +8,13 @@ import {
 } from 'constants/styles/appStyles';
 import TileWrapper from 'hoc/TileWrapper';
 import useStyles from 'hooks/styles/useStyles';
+import { useMyNavigation } from 'navigation/hooks/useMyNavigation';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 const CreateYourQuizTile = () => {
-  const navigation = useNavigation();
+  const navigation = useMyNavigation();
   const { styles } = useStyles(createStyles);
 
   const goToCreateQuiz = () => {

@@ -8,6 +8,7 @@ import UserInfoTile from 'containers/UserInfoTile/UserInfoTile';
 import MyScrollView from 'hoc/MyScrollView';
 import useStyles from 'hooks/styles/useStyles';
 import { useUserData } from 'hooks/useUserData';
+import { useMyNavigation } from 'navigation/hooks/useMyNavigation';
 import React from 'react';
 import { Share, StyleSheet } from 'react-native';
 import { Drawer } from 'react-native-drawer-layout';
@@ -15,10 +16,11 @@ import { useDispatch } from 'react-redux';
 import { deleteTokens } from 'services/encryptedStorage/tokens/tokenStorage';
 import { useAppSelector } from 'store/index';
 import { hideSideBar } from 'store/slices/appStateSlice';
+import { Children } from 'util/types/children.type';
 
-const Sidebar = ({ children }) => {
+const Sidebar = ({ children }: Props) => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+  const navigation = useMyNavigation();
   const { sideBarVisible } = useAppSelector(state => state.appState);
   const { userData } = useAppSelector(state => state.data);
   const { styles, colors } = useStyles(createStyles);
@@ -164,3 +166,7 @@ const createStyles = (colors: Colors) =>
   });
 
 export default Sidebar;
+
+interface Props {
+  children: Children;
+}

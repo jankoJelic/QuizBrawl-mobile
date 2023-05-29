@@ -1,9 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
 import FeatherIcon from 'assets/icons/MyIcon';
 import Title from 'components/typography/Title';
 import { Colors } from 'constants/styles/Colors';
 import { PADDING_HORIZONTAL, AN } from 'constants/styles/appStyles';
 import useStyles from 'hooks/styles/useStyles';
+import { useMyNavigation } from 'navigation/hooks/useMyNavigation';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -17,7 +17,7 @@ const NavHeader = ({
   onPressRightIcon,
 }: Props) => {
   const { styles } = useStyles(createStyles);
-  const navigation = useNavigation();
+  const navigation = useMyNavigation();
 
   const iconSize = AN(26);
 

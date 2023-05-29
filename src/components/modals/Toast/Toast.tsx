@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import BodyLarge from 'components/typography/BodyLarge';
 import { Colors } from 'constants/styles/Colors';
 import {
@@ -18,7 +17,6 @@ import { hideToast } from 'store/slices/appStateSlice';
 
 const Toast = () => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
   const { styles, colors } = useStyles(createStyles);
   const { toast } = useAppSelector(state => state.appState);
   const { visible, text, type } = toast;
