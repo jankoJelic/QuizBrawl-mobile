@@ -6,6 +6,7 @@ export interface DataState {
   lobbies: Lobby[];
   rooms: Room[];
   userData: UserData;
+  // myQuizes: Quiz[]
 }
 
 const initialState: DataState = {

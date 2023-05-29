@@ -11,6 +11,7 @@ const BaseTextComponent = ({
   fontSize = 14,
   onPress,
   style = {},
+  numberOfLines,
 }: TextProps) => {
   const { colors } = useTheme();
 
@@ -29,6 +30,7 @@ const BaseTextComponent = ({
 
   return (
     <Text
+      numberOfLines={numberOfLines}
       style={{
         fontFamily: fontFamily(),
         color: colors[color],
@@ -53,4 +55,5 @@ export interface TextProps {
   fontSize?: number;
   onPress?: () => void;
   style?: {};
+  numberOfLines?: number;
 }

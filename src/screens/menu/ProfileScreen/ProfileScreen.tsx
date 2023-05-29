@@ -12,8 +12,8 @@ import {
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
-import React, { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
@@ -26,14 +26,19 @@ import { setColorOpacity } from 'util/strings/setColorOpacity';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Topic } from 'store/types/dataSliceTypes';
 import StatsSection from './components/StatsSection';
-import RewardsSection from './components/RewardsSection';
 import MyScrollView from 'hoc/MyScrollView';
+import { Quiz, setQuizes } from 'store/slices/createQuizSlice';
+import TileWrapper from 'hoc/TileWrapper';
+import EventTile from 'components/tiles/EventTile';
+import { TopicIcon } from 'assets/icons/topics';
+import BodySmall from 'components/typography/BodySmall/BodySmall';
 
 const ProfileScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Profile'>
 > = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const { userData } = useAppSelector(state => state.data);
+  const { myQuizes } = useAppSelector(state => state.createQuiz);
   const { colors, styles } = useStyles(createStyles);
   const {
     avatar,
@@ -55,6 +60,17 @@ const ProfileScreen: React.FC<
 
   const yourProfile = id === userData.id;
 
+  const getMyQuizes = async () => {
+    const myQuizes = await API.getMyQuizes();
+    dispatch(setQuizes(myQuizes));
+  };
+
+  useEffect(() => {
+    if (yourProfile) {
+      getMyQuizes();
+    }
+  }, []);
+
   useEffect(() => {
     dispatch(setStatusBar({ topColor: color }));
 
@@ -73,13 +89,39 @@ const ProfileScreen: React.FC<
     });
   };
 
+  const renderQuiz = ({ item }: { item: Quiz }) => (
+    <TileWrapper
+      style={{
+        alignItems: 'center',
+        marginRight: AN(14),
+        maxWidth: SCREEN_WIDTH * 0.35,
+        maxHeight: AN(120),
+      }}>
+      <TopicIcon style={{ width: AN(30), height: AN(30) }} topic={item.topic} />
+      <BodyMedium
+        weight="bold"
+        text={item.name}
+        numberOfLines={1}
+        style={{ marginTop: AN(6) }}
+      />
+      <BodySmall
+        text={String(item.questions.length) + ' questions'}
+        color="neutral300"
+        style={{ marginTop: AN(6) }}
+      />
+      <BodySmall
+        text={`${String(item.answerTime)} seconds`}
+        color="neutral300"
+      />
+    </TileWrapper>
+  );
+
   return (
     <ScreenWrapper fullWidth>
       <MyScrollView>
         <View style={[styles.upperView, { backgroundColor: color }]}>
           <LinearGradient
             colors={[color as string, setColorOpacity(colors.neutral500, 0.6)]}
-            angle={120}
             style={styles.linearGradient}
           />
           <MyIcon
@@ -121,11 +163,23 @@ const ProfileScreen: React.FC<
           correctAnswers={correctAnswers as Record<Topic, number>}
           totalAnswers={totalAnswers as Record<Topic, number>}
         />
-        {/* <RewardsSection /> */}
+        {/* <BodyMedium text="Achievements" style={{ marginBottom: AN(6) }} /> */}
 
-        <BodyMedium text="Achievements" />
+        {/* <RewardsSection /> */}
         {yourProfile ? (
-          <></>
+          <>
+            <BodyMedium
+              text="Your quizes"
+              style={{ marginBottom: AN(6), marginLeft: PADDING_HORIZONTAL }}
+            />
+            <FlatList
+              data={myQuizes}
+              renderItem={renderQuiz}
+              keyExtractor={item => item.id + '_myQuiz'}
+              horizontal
+              style={{ paddingLeft: PADDING_HORIZONTAL }}
+            />
+          </>
         ) : (
           <View style={{ paddingHorizontal: PADDING_HORIZONTAL }}>
             <GhostButton

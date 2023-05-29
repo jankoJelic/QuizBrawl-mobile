@@ -122,7 +122,6 @@ const QuestionInput = ({ index, question }: Props) => {
         />
       </TileWrapper>
       <Collapsible collapsed={activeQuestionIndex !== index}>
-        <View></View>
         {answersArray.map((answer, index) => (
           <AnswerTile
             inputMode
