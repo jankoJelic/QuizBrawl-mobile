@@ -23,14 +23,14 @@ const FloatingButton = ({ onPress, disabled, title, style = {} }: Props) => {
     <TouchableBounce
       onPressIn={onPressIn}
       onPressOut={onPressOut}
-      onPress={onPress}
-      style={styles.container}
+      onPress={onPress as (a?: any) => any}
+      style={[styles.container, style]}
       disabled={disabled}>
       <BlueGradient disabled={disabled} pressedIn={pressedIn}>
         <BodyLarge
           weight="bold"
           text={title}
-          color={pressedIn ? 'neutral200' : 'neutral500'}
+          color="mainTextColor"
           style={styles.title}
         />
       </BlueGradient>
