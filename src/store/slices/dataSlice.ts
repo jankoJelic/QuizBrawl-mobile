@@ -194,12 +194,13 @@ export const authSlice = createSlice({
       const { correct, topic } = action.payload;
       const currentCorrectAnswers = state.userData.correctAnswers || {};
       const currentTotalAnswers = state.userData.totalAnswers || {};
+      const currentTopicCorrectAnswers = currentCorrectAnswers[topic] || 0;
+      const currentTopicTotalAnswers = currentTotalAnswers[topic] || 0;
 
       if (correct) {
-        state.userData.correctAnswers[topic] =
-          currentCorrectAnswers[topic] || 0 + 1;
+        state.userData.correctAnswers[topic] = currentTopicCorrectAnswers + 1;
       }
-      state.userData.totalAnswers[topic] = currentTotalAnswers[topic] || 0 + 1;
+      state.userData.totalAnswers[topic] = currentTopicTotalAnswers + 1;
     },
     updateMoneyBalance: (state, action: { payload: number }) => {
       const currentMoney = state.userData.money;

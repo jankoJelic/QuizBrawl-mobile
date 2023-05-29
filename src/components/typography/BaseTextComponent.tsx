@@ -18,8 +18,6 @@ const BaseTextComponent = ({
     switch (weight) {
       case 'regular':
         return FONTS.regular;
-      case 'semiBold':
-        return FONTS.semiBold;
       case 'bold':
         return FONTS.bold;
       case 'light':
@@ -46,7 +44,7 @@ const BaseTextComponent = ({
 
 export default BaseTextComponent;
 
-export type FontWeight = 'regular' | 'light' | 'semiBold' | 'bold';
+export type FontWeight = 'regular' | 'light' | 'bold';
 
 export interface TextProps {
   weight?: FontWeight;

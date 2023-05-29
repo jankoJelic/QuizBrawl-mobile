@@ -10,7 +10,7 @@ import { TextInput, View, StyleSheet } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import { useDispatch } from 'react-redux';
 import { answersArray } from 'screens/games/QuestionScreen/QuestionScreen';
-import { CorrectAnswer } from 'services/socket/socketPayloads';
+import { CorrectAnswer, Question } from 'services/socket/socketPayloads';
 import { useAppSelector } from 'store/index';
 import {
   addQuestion,
@@ -57,7 +57,7 @@ const QuestionInput = ({ index }: Props) => {
           answer3,
           answer4,
           correctAnswer,
-        },
+        } as Question,
       }),
     );
   };

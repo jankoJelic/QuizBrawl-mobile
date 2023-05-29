@@ -122,7 +122,7 @@ const LobbyScreen: React.FC<
       />
       {isSoloLobby ? (
         <>
-          <BodyMedium text="Daily challenges" weight="semiBold" />
+          <BodyMedium text="Daily challenges" weight="bold" />
           <BodyMedium
             color="neutral300"
             text="Win a buck for every correct answer and special rewards for completing an event with 100% accuracy"

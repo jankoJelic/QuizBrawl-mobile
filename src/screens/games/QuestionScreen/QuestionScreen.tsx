@@ -209,9 +209,12 @@ const QuestionScreen: React.FC<
     } else if (type === 'classic') {
       const payload = { answer, userId: userData.id };
       if (answer === correctAnswer) {
+        // in brawl games, these stats are updated by events
         handleCorrectAnswer(payload);
+        API.registerAnswer(true, topic);
       } else {
         handleWrongAnswer(payload);
+        API.registerAnswer(false, topic);
       }
     }
 

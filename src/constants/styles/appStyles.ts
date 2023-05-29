@@ -31,7 +31,6 @@ export const FONTS = {
   lightItalic: 'Lato-LightItalic',
   extraLight: 'Lato-Thin',
   extraBold: 'Lato-Black',
-  semiBold: 'Lato-SemiBold',
 };
 
 export const FONT_SIZES = {};
