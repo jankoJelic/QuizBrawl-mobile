@@ -28,17 +28,35 @@ export const createQuizSlice = createSlice({
     },
     removeQuestion: (state, action: { payload: { index: number } }) => {
       const { index } = action.payload;
-      const currentQuestions = state.questions.filter((_q, i) => i !== index);
-      state.questions = currentQuestions;
-      if (index > 0) state.activeQuestionIndex = state.activeQuestionIndex - 1;
+      const currentQuestions = state.questions;
+      const updatedQuestions = currentQuestions.filter((_q, i) => i !== index);
+      state.questions = updatedQuestions;
     },
     setActiveQuestionIndex: (state, action) => {
       state.activeQuestionIndex = action.payload;
     },
+    clearCreateQuizInput: () => {
+      return { name: '', questions: [], activeQuestionIndex: 0 };
+    },
+    editQuestion: (
+      state,
+      action: { payload: { index: number; question: Question } },
+    ) => {
+      const currentQuestions = state.questions;
+      const updatedQuestions = currentQuestions.map((q, i) =>
+        i === action.payload.index ? action.payload.question : q,
+      );
+      state.questions = updatedQuestions;
+    },
   },
 });
 
-export const { addQuestion, removeQuestion, setActiveQuestionIndex } =
-  createQuizSlice.actions;
+export const {
+  addQuestion,
+  removeQuestion,
+  setActiveQuestionIndex,
+  clearCreateQuizInput,
+  editQuestion,
+} = createQuizSlice.actions;
 
 export default createQuizSlice.reducer;

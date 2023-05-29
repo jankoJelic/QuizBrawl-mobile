@@ -21,6 +21,8 @@ const AnswerTile = ({
   disabled = false,
   userName = '',
   inputMode = false,
+  inputValue = '',
+  onChangeInput,
 }: Props) => {
   const { styles, colors } = useStyles(createStyles);
 
@@ -43,7 +45,11 @@ const AnswerTile = ({
       style={{ ...styles.container, borderColor: colors[borderColor()] }}
       onPress={onPress}>
       {inputMode ? (
-        <TextInput style={styles.textInput} />
+        <TextInput
+          value={inputValue}
+          onChangeText={onChangeInput}
+          style={styles.textInput}
+        />
       ) : (
         <BodyMedium text={title} />
       )}
@@ -105,4 +111,6 @@ interface Props {
   disabled?: boolean;
   userName?: string;
   inputMode?: boolean;
+  inputValue?: string;
+  onChangeInput?: (txt: string) => any;
 }
