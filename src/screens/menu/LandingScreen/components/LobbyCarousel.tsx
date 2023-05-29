@@ -7,7 +7,6 @@ import { useAppSelector } from 'store/index';
 import { Lobby, LobbyName } from 'store/types/dataSliceTypes';
 import { AN, SCREEN_WIDTH } from 'constants/styles/appStyles';
 import { useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
 import API from 'services/api';
 import { joinLobby, setLobbies } from 'store/slices/dataSlice';
 import Title from 'components/typography/Title';
@@ -19,10 +18,11 @@ import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { LOBBY_IDS } from 'constants/constants';
 import FastImage from 'react-native-fast-image';
 import BodySmall from 'components/typography/BodySmall/BodySmall';
+import { useMyNavigation } from 'navigation/hooks/useMyNavigation';
 
 const LobbyCarousel = () => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+  const navigation = useMyNavigation();
   const carouselRef = useRef(null);
 
   const { styles, colors } = useStyles(createStyles);
