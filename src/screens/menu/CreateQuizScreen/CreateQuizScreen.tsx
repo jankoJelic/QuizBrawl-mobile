@@ -2,35 +2,41 @@ import InputField from 'components/inputs/InputField';
 import QuestionInput from 'components/inputs/QuestionInput/QuestionInput';
 import NavHeader from 'components/layout/NavHeader';
 import BodyLarge from 'components/typography/BodyLarge';
-import BodyMedium from 'components/typography/BodyMedium';
 import { AN } from 'constants/styles/appStyles';
 import TopicsList from 'containers/TopicsList/TopicsList';
+import MyScrollView from 'hoc/MyScrollView';
 import ScreenWrapper from 'hoc/ScreenWrapper';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
+import { useAppSelector } from 'store/index';
 import { Topic } from 'store/types/dataSliceTypes';
 
 const CreateQuizScreen: React.FC = () => {
-  const inputRefs = useRef([]);
+  const { firstName } = useAppSelector(state => state.data.userData);
+  const { questions } = useAppSelector(state => state.createQuiz);
   const [selectedTopic, setselectedTopic] = useState<Topic>('General');
-  const [numberOfQuestions, setNumberOfQuestions] = useState(1);
-
-  console.log(inputRefs.current);
+  const [quizName, setQuizName] = useState(`${firstName}'s quiz`);
 
   const renderQuestionsInput = () =>
-    new Array(numberOfQuestions).fill(undefined).map(i => {
-      return <QuestionInput ref={inputRefs} />;
+    new Array(questions.length + 1).fill(undefined).map((_item, index) => {
+      return <QuestionInput index={index} />;
     });
 
   return (
     <ScreenWrapper>
-      <NavHeader title="Create your quiz" />
-      <TopicsList
-        selectedTopic={selectedTopic}
-        onSelectTopic={setselectedTopic}
-      />
-
-      <BodyLarge text="Questions" style={{ marginBottom: AN(10) }} />
-      {renderQuestionsInput()}
+      <MyScrollView>
+        <NavHeader title="Create your quiz" />
+        <TopicsList
+          selectedTopic={selectedTopic}
+          onSelectTopic={setselectedTopic}
+        />
+        <InputField
+          title="Quiz name"
+          value={quizName}
+          onChangeText={setQuizName}
+        />
+        <BodyLarge text="Questions" style={{ marginBottom: AN(10) }} />
+        {renderQuestionsInput()}
+      </MyScrollView>
     </ScreenWrapper>
   );
 };

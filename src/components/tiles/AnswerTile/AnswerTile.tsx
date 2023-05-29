@@ -102,7 +102,7 @@ interface Props {
   onPress: () => void;
   title: string;
   status: 'regular' | 'correct' | 'wrong';
-  disabled: boolean;
+  disabled?: boolean;
   userName?: string;
   inputMode?: boolean;
 }
