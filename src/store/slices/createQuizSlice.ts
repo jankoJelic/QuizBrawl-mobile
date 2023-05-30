@@ -35,8 +35,10 @@ export const createQuizSlice = createSlice({
     setActiveQuestionIndex: (state, action) => {
       state.activeQuestionIndex = action.payload;
     },
-    clearCreateQuizInput: () => {
-      return { name: '', questions: [], activeQuestionIndex: 0 };
+    clearCreateQuizInput: state => {
+      state.name = '';
+      state.questions = [];
+      state.activeQuestionIndex = 0;
     },
     editQuestion: (
       state,

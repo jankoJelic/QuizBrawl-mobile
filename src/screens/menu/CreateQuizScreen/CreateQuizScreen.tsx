@@ -52,7 +52,11 @@ const CreateQuizScreen: React.FC<
   });
 
   const renderItem = ({ item, index }: { item: Question; index: number }) => (
-    <QuestionInput index={index} question={item} />
+    <QuestionInput
+      index={index}
+      question={item}
+      key={item.answer1 + String(index)}
+    />
   );
 
   useEffect(() => {

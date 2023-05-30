@@ -6,9 +6,13 @@ import API from 'services/api';
 const useFCM = () => {
   useEffect(() => {
     messaging()
-      .getToken()
-      .then(token => {
-        API.connectToFCM(token).catch(e => {});
+      .registerDeviceForRemoteMessages()
+      .then(() => {
+        messaging()
+          .getToken()
+          .then(token => {
+            API.connectToFCM(token).catch(e => {});
+          });
       });
 
     return messaging().onTokenRefresh(token => {
