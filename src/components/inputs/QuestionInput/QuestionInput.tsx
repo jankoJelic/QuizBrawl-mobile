@@ -108,35 +108,42 @@ const QuestionInput = ({ index, question }: Props) => {
     }
   };
 
+  const renderQuestion = () => (
+    <TileWrapper onPress={onPressChevron} style={styles.questionContainer}>
+      <TextInput
+        style={styles.questionText}
+        value={questionText}
+        onChangeText={setQuestionText}
+      />
+      <MyIcon
+        name={collapsed ? 'chevron-up' : 'chevron-down'}
+        style={{ flex: 0.1 }}
+      />
+    </TileWrapper>
+  );
+
+  const renderAnswers = () =>
+    answersArray.map((answer, index) => (
+      <AnswerTile
+        inputMode
+        onPress={() => {
+          setCorrectAnswer(answer);
+        }}
+        inputValue={title(answer)}
+        userName="correct"
+        status={correctAnswer === answer ? 'correct' : 'regular'}
+        title={title(answer)}
+        onChangeInput={(txt: string) => {
+          onChangeInput(answer, txt);
+        }}
+      />
+    ));
+
   return (
-    <View style={{ marginTop: AN(12) }}>
-      <TileWrapper onPress={onPressChevron} style={styles.container}>
-        <TextInput
-          style={{ flex: 1, color: colors.mainTextColor }}
-          value={questionText}
-          onChangeText={setQuestionText}
-        />
-        <MyIcon
-          name={collapsed ? 'chevron-up' : 'chevron-down'}
-          style={{ flex: 0.1 }}
-        />
-      </TileWrapper>
-      <Collapsible collapsed={activeQuestionIndex !== index}>
-        {answersArray.map((answer, index) => (
-          <AnswerTile
-            inputMode
-            onPress={() => {
-              setCorrectAnswer(answer);
-            }}
-            inputValue={title(answer)}
-            userName="correct"
-            status={correctAnswer === answer ? 'correct' : 'regular'}
-            title={title(answer)}
-            onChangeInput={(txt: string) => {
-              onChangeInput(answer, txt);
-            }}
-          />
-        ))}
+    <View style={styles.container}>
+      {renderQuestion()}
+      <Collapsible collapsed={collapsed}>
+        {renderAnswers()}
         {questionSaved ? (
           <GhostButton
             title="Delete question"
@@ -157,12 +164,14 @@ const QuestionInput = ({ index, question }: Props) => {
 
 const createStyles = (colors: Colors) =>
   StyleSheet.create({
-    container: {
+    questionContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
       marginBottom: AN(6),
     },
+    questionText: { flex: 1, color: colors.mainTextColor },
+    container: { marginTop: AN(12) },
   });
 
 export default QuestionInput;
