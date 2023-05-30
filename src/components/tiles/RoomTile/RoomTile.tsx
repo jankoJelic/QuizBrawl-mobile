@@ -76,10 +76,12 @@ const RoomTile = ({ index, onPress, room }: Props) => {
                 <FeatherIcon name="unlock" color="success500" />
               )}
             </View>
-            <View style={styles.rightSideInfo}>
-              <MyIcon name="money" />
-              <BodyMedium text={`   ${String(bet)}`} />
-            </View>
+            {!!bet && (
+              <View style={styles.rightSideInfo}>
+                <MyIcon name="money" />
+                <BodyMedium text={`   ${String(bet)}`} />
+              </View>
+            )}
           </View>
         </>
       ) : (

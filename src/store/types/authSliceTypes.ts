@@ -17,6 +17,7 @@ export interface UserData extends ShallowUser {
   correctAnswers: Record<Topic, number>;
   totalAnswers: Record<Topic, number>;
   dailies: null | {};
+  leagueIds: number[];
 }
 
 export interface ShallowUser {

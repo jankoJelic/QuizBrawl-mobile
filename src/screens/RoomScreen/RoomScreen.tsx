@@ -63,7 +63,7 @@ const RoomScreen: React.FC<
 
   const startGame = async () => {
     dispatch(startLoading());
-    SOCKET.emit(SOCKET_EVENTS.GAME_STARTED, room);
+    SOCKET.emit(SOCKET_EVENTS.GAME_STARTED, { room });
   };
 
   const roomIsFull = users?.length === maxPlayers;

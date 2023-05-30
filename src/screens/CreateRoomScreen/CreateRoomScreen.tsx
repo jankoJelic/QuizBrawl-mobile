@@ -75,7 +75,7 @@ const CreateRoomScreen: React.FC<
         questionsCount: Number(questionsCount),
         readyUsers: [userData.id],
         password,
-        bet,
+        ...(isCashGame && { bet }),
       };
 
       const room = await API.createRoom(body);

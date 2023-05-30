@@ -18,9 +18,12 @@ import SelectProviderScreen from 'screens/auth/SelectProviderScreen';
 import CustomizeProfileScreen from 'screens/menu/CustomizeProfileScreen';
 import InboxScreen from 'screens/profile/InboxScreen';
 import FriendsScreen from 'screens/menu/FriendsScreen';
-import FriendScreen from 'screens/menu/FriendScreen';
 import MarketScreen from 'screens/menu/MarketScreen';
 import CreateQuizScreen from 'screens/menu/CreateQuizScreen';
+import QuizesScreen from 'screens/menu/QuizesScreen';
+import LeaguesScreen from 'screens/leagues/LeaguesScreen';
+import LeagueScreen from 'screens/leagues/LeagueScreen';
+import CreateLeagueScreen from 'screens/leagues/CreateLeagueScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamsList>();
 
@@ -50,7 +53,6 @@ const MainStackNavigator = () => (
     />
 
     <Stack.Screen name="Landing" component={LandingScreen} />
-
     <Stack.Screen name="Lobby" component={LobbyScreen} />
 
     <Stack.Screen name="CreateRoom" component={CreateRoomScreen} />
@@ -64,6 +66,11 @@ const MainStackNavigator = () => (
     <Stack.Screen name="Market" component={MarketScreen} />
 
     <Stack.Screen name="CreateQuiz" component={CreateQuizScreen} />
+    <Stack.Screen name="MyQuizes" component={QuizesScreen} />
+
+    <Stack.Screen name="Leagues" component={LeaguesScreen} />
+    <Stack.Screen name="League" component={LeagueScreen} />
+    <Stack.Screen name="CreateLeague" component={CreateLeagueScreen} />
   </Stack.Navigator>
 );
 

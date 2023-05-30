@@ -5,15 +5,15 @@ import API from 'services/api';
 
 const useFCM = () => {
   useEffect(() => {
+    // messaging()
+    //   .registerDeviceForRemoteMessages()
+    //   .then(() => {
     messaging()
-      .registerDeviceForRemoteMessages()
-      .then(() => {
-        messaging()
-          .getToken()
-          .then(token => {
-            API.connectToFCM(token).catch(e => {});
-          });
+      .getToken()
+      .then(token => {
+        API.connectToFCM(token).catch(e => {});
       });
+    // });
 
     return messaging().onTokenRefresh(token => {
       API.connectToFCM(token);
