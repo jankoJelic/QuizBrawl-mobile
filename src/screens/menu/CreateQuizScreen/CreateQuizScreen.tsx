@@ -29,6 +29,7 @@ import {
 } from 'store/slices/appStateSlice';
 import {
   clearCreateQuizInput,
+  deleteQuiz,
   setActiveQuestionIndex,
   setQuestions,
 } from 'store/slices/createQuizSlice';
@@ -119,11 +120,13 @@ const CreateQuizScreen: React.FC<
     }
   };
 
-  const deleteQuiz = async () => {
+  const onPressDeleteQuiz = async () => {
     if (!IS_EDIT_MODE) return;
     dispatch(startLoading());
     try {
       await API.deleteQuiz(quiz.id);
+      dispatch(deleteQuiz(quiz.id));
+      navigation.goBack();
     } catch (error) {
       showOoopsToast();
     } finally {
@@ -163,7 +166,7 @@ const CreateQuizScreen: React.FC<
             <GhostButton
               color="danger500"
               title="Delete quiz"
-              onPress={deleteQuiz}
+              onPress={onPressDeleteQuiz}
             />
             <CTA
               title={IS_EDIT_MODE ? 'Update quiz' : 'Submit quiz'}

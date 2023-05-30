@@ -123,7 +123,7 @@ const QuestionInput = ({ index, question }: Props) => {
   );
 
   const renderAnswers = () =>
-    answersArray.map((answer, index) => (
+    answersArray.map(answer => (
       <AnswerTile
         inputMode
         onPress={() => {
