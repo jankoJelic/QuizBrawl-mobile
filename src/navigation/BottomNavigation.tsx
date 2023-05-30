@@ -53,7 +53,9 @@ const BottomNavigation = () => {
 
   const goToRankings = () => {};
 
-  const goToLeagues = () => {};
+  const goToLeagues = () => {
+    navigation.navigate('Leagues');
+  };
 
   return (
     <View style={styles.container}>
