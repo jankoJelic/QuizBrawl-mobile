@@ -3,7 +3,7 @@ import httpClient from '../httpClient';
 import { Topic } from 'store/types/dataSliceTypes';
 import { Quiz } from 'store/slices/createQuizSlice';
 
-const { get, post, patch } = httpClient;
+const { get, post, patch, destroy } = httpClient;
 
 const quizesAPI = {
   getMyQuizes: async () => {
@@ -23,6 +23,10 @@ const quizesAPI = {
 
   rateQuiz: async (id: number, like: boolean) => {
     patch(`/quizes/quiz/${id}/rate`, { like });
+  },
+
+  deleteQuiz: async (id: number) => {
+    await destroy(`/quizes/quiz/${id}`);
   },
 };
 

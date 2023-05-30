@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import CTA from 'components/buttons/CTA';
+import GhostButton from 'components/buttons/GhostButton/GhostButton';
 import InputField from 'components/inputs/InputField';
 import QuestionInput from 'components/inputs/QuestionInput/QuestionInput';
 import NavHeader from 'components/layout/NavHeader';
@@ -21,20 +22,35 @@ import {
   showSuccessToast,
 } from 'store/actions/appStateActions';
 import { useAppSelector } from 'store/index';
-import { clearCreateQuizInput } from 'store/slices/createQuizSlice';
+import {
+  setStatusBar,
+  startLoading,
+  stopLoading,
+} from 'store/slices/appStateSlice';
+import {
+  clearCreateQuizInput,
+  setActiveQuestionIndex,
+  setQuestions,
+} from 'store/slices/createQuizSlice';
 import { Topic } from 'store/types/dataSliceTypes';
 import { isIntegerBewteen } from 'util/strings/isIntegerBetween';
 
 const CreateQuizScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'CreateQuiz'>
-> = ({ navigation }) => {
-  const { colors, styles } = useStyles(createStyles);
+> = ({ navigation, route }) => {
+  const { styles, colors } = useStyles(createStyles);
   const dispatch = useDispatch();
   const { firstName } = useAppSelector(state => state.data.userData);
   const { questions } = useAppSelector(state => state.createQuiz);
-  const [selectedTopic, setselectedTopic] = useState<Topic>('General');
-  const [quizName, setQuizName] = useState(`${firstName}'s quiz`);
-  const [answerTime, setAnswerTime] = useState('15');
+
+  const { quiz } = route.params || {};
+  const IS_EDIT_MODE = !!quiz;
+
+  const [selectedTopic, setselectedTopic] = useState<Topic>(
+    quiz?.topic || 'General',
+  );
+  const [quizName, setQuizName] = useState(quiz?.name || `${firstName}'s quiz`);
+  const [answerTime, setAnswerTime] = useState(quiz?.answerTime || '15');
 
   const emptyQuestion = {
     question: '',
@@ -51,6 +67,14 @@ const CreateQuizScreen: React.FC<
     min: 10,
   });
 
+  useEffect(() => {
+    dispatch(setStatusBar({ topColor: colors.neutral500 }));
+    if (IS_EDIT_MODE) {
+      dispatch(setActiveQuestionIndex(undefined));
+      dispatch(setQuestions(quiz.questions));
+    }
+  }, []);
+
   const renderItem = ({ item, index }: { item: Question; index: number }) => (
     <QuestionInput
       index={index}
@@ -65,18 +89,42 @@ const CreateQuizScreen: React.FC<
     };
   }, []);
 
+  const payload = {
+    answerTime: Number(answerTime),
+    name: quizName,
+    questions,
+    topic: selectedTopic,
+  };
+
   const submitQuiz = async () => {
     try {
-      await API.createQuiz({
-        answerTime: Number(answerTime),
-        name: quizName,
-        questions,
-        topic: selectedTopic,
-      });
+      await API.createQuiz(payload);
       showSuccessToast();
       navigation.navigate('MyQuizes');
     } catch (error) {
       showOoopsToast();
+    }
+  };
+
+  const updateQuiz = async () => {
+    if (!quiz?.id) return;
+
+    try {
+      await API.updateQuiz(quiz.id, payload);
+    } catch (error) {
+      showOoopsToast();
+    }
+  };
+
+  const deleteQuiz = async () => {
+    if (!IS_EDIT_MODE) return;
+    dispatch(startLoading());
+    try {
+      await API.deleteQuiz(quiz.id);
+    } catch (error) {
+      showOoopsToast();
+    } finally {
+      dispatch(stopLoading());
     }
   };
 
@@ -109,9 +157,14 @@ const CreateQuizScreen: React.FC<
         ListFooterComponent={
           <>
             <View style={styles.divider} />
+            <GhostButton
+              color="danger500"
+              title="Delete quiz"
+              onPress={deleteQuiz}
+            />
             <CTA
-              title="Submit quiz"
-              onPress={submitQuiz}
+              title={IS_EDIT_MODE ? 'Update quiz' : 'Submit quiz'}
+              onPress={IS_EDIT_MODE ? updateQuiz : submitQuiz}
               disabled={!quizName || !answerTimeValid}
             />
           </>

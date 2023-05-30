@@ -1,3 +1,4 @@
+import { Quiz } from 'store/slices/createQuizSlice';
 import { UserData } from 'store/types/authSliceTypes';
 import { Room } from 'store/types/dataSliceTypes';
 
@@ -20,7 +21,7 @@ export type MainStackParamsList = {
   CashGameLobby: undefined;
   SoloLobby: undefined;
 
-  CreateQuiz: undefined;
+  CreateQuiz?: { quiz: Quiz };
   MyQuizes: undefined;
   CreateRoom: { lobbyId: number };
   Room: { room: Room };

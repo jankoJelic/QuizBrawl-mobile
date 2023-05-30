@@ -63,6 +63,9 @@ export const createQuizSlice = createSlice({
       const updatedQuizes = currentQuizes.filter(q => q.id !== action.payload);
       state.myQuizes = updatedQuizes;
     },
+    setQuestions: (state, action) => {
+      state.questions = action.payload;
+    },
   },
 });
 
@@ -75,6 +78,7 @@ export const {
   deleteQuiz,
   addQuiz,
   setQuizes,
+  setQuestions
 } = createQuizSlice.actions;
 
 export default createQuizSlice.reducer;

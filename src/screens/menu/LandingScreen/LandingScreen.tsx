@@ -21,6 +21,7 @@ import useStyles from 'hooks/styles/useStyles';
 import BottomNavigation from 'navigation/BottomNavigation';
 import API from 'services/api';
 import { useAppSelector } from 'store/index';
+import { getMyQuizzes } from 'store/actions/dataActions';
 
 const LandingScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Landing'>
@@ -47,6 +48,8 @@ const LandingScreen: React.FC<
     PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
     );
+
+    getMyQuizzes();
   }, []);
 
   usePreventNativeBackButton(() => true);

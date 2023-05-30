@@ -1,11 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import GhostButton from 'components/buttons/GhostButton/GhostButton';
 import { Colors } from 'constants/styles/Colors';
-import {
-  AN,
-  PADDING_HORIZONTAL,
-  SCREEN_WIDTH,
-} from 'constants/styles/appStyles';
+import { AN, PADDING_HORIZONTAL } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
@@ -21,7 +17,6 @@ import BodyMedium from 'components/typography/BodyMedium';
 import { Topic } from 'store/types/dataSliceTypes';
 import StatsSection from './components/StatsSection';
 import MyScrollView from 'hoc/MyScrollView';
-import { setQuizes } from 'store/slices/createQuizSlice';
 import MyQuizesList from './components/MyQuizesList';
 import ProfileHeader from './components/ProfileHeader';
 
@@ -40,17 +35,6 @@ const ProfileScreen: React.FC<
   } = route.params || {};
 
   const yourProfile = id === userData.id;
-
-  const getMyQuizes = async () => {
-    const myQuizes = await API.getMyQuizes();
-    dispatch(setQuizes(myQuizes));
-  };
-
-  useEffect(() => {
-    if (yourProfile) {
-      getMyQuizes();
-    }
-  }, []);
 
   useEffect(() => {
     dispatch(setStatusBar({ topColor: color }));

@@ -1,5 +1,4 @@
 import { TopicIcon } from 'assets/icons/topics';
-import BodyLarge from 'components/typography/BodyLarge';
 import BodyMedium from 'components/typography/BodyMedium';
 import BodySmall from 'components/typography/BodySmall/BodySmall';
 import { Colors } from 'constants/styles/Colors';
@@ -12,7 +11,7 @@ import TileWrapper from 'hoc/TileWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { useMyNavigation } from 'navigation/hooks/useMyNavigation';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { FlatList } from 'react-native';
 import { useAppSelector } from 'store/index';
 import { Quiz } from 'store/slices/createQuizSlice';
