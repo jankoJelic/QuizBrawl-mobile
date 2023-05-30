@@ -26,7 +26,7 @@ const QuestionInput = ({ index, question }: Props) => {
   const { activeQuestionIndex, questions, name } = useAppSelector(
     state => state.createQuiz,
   );
-  const [collapsed, setCollapsed] = useState(true);
+  const collapsed = activeQuestionIndex !== index;
 
   const [questionText, setQuestionText] = useState(question.question);
   const [answer1, setAnswer1] = useState(question.answer1 || '');
