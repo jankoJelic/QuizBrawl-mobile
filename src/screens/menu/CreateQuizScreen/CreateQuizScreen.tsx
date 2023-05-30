@@ -32,6 +32,7 @@ import {
   deleteQuiz,
   setActiveQuestionIndex,
   setQuestions,
+  updateQuiz,
 } from 'store/slices/createQuizSlice';
 import { Topic } from 'store/types/dataSliceTypes';
 import { isIntegerBewteen } from 'util/strings/isIntegerBetween';
@@ -51,7 +52,9 @@ const CreateQuizScreen: React.FC<
     quiz?.topic || 'General',
   );
   const [quizName, setQuizName] = useState(quiz?.name || `${firstName}'s quiz`);
-  const [answerTime, setAnswerTime] = useState(quiz?.answerTime || '15');
+  const [answerTime, setAnswerTime] = useState(
+    quiz?.answerTime ? String(quiz.answerTime) : '15',
+  );
 
   const emptyQuestion = {
     question: '',
@@ -107,11 +110,12 @@ const CreateQuizScreen: React.FC<
     }
   };
 
-  const updateQuiz = async () => {
+  const onPressUpdate = async () => {
     if (!quiz?.id) return;
     dispatch(startLoading());
     try {
-      await API.updateQuiz(quiz.id, payload);
+      const newQuiz = await API.updateQuiz(quiz.id, payload);
+      dispatch(updateQuiz(newQuiz));
       navigation.goBack();
     } catch (error) {
       showOoopsToast();
@@ -160,6 +164,7 @@ const CreateQuizScreen: React.FC<
         renderItem={renderItem}
         data={questions.concat([emptyQuestion as Question])}
         keyExtractor={(item, index) => item.question + String(index)}
+        showsVerticalScrollIndicator={false}
         ListFooterComponent={
           <>
             <View style={styles.divider} />
@@ -170,7 +175,7 @@ const CreateQuizScreen: React.FC<
             />
             <CTA
               title={IS_EDIT_MODE ? 'Update quiz' : 'Submit quiz'}
-              onPress={IS_EDIT_MODE ? updateQuiz : submitQuiz}
+              onPress={IS_EDIT_MODE ? onPressUpdate : submitQuiz}
               disabled={!quizName || !answerTimeValid}
             />
           </>

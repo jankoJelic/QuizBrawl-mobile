@@ -76,9 +76,13 @@ const QuestionInput = ({ index, question }: Props) => {
     } else dispatch(addQuestion(payload));
   };
 
+  const collapseAllQuestions = () => {
+    dispatch(setActiveQuestionIndex(undefined));
+  };
+
   const onPressChevron = () => {
-    if (activeQuestionIndex === index) {
-      dispatch(setActiveQuestionIndex(undefined));
+    if (!collapsed) {
+      collapseAllQuestions();
     } else {
       dispatch(setActiveQuestionIndex(index));
     }
@@ -87,6 +91,7 @@ const QuestionInput = ({ index, question }: Props) => {
   const deleteQuestion = () => {
     dispatch(removeQuestion({ index }));
     clearInput();
+    collapseAllQuestions();
   };
 
   const onChangeInput = (answer: CorrectAnswer, txt: string) => {
