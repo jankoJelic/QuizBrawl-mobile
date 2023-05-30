@@ -139,14 +139,17 @@ const QuestionInput = ({ index, question }: Props) => {
         ))}
         {questionSaved ? (
           <GhostButton
-            title="Delete"
+            title="Delete question"
             onPress={deleteQuestion}
             color="danger500"
           />
         ) : (
           <></>
         )}
-        <CTA title={questionSaved ? 'Update' : 'Add'} onPress={onPressAdd} />
+        <CTA
+          title={questionSaved ? 'Update question' : 'Add question'}
+          onPress={onPressAdd}
+        />
       </Collapsible>
     </View>
   );

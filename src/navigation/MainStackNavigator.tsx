@@ -20,7 +20,7 @@ import InboxScreen from 'screens/profile/InboxScreen';
 import FriendsScreen from 'screens/menu/FriendsScreen';
 import MarketScreen from 'screens/menu/MarketScreen';
 import CreateQuizScreen from 'screens/menu/CreateQuizScreen';
-import QuizesScreen from 'screens/menu/QuizesScreen';
+import QuizesScreen from 'screens/menu/MyQuizesScreen';
 import LeaguesScreen from 'screens/leagues/LeaguesScreen';
 import LeagueScreen from 'screens/leagues/LeagueScreen';
 import CreateLeagueScreen from 'screens/leagues/CreateLeagueScreen';

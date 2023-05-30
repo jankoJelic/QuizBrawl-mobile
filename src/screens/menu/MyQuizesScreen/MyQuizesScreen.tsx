@@ -8,7 +8,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { useAppSelector } from 'store/index';
 
-const QuizesScreen: React.FC<
+const MyQuizesScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'MyQuizes'>
 > = () => {
   const { styles, colors } = useStyles(createStyles);
@@ -23,4 +23,4 @@ const QuizesScreen: React.FC<
 
 const createStyles = (colors: Colors) => StyleSheet.create({});
 
-export default QuizesScreen;
+export default MyQuizesScreen;

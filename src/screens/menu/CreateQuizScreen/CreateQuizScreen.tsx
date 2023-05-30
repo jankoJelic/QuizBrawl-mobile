@@ -108,11 +108,14 @@ const CreateQuizScreen: React.FC<
 
   const updateQuiz = async () => {
     if (!quiz?.id) return;
-
+    dispatch(startLoading());
     try {
       await API.updateQuiz(quiz.id, payload);
+      navigation.goBack();
     } catch (error) {
       showOoopsToast();
+    } finally {
+      dispatch(stopLoading());
     }
   };
 
