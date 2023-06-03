@@ -3,6 +3,7 @@ import CTA from 'components/buttons/CTA';
 import NavHeader from 'components/layout/NavHeader';
 import BodyLarge from 'components/typography/BodyLarge';
 import { Colors } from 'constants/styles/Colors';
+import { AN } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
@@ -25,7 +26,11 @@ const LeaguesScreen: React.FC<
     <ScreenWrapper>
       <NavHeader fullWidth title="Leagues" />
       <BodyLarge />
-      <CTA title="Create league" onPress={onPressCreateLeague} />
+      <CTA
+        title="Create new league"
+        onPress={onPressCreateLeague}
+        style={{ position: 'absolute', bottom: AN(10), alignSelf: 'center' }}
+      />
     </ScreenWrapper>
   );
 };

@@ -1,5 +1,6 @@
 import { authAPI } from './endpoints/authAPI';
 import gameAPI from './endpoints/gameAPI';
+import leaguesAPI from './endpoints/leaguesAPI';
 import { lobbiesAPI } from './endpoints/lobbiesAPI';
 import { messagesAPI } from './endpoints/messagesAPI';
 import { questionsAPI } from './endpoints/questionsAPI';
@@ -18,6 +19,7 @@ const API = {
   ...usersAPI,
   ...rewardsAPI,
   ...gameAPI,
+  ...leaguesAPI
 };
 
 export default API;

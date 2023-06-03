@@ -5,8 +5,8 @@ import { Reward, ShallowUser } from 'store/types/authSliceTypes';
 const { get, post, destroy, patch } = httpClient;
 
 const leaguesAPI = {
-  createLeague: async (id: number) => {
-    const { data } = await get<League>('/leagues/daily', { params: { id } });
+  createLeague: async (body: CreateLeagueBody) => {
+    const { data } = await post<League>('/leagues/league', body);
     return data;
   },
 
@@ -23,8 +23,6 @@ const leaguesAPI = {
     const { data } = await get<string[]>('/leagues/images');
     return data;
   },
-
-  
 };
 
 export default leaguesAPI;
@@ -39,4 +37,15 @@ export interface League {
   id: number;
   reward: null | Reward;
   bet: number;
+}
+
+export type LeagueType = 'ADMIN' | 'ROUND';
+
+interface CreateLeagueBody {
+  name: string;
+  image: string;
+  type: LeagueType;
+  bet: number;
+  password: string;
+  reward?: Reward;
 }

@@ -25,7 +25,7 @@ export const leaguesSlice = createSlice({
       state.myLeagues = action.payload;
     },
     setLeagueImages: (state, action) => {
-      state.leagues = action.payload;
+      state.leagueImages = action.payload;
     },
     addPlayerToLeague: (
       state,
