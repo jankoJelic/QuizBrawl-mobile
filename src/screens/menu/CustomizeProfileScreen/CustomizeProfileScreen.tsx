@@ -85,7 +85,6 @@ const CustomizeProfileScreen: React.FC<
 
   const getMyAvatars = async () => {
     const avatars = await API.getMyAvatars();
-
     setAvailableAvatars(avatars);
   };
 

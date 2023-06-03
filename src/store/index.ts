@@ -4,6 +4,7 @@ import authReducer from './slices/authSlice';
 import dataReducer from './slices/dataSlice';
 import gameReducer from './slices/gameSlice';
 import createQuizReducer from './slices/createQuizSlice';
+import leaguesReduces from './slices/leaguesSlice';
 import { TypedUseSelectorHook, useSelector, useDispatch } from 'react-redux';
 
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
     data: dataReducer,
     game: gameReducer,
     createQuiz: createQuizReducer,
+    leagues: leaguesReduces,
   },
 });
 

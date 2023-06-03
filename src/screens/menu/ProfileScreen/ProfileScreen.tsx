@@ -57,7 +57,7 @@ const ProfileScreen: React.FC<
   return (
     <ScreenWrapper fullWidth>
       <MyScrollView>
-        <ProfileHeader />
+        <ProfileHeader user={route.params.id ? route.params : undefined} />
         <StatsSection
           correctAnswers={correctAnswers as Record<Topic, number>}
           totalAnswers={totalAnswers as Record<Topic, number>}

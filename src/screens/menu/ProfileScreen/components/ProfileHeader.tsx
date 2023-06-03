@@ -15,10 +15,12 @@ import { setColorOpacity } from 'util/strings/setColorOpacity';
 import ProfileBadge from './ProfileBadge';
 import { useAppSelector } from 'store/index';
 import { useMyNavigation } from 'navigation/hooks/useMyNavigation';
+import { UserData } from 'store/types/authSliceTypes';
 
-const ProfileHeader = () => {
+const ProfileHeader = ({ user }: Props) => {
   const navigation = useMyNavigation();
   const { colors, styles } = useStyles(createStyles);
+  const data = user ? user : useAppSelector(state => state.data.userData);
   const {
     firstName,
     lastName,
@@ -29,8 +31,8 @@ const ProfileHeader = () => {
     level,
     isPremium,
     createdAt,
-    accuracyPercentage
-  } = useAppSelector(state => state.data.userData);
+    accuracyPercentage,
+  } = data || {};
 
   return (
     <View style={[styles.container, { backgroundColor: color }]}>
@@ -108,5 +110,5 @@ const createStyles = (colors: Colors) =>
 export default React.memo(ProfileHeader);
 
 interface Props {
-  color: Color;
+  user?: UserData | undefined;
 }

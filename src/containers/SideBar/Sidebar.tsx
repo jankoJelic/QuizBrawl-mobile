@@ -81,14 +81,7 @@ const Sidebar = ({ children }: Props) => {
               color="neutral400"
               style={{ marginTop: AN(18) }}
             />
-            <MenuTile
-              title="My profile"
-              icon="user"
-              onPress={goToProfile}
-              notification={
-                notificationsCount ? String(notificationsCount) : undefined
-              }
-            />
+            <MenuTile title="My profile" icon="user" onPress={goToProfile} />
             <MenuTile
               title="Inbox"
               icon="mail"

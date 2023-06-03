@@ -16,13 +16,16 @@ import { FlatList } from 'react-native';
 import { useAppSelector } from 'store/index';
 import { Quiz } from 'store/slices/createQuizSlice';
 
-const MyQuizesList = ({ horizontal }: Props) => {
+const MyQuizesList = ({ horizontal, onSelectQuiz }: Props) => {
   const navigation = useMyNavigation();
   const { styles, colors } = useStyles(createStyles);
   const { myQuizes } = useAppSelector(state => state.createQuiz);
 
   const onPressQuiz = (quiz: Quiz) => {
-    navigation.navigate('CreateQuiz', { quiz });
+    if (!!onSelectQuiz) {
+      onSelectQuiz();
+      return;
+    } else navigation.navigate('CreateQuiz', { quiz });
   };
 
   const renderQuizInfo = (item: Quiz) => (
@@ -95,11 +98,12 @@ const createStyles = (colors: Colors) =>
       maxHeight: AN(120),
     },
     horizontalTopicIcon: { width: AN(30), height: AN(30) },
-    list: { paddingLeft: PADDING_HORIZONTAL },
+    list: { paddingLeft: PADDING_HORIZONTAL, maxHeight: AN(130) },
   });
 
 export default MyQuizesList;
 
 interface Props {
   horizontal?: boolean;
+  onSelectQuiz?: () => any;
 }

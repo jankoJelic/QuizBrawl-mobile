@@ -13,7 +13,7 @@ export type MainStackParamsList = {
   Landing: undefined;
   Inbox: undefined;
   CustomizeProfile: undefined;
-  Profile: Partial<UserData>;
+  Profile: UserData;
   Friends: undefined;
   Market: undefined;
 
