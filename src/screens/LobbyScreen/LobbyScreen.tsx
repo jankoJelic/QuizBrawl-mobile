@@ -1,6 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import CTA from 'components/buttons/CTA';
-import InputField from 'components/inputs/InputField';
 import NavHeader from 'components/layout/NavHeader';
 import EventTile from 'components/tiles/EventTile';
 import RoomTile from 'components/tiles/RoomTile';
@@ -9,7 +8,7 @@ import BodyMedium from 'components/typography/BodyMedium';
 import { LOBBY_IDS } from 'constants/constants';
 import { Colors } from 'constants/styles/Colors';
 import { AN } from 'constants/styles/appStyles';
-import Popup from 'containers/Popup/Popup';
+import PasswordPopup from 'containers/Popup/PasswordPopup';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
@@ -28,13 +27,12 @@ const LobbyScreen: React.FC<
 > = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const { lobbyId } = route.params || {};
-  const { styles, colors } = useStyles(createStyles);
+  const { styles } = useStyles(createStyles);
 
   const { rooms, userData } = useAppSelector(state => state.data);
   const lobbyRooms = rooms.filter(room => room.lobbyId === lobbyId);
 
   const [passwordPopupVisible, setPasswordPopupVisible] = useState(false);
-  const [passwordInput, setPasswordInput] = useState('');
   const [passwordInputError, setPasswordInputError] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<Room>();
 
@@ -92,8 +90,8 @@ const LobbyScreen: React.FC<
     navigation.navigate('Room', { room });
   };
 
-  const submitPassword = () => {
-    if (passwordInput === selectedRoom?.password) {
+  const submitPassword = (input: string) => {
+    if (input === selectedRoom?.password) {
       enterRoom(selectedRoom);
     } else {
       setPasswordInputError(true);
@@ -152,21 +150,11 @@ const LobbyScreen: React.FC<
       ) : (
         <></>
       )}
-      <Popup
+      <PasswordPopup
         visible={passwordPopupVisible}
         closeModal={closePasswordPopup}
-        title="Enter password"
-        firstButtonTitle="Submit"
-        secondButtonTitle="Cancel"
-        onPressFirstButton={submitPassword}
-        onPressSecondButton={closePasswordPopup}
-        Content={
-          <InputField
-            value={passwordInput}
-            onChangeText={setPasswordInput}
-            error={passwordInputError}
-          />
-        }
+        error={passwordInputError}
+        onSubmit={submitPassword}
       />
     </ScreenWrapper>
   );

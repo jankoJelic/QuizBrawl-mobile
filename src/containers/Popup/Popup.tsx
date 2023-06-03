@@ -26,7 +26,7 @@ const Popup = ({
     <Modal isVisible={visible} onBackdropPress={closeModal}>
       <TileWrapper style={styles.container}>
         <BodyLarge text={title} weight="bold" style={styles.title} />
-        <BodyMedium text={text} style={styles.text} color="neutral300" />
+        <BodyMedium text={text || ''} style={styles.text} color="neutral300" />
         <View style={{ width: '100%' }}>{Content}</View>
         <View style={styles.buttonsFooter}>
           {!!secondButtonTitle && (
@@ -68,7 +68,7 @@ interface Props {
   visible: boolean;
   closeModal?: () => void;
   title: string;
-  text: string;
+  text?: string;
   firstButtonTitle: string;
   secondButtonTitle?: string;
   onPressFirstButton: () => void;

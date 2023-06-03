@@ -1,3 +1,4 @@
+import { League } from 'services/api/endpoints/leaguesAPI';
 import { Quiz } from 'store/slices/createQuizSlice';
 import { UserData } from 'store/types/authSliceTypes';
 import { Room } from 'store/types/dataSliceTypes';
@@ -31,6 +32,6 @@ export type MainStackParamsList = {
   Results: undefined;
 
   Leagues: undefined;
-  League: undefined;
+  League: { league: League };
   CreateLeague: undefined;
 };

@@ -11,13 +11,17 @@ import { StyleSheet, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { League } from 'services/api/endpoints/leaguesAPI';
 
-const LeagueTile = ({ league }: { league: League }) => {
+const LeagueTile = ({ league, onPress }: Props) => {
   const { styles } = useStyles(createStyles);
   const { image, name, bet, password, users, createdAt, type } = league || {};
   const iconSize = AN(10);
 
+  const onPressMe = () => {
+    onPress(league);
+  };
+
   return (
-    <TileWrapper style={styles.container}>
+    <TileWrapper style={styles.container} onPress={onPressMe}>
       <View style={styles.leftSide}>
         <FastImage style={styles.image} source={{ uri: image }} />
         <View>
@@ -75,3 +79,8 @@ const createStyles = (colors: Colors) =>
   });
 
 export default LeagueTile;
+
+interface Props {
+  league: League;
+  onPress: (league: League) => any;
+}
