@@ -6,11 +6,7 @@ import NavHeader from 'components/layout/NavHeader';
 import CheckboxTile from 'components/tiles/CheckboxTile';
 import BodyLarge from 'components/typography/BodyLarge';
 import { Colors } from 'constants/styles/Colors';
-import {
-  AN,
-  BORDER_RADIUS,
-  PADDING_HORIZONTAL,
-} from 'constants/styles/appStyles';
+import { AN, BORDER_RADIUS } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import TouchableBounce from 'hoc/TouchableBounce';
 import useStyles from 'hooks/styles/useStyles';
@@ -19,16 +15,15 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { useDispatch } from 'react-redux';
-import MyQuizesList from 'screens/menu/ProfileScreen/components/MyQuizesList';
 import API from 'services/api';
 import { LeagueType } from 'services/api/endpoints/leaguesAPI';
-import { useAppSelector } from 'store/index';
+import { store, useAppSelector } from 'store/index';
 import { startLoading, stopLoading } from 'store/slices/appStateSlice';
-import { setLeagueImages } from 'store/slices/leaguesSlice';
+import { setLeagueImages, setLeagues } from 'store/slices/leaguesSlice';
 
 const CreateLeagueScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'CreateLeague'>
-> = () => {
+> = ({ navigation }) => {
   const dispatch = useDispatch();
   const { styles, colors } = useStyles(createStyles);
 
@@ -39,7 +34,7 @@ const CreateLeagueScreen: React.FC<
   const [password, setPassword] = useState('');
   const [image, setImage] = useState('');
   const [bet, setBet] = useState('0');
-  const [type, setType] = useState<LeagueType>('ADMIN');
+  const [type, setType] = useState<LeagueType>('ROUND');
 
   const getLeagueImages = async () => {
     if (leagueImages.length) return;
@@ -73,13 +68,16 @@ const CreateLeagueScreen: React.FC<
   const onPressSubmit = async () => {
     dispatch(startLoading());
     try {
-      await API.createLeague({
+      const league = await API.createLeague({
         bet: Number(bet),
         image,
         name: title,
         password,
         type,
       });
+
+      dispatch(setLeagues(store.getState().leagues.leagues.concat([league])));
+      navigation.navigate('Leagues');
     } catch (error) {
     } finally {
       dispatch(stopLoading());
@@ -133,7 +131,12 @@ const CreateLeagueScreen: React.FC<
           text="ROUND - All users can contribute with quizzes, and participate in all game except the ones they created"
         />
       </ScrollView>
-      <CTA title="Submit" disabled={!title} style={styles.cta} />
+      <CTA
+        title="Submit"
+        disabled={!title || !image}
+        style={styles.cta}
+        onPress={onPressSubmit}
+      />
     </ScreenWrapper>
   );
 };

@@ -37,6 +37,9 @@ export interface League {
   id: number;
   reward: null | Reward;
   bet: number;
+  image: string;
+  password: string;
+  type: LeagueType;
 }
 
 export type LeagueType = 'ADMIN' | 'ROUND';
