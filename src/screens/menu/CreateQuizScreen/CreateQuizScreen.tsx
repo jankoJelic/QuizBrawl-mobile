@@ -27,6 +27,7 @@ import {
   startLoading,
   stopLoading,
 } from 'store/slices/appStateSlice';
+import { addQuiz } from 'store/slices/createQuizSlice';
 import {
   clearCreateQuizInput,
   deleteQuiz,
@@ -102,7 +103,8 @@ const CreateQuizScreen: React.FC<
 
   const submitQuiz = async () => {
     try {
-      await API.createQuiz(payload);
+      const newQuiz = await API.createQuiz(payload);
+      dispatch(addQuiz(newQuiz));
       showSuccessToast();
       navigation.navigate('MyQuizes');
     } catch (error) {

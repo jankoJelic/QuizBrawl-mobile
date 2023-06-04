@@ -76,6 +76,9 @@ const QuizesList = ({ horizontal, onSelectQuiz, data, style = {} }: Props) => {
 
   const renderQuiz = ({ item, index }: { item: Quiz; index: number }) => (
     <TileWrapper
+      onPress={() => {
+        onPressQuiz(item);
+      }}
       style={{
         flexDirection: 'row',
         alignItems: 'center',

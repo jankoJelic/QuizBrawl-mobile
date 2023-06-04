@@ -22,7 +22,7 @@ export type MainStackParamsList = {
   CashGameLobby: undefined;
   SoloLobby: undefined;
 
-  CreateQuiz?: { quiz: Quiz };
+  CreateQuiz?: { quiz?: Quiz; leagueId?: number };
   MyQuizes: undefined;
   CreateRoom: { lobbyId: number };
   Room: { room: Room };

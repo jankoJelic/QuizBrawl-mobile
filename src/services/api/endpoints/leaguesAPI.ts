@@ -28,6 +28,11 @@ const leaguesAPI = {
     const { data } = await get('/leagues');
     return data;
   },
+
+  addQuizToLeague: async (quizId: number, leagueId: number) => {
+    const { data } = await patch(`leagues/${leagueId}/addQuiz/${quizId}`);
+    return data;
+  },
 };
 
 export default leaguesAPI;

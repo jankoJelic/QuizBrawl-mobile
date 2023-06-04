@@ -1,5 +1,4 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import CTA from 'components/buttons/CTA';
 import GhostButton from 'components/buttons/GhostButton/GhostButton';
 import NavHeader from 'components/layout/NavHeader';
 import BodyLarge from 'components/typography/BodyLarge';
@@ -32,7 +31,6 @@ const LeagueScreen: React.FC<
       users,
       type,
       name,
-      password,
       userId,
       totalAnswers,
       correctAnswers,
@@ -54,7 +52,6 @@ const LeagueScreen: React.FC<
 
   const getQuizes = async () => {
     const leagueQuizes = await API.getQuizesForLeague(id);
-    console.log(leagueQuizes);
     setQuizes(leagueQuizes);
   };
 
@@ -111,7 +108,15 @@ const LeagueScreen: React.FC<
     );
   };
 
-  const addQuizToLeague = (quiz: Quiz) => {};
+  const addQuizToLeague = async (quiz: Quiz) => {
+    closeMyQuizesModal();
+    API.addQuizToLeague(quiz.id, id);
+    setQuizes(prevState => prevState.concat([quiz]));
+  };
+
+  const goToCreateNewQuizScreen = () => {
+    navigation.navigate('CreateQuiz', { leagueId: id });
+  };
 
   const renderLeagueInfoHeader = () => (
     <View style={styles.leagueInfoHeader}>
@@ -153,9 +158,9 @@ const LeagueScreen: React.FC<
             />
             <View style={styles.tableHeader}>
               <BodyMedium text="Player" />
-              <BodyMedium text="Games played" />
-              <BodyMedium text="Accuracy" />
-              <BodyMedium text="Points" />
+              <BodyMedium text="GP" />
+              <BodyMedium text="%" />
+              <BodyMedium text="Pts" />
             </View>
           </>
         }
@@ -180,14 +185,15 @@ const LeagueScreen: React.FC<
         }
       />
       <ActionSheet visible={myQuizesModalVisible} close={closeMyQuizesModal}>
-        <QuizesList
-          onSelectQuiz={addQuizToLeague}
-          style={{ marginBottom: AN(80) }}
+        <QuizesList onSelectQuiz={addQuizToLeague} />
+        <GhostButton
+          title="Create new quiz"
+          color="brand500"
+          onPress={goToCreateNewQuizScreen}
         />
         <GhostButton
           title="Close"
           color="danger500"
-          style={commonStyles.ctaFooter}
           onPress={closeMyQuizesModal}
         />
       </ActionSheet>
