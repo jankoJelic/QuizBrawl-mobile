@@ -10,6 +10,7 @@ import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React, { useState } from 'react';
 import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import { Quiz } from 'store/slices/createQuizSlice';
 import { ShallowUser } from 'store/types/authSliceTypes';
 
 const LeagueScreen: React.FC<
@@ -35,6 +36,7 @@ const LeagueScreen: React.FC<
   const { styles, colors } = useStyles(createStyles);
 
   const [selectedUser, setSelectedUser] = useState<ShallowUser>();
+  const [selectedQuiz, setSelectedQuiz] = useState<Quiz>();
 
   const admin = users?.find(u => u.id === userId);
 
@@ -86,29 +88,68 @@ const LeagueScreen: React.FC<
   return (
     <ScreenWrapper>
       <NavHeader title={name} fullWidth />
-      <View style={{ flexDirection: 'row' }}>
-        <FastImage source={{ uri: image }} style={styles.image} />
-        <View>
-          <BodyLarge
-            text={`Admin: ${admin?.firstName}`}
-            style={{ textAlign: 'right' }}
-          />
-          <BodyLarge text={`Type: ${type}`} />
-          <BodyLarge text={`Bet: ${bet}`} style={{ textAlign: 'right' }} />
-          <BodyLarge text={`Reward: ${bet}`} style={{ textAlign: 'right' }} />
-        </View>
-      </View>
-      <BodyLarge text="Standings" style={styles.tableTitle} weight="bold" />
-      <View style={styles.tableHeader}>
-        <BodyMedium text="Player" />
-        <BodyMedium text="Games played" />
-        <BodyMedium text="Accuracy" />
-        <BodyMedium text="Points" />
-      </View>
+
       <FlatList
+        ListHeaderComponent={
+          <>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+              <View style={{ flexDirection: 'row' }}>
+                <FastImage source={{ uri: image }} style={styles.image} />
+                <View>
+                  <BodyLarge
+                    text={`Admin: ${admin?.firstName}`}
+                    style={{ textAlign: 'right' }}
+                  />
+                  <BodyLarge text={`Type: ${type}`} />
+                  <BodyLarge
+                    text={`Bet: ${bet}`}
+                    style={{ textAlign: 'right' }}
+                  />
+                  <BodyLarge
+                    text={`Reward: ${bet}`}
+                    style={{ textAlign: 'right' }}
+                  />
+                </View>
+              </View>
+
+              <View>
+                <BodyMedium text="Next quiz:" style={{ textAlign: 'right' }} />
+                <BodyMedium
+                  text={selectedQuiz ? selectedQuiz.name : 'n/a'}
+                  style={{ textAlign: 'right' }}
+                  color={selectedQuiz ? 'brand500' : 'neutral300'}
+                />
+              </View>
+            </View>
+            <BodyLarge
+              text="Standings"
+              style={styles.tableTitle}
+              weight="bold"
+            />
+            <View style={styles.tableHeader}>
+              <BodyMedium text="Player" />
+              <BodyMedium text="Games played" />
+              <BodyMedium text="Accuracy" />
+              <BodyMedium text="Points" />
+            </View>
+          </>
+        }
         data={users}
         renderItem={renderUser}
         keyExtractor={item => `${item.id}_${item.firstName}_league_standing`}
+        ListFooterComponent={
+          <>
+            <BodyLarge
+              text="Quizzes"
+              style={{ marginTop: AN(10), marginBottom: AN(5) }}
+            />
+          </>
+        }
       />
     </ScreenWrapper>
   );

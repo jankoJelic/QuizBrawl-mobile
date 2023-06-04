@@ -17,7 +17,7 @@ import BodyMedium from 'components/typography/BodyMedium';
 import { Topic } from 'store/types/dataSliceTypes';
 import StatsSection from './components/StatsSection';
 import MyScrollView from 'hoc/MyScrollView';
-import MyQuizesList from './components/MyQuizesList';
+import QuizesList from '../../../containers/lists/QuizesList';
 import ProfileHeader from './components/ProfileHeader';
 
 const ProfileScreen: React.FC<
@@ -71,7 +71,7 @@ const ProfileScreen: React.FC<
               text="Your quizes"
               style={{ marginBottom: AN(6), marginLeft: PADDING_HORIZONTAL }}
             />
-            <MyQuizesList horizontal />
+            <QuizesList horizontal />
           </>
         ) : (
           <View style={{ paddingHorizontal: PADDING_HORIZONTAL }}>

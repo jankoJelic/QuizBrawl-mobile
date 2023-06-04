@@ -16,10 +16,13 @@ import { FlatList } from 'react-native';
 import { useAppSelector } from 'store/index';
 import { Quiz } from 'store/slices/createQuizSlice';
 
-const MyQuizesList = ({ horizontal, onSelectQuiz }: Props) => {
+const QuizesList = ({ horizontal, onSelectQuiz, data }: Props) => {
   const navigation = useMyNavigation();
   const { styles, colors } = useStyles(createStyles);
+
   const { myQuizes } = useAppSelector(state => state.createQuiz);
+
+  const dataToDisplay = data ? data : myQuizes;
 
   const onPressQuiz = (quiz: Quiz) => {
     if (!!onSelectQuiz) {
@@ -62,7 +65,7 @@ const MyQuizesList = ({ horizontal, onSelectQuiz }: Props) => {
   if (horizontal)
     return (
       <FlatList
-        data={myQuizes}
+        data={dataToDisplay}
         renderItem={renderHorizontalQuiz}
         keyExtractor={item => item.id + '_myQuiz_horizontal'}
         horizontal
@@ -80,7 +83,7 @@ const MyQuizesList = ({ horizontal, onSelectQuiz }: Props) => {
 
   return (
     <FlatList
-      data={myQuizes}
+      data={dataToDisplay}
       renderItem={renderQuiz}
       keyExtractor={item => item.id + '_myQuiz'}
       style={styles.list}
@@ -101,9 +104,10 @@ const createStyles = (colors: Colors) =>
     list: { paddingLeft: PADDING_HORIZONTAL, maxHeight: AN(130) },
   });
 
-export default MyQuizesList;
+export default QuizesList;
 
 interface Props {
   horizontal?: boolean;
   onSelectQuiz?: () => any;
+  data?: Quiz[];
 }
