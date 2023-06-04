@@ -36,6 +36,8 @@ export interface League {
   name: string;
   score: null | Record<number, number>;
   gamesPlayed: null | Record<number, number>;
+  correctAnswers: null | Record<number, number>;
+  totalAnswers: null | Record<number, number>;
   users: ShallowUser[] | null;
   userId: number;
   createdAt: string;

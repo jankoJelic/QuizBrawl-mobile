@@ -28,27 +28,58 @@ const LeagueScreen: React.FC<
       name,
       password,
       userId,
+      totalAnswers,
+      correctAnswers,
     },
   } = route.params || {};
   const { styles, colors } = useStyles(createStyles);
 
-  const [selectedUser, setSelectedUser] = useState<ShallowUser>()
+  const [selectedUser, setSelectedUser] = useState<ShallowUser>();
 
   const admin = users?.find(u => u.id === userId);
 
   const renderUser = ({ item }: { item: ShallowUser }) => {
     const myScore = () => {
       if (!!score && item.id in score) {
-        return score[item.id];
+        return String(score[item.id]);
+      } else return '0';
+    };
+
+    const myCorrectAnswers = () => {
+      if (!!correctAnswers && item.id in correctAnswers) {
+        return correctAnswers[item.id];
       } else return 0;
     };
 
-    const onPressPlayer = () => {
+    const myTotalAnswers = () => {
+      if (!!totalAnswers && item.id in totalAnswers) {
+        return totalAnswers[item.id];
+      } else return 0;
+    };
 
-    }
+    const myAccuracy =
+      myTotalAnswers() === 0
+        ? '0'
+        : String(myCorrectAnswers() / myTotalAnswers());
+
+    const myGamesPlayed = () => {
+      if (!!totalAnswers && item.id in totalAnswers) {
+        return String(totalAnswers[item.id]);
+      } else return '0';
+    };
+
+    const onPressPlayer = () => {};
 
     return (
-      <TouchableOpacity style={{ flexDirection: 'row' }}></TouchableOpacity>
+      <TouchableOpacity style={styles.tableRow}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <FastImage style={styles.userAvatar} source={{ uri: item.avatar }} />
+          <BodyMedium text={item.firstName} />
+        </View>
+        <BodyMedium text={myGamesPlayed()} />
+        <BodyMedium text={myAccuracy} />
+        <BodyMedium text={myScore()} />
+      </TouchableOpacity>
     );
   };
 
@@ -69,9 +100,9 @@ const LeagueScreen: React.FC<
       </View>
       <BodyLarge text="Standings" style={styles.tableTitle} weight="bold" />
       <View style={styles.tableHeader}>
-        <BodyMedium text="Avatar" />
-        <BodyMedium text="Player name" />
+        <BodyMedium text="Player" />
         <BodyMedium text="Games played" />
+        <BodyMedium text="Accuracy" />
         <BodyMedium text="Points" />
       </View>
       <FlatList
@@ -96,11 +127,24 @@ const createStyles = (colors: Colors) =>
       borderBottomWidth: 1,
       borderColor: colors.neutral300,
       paddingBottom: AN(10),
+      marginBottom: AN(5),
     },
     tableTitle: {
       textAlign: 'center',
       marginTop: AN(30),
       marginBottom: AN(20),
+    },
+    tableRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingVertical: AN(10),
+    },
+    userAvatar: {
+      width: AN(25),
+      aspectRatio: 1,
+      marginRight: AN(4),
+      borderRadius: AN(25),
     },
   });
 
