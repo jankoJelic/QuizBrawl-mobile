@@ -40,12 +40,18 @@ export type Topic =
 
 export type GameType = 'brawl' | 'classic';
 
+export type MessageType =
+  | 'REWARD'
+  | 'GAME_INVITE'
+  | 'FRIEND_REQUEST'
+  | 'JOIN_LEAGUE_REQUEST';
+
 export interface Message {
   title: string;
   payload?: any;
-  type: 'REWARD' | 'GAME_INVITE' | 'FRIEND_REQUEST';
+  type: MessageType;
   senderId: number;
   createdAt: number;
-  id: string;
-  read: 'true' | 'false';
+  id: number;
+  read: boolean;
 }

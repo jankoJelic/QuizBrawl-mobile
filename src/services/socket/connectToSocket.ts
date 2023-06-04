@@ -166,7 +166,7 @@ export const connectToSocket = (navigation: any) => {
     const friendThatNeedsToBeRemoved = state.data.userData.friends?.find(
       (fr: ShallowUser) => fr?.id == userId,
     );
-    dispatch(removeFriend(friendThatNeedsToBeRemoved as ShallowUser));
+    dispatch(removeFriend(friendThatNeedsToBeRemoved as Partial<UserData>));
   });
 
   SOCKET.on(USER_DISCONNECTED, (userId: number) => {});

@@ -31,7 +31,7 @@ const LeagueScreen: React.FC<
 
   return (
     <ScreenWrapper>
-      <NavHeader title="League" fullWidth />
+      <NavHeader title={name} fullWidth />
       <FastImage
         source={{ uri: image }}
         style={{ width: AN(60), aspectRatio: 1 }}

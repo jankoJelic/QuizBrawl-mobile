@@ -1,4 +1,3 @@
-import { Message } from 'store/types/dataSliceTypes';
 import httpClient from '../httpClient';
 
 const { destroy, patch, get } = httpClient;
@@ -9,15 +8,12 @@ export const messagesAPI = {
     return data;
   },
 
-  respondToFriendRequest: async (message: Message, response: boolean) => {
-    const { data } = await patch('/messages/friendRequest', {
-      response,
-      message,
-    });
-    return data;
+  readMessage: (id: number) => {
+    get('/messages/message/read', { params: { id } });
   },
 
-  readMessage: (id: string) => {
-    get('/messages/message/read', { params: { id } });
+  getMyMessages: async () => {
+    const { data } = await get('/messages');
+    return data;
   },
 };

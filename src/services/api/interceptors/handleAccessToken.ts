@@ -7,7 +7,6 @@ const handleAccessToken = async (request: AxiosRequestConfig) => {
     : await ENCRYPTED_STORAGE.getValue('refreshToken');
 
   if (!!accessToken) request.headers['Authorization'] = `Bearer ${accessToken}`;
-
   return request;
 };
 

@@ -18,7 +18,7 @@ export const usersAPI = {
   },
 
   removeFriend: (id: number) => {
-    destroy('/removeFriend', { params: { id } });
+    destroy('users/removeFriend', { params: { id } });
   },
 
   getFriends: async () => {

@@ -73,7 +73,7 @@ const MessageTile = ({ message }: Props) => {
     }
   };
 
-  const fontWeight = read === 'false' ? 'bold' : 'true';
+  const fontWeight = !read ? 'bold' : 'regular';
 
   return (
     <>

@@ -29,6 +29,7 @@ const Sidebar = ({ children }: Props) => {
   const onClose = () => {
     dispatch(hideSideBar());
   };
+  
 
   const onOpen = () => {};
 

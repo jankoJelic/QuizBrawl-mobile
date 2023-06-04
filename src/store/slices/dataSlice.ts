@@ -226,6 +226,9 @@ export const authSlice = createSlice({
       updatedDailies[action.payload.id] = action.payload.score;
       state.userData.dailies = updatedDailies;
     },
+    setInbox: (state, action) => {
+      state.userData.inbox = action.payload;
+    },
   },
 });
 
@@ -258,6 +261,7 @@ export const {
   updateMoneyBalance,
   storeReward,
   registerDailyResult,
+  setInbox,
 } = authSlice.actions;
 
 export default authSlice.reducer;
