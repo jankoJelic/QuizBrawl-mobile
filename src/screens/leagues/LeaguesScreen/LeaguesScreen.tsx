@@ -1,9 +1,11 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import CTA from 'components/buttons/CTA';
+import InputField from 'components/inputs/InputField';
 import NavHeader from 'components/layout/NavHeader';
 import LeagueTile from 'components/tiles/LeagueTile/LeagueTile';
 import BodyLarge from 'components/typography/BodyLarge';
 import { Colors } from 'constants/styles/Colors';
+import { AN } from 'constants/styles/appStyles';
 import PasswordPopup from 'containers/Popup/PasswordPopup';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
@@ -28,6 +30,12 @@ const LeaguesScreen: React.FC<
   const [passwordModalVisible, setPasswordModalVisible] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [selectedLeague, setSelectedLeague] = useState<League>();
+  const [leaguesToDisplay, setLeaguesToDisplay] = useState<League[]>(leagues);
+  const [searchInput, setSearchInput] = useState('');
+
+  const myLeagues = leagues.filter(
+    l => l.userId === id || l.users?.some(u => u.id === id),
+  );
 
   const closePasswordModal = () => {
     setPasswordModalVisible(false);
@@ -79,11 +87,40 @@ const LeaguesScreen: React.FC<
     getAllLeagues();
   }, []);
 
+  useEffect(() => {
+    if (!searchInput) {
+      setLeaguesToDisplay(leagues);
+    } else {
+      const filteredLeagues = leagues.filter(l =>
+        l.name.toLowerCase().includes(searchInput.toLowerCase()),
+      );
+      setLeaguesToDisplay(filteredLeagues);
+    }
+  }, [searchInput]);
+
   return (
     <ScreenWrapper>
       <NavHeader fullWidth title="Leagues" />
-      <BodyLarge />
-      <FlatList data={leagues} renderItem={renderItem} />
+      <BodyLarge text="My leagues" style={{ marginBottom: AN(10) }} />
+
+      <FlatList
+        data={myLeagues}
+        renderItem={renderItem}
+        keyExtractor={item => item.id + '_myLeague'}
+        style={{ maxHeight: (myLeagues?.length || 0) * 80 }}
+        contentContainerStyle={{ maxHeight: (myLeagues?.length || 0) * 80 }}
+      />
+      <BodyLarge text="All leagues" style={{ top: AN(20) }} />
+      <InputField
+        placeholder="Search..."
+        value={searchInput}
+        onChangeText={setSearchInput}
+      />
+      <FlatList
+        data={leaguesToDisplay}
+        renderItem={renderItem}
+        keyExtractor={item => item.id + '_allLeagues'}
+      />
       <CTA
         title="Create new league"
         onPress={onPressCreateLeague}

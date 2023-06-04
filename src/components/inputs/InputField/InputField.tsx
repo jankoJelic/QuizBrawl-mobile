@@ -61,6 +61,8 @@ const InputField = forwardRef((props: Props, ref) => {
         onBlur={onBlur}
         autoCapitalize={autoCapitalize}
         secureTextEntry={isSecured}
+        placeholder={props.placeholder}
+        placeholderTextColor={colors.neutral300}
         {...props}
       />
       {!!props.icon && (
