@@ -1,5 +1,10 @@
 import React, { useEffect } from 'react';
-import { Alert, SafeAreaView, StatusBar } from 'react-native';
+import {
+  Alert,
+  KeyboardAvoidingView,
+  SafeAreaView,
+  StatusBar,
+} from 'react-native';
 import { useAppSelector } from './src/store';
 import { NavigationContainer } from '@react-navigation/native';
 import MainStackNavigator from './src/navigation/MainStackNavigator';
@@ -17,7 +22,7 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    <>
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
       <NavigationContainer>
         <SafeAreaView style={{ flex: 0, backgroundColor: topColor }} />
         <SafeAreaView style={{ backgroundColor: bottomColor, flex: 1 }}>
@@ -27,7 +32,7 @@ function App(): JSX.Element {
         </SafeAreaView>
         <Toast />
       </NavigationContainer>
-    </>
+    </KeyboardAvoidingView>
   );
 }
 

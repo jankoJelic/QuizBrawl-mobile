@@ -23,6 +23,11 @@ const leaguesAPI = {
     const { data } = await get<string[]>('/leagues/images');
     return data;
   },
+
+  getAllLeagues: async () => {
+    const { data } = await get('/leagues');
+    return data;
+  },
 };
 
 export default leaguesAPI;
