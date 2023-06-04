@@ -5,9 +5,8 @@ import RoundButton from 'components/buttons/RoundButton/RoundButton';
 import NavHeader from 'components/layout/NavHeader';
 import InfoLine from 'components/tiles/InfoLine/InfoLine';
 import UserTile from 'components/tiles/UserTile/UserTile';
-import BodyLarge from 'components/typography/BodyLarge';
 import { AN } from 'constants/styles/appStyles';
-import ActionSheet from 'containers/ActionSheet';
+import UserActionSheet from 'containers/ActionSheet/UserActionSheet';
 import MyScrollView from 'hoc/MyScrollView';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
@@ -18,7 +17,7 @@ import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { useAppSelector } from 'store/index';
 import { startLoading } from 'store/slices/appStateSlice';
 import { removeUserFromRoom } from 'store/slices/dataSlice';
-import { UserData } from 'store/types/authSliceTypes';
+import { ShallowUser, UserData } from 'store/types/authSliceTypes';
 import { Room } from 'store/types/dataSliceTypes';
 
 const RoomScreen: React.FC<
@@ -36,7 +35,6 @@ const RoomScreen: React.FC<
     users,
     questionsCount,
     topic,
-    password,
     answerTime,
     readyUsers,
     hostName,
@@ -45,7 +43,7 @@ const RoomScreen: React.FC<
   const isRoomAdmin = userId === userData.id;
 
   const [userActionSheetVisible, setUserActionSheetVisible] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<UserData>();
+  const [selectedUser, setSelectedUser] = useState<ShallowUser>();
 
   const youAreSelected = selectedUser?.id === userData.id;
 
@@ -150,44 +148,34 @@ const RoomScreen: React.FC<
           <></>
         )}
       </MyScrollView>
-      <ActionSheet
+      <UserActionSheet
         visible={userActionSheetVisible && !!selectedUser}
-        close={closeUserActionSheet}>
-        <BodyLarge
-          text={`${selectedUser?.firstName} ${selectedUser?.lastName}`}
-          weight="bold"
-          style={{ marginBottom: AN(24) }}
-        />
-        <InfoLine title="Level" value={String(selectedUser?.level)} />
-        <InfoLine
-          title="Accuracy"
-          value={String(selectedUser?.accuracyPercentage) + '%'}
-        />
-        <InfoLine
-          title="Favourite topic"
-          value={selectedUser?.favouriteTopic}
-        />
-        <InfoLine title="Rank" value={String(selectedUser?.rank)} />
-        {youAreSelected ? (
-          <></>
-        ) : (
-          <GhostButton
-            title="+ Send friend request"
-            onPress={sendFriendRequest}
-          />
-        )}
-        {isRoomAdmin && !youAreSelected ? (
+        closeModal={closeUserActionSheet}
+        selectedUser={selectedUser}
+        AdditionalContent={
           <>
-            <GhostButton
-              title="Kick from room"
-              onPress={kickPlayerFromRoom}
-              color="danger500"
-            />
+            {youAreSelected ? (
+              <></>
+            ) : (
+              <GhostButton
+                title="+ Send friend request"
+                onPress={sendFriendRequest}
+              />
+            )}
+            {isRoomAdmin && !youAreSelected ? (
+              <>
+                <GhostButton
+                  title="Kick from room"
+                  onPress={kickPlayerFromRoom}
+                  color="danger500"
+                />
+              </>
+            ) : (
+              <></>
+            )}
           </>
-        ) : (
-          <></>
-        )}
-      </ActionSheet>
+        }
+      />
     </ScreenWrapper>
   );
 };
