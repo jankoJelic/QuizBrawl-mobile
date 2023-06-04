@@ -1,15 +1,20 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import CTA from 'components/buttons/CTA';
+import GhostButton from 'components/buttons/GhostButton/GhostButton';
 import NavHeader from 'components/layout/NavHeader';
 import BodyLarge from 'components/typography/BodyLarge';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Colors } from 'constants/styles/Colors';
 import { AN, SCREEN_WIDTH } from 'constants/styles/appStyles';
+import ActionSheet from 'containers/ActionSheet';
+import QuizesList from 'containers/lists/QuizesList';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import API from 'services/api';
 import { Quiz } from 'store/slices/createQuizSlice';
 import { ShallowUser } from 'store/types/authSliceTypes';
 
@@ -31,14 +36,35 @@ const LeagueScreen: React.FC<
       userId,
       totalAnswers,
       correctAnswers,
+      id,
     },
   } = route.params || {};
-  const { styles, colors } = useStyles(createStyles);
+  const { styles, commonStyles } = useStyles(createStyles);
 
   const [selectedUser, setSelectedUser] = useState<ShallowUser>();
   const [selectedQuiz, setSelectedQuiz] = useState<Quiz>();
+  const [quizes, setQuizes] = useState<Quiz[]>([]);
+  const [myQuizesModalVisible, setMyQuizesModalVisible] = useState(false);
+
+  const closeMyQuizesModal = () => {
+    setMyQuizesModalVisible(false);
+  };
 
   const admin = users?.find(u => u.id === userId);
+
+  const getQuizes = async () => {
+    const leagueQuizes = await API.getQuizesForLeague(id);
+    console.log(leagueQuizes);
+    setQuizes(leagueQuizes);
+  };
+
+  useEffect(() => {
+    getQuizes();
+  }, []);
+
+  const onPressAddQuiz = () => {
+    setMyQuizesModalVisible(true);
+  };
 
   const renderUser = ({ item }: { item: ShallowUser }) => {
     const myScore = () => {
@@ -61,8 +87,8 @@ const LeagueScreen: React.FC<
 
     const myAccuracy =
       myTotalAnswers() === 0
-        ? '0'
-        : String(myCorrectAnswers() / myTotalAnswers());
+        ? '0.00'
+        : (myCorrectAnswers() / myTotalAnswers()).toFixed(2);
 
     const myGamesPlayed = () => {
       if (!!totalAnswers && item.id in totalAnswers) {
@@ -79,11 +105,38 @@ const LeagueScreen: React.FC<
           <BodyMedium text={item.firstName} />
         </View>
         <BodyMedium text={myGamesPlayed()} />
-        <BodyMedium text={myAccuracy} />
+        <BodyMedium text={myAccuracy + '%'} />
         <BodyMedium text={myScore()} />
       </TouchableOpacity>
     );
   };
+
+  const addQuizToLeague = (quiz: Quiz) => {};
+
+  const renderLeagueInfoHeader = () => (
+    <View style={styles.leagueInfoHeader}>
+      <View style={{ flexDirection: 'row' }}>
+        <FastImage source={{ uri: image }} style={styles.image} />
+        <View>
+          <BodyLarge
+            text={`Admin: ${admin?.firstName}`}
+            style={styles.alignTextRight}
+          />
+          <BodyLarge text={`Type: ${type}`} />
+          <BodyLarge text={`Bet: ${bet}`} style={styles.alignTextRight} />
+          <BodyLarge text={`Reward: ${bet}`} style={styles.alignTextRight} />
+        </View>
+      </View>
+      <View>
+        <BodyMedium text="Next quiz:" style={styles.alignTextRight} />
+        <BodyMedium
+          text={selectedQuiz ? selectedQuiz.name : 'n/a'}
+          style={styles.alignTextRight}
+          color={selectedQuiz ? 'brand500' : 'neutral300'}
+        />
+      </View>
+    </View>
+  );
 
   return (
     <ScreenWrapper>
@@ -92,40 +145,7 @@ const LeagueScreen: React.FC<
       <FlatList
         ListHeaderComponent={
           <>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <View style={{ flexDirection: 'row' }}>
-                <FastImage source={{ uri: image }} style={styles.image} />
-                <View>
-                  <BodyLarge
-                    text={`Admin: ${admin?.firstName}`}
-                    style={{ textAlign: 'right' }}
-                  />
-                  <BodyLarge text={`Type: ${type}`} />
-                  <BodyLarge
-                    text={`Bet: ${bet}`}
-                    style={{ textAlign: 'right' }}
-                  />
-                  <BodyLarge
-                    text={`Reward: ${bet}`}
-                    style={{ textAlign: 'right' }}
-                  />
-                </View>
-              </View>
-
-              <View>
-                <BodyMedium text="Next quiz:" style={{ textAlign: 'right' }} />
-                <BodyMedium
-                  text={selectedQuiz ? selectedQuiz.name : 'n/a'}
-                  style={{ textAlign: 'right' }}
-                  color={selectedQuiz ? 'brand500' : 'neutral300'}
-                />
-              </View>
-            </View>
+            {renderLeagueInfoHeader()}
             <BodyLarge
               text="Standings"
               style={styles.tableTitle}
@@ -148,9 +168,29 @@ const LeagueScreen: React.FC<
               text="Quizzes"
               style={{ marginTop: AN(10), marginBottom: AN(5) }}
             />
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <GhostButton
+                title="+ Add"
+                style={{ width: AN(80) }}
+                onPress={onPressAddQuiz}
+              />
+              <QuizesList horizontal data={quizes} />
+            </View>
           </>
         }
       />
+      <ActionSheet visible={myQuizesModalVisible} close={closeMyQuizesModal}>
+        <QuizesList
+          onSelectQuiz={addQuizToLeague}
+          style={{ marginBottom: AN(80) }}
+        />
+        <GhostButton
+          title="Close"
+          color="danger500"
+          style={commonStyles.ctaFooter}
+          onPress={closeMyQuizesModal}
+        />
+      </ActionSheet>
     </ScreenWrapper>
   );
 };
@@ -187,6 +227,12 @@ const createStyles = (colors: Colors) =>
       marginRight: AN(4),
       borderRadius: AN(25),
     },
+    leagueInfoHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    alignTextRight: { textAlign: 'right' },
   });
 
 export default LeagueScreen;

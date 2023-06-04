@@ -1,6 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import NavHeader from 'components/layout/NavHeader';
 import { Colors } from 'constants/styles/Colors';
+import QuizesList from 'containers/lists/QuizesList';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
@@ -17,6 +18,7 @@ const MyQuizesScreen: React.FC<
   return (
     <ScreenWrapper>
       <NavHeader title="My quizes" />
+      <QuizesList />
     </ScreenWrapper>
   );
 };

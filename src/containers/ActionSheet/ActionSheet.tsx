@@ -10,8 +10,8 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import ReactNativeModal from 'react-native-modal';
 
-const ActionSheet = ({ visible, close, children }: Props) => {
-  const { styles, colors } = useStyles(createStyles);
+const ActionSheet = ({ visible, close, children, style = {} }: Props) => {
+  const { styles } = useStyles(createStyles);
 
   return (
     <ReactNativeModal
@@ -19,36 +19,38 @@ const ActionSheet = ({ visible, close, children }: Props) => {
       onBackdropPress={close}
       useNativeDriver
       useNativeDriverForBackdrop
-      style={{
-        position: 'absolute',
-        bottom: 10,
-        backgroundColor: colors.tileBackground,
-        width: SCREEN_WIDTH,
-        alignSelf: 'center',
-        borderTopLeftRadius: BORDER_RADIUS,
-        borderTopRightRadius: BORDER_RADIUS,
-        alignItems: 'center',
-        paddingHorizontal: PADDING_HORIZONTAL,
-        paddingBottom: AN(24),
-      }}
+      style={[styles.modal, style]}
       animationIn="bounceInUp">
-      <View
-        style={{
-          width: AN(60),
-          height: AN(4),
-          borderRadius: BORDER_RADIUS,
-          alignSelf: 'center',
-          marginTop: AN(11),
-          backgroundColor: colors.neutral400,
-          marginBottom: AN(22),
-        }}
-      />
+      <View style={styles.modalContent} />
       {children}
     </ReactNativeModal>
   );
 };
 
-const createStyles = (colors: Colors) => StyleSheet.create({});
+const createStyles = (colors: Colors) =>
+  StyleSheet.create({
+    modal: {
+      position: 'absolute',
+      bottom: 10,
+      backgroundColor: colors.tileBackground,
+      width: SCREEN_WIDTH,
+      alignSelf: 'center',
+      borderTopLeftRadius: BORDER_RADIUS,
+      borderTopRightRadius: BORDER_RADIUS,
+      alignItems: 'center',
+      paddingHorizontal: PADDING_HORIZONTAL,
+      paddingBottom: AN(24),
+    },
+    modalContent: {
+      width: AN(60),
+      height: AN(4),
+      borderRadius: BORDER_RADIUS,
+      alignSelf: 'center',
+      marginTop: AN(11),
+      backgroundColor: colors.neutral400,
+      marginBottom: AN(22),
+    },
+  });
 
 export default ActionSheet;
 
@@ -56,4 +58,5 @@ interface Props {
   visible: boolean;
   close: () => void;
   children: JSX.Element | JSX.Element[];
+  style?: {};
 }

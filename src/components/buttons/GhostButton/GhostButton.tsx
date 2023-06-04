@@ -1,4 +1,3 @@
-import { SvgIcon } from 'assets/icons';
 import MyIcon, { IconName } from 'assets/icons/MyIcon';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Color, Colors } from 'constants/styles/Colors';
@@ -14,6 +13,7 @@ const GhostButton = ({
   color = 'brand500',
   iconName = '',
   iconColor = 'neutral300',
+  style = {},
 }: Props) => {
   const { colors, styles } = useStyles(createStyles);
 
@@ -28,7 +28,7 @@ const GhostButton = ({
     <TouchableOpacity
       activeOpacity={0.75}
       onPress={onPress}
-      style={{ ...styles.container, borderColor: colors[color] }}>
+      style={{ ...styles.container, borderColor: colors[color], ...style }}>
       {renderIcon()}
       <BodyMedium text={title} color={color} weight="bold" />
     </TouchableOpacity>
@@ -58,4 +58,5 @@ interface Props {
   color?: Color;
   iconName?: IconName | '';
   iconColor?: Color;
+  style?: {};
 }

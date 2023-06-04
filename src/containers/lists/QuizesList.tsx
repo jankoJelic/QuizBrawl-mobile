@@ -11,12 +11,12 @@ import TileWrapper from 'hoc/TileWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { useMyNavigation } from 'navigation/hooks/useMyNavigation';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { FlatList } from 'react-native';
 import { useAppSelector } from 'store/index';
 import { Quiz } from 'store/slices/createQuizSlice';
 
-const QuizesList = ({ horizontal, onSelectQuiz, data }: Props) => {
+const QuizesList = ({ horizontal, onSelectQuiz, data, style = {} }: Props) => {
   const navigation = useMyNavigation();
   const { styles, colors } = useStyles(createStyles);
 
@@ -26,13 +26,13 @@ const QuizesList = ({ horizontal, onSelectQuiz, data }: Props) => {
 
   const onPressQuiz = (quiz: Quiz) => {
     if (!!onSelectQuiz) {
-      onSelectQuiz();
+      onSelectQuiz(quiz);
       return;
     } else navigation.navigate('CreateQuiz', { quiz });
   };
 
   const renderQuizInfo = (item: Quiz) => (
-    <>
+    <View>
       <BodyMedium
         weight="bold"
         text={item.name}
@@ -48,7 +48,7 @@ const QuizesList = ({ horizontal, onSelectQuiz, data }: Props) => {
         text={`${String(item.answerTime)} seconds`}
         color="neutral300"
       />
-    </>
+    </View>
   );
 
   const renderHorizontalQuiz = ({ item }: { item: Quiz }) => (
@@ -69,14 +69,23 @@ const QuizesList = ({ horizontal, onSelectQuiz, data }: Props) => {
         renderItem={renderHorizontalQuiz}
         keyExtractor={item => item.id + '_myQuiz_horizontal'}
         horizontal
-        style={styles.list}
+        style={[styles.list, style]}
         key="horizontalQuizzesList"
       />
     );
 
-  const renderQuiz = ({ item }: { item: Quiz }) => (
-    <TileWrapper style={{ flexDirection: 'row', alignItems: 'center' }}>
-      <TopicIcon topic={item.topic} style={{ width: AN(35), height: AN(35) }} />
+  const renderQuiz = ({ item, index }: { item: Quiz; index: number }) => (
+    <TileWrapper
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: AN(10),
+        marginRight: index % 2 !== 0 ? 0 : AN(20),
+      }}>
+      <TopicIcon
+        topic={item.topic}
+        style={{ width: AN(35), height: AN(35), marginRight: AN(20) }}
+      />
       {renderQuizInfo(item)}
     </TileWrapper>
   );
@@ -86,8 +95,9 @@ const QuizesList = ({ horizontal, onSelectQuiz, data }: Props) => {
       data={dataToDisplay}
       renderItem={renderQuiz}
       keyExtractor={item => item.id + '_myQuiz'}
-      style={styles.list}
+      style={[styles.verticalList, style]}
       key="quizzesList"
+      numColumns={2}
     />
   );
 };
@@ -102,12 +112,14 @@ const createStyles = (colors: Colors) =>
     },
     horizontalTopicIcon: { width: AN(30), height: AN(30) },
     list: { paddingLeft: PADDING_HORIZONTAL, maxHeight: AN(130) },
+    verticalList: { width: '100%' },
   });
 
 export default QuizesList;
 
 interface Props {
   horizontal?: boolean;
-  onSelectQuiz?: () => any;
+  onSelectQuiz?: (quiz: Quiz) => any;
   data?: Quiz[];
+  style?: {};
 }

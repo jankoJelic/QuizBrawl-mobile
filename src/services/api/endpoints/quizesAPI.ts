@@ -7,7 +7,12 @@ const { get, post, patch, destroy } = httpClient;
 
 const quizesAPI = {
   getMyQuizes: async () => {
-    const { data } = await get<Quiz[]>('/quizes');
+    const { data } = await get<Quiz[]>('/quizes/my');
+    return data;
+  },
+
+  getQuizesForLeague: async (leagueId: number) => {
+    const { data } = await get(`quizes/league/${String(leagueId)}`);
     return data;
   },
 
@@ -37,4 +42,8 @@ interface CreateQuizBody {
   questions: Question[];
   answerTime: number;
   topic: Topic;
+}
+
+interface GetQuizesParams {
+  league?: number;
 }
