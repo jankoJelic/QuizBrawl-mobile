@@ -30,6 +30,7 @@ import {
   stopLoading,
 } from 'store/slices/appStateSlice';
 import { useIsFocused } from '@react-navigation/native';
+import { removeDuplicatesFromArray } from 'util/array/removeDuplicatesFromArray';
 
 const LeagueScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'League'>
@@ -110,7 +111,9 @@ const LeagueScreen: React.FC<
   const getLeague = async () => {
     const updatedLeague = await API.getLeague(id);
     setLeague(updatedLeague);
-    if (!readyUsers.includes(userData.id)) markUserAsReady(userData.id);
+
+    if (!updatedLeague.readyUsers.includes(userData.id))
+      markUserAsReady(userData.id);
   };
 
   const addUserToRoom = (user: ShallowUser) => {
@@ -123,10 +126,16 @@ const LeagueScreen: React.FC<
 
   const markUserAsReady = (userId: number) => {
     if (readyUsers.includes(userId)) return;
-    setLeague(prevState => ({
-      ...prevState,
-      readyUsers: (prevState?.readyUsers || []).concat([userId]),
-    }));
+    setLeague(prevState => {
+      const updatedReadyUsers = removeDuplicatesFromArray(
+        (prevState?.readyUsers || []).concat([userId]),
+      );
+
+      return {
+        ...prevState,
+        readyUsers: updatedReadyUsers,
+      };
+    });
   };
 
   const markUserAsNotReady = (userId: number) => {
@@ -141,13 +150,13 @@ const LeagueScreen: React.FC<
 
   const connectToLeagueSocket = () => {
     SOCKET.on(SOCKET_EVENTS.USER_JOINED_LEAGUE_ROOM, (user: ShallowUser) => {
-      if (readyUsers.includes(user.id)) return;
       if (userInLeague(user.id)) {
         markUserAsReady(user.id);
       } else {
         addUserToRoom(user);
       }
     });
+
     SOCKET.on(SOCKET_EVENTS.USER_JOINED_LEAGUE, (user: ShallowUser) => {
       addUserToRoom(user);
     });
@@ -288,8 +297,6 @@ const LeagueScreen: React.FC<
 
   const startGameEnabled =
     readyUsers?.length === users?.length && !!selectedQuiz;
-
-  console.log(readyUsers);
 
   const setNextQuiz = (quiz: Quiz) => {
     if (nextQuizUserId === userData.id) {
