@@ -29,11 +29,13 @@ import {
   startLoading,
   stopLoading,
 } from 'store/slices/appStateSlice';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 
 const LeagueScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'League'>
 > = ({ navigation, route }) => {
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
   const { userData } = useAppSelector(state => state.data);
 
   const { styles, commonStyles } = useStyles(createStyles);
@@ -136,9 +138,7 @@ const LeagueScreen: React.FC<
   const userInLeague = (userId: number) =>
     league?.users?.some(u => u.id === userId);
 
-  useEffect(() => {
-    getQuizes();
-    getLeague();
+  const connectToLeagueSocket = () => {
     SOCKET.on(SOCKET_EVENTS.USER_JOINED_LEAGUE_ROOM, (user: ShallowUser) => {
       if (userInLeague(user.id)) {
         markUserAsReady(user.id);
@@ -150,9 +150,12 @@ const LeagueScreen: React.FC<
       addUserToRoom(user);
     });
 
-    SOCKET.on(SOCKET_EVENTS.USER_LEFT_LEAGUE_ROOM, (user: ShallowUser) => {
-      markUserAsNotReady(user.id);
-    });
+    SOCKET.on(
+      SOCKET_EVENTS.USER_LEFT_LEAGUE_ROOM,
+      (payload: { userId: number }) => {
+        markUserAsNotReady(payload.userId);
+      },
+    );
 
     SOCKET.on(SOCKET_EVENTS.NEXT_QUIZ_SELECTED, (payload: { quiz: Quiz }) => {
       setLeague(prevState => ({
@@ -163,7 +166,28 @@ const LeagueScreen: React.FC<
     });
 
     SOCKET.emit(SOCKET_EVENTS.USER_JOINED_LEAGUE_ROOM, { leagueId: id });
-  }, []);
+  };
+
+  const disconnectFromLeagueSocket = () => {
+    SOCKET.emit(SOCKET_EVENTS.USER_LEFT_LEAGUE_ROOM, {
+      leagueId: id,
+      userId: userData.id,
+    });
+    SOCKET.off(SOCKET_EVENTS.USER_JOINED_LEAGUE);
+    SOCKET.off(SOCKET_EVENTS.USER_JOINED_LEAGUE_ROOM);
+    SOCKET.off(SOCKET_EVENTS.USER_LEFT_LEAGUE_ROOM);
+    SOCKET.off(SOCKET_EVENTS.NEXT_QUIZ_SELECTED);
+  };
+
+  useEffect(() => {
+    getQuizes();
+    getLeague();
+    connectToLeagueSocket();
+
+    return () => {
+      disconnectFromLeagueSocket();
+    };
+  }, [isFocused]);
 
   const onPressAddQuiz = () => {
     setMyQuizesModalVisible(true);
