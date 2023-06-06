@@ -24,7 +24,11 @@ import { Quiz } from 'store/slices/createQuizSlice';
 import { ShallowUser } from 'store/types/authSliceTypes';
 import LeagueInfoHeader from './components/LeagueInfoHeader';
 import { League } from 'services/api/endpoints/leaguesAPI';
-import { startLoading, stopLoading } from 'store/slices/appStateSlice';
+import {
+  showToast,
+  startLoading,
+  stopLoading,
+} from 'store/slices/appStateSlice';
 
 const LeagueScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'League'>
@@ -260,10 +264,19 @@ const LeagueScreen: React.FC<
     league?.readyUsers?.length === users?.length && !!selectedQuiz;
 
   const setNextQuiz = (quiz: Quiz) => {
-    SOCKET.emit(SOCKET_EVENTS.NEXT_QUIZ_SELECTED, {
-      leagueId: id,
-      quiz,
-    });
+    if (nextQuizUserId === userData.id) {
+      SOCKET.emit(SOCKET_EVENTS.NEXT_QUIZ_SELECTED, {
+        leagueId: id,
+        quiz,
+      });
+    } else {
+      dispatch(
+        showToast({
+          text: 'It is not your turn to set next quiz',
+          type: 'error',
+        }),
+      );
+    }
   };
 
   return (
