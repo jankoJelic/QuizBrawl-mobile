@@ -202,18 +202,28 @@ const LeagueScreen: React.FC<
 
     const onPressPlayer = () => {};
 
+    const rowColor = item.id === userData.id ? 'brand500' : 'mainTextColor';
+
     return (
       <TouchableOpacity style={styles.tableRow}>
         <View style={styles.userCell}>
           <FastImage style={styles.userAvatar} source={{ uri: item.avatar }} />
-          <BodyMedium text={item.firstName + '  '} />
+          <BodyMedium text={item.firstName + '  '} color={rowColor} />
           {(readyUsers?.includes(item.id) || item.id === userData.id) && (
             <MyIcon name="check-circle" size={AN(14)} color="success400" />
           )}
         </View>
-        <BodyMedium text={myGamesPlayed()} style={styles.cell} />
-        <BodyMedium text={myAccuracy + '%'} style={styles.cell} />
-        <BodyMedium text={myScore()} style={styles.cell} />
+        <BodyMedium
+          text={myGamesPlayed()}
+          style={styles.cell}
+          color={rowColor}
+        />
+        <BodyMedium
+          text={myAccuracy + '%'}
+          style={styles.cell}
+          color={rowColor}
+        />
+        <BodyMedium text={myScore()} style={styles.cell} color={rowColor} />
       </TouchableOpacity>
     );
   };
