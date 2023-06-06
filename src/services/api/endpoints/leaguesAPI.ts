@@ -10,12 +10,17 @@ const leaguesAPI = {
     return data;
   },
 
+  getLeague: async (id: number) => {
+    const { data } = await get(`/leagues/league/${id}`);
+    return data;
+  },
+
   getMyLeagues: async () => {
     const { data } = await get<League[]>('/leagues/my');
     return data;
   },
 
-  deleteLeagues: async (id: number) => {
+  deleteLeague: async (id: number) => {
     destroy(`leagues/${id}`);
   },
 
@@ -31,6 +36,11 @@ const leaguesAPI = {
 
   addQuizToLeague: async (quizId: number, leagueId: number) => {
     const { data } = await patch(`leagues/${leagueId}/addQuiz/${quizId}`);
+    return data;
+  },
+
+  addUserToLeague: async (userId: number, leagueId: number) => {
+    const { data } = await patch(`leagues/${leagueId}/addUser/${userId}`);
     return data;
   },
 };
@@ -52,6 +62,8 @@ export interface League {
   image: string;
   password: string;
   type: LeagueType;
+  nextQuizUserId: number;
+  readyUsers: number[];
 }
 
 export type LeagueType = 'ADMIN' | 'ROUND';

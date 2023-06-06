@@ -97,4 +97,5 @@ export interface Quiz {
   answerTime: number;
   topic: Topic;
   id: number;
+  userId: number;
 }

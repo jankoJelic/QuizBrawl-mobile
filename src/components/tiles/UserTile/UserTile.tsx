@@ -18,7 +18,7 @@ const UserTile = ({
   onPress = () => {},
   isOnline,
 }: Props) => {
-  const { styles } = useStyles(createStyles);
+  const { styles, commonStyles } = useStyles(createStyles);
 
   const rightSideText = !!score ? `${String(score)} pts` : `lvl ${user.level}`;
 
@@ -47,7 +47,7 @@ const UserTile = ({
             />
           </>
         )}
-        {isOnline && <View style={styles.onlineIndicator} />}
+        {isOnline && <View style={commonStyles.onlineIndicator} />}
         <Tag text={rightSideText} color="brand500" />
       </View>
     </TileWrapper>
@@ -62,13 +62,6 @@ const createStyles = (colors: Colors) =>
       justifyContent: 'space-between',
       paddingHorizontal: PADDING_HORIZONTAL,
       marginVertical: AN(2),
-    },
-    onlineIndicator: {
-      backgroundColor: colors.success500,
-      width: AN(7),
-      aspectRatio: 1,
-      borderRadius: AN(7),
-      marginRight: AN(6),
     },
   });
 

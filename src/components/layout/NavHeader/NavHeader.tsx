@@ -15,6 +15,7 @@ const NavHeader = ({
   style = {},
   onPressLeftIcon,
   onPressRightIcon,
+  RightIcon,
 }: Props) => {
   const { styles } = useStyles(createStyles);
   const navigation = useMyNavigation();
@@ -44,13 +45,17 @@ const NavHeader = ({
         style={{ opacity: showLeftIcon ? 1 : 0 }}
       />
       <Title text={title} color="mainTextColor" />
-      <FeatherIcon
-        name="x"
-        size={iconSize}
-        onPress={onPressRightArrow}
-        color="mainTextColor"
-        style={{ opacity: showRightIcon ? 1 : 0 }}
-      />
+      {!!RightIcon ? (
+        RightIcon
+      ) : (
+        <FeatherIcon
+          name="x"
+          size={iconSize}
+          onPress={onPressRightArrow}
+          color="mainTextColor"
+          style={{ opacity: showRightIcon ? 1 : 0 }}
+        />
+      )}
     </View>
   );
 };
@@ -76,4 +81,5 @@ interface Props {
   style?: {};
   onPressLeftIcon?: () => void;
   onPressRightIcon?: () => void;
+  RightIcon?: JSX.Element;
 }

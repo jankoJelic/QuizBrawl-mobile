@@ -113,6 +113,8 @@ export type IconName =
   | 'x'
   | 'eye'
   | 'eye-off'
+  | 'more-horizontal'
+  | 'trash'
   | 'log-out'
   | 'shopping-cart'
   | 'clock'

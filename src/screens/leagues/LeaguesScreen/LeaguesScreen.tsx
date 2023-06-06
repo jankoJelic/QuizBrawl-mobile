@@ -27,8 +27,6 @@ const LeaguesScreen: React.FC<
   const { leagues } = useAppSelector(state => state.leagues);
   const { id } = useAppSelector(state => state.data.userData);
 
-  const [passwordModalVisible, setPasswordModalVisible] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
   const [selectedLeague, setSelectedLeague] = useState<League>();
   const [leaguesToDisplay, setLeaguesToDisplay] = useState<League[]>(leagues);
   const [searchInput, setSearchInput] = useState('');
@@ -36,11 +34,6 @@ const LeaguesScreen: React.FC<
   const myLeagues = leagues.filter(
     l => l.userId === id || l.users?.some(u => u.id === id),
   );
-
-  const closePasswordModal = () => {
-    setPasswordModalVisible(false);
-    setPasswordError(false);
-  };
 
   const onPressCreateLeague = () => {
     navigation.navigate('CreateLeague');
@@ -51,21 +44,7 @@ const LeaguesScreen: React.FC<
   };
 
   const onPressLeague = (league: League) => {
-    if (league.password && league.userId !== id) {
-      setSelectedLeague(league);
-      setPasswordModalVisible(true);
-    } else {
-      goToLeague(league);
-    }
-  };
-
-  const onSubmitPassword = (password: string) => {
-    if (password === selectedLeague?.password) {
-      closePasswordModal();
-      goToLeague(selectedLeague);
-    } else {
-      setPasswordError(true);
-    }
+    goToLeague(league);
   };
 
   const renderItem = ({ item }: { item: League }) => (
@@ -76,7 +55,9 @@ const LeaguesScreen: React.FC<
     try {
       dispatch(startLoading());
       const allLeagues = await API.getAllLeagues();
+
       dispatch(setLeagues(allLeagues));
+      setLeaguesToDisplay(allLeagues);
     } catch (error) {
     } finally {
       dispatch(stopLoading());
@@ -125,12 +106,6 @@ const LeaguesScreen: React.FC<
         title="Create new league"
         onPress={onPressCreateLeague}
         style={commonStyles.ctaFooter}
-      />
-      <PasswordPopup
-        visible={passwordModalVisible}
-        closeModal={closePasswordModal}
-        error={passwordError}
-        onSubmit={onSubmitPassword}
       />
     </ScreenWrapper>
   );

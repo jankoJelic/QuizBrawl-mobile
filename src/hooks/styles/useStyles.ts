@@ -9,6 +9,7 @@ interface Styles<T extends StyleSheet.NamedStyles<T>> {
   styles: T;
   commonStyles: {
     ctaFooter: {};
+    onlineIndicator: {};
   };
 }
 
@@ -22,6 +23,13 @@ export default function <T extends StyleSheet.NamedStyles<T>>(
     styles: useMemo(() => createStyle(colors), [colors, createStyle]),
     commonStyles: {
       ctaFooter: { position: 'absolute', bottom: AN(10), alignSelf: 'center' },
+      onlineIndicator: {
+        backgroundColor: colors.success500,
+        width: AN(7),
+        aspectRatio: 1,
+        borderRadius: AN(7),
+        marginRight: AN(6),
+      },
     },
   };
 }
