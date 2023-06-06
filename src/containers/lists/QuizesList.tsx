@@ -16,7 +16,13 @@ import { FlatList } from 'react-native';
 import { useAppSelector } from 'store/index';
 import { Quiz } from 'store/slices/createQuizSlice';
 
-const QuizesList = ({ horizontal, onSelectQuiz, data, style = {} }: Props) => {
+const QuizesList = ({
+  horizontal,
+  onSelectQuiz,
+  data,
+  style = {},
+  selectedQuizId,
+}: Props) => {
   const navigation = useMyNavigation();
   const { styles, colors } = useStyles(createStyles);
 
@@ -51,16 +57,22 @@ const QuizesList = ({ horizontal, onSelectQuiz, data, style = {} }: Props) => {
     </View>
   );
 
-  const renderHorizontalQuiz = ({ item }: { item: Quiz }) => (
-    <TileWrapper
-      style={styles.horizontalListItemContainer}
-      onPress={() => {
-        onPressQuiz(item);
-      }}>
-      <TopicIcon style={styles.horizontalTopicIcon} topic={item.topic} />
-      {renderQuizInfo(item)}
-    </TileWrapper>
-  );
+  const renderHorizontalQuiz = ({ item }: { item: Quiz }) => {
+    const isSelected = selectedQuizId === item.id;
+    return (
+      <TileWrapper
+        style={{
+          ...styles.horizontalListItemContainer,
+          ...(isSelected && { borderColor: colors.brand500, borderWidth: 1 }),
+        }}
+        onPress={() => {
+          onPressQuiz(item);
+        }}>
+        <TopicIcon style={styles.horizontalTopicIcon} topic={item.topic} />
+        {renderQuizInfo(item)}
+      </TileWrapper>
+    );
+  };
 
   if (horizontal)
     return (
@@ -125,4 +137,5 @@ interface Props {
   onSelectQuiz?: (quiz: Quiz) => any;
   data?: Quiz[];
   style?: {};
+  selectedQuizId?: number;
 }

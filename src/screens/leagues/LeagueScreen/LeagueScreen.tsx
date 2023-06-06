@@ -6,7 +6,7 @@ import NavHeader from 'components/layout/NavHeader';
 import BodyLarge from 'components/typography/BodyLarge';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Colors } from 'constants/styles/Colors';
-import { AN, SCREEN_WIDTH } from 'constants/styles/appStyles';
+import { AN } from 'constants/styles/appStyles';
 import ActionSheet from 'containers/ActionSheet';
 import PasswordPopup from 'containers/Popup/PasswordPopup';
 import QuizesList from 'containers/lists/QuizesList';
@@ -38,10 +38,11 @@ const LeagueScreen: React.FC<
   const [passwordModalVisible, setPasswordModalVisible] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [selectedUser, setSelectedUser] = useState<ShallowUser>();
-  const [selectedQuiz, setSelectedQuiz] = useState<Quiz>();
   const [quizes, setQuizes] = useState<Quiz[]>([]);
   const [myQuizesModalVisible, setMyQuizesModalVisible] = useState(false);
-
+  const [selectedQuiz, setSelectedQuiz] = useState<Quiz | undefined>(
+    quizes?.find(q => q?.id === league.selectedQuizId),
+  );
   const {
     bet,
     createdAt,
@@ -98,6 +99,7 @@ const LeagueScreen: React.FC<
   const getQuizes = async () => {
     const leagueQuizes = await API.getQuizesForLeague(id);
     setQuizes(leagueQuizes.filter((q: Quiz) => q.userId === userData.id));
+    setSelectedQuiz(leagueQuizes.find(q => q.id === league.selectedQuizId));
   };
 
   const getLeague = async () => {
@@ -146,6 +148,14 @@ const LeagueScreen: React.FC<
 
     SOCKET.on(SOCKET_EVENTS.USER_LEFT_LEAGUE_ROOM, (user: ShallowUser) => {
       markUserAsNotReady(user.id);
+    });
+
+    SOCKET.on(SOCKET_EVENTS.NEXT_QUIZ_SELECTED, (payload: { quiz: Quiz }) => {
+      setLeague(prevState => ({
+        ...prevState,
+        nextQuizUserId: payload.quiz.id,
+      }));
+      setSelectedQuiz(payload.quiz);
     });
 
     SOCKET.emit(SOCKET_EVENTS.USER_JOINED_LEAGUE_ROOM, { leagueId: id });
@@ -232,6 +242,10 @@ const LeagueScreen: React.FC<
     closeMyQuizesModal();
     API.addQuizToLeague(quiz.id, id);
     setQuizes(prevState => prevState.concat([quiz]));
+    SOCKET.emit(SOCKET_EVENTS.QUIZ_ADDED_TO_LEAGUE, {
+      quizId: quiz.id,
+      leagueId: id,
+    });
   };
 
   const goToCreateNewQuizScreen = () => {
@@ -239,6 +253,18 @@ const LeagueScreen: React.FC<
   };
 
   const onPressMore = () => {};
+
+  const onPressStartGame = () => {};
+
+  const startGameEnabled =
+    league?.readyUsers?.length === users?.length && !!selectedQuiz;
+
+  const setNextQuiz = (quiz: Quiz) => {
+    SOCKET.emit(SOCKET_EVENTS.NEXT_QUIZ_SELECTED, {
+      leagueId: id,
+      quiz,
+    });
+  };
 
   return (
     <ScreenWrapper>
@@ -288,7 +314,12 @@ const LeagueScreen: React.FC<
                 style={{ width: AN(80) }}
                 onPress={onPressAddQuiz}
               />
-              <QuizesList horizontal data={quizes} />
+              <QuizesList
+                horizontal
+                data={quizes}
+                selectedQuizId={selectedQuiz?.id}
+                onSelectQuiz={setNextQuiz}
+              />
             </View>
           </>
         }
@@ -317,6 +348,12 @@ const LeagueScreen: React.FC<
         closeModal={closePasswordModal}
         error={passwordError}
         onSubmit={onSubmitPassword}
+      />
+      <CTA
+        title="Start game"
+        onPress={onPressStartGame}
+        style={commonStyles.ctaFooter}
+        disabled={!startGameEnabled}
       />
     </ScreenWrapper>
   );
