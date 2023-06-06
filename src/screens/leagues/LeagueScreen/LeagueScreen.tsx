@@ -169,10 +169,6 @@ const LeagueScreen: React.FC<
     );
 
     SOCKET.on(SOCKET_EVENTS.NEXT_QUIZ_SELECTED, (payload: { quiz: Quiz }) => {
-      setLeague(prevState => ({
-        ...prevState,
-        nextQuizUserId: payload.quiz.id,
-      }));
       setSelectedQuiz(payload.quiz);
     });
 
