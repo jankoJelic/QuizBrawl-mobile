@@ -6,7 +6,7 @@ import NavHeader from 'components/layout/NavHeader';
 import BodyLarge from 'components/typography/BodyLarge';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Colors } from 'constants/styles/Colors';
-import { AN } from 'constants/styles/appStyles';
+import { AN, SCREEN_WIDTH } from 'constants/styles/appStyles';
 import ActionSheet from 'containers/ActionSheet';
 import PasswordPopup from 'containers/Popup/PasswordPopup';
 import QuizesList from 'containers/lists/QuizesList';
@@ -204,21 +204,16 @@ const LeagueScreen: React.FC<
 
     return (
       <TouchableOpacity style={styles.tableRow}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
+        <View style={styles.userCell}>
           <FastImage style={styles.userAvatar} source={{ uri: item.avatar }} />
           <BodyMedium text={item.firstName + '  '} />
           {(readyUsers?.includes(item.id) || item.id === userData.id) && (
             <MyIcon name="check-circle" size={AN(14)} color="success400" />
           )}
         </View>
-        <BodyMedium text={myGamesPlayed()} />
-        <BodyMedium text={myAccuracy + '%'} />
-        <BodyMedium text={myScore()} />
+        <BodyMedium text={myGamesPlayed()} style={styles.cell} />
+        <BodyMedium text={myAccuracy + '%'} style={styles.cell} />
+        <BodyMedium text={myScore()} style={styles.cell} />
       </TouchableOpacity>
     );
   };
@@ -261,10 +256,10 @@ const LeagueScreen: React.FC<
               weight="bold"
             />
             <View style={styles.tableHeader}>
-              <BodyMedium text="Player" />
-              <BodyMedium text="GP" style={{ alignSelf: 'center' }} />
-              <BodyMedium text="%" />
-              <BodyMedium text="Pts" />
+              <BodyMedium text="Player" style={{ flex: 1 }} />
+              <BodyMedium text="GP" style={styles.cell} />
+              <BodyMedium text="%" style={styles.cell} />
+              <BodyMedium text="Pts" style={styles.cell} />
             </View>
           </>
         }
@@ -343,6 +338,15 @@ const createStyles = (colors: Colors) =>
       aspectRatio: 1,
       marginRight: AN(4),
       borderRadius: AN(25),
+    },
+    userCell: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      flex: 1,
+    },
+    cell: {
+      flex: 0.5,
+      textAlign: 'right',
     },
   });
 
