@@ -17,7 +17,7 @@ import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { useAppSelector } from 'store/index';
 import { startLoading } from 'store/slices/appStateSlice';
 import { removeUserFromRoom } from 'store/slices/dataSlice';
-import { ShallowUser, UserData } from 'store/types/authSliceTypes';
+import { ShallowUser } from 'store/types/authSliceTypes';
 import { Room } from 'store/types/dataSliceTypes';
 
 const RoomScreen: React.FC<
@@ -76,7 +76,7 @@ const RoomScreen: React.FC<
     });
   };
 
-  const showUserInfo = (user: UserData) => {
+  const showUserInfo = (user: ShallowUser) => {
     setSelectedUser(user);
     setUserActionSheetVisible(true);
   };
@@ -85,14 +85,6 @@ const RoomScreen: React.FC<
     SOCKET.emit(SOCKET_EVENTS.KICK_USER_FROM_ROOM, {
       user: selectedUser,
       room,
-    });
-    closeUserActionSheet();
-  };
-
-  const sendFriendRequest = async () => {
-    SOCKET.emit(SOCKET_EVENTS.FRIEND_REQUEST_SENT, {
-      user: userData,
-      recipientId: selectedUser?.id,
     });
     closeUserActionSheet();
   };
@@ -154,14 +146,6 @@ const RoomScreen: React.FC<
         selectedUser={selectedUser}
         AdditionalContent={
           <>
-            {youAreSelected ? (
-              <></>
-            ) : (
-              <GhostButton
-                title="+ Send friend request"
-                onPress={sendFriendRequest}
-              />
-            )}
             {isRoomAdmin && !youAreSelected ? (
               <>
                 <GhostButton

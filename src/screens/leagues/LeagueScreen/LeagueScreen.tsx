@@ -31,25 +31,31 @@ import {
 } from 'store/slices/appStateSlice';
 import { useIsFocused } from '@react-navigation/native';
 import { removeDuplicatesFromArray } from 'util/array/removeDuplicatesFromArray';
+import UserActionSheet from 'containers/ActionSheet/UserActionSheet';
 
 const LeagueScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'League'>
 > = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
+  const { styles, commonStyles } = useStyles(createStyles);
   const { userData } = useAppSelector(state => state.data);
 
-  const { styles, commonStyles } = useStyles(createStyles);
-
   const [league, setLeague] = useState<League>(route.params.league);
+
   const [passwordModalVisible, setPasswordModalVisible] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+
   const [selectedUser, setSelectedUser] = useState<ShallowUser>();
+
   const [quizes, setQuizes] = useState<Quiz[]>([]);
   const [myQuizesModalVisible, setMyQuizesModalVisible] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState<Quiz | undefined>(
     quizes?.find(q => q?.id === league.selectedQuizId),
   );
+
+  const [userActionSheetVisible, setUserActionSheetVisible] = useState(false);
+
   const {
     bet,
     gamesPlayed,
@@ -74,6 +80,10 @@ const LeagueScreen: React.FC<
   const closePasswordModal = () => {
     setPasswordModalVisible(false);
     setPasswordError(false);
+  };
+
+  const closeUserActionSheet = () => {
+    setUserActionSheetVisible(false);
   };
 
   const onSubmitPassword = (enteredPassword: string) => {
@@ -105,7 +115,9 @@ const LeagueScreen: React.FC<
   const getQuizes = async () => {
     const leagueQuizes = await API.getQuizesForLeague(id);
     setQuizes(leagueQuizes.filter((q: Quiz) => q.userId === userData.id));
-    setSelectedQuiz(leagueQuizes.find(q => q.id === league.selectedQuizId));
+    setSelectedQuiz(
+      leagueQuizes.find((q: Quiz) => q.id === league.selectedQuizId),
+    );
   };
 
   const getLeague = async () => {
@@ -245,12 +257,15 @@ const LeagueScreen: React.FC<
       } else return '0';
     };
 
-    const onPressPlayer = () => {};
+    const onPressPlayer = () => {
+      setSelectedUser(item);
+      setUserActionSheetVisible(true);
+    };
 
     const rowColor = item.id === userData.id ? 'brand500' : 'mainTextColor';
 
     return (
-      <TouchableOpacity style={styles.tableRow}>
+      <TouchableOpacity style={styles.tableRow} onPress={onPressPlayer}>
         <View style={styles.userCell}>
           <FastImage style={styles.userAvatar} source={{ uri: item.avatar }} />
           <BodyMedium text={item.firstName + '  '} color={rowColor} />
@@ -398,6 +413,11 @@ const LeagueScreen: React.FC<
         onPress={onPressStartGame}
         style={commonStyles.ctaFooter}
         disabled={!startGameEnabled}
+      />
+      <UserActionSheet
+        selectedUser={selectedUser}
+        closeModal={closeUserActionSheet}
+        visible={userActionSheetVisible && !!selectedUser}
       />
     </ScreenWrapper>
   );

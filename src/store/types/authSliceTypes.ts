@@ -36,8 +36,8 @@ export interface ShallowUser {
   favouriteTopic: Topic;
   avatar: string;
   isOnline: boolean;
-  totalAnswers: number;
-  correctAnswers: number;
+  totalAnswers: Record<Topic, number>;
+  correctAnswers: Record<Topic, number>;
   friends: number[] | ShallowUser[]; // in JWT it is number[] and then we fetch the rest
   color: string;
 }
