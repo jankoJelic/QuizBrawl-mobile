@@ -29,7 +29,7 @@ import {
   startLoading,
   stopLoading,
 } from 'store/slices/appStateSlice';
-import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 
 const LeagueScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'League'>
@@ -51,7 +51,6 @@ const LeagueScreen: React.FC<
   );
   const {
     bet,
-    createdAt,
     gamesPlayed,
     image,
     reward,
@@ -69,7 +68,7 @@ const LeagueScreen: React.FC<
   } = league || {};
 
   const youAreInLeague = users?.some(u => u.id === userData.id);
-  const youAreAdmin = league.userId === userData.id;
+  const youAreAdmin = userId === userData.id;
 
   const closePasswordModal = () => {
     setPasswordModalVisible(false);
@@ -111,6 +110,7 @@ const LeagueScreen: React.FC<
   const getLeague = async () => {
     const updatedLeague = await API.getLeague(id);
     setLeague(updatedLeague);
+    if (!readyUsers.includes(userData.id)) markUserAsReady(userData.id);
   };
 
   const addUserToRoom = (user: ShallowUser) => {
@@ -122,6 +122,7 @@ const LeagueScreen: React.FC<
   };
 
   const markUserAsReady = (userId: number) => {
+    if (readyUsers.includes(userId)) return;
     setLeague(prevState => ({
       ...prevState,
       readyUsers: (prevState?.readyUsers || []).concat([userId]),
@@ -140,6 +141,7 @@ const LeagueScreen: React.FC<
 
   const connectToLeagueSocket = () => {
     SOCKET.on(SOCKET_EVENTS.USER_JOINED_LEAGUE_ROOM, (user: ShallowUser) => {
+      if (readyUsers.includes(user.id)) return;
       if (userInLeague(user.id)) {
         markUserAsReady(user.id);
       } else {
@@ -285,7 +287,9 @@ const LeagueScreen: React.FC<
   const onPressStartGame = () => {};
 
   const startGameEnabled =
-    league?.readyUsers?.length === users?.length && !!selectedQuiz;
+    readyUsers?.length === users?.length && !!selectedQuiz;
+
+  console.log(readyUsers);
 
   const setNextQuiz = (quiz: Quiz) => {
     if (nextQuizUserId === userData.id) {
