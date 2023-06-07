@@ -131,6 +131,7 @@ export const gameSlice = createSlice({
       state.type = 'brawl';
       state.answers = {};
       state.selectedAnswers = [];
+      state.leagueId = undefined;
     },
   },
 });

@@ -30,7 +30,8 @@ import { Reward, UserData } from 'store/types/authSliceTypes';
 
 const ResultsScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Results'>
-> = ({ navigation }) => {
+> = ({ navigation, route }) => {
+  const { leagueId } = route.params || {};
   const { styles, colors } = useStyles(createStyles);
   usePreventNativeBackButton();
   const dispatch = useDispatch();
@@ -75,8 +76,13 @@ const ResultsScreen: React.FC<
     <UserTile user={item} score={String(score[item.id]) || '0'} />
   );
 
-  const goToRoom = () => {
-    navigation.navigate('Room', { room: activeRoom });
+  const goToRoom = async () => {
+    if (!!leagueId) {
+      const league = await API.getLeague(leagueId);
+      navigation.navigate('League', { league });
+    } else {
+      navigation.navigate('Room', { room: activeRoom });
+    }
     dispatch(finishGame());
   };
 
@@ -85,39 +91,52 @@ const ResultsScreen: React.FC<
     dispatch(finishGame());
   };
 
+  const submitArenaGameScore = async () => {
+    const myRewardInTrophies = await API.registerArenaGameScore(score);
+    setReward(String(myRewardInTrophies));
+
+    dispatch(updateTrophies(myRewardInTrophies));
+  };
+
+  const handleReward = (reward: Reward) => {
+    dispatch(storeReward(reward));
+    setSpecialReward(reward);
+  };
+
+  const submitSoloGameScore = async () => {
+    const { money, reward } = await API.registerDailyScore(
+      activeRoom.id,
+      myScore,
+    );
+
+    setReward(String(money));
+    dispatch(updateMoneyBalance(money));
+    dispatch(registerDailyResult({ id: activeRoom.id, score: myScore }));
+
+    if (!!reward) handleReward(reward);
+  };
+
+  const submitCashGameScore = async () => {
+    const { money, reward } = await API.registerCashGameScore(
+      activeRoom.id,
+      score,
+    );
+
+    setReward(String(money));
+    dispatch(updateMoneyBalance(money));
+
+    if (!!reward) handleReward(reward);
+  };
+
   const submitScoreAndGetReward = async () => {
     if (isArenaGame) {
-      const myRewardInTrophies = await API.registerArenaGameScore(score);
-      setReward(String(myRewardInTrophies));
-
-      dispatch(updateTrophies(myRewardInTrophies));
+      await submitArenaGameScore();
     } else if (isSoloGame) {
-      const { money, reward } = await API.registerDailyScore(
-        activeRoom.id,
-        myScore,
-      );
-
-      setReward(String(money));
-      dispatch(updateMoneyBalance(money));
-      dispatch(registerDailyResult({ id: activeRoom.id, score: myScore }));
-
-      if (!!reward) {
-        dispatch(storeReward(reward));
-        setSpecialReward(reward);
-      }
+      await submitSoloGameScore();
     } else if (isCashGame) {
-      const { money, reward } = await API.registerCashGameScore(
-        activeRoom.id,
-        score,
-      );
-
-      setReward(String(money));
-      dispatch(updateMoneyBalance(money));
-
-      if (!!reward) {
-        dispatch(storeReward(reward));
-        setSpecialReward(reward);
-      }
+      await submitCashGameScore();
+    } else if (!!leagueId) {
+      
     }
 
     displayReward();
