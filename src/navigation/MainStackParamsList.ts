@@ -29,7 +29,7 @@ export type MainStackParamsList = {
 
   GameSplash: undefined;
   Question: undefined;
-  Results: undefined;
+  Results: { leagueId?: number };
 
   Leagues: undefined;
   League: { league: League };

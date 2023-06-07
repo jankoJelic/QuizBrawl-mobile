@@ -14,7 +14,7 @@ import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { CorrectAnswer, Question } from 'services/socket/socketPayloads';
-import { useAppSelector } from 'store/index';
+import { RootState, useAppSelector } from 'store/index';
 import {
   SelectedAnswerPayload,
   goToNextQuestion,
@@ -49,14 +49,23 @@ const QuestionScreen: React.FC<
   const { styles } = useStyles(createStyles);
   const countdownInterval = useRef(null);
   const { userData } = useAppSelector(state => state.data);
-  const { questions, activeRoom, type, selectedAnswers, onQuestion } =
-    useAppSelector(state => state.game);
+  const {
+    questions,
+    activeRoom,
+    type,
+    selectedAnswers,
+    onQuestion,
+    leagueId,
+    leagueType,
+  } = useAppSelector((state: RootState) => state.game);
+  const IS_LEAGUE_GAME = !!leagueId;
 
   const isBrawlGame = type === 'brawl';
   const isClassicGame = type === 'classic';
   const nextQuestionTimeout = isBrawlGame ? 2000 : 0;
 
   const { answerTime, id: roomId, users, topic } = activeRoom || {};
+  const isAdminLeagueGame = IS_LEAGUE_GAME && leagueType === 'ADMIN';
 
   const currentQuestion: Question = questions[onQuestion];
   const {
@@ -115,7 +124,7 @@ const QuestionScreen: React.FC<
   const goToResults = () => {
     setTimeout(() => {
       clearCountdownInterval();
-      navigation.navigate('Results');
+      navigation.navigate('Results', { leagueId });
     }, nextQuestionTimeout);
   };
 
@@ -129,8 +138,9 @@ const QuestionScreen: React.FC<
   };
 
   useEffect(() => {
-    const allUsersHaveAnsweredWrong =
-      wrongUsers.length === activeRoom.users.length;
+    const allUsersHaveAnsweredWrong = isAdminLeagueGame
+      ? wrongUsers.length + 1 === users.length
+      : wrongUsers.length === users.length;
 
     if (allUsersHaveAnsweredWrong && isBrawlGame) nextQuestion();
   }, [wrongUsers.length]);
@@ -199,6 +209,7 @@ const QuestionScreen: React.FC<
         userId: userData.id,
         roomId,
         topic,
+        ...(IS_LEAGUE_GAME && { leagueId }),
       };
 
       if (answer === correctAnswer) {

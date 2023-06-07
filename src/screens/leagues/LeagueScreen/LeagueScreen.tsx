@@ -43,6 +43,7 @@ const LeagueScreen: React.FC<
   const isFocused = useIsFocused();
   const { styles, commonStyles } = useStyles(createStyles);
   const { userData } = useAppSelector(state => state.data);
+  const { onQuestion } = useAppSelector(state => state.game);
 
   const [league, setLeague] = useState<League>(route.params.league);
 
@@ -79,6 +80,12 @@ const LeagueScreen: React.FC<
 
   const youAreInLeague = users?.some(u => u.id === userData.id);
   const youAreAdmin = userId === userData.id;
+
+  useEffect(() => {
+    if (onQuestion === 0) {
+      navigation.navigate('GameSplash');
+    }
+  }, [onQuestion]);
 
   const closePasswordModal = () => {
     setPasswordModalVisible(false);
@@ -318,8 +325,8 @@ const LeagueScreen: React.FC<
     dispatch(
       initializeGame({
         leagueId: id,
-        questions: selectedQuiz?.questions as Question[],
-        room: quiz,
+        questions: quiz?.questions as Question[],
+        room: { ...quiz, users: users as UserData[], type: 'brawl' },
       }),
     );
   };
@@ -380,14 +387,7 @@ const LeagueScreen: React.FC<
         keyExtractor={item => `${item.id}_${item.firstName}_league_standing`}
         ListFooterComponent={
           <>
-            <BodyLarge
-              text="Quizzes"
-              style={{
-                marginTop: AN(25),
-                marginBottom: AN(5),
-                marginLeft: PADDING_HORIZONTAL,
-              }}
-            />
+            <BodyLarge text="Quizzes" style={styles.quizzesSubtitle} />
             <View
               style={{
                 flexDirection: 'row',
@@ -486,6 +486,11 @@ const createStyles = (colors: Colors) =>
     cell: {
       flex: 0.5,
       textAlign: 'right',
+    },
+    quizzesSubtitle: {
+      marginTop: AN(25),
+      marginBottom: AN(5),
+      marginLeft: PADDING_HORIZONTAL,
     },
   });
 
