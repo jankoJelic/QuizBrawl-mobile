@@ -83,6 +83,7 @@ const QuizesList = ({
         horizontal
         style={[styles.list, style]}
         key="horizontalQuizzesList"
+        showsHorizontalScrollIndicator={false}
       />
     );
 
@@ -113,6 +114,7 @@ const QuizesList = ({
       style={[styles.verticalList, style]}
       key="quizzesList"
       numColumns={2}
+      showsVerticalScrollIndicator={false}
     />
   );
 };

@@ -17,7 +17,7 @@ const UserActionSheet = ({
   const { userData } = useAppSelector(state => state.data);
 
   const youAreSelected = userData?.id === selectedUser?.id;
-  const isFriend = userData?.friends?.includes(selectedUser.id);
+  const isFriend = userData?.friends?.includes(selectedUser?.id);
 
   const sendFriendRequest = async () => {
     SOCKET.emit(SOCKET_EVENTS.FRIEND_REQUEST_SENT, {
