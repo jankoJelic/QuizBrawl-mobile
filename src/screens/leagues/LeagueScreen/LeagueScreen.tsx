@@ -6,7 +6,7 @@ import NavHeader from 'components/layout/NavHeader';
 import BodyLarge from 'components/typography/BodyLarge';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Colors } from 'constants/styles/Colors';
-import { AN } from 'constants/styles/appStyles';
+import { AN, PADDING_HORIZONTAL } from 'constants/styles/appStyles';
 import ActionSheet from 'containers/ActionSheet';
 import PasswordPopup from 'containers/Popup/PasswordPopup';
 import QuizesList from 'containers/lists/QuizesList';
@@ -21,7 +21,7 @@ import API from 'services/api';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { useAppSelector } from 'store/index';
 import { Quiz } from 'store/slices/createQuizSlice';
-import { ShallowUser } from 'store/types/authSliceTypes';
+import { ShallowUser, UserData } from 'store/types/authSliceTypes';
 import LeagueInfoHeader from './components/LeagueInfoHeader';
 import { League } from 'services/api/endpoints/leaguesAPI';
 import {
@@ -32,6 +32,9 @@ import {
 import { useIsFocused } from '@react-navigation/native';
 import { removeDuplicatesFromArray } from 'util/array/removeDuplicatesFromArray';
 import UserActionSheet from 'containers/ActionSheet/UserActionSheet';
+import { initializeGame } from 'store/slices/gameSlice';
+import { Question } from 'services/socket/socketPayloads';
+import { Room, Topic } from 'store/types/dataSliceTypes';
 
 const LeagueScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'League'>
@@ -184,6 +187,10 @@ const LeagueScreen: React.FC<
       setSelectedQuiz(payload.quiz);
     });
 
+    SOCKET.on(SOCKET_EVENTS.LEAGUE_GAME_STARTED, (nextQuiz: Room) => {
+      startLeagueGame(nextQuiz);
+    });
+
     SOCKET.emit(SOCKET_EVENTS.USER_JOINED_LEAGUE_ROOM, { leagueId: id });
   };
 
@@ -292,10 +299,6 @@ const LeagueScreen: React.FC<
     closeMyQuizesModal();
     API.addQuizToLeague(quiz.id, id);
     setQuizes(prevState => prevState.concat([quiz]));
-    SOCKET.emit(SOCKET_EVENTS.QUIZ_ADDED_TO_LEAGUE, {
-      quizId: quiz.id,
-      leagueId: id,
-    });
   };
 
   const goToCreateNewQuizScreen = () => {
@@ -304,7 +307,22 @@ const LeagueScreen: React.FC<
 
   const onPressMore = () => {};
 
-  const onPressStartGame = () => {};
+  const onPressStartGame = () => {
+    SOCKET.emit(SOCKET_EVENTS.LEAGUE_GAME_STARTED, {
+      leagueId: id,
+      quiz: selectedQuiz,
+    });
+  };
+
+  const startLeagueGame = (quiz: Room) => {
+    dispatch(
+      initializeGame({
+        leagueId: id,
+        questions: selectedQuiz?.questions as Question[],
+        room: quiz,
+      }),
+    );
+  };
 
   const startGameEnabled =
     readyUsers?.length === users?.length && !!selectedQuiz;
@@ -326,10 +344,9 @@ const LeagueScreen: React.FC<
   };
 
   return (
-    <ScreenWrapper>
+    <ScreenWrapper fullWidth>
       <NavHeader
         title={name}
-        fullWidth
         RightIcon={
           <MyIcon
             name="more-horizontal"
@@ -365,12 +382,21 @@ const LeagueScreen: React.FC<
           <>
             <BodyLarge
               text="Quizzes"
-              style={{ marginTop: AN(10), marginBottom: AN(5) }}
+              style={{
+                marginTop: AN(25),
+                marginBottom: AN(5),
+                marginLeft: PADDING_HORIZONTAL,
+              }}
             />
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                left: PADDING_HORIZONTAL,
+              }}>
               <GhostButton
                 title="+ Add"
-                style={{ width: AN(80) }}
+                style={{ width: AN(65) }}
                 onPress={onPressAddQuiz}
               />
               <QuizesList
@@ -432,6 +458,7 @@ const createStyles = (colors: Colors) =>
       borderColor: colors.neutral300,
       paddingBottom: AN(10),
       marginBottom: AN(5),
+      paddingHorizontal: PADDING_HORIZONTAL,
     },
     tableTitle: {
       textAlign: 'center',
@@ -443,6 +470,7 @@ const createStyles = (colors: Colors) =>
       alignItems: 'center',
       justifyContent: 'space-between',
       paddingVertical: AN(10),
+      paddingHorizontal: PADDING_HORIZONTAL,
     },
     userAvatar: {
       width: AN(25),

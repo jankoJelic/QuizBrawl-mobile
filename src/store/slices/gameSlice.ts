@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { LeagueType } from 'services/api/endpoints/leaguesAPI';
 import { CorrectAnswer, Question } from 'services/socket/socketPayloads';
 import { UserData } from 'store/types/authSliceTypes';
 import { Room } from 'store/types/dataSliceTypes';
@@ -12,6 +13,8 @@ export interface GameSlice {
   type: 'brawl' | 'classic';
   selectedAnswers: CorrectAnswer[];
   answers: Record<string, CorrectAnswer>;
+  leagueId: number | undefined;
+  leagueType: LeagueType;
 }
 
 const initialState: GameSlice = {
@@ -23,6 +26,8 @@ const initialState: GameSlice = {
   type: 'brawl',
   selectedAnswers: [], // answers selected for the active question so they can not be selected again (only for brawl?)
   answers: {}, // first answer for every question (for statistics) - it is being sent at the end of the game
+  leagueId: undefined, // for league games
+  leagueType: 'ROUND',
 };
 
 export const gameSlice = createSlice({
@@ -32,10 +37,15 @@ export const gameSlice = createSlice({
     initializeGame: (
       state,
       action: {
-        payload: { room: Room; questions: Question[] };
+        payload: {
+          room: Room;
+          questions: Question[];
+          leagueId?: number | undefined;
+        };
       },
     ) => {
-      const { questions, room } = action.payload || {};
+      const { questions, room, leagueId = undefined } = action.payload || {};
+      state.leagueId = leagueId;
       state.questions = questions;
       state.activeRoom = room;
 

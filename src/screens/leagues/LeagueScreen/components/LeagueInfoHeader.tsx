@@ -1,7 +1,12 @@
+import PinCodeKeyboard from 'components/inputs/PinCodeKeyboard';
 import BodyLarge from 'components/typography/BodyLarge';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Colors } from 'constants/styles/Colors';
-import { SCREEN_WIDTH, AN } from 'constants/styles/appStyles';
+import {
+  SCREEN_WIDTH,
+  AN,
+  PADDING_HORIZONTAL,
+} from 'constants/styles/appStyles';
 import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
@@ -61,6 +66,7 @@ const createStyles = (colors: Colors) =>
     leagueInfoHeader: {
       flexDirection: 'row',
       alignItems: 'center',
+      paddingHorizontal: PADDING_HORIZONTAL,
       justifyContent: 'space-between',
     },
     alignTextRight: { textAlign: 'right' },
