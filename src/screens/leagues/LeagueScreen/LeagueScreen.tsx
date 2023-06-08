@@ -152,10 +152,19 @@ const LeagueScreen: React.FC<
   };
 
   const addUserToRoom = (user: ShallowUser) => {
+    console.log(user);
     setLeague(prevState => ({
       ...prevState,
       readyUsers: (prevState?.readyUsers || []).concat([user.id]),
       users: (prevState.users || []).concat([user]),
+    }));
+  };
+
+  const removeUserFromLeague = (userId: number) => {
+    setLeague(prevState => ({
+      ...prevState,
+      readyUsers: (prevState?.readyUsers).filter(readyId => readyId !== userId),
+      users: prevState?.users.filter(user => user.id !== userId),
     }));
   };
 
@@ -193,6 +202,7 @@ const LeagueScreen: React.FC<
     });
 
     SOCKET.on(SOCKET_EVENTS.USER_JOINED_LEAGUE, (user: ShallowUser) => {
+      console.log(user);
       addUserToRoom(user);
     });
 
@@ -209,6 +219,10 @@ const LeagueScreen: React.FC<
 
     SOCKET.on(SOCKET_EVENTS.LEAGUE_GAME_STARTED, (nextQuiz: Room) => {
       startLeagueGame(nextQuiz);
+    });
+
+    SOCKET.on(SOCKET_EVENTS.USER_LEFT_LEAGUE, (userId: number) => {
+      removeUserFromLeague(userId);
     });
 
     SOCKET.emit(SOCKET_EVENTS.USER_JOINED_LEAGUE_ROOM, { leagueId: id });
@@ -240,6 +254,10 @@ const LeagueScreen: React.FC<
   };
 
   const joinLeague = () => {
+    setLeague(prevState => ({
+      ...prevState,
+      users: prevState.users?.concat([userData]),
+    }));
     SOCKET.emit(SOCKET_EVENTS.USER_JOINED_LEAGUE, {
       leagueId: id,
       user: userData,
@@ -372,6 +390,10 @@ const LeagueScreen: React.FC<
     try {
       await API.leaveLeague(id);
       navigation.navigate('Leagues');
+      SOCKET.emit(SOCKET_EVENTS.USER_LEFT_LEAGUE, {
+        userId: userData.id,
+        leagueId: id,
+      });
     } catch (error) {
     } finally {
       dispatch(stopLoading());

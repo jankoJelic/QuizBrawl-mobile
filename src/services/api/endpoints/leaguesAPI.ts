@@ -53,8 +53,12 @@ const leaguesAPI = {
   },
 
   leaveLeague: async (leagueId: number) => {
-    await post(`leagues/league/${leagueId}/leave`);
+    await post(`/leagues/league/${leagueId}/leave`);
   },
+
+  registerLeagueAnswer: async (leagueId:number, correct: boolean) => {
+    post (`/leagues/league/${leagueId}/answer`)
+  }
 };
 
 export default leaguesAPI;

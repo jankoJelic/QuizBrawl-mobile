@@ -214,8 +214,10 @@ const QuestionScreen: React.FC<
       };
 
       if (answer === correctAnswer) {
+        if (IS_LEAGUE_GAME) API.registerLeagueAnswer(leagueId, true);
         SOCKET.emit(SOCKET_EVENTS.CORRECT_ANSWER_SELECTED, payload);
       } else {
+        if (IS_LEAGUE_GAME) API.registerLeagueAnswer(leagueId, false);
         SOCKET.emit(SOCKET_EVENTS.WRONG_ANSWER_SELECTED, payload);
       }
     } else if (type === 'classic') {

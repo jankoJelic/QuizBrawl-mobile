@@ -31,12 +31,13 @@ import { Reward, UserData } from 'store/types/authSliceTypes';
 const ResultsScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Results'>
 > = ({ navigation, route }) => {
+  usePreventNativeBackButton();
   const { leagueId } = route.params || {};
   const { styles, colors } = useStyles(createStyles);
-  usePreventNativeBackButton();
   const dispatch = useDispatch();
   const { id } = useAppSelector(state => state.data.userData);
-  const { activeRoom, score, answers, type, selectedAnswers } =
+  const { leagues } = useAppSelector(state => state.leagues);
+  const { activeRoom, score, answers } =
     useAppSelector(state => state.game) || {};
   const { users, bet, maxPlayers } = activeRoom || [];
 
@@ -71,13 +72,14 @@ const ResultsScreen: React.FC<
   const myScore = score[id];
   const myAccuracy = ((myScore * 100) / activeRoom.questionsCount).toFixed(2);
   const isCashGame = !!bet;
+  const isLeagueGame = !!leagueId;
 
   const renderUser = ({ item }: { item: UserData }) => (
     <UserTile user={item} score={String(score[item.id]) || '0'} />
   );
 
   const goToRoom = async () => {
-    if (!!leagueId) {
+    if (isLeagueGame) {
       const league = await API.getLeague(leagueId);
       navigation.navigate('League', { league });
     } else {
@@ -136,7 +138,7 @@ const ResultsScreen: React.FC<
     } else if (isCashGame) {
       await submitCashGameScore();
     } else if (!!leagueId) {
-      
+      const reward = await API.submitLeagueScore(leagueId, score);
     }
 
     displayReward();
@@ -145,8 +147,16 @@ const ResultsScreen: React.FC<
   useEffect(() => {
     submitScoreAndGetReward();
 
+    if (!!leagueId) {
+      const myLeague = leagues.find(l => l.id === leagueId);
+      SOCKET.emit(SOCKET_EVENTS.LEAGUE_GAME_ENDED, {
+        league: myLeague,
+        userId: id,
+      });
+    }
+
     if (isMultiPlayerGame) {
-      SOCKET.emit(SOCKET_EVENTS.GAME_ENDED, activeRoom);
+      if (!leagueId) SOCKET.emit(SOCKET_EVENTS.GAME_ENDED, activeRoom);
       SOCKET.off(SOCKET_EVENTS.CORRECT_ANSWER_SELECTED);
       SOCKET.off(SOCKET_EVENTS.WRONG_ANSWER_SELECTED);
     }
