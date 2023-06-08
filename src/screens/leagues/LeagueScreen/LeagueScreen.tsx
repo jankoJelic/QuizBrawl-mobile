@@ -80,8 +80,9 @@ const LeagueScreen: React.FC<
     id,
     password,
     nextQuizUserId,
-    readyUsers,
+    readyUsers: rawReadyUsers,
   } = league || {};
+  const readyUsers = removeDuplicatesFromArray(rawReadyUsers);
 
   const youAreInLeague = users?.some(u => u.id === userData.id);
   const youAreAdmin = userId === userData.id;
@@ -110,13 +111,17 @@ const LeagueScreen: React.FC<
     setUserActionSheetVisible(false);
   };
 
+  const emitUserJoinedLeague = () => {
+    SOCKET.emit(SOCKET_EVENTS.USER_JOINED_LEAGUE, {
+      leagueId: id,
+      user: userData,
+    });
+  };
+
   const onSubmitPassword = (enteredPassword: string) => {
     if (enteredPassword === password) {
       closePasswordModal();
-      SOCKET.emit(SOCKET_EVENTS.USER_JOINED_LEAGUE, {
-        leagueId: id,
-        user: userData,
-      });
+      joinLeague();
     } else {
       setPasswordError(true);
     }
@@ -154,18 +159,24 @@ const LeagueScreen: React.FC<
   };
 
   const addUserToRoom = (user: ShallowUser) => {
-    setLeague(prevState => ({
-      ...prevState,
-      readyUsers: (prevState?.readyUsers || []).concat([user.id]),
-      users: (prevState.users || []).concat([user]),
-    }));
+    setLeague(prevState => {
+      const userIsReady = prevState.readyUsers.some(id => id === user.id);
+      const userInRoom = prevState.users.some(u => u.id === user.id);
+      return {
+        ...prevState,
+        ...(!userIsReady && {
+          readyUsers: prevState.readyUsers.concat([user.id]),
+        }),
+        ...(!userInRoom && { users: prevState.users.concat([user]) }),
+      };
+    });
   };
 
   const removeUserFromLeague = (userId: number) => {
     setLeague(prevState => ({
       ...prevState,
-      readyUsers: (prevState?.readyUsers).filter(readyId => readyId !== userId),
-      users: prevState?.users.filter(user => user.id !== userId),
+      readyUsers: prevState.readyUsers.filter(readyId => readyId !== userId),
+      users: prevState.users.filter(user => user.id !== userId),
     }));
   };
 
@@ -174,7 +185,6 @@ const LeagueScreen: React.FC<
       const updatedReadyUsers = removeDuplicatesFromArray(
         prevState.readyUsers.concat([userId]),
       );
-
       return {
         ...prevState,
         readyUsers: updatedReadyUsers,
@@ -193,6 +203,7 @@ const LeagueScreen: React.FC<
     league?.users?.some(u => u.id === userId);
 
   const connectToLeagueSocket = () => {
+    SOCKET.emit(SOCKET_EVENTS.USER_JOINED_LEAGUE_ROOM, { leagueId: id });
     SOCKET.on(SOCKET_EVENTS.USER_JOINED_LEAGUE_ROOM, (user: ShallowUser) => {
       if (userInLeague(user.id)) {
         markUserAsReady(user.id);
@@ -234,8 +245,6 @@ const LeagueScreen: React.FC<
     SOCKET.on(SOCKET_EVENTS.USER_LEFT_LEAGUE, (userId: number) => {
       removeUserFromLeague(userId);
     });
-
-    SOCKET.emit(SOCKET_EVENTS.USER_JOINED_LEAGUE_ROOM, { leagueId: id });
   };
 
   const disconnectFromLeagueSocket = () => {
@@ -253,7 +262,7 @@ const LeagueScreen: React.FC<
     if (!isFocused) return;
     getQuizes();
     getLeague();
-    if (youAreInLeague) connectToLeagueSocket();
+    connectToLeagueSocket();
 
     return () => {
       disconnectFromLeagueSocket();
@@ -265,11 +274,7 @@ const LeagueScreen: React.FC<
   };
 
   const joinLeague = () => {
-    setLeague(prevState => ({
-      ...prevState,
-      users: prevState.users?.concat([userData]),
-    }));
-    connectToLeagueSocket();
+    emitUserJoinedLeague();
   };
 
   const onPressJoinLeague = () => {
@@ -442,7 +447,7 @@ const LeagueScreen: React.FC<
             </View>
           </>
         }
-        data={users}
+        data={removeDuplicatesFromArray(users)}
         renderItem={renderUser}
         keyExtractor={item => `${item.id}_${item.firstName}_league_standing`}
         ListFooterComponent={

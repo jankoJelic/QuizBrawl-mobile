@@ -31,7 +31,7 @@ const createStyles = (colors: Colors) =>
   StyleSheet.create({
     modal: {
       position: 'absolute',
-      bottom: 10,
+      bottom: 0,
       backgroundColor: colors.tileBackground,
       width: SCREEN_WIDTH,
       alignSelf: 'center',
