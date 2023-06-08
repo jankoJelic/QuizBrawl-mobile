@@ -16,12 +16,8 @@ import { StyleSheet } from 'react-native';
 import { FlatList, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
-import leaguesAPI from 'services/api/endpoints/leaguesAPI';
 import { Question } from 'services/socket/socketPayloads';
-import {
-  showOoopsToast,
-  showSuccessToast,
-} from 'store/actions/appStateActions';
+import { showOoopsToast } from 'store/actions/appStateActions';
 import { useAppSelector } from 'store/index';
 import {
   setStatusBar,
@@ -106,7 +102,6 @@ const CreateQuizScreen: React.FC<
     try {
       const newQuiz = await API.createQuiz(payload);
       dispatch(addQuiz(newQuiz));
-      showSuccessToast();
 
       if (!!leagueId) {
         const league = await API.getLeague(leagueId);

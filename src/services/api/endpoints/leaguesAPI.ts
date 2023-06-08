@@ -71,7 +71,7 @@ export interface League {
   gamesPlayed: null | Record<number, number>;
   correctAnswers: null | Record<number, number>;
   totalAnswers: null | Record<number, number>;
-  users: ShallowUser[] | null;
+  users: ShallowUser[];
   userId: number;
   createdAt: string;
   id: number;
