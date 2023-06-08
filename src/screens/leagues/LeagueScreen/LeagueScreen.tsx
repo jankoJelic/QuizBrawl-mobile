@@ -150,7 +150,7 @@ const LeagueScreen: React.FC<
     setLeague(updatedLeague);
 
     if (!updatedLeague.readyUsers.includes(userData.id))
-      markUserAsReady(userData.id);
+      connectToLeagueSocket();
   };
 
   const addUserToRoom = (user: ShallowUser) => {
@@ -170,10 +170,9 @@ const LeagueScreen: React.FC<
   };
 
   const markUserAsReady = (userId: number) => {
-    if (readyUsers.includes(userId)) return;
     setLeague(prevState => {
       const updatedReadyUsers = removeDuplicatesFromArray(
-        (prevState?.readyUsers || []).concat([userId]),
+        prevState.readyUsers.concat([userId]),
       );
 
       return {
@@ -186,7 +185,7 @@ const LeagueScreen: React.FC<
   const markUserAsNotReady = (userId: number) => {
     setLeague(prevState => ({
       ...prevState,
-      readyUsers: (prevState?.readyUsers || []).filter(u => u !== userId),
+      readyUsers: prevState.readyUsers.filter(u => u !== userId),
     }));
   };
 
@@ -225,9 +224,12 @@ const LeagueScreen: React.FC<
       setSelectedQuiz(payload.quiz);
     });
 
-    SOCKET.on(SOCKET_EVENTS.LEAGUE_GAME_STARTED, (nextQuiz: Room) => {
-      startLeagueGame(nextQuiz);
-    });
+    SOCKET.on(
+      SOCKET_EVENTS.LEAGUE_GAME_STARTED,
+      (nextQuiz: Room & { questions: Question[] }) => {
+        startLeagueGame(nextQuiz);
+      },
+    );
 
     SOCKET.on(SOCKET_EVENTS.USER_LEFT_LEAGUE, (userId: number) => {
       removeUserFromLeague(userId);
@@ -248,6 +250,7 @@ const LeagueScreen: React.FC<
   };
 
   useEffect(() => {
+    if (!isFocused) return;
     getQuizes();
     getLeague();
     if (youAreInLeague) connectToLeagueSocket();
@@ -266,10 +269,7 @@ const LeagueScreen: React.FC<
       ...prevState,
       users: prevState.users?.concat([userData]),
     }));
-    SOCKET.emit(SOCKET_EVENTS.USER_JOINED_LEAGUE, {
-      leagueId: id,
-      user: userData,
-    });
+    connectToLeagueSocket();
   };
 
   const onPressJoinLeague = () => {
@@ -347,7 +347,9 @@ const LeagueScreen: React.FC<
     setQuizes(prevState => prevState.concat([quiz]));
   };
 
-  const goToCreateNewQuizScreen = () => {
+  const goToCreateNewQuizScreen = async () => {
+    closeMyQuizesModal();
+    disconnectFromLeagueSocket();
     navigation.navigate('CreateQuiz', { leagueId: id });
   };
 
@@ -358,7 +360,7 @@ const LeagueScreen: React.FC<
     });
   };
 
-  const startLeagueGame = (quiz: Room) => {
+  const startLeagueGame = (quiz: Room & { questions: Question[] }) => {
     dispatch(
       initializeGame({
         leagueId: id,
