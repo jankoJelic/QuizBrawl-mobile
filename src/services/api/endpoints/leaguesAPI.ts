@@ -21,7 +21,7 @@ const leaguesAPI = {
   },
 
   deleteLeague: async (id: number) => {
-    destroy(`leagues/${id}`);
+    destroy(`leagues/league/${id}`);
   },
 
   getLeagueImages: async () => {
@@ -48,6 +48,8 @@ const leaguesAPI = {
     leagueId: number,
     score: Record<number, number>,
   ) => {
+    console.log('leagueId', leagueId);
+    console.log('score', score);
     const { data } = await post(`/leagues/league/${leagueId}/score`, { score });
     return data;
   },
@@ -56,9 +58,9 @@ const leaguesAPI = {
     await post(`/leagues/league/${leagueId}/leave`);
   },
 
-  registerLeagueAnswer: async (leagueId:number, correct: boolean) => {
-    post (`/leagues/league/${leagueId}/answer`)
-  }
+  registerLeagueAnswer: async (leagueId: number, correct: boolean) => {
+    post(`/leagues/league/${leagueId}/answer`);
+  },
 };
 
 export default leaguesAPI;

@@ -58,7 +58,7 @@ const ResultsScreen: React.FC<
       Animated.spring(rewardTranslateY, {
         toValue: SCREEN_HEIGHT,
         useNativeDriver: true,
-        delay: 800,
+        delay: 800, 
       }),
     ]).start();
   };

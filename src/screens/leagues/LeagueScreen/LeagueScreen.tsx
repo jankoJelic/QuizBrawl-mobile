@@ -39,6 +39,7 @@ import UserActionSheet from 'containers/ActionSheet/UserActionSheet';
 import { initializeGame } from 'store/slices/gameSlice';
 import { Question } from 'services/socket/socketPayloads';
 import { Room } from 'store/types/dataSliceTypes';
+import { removeLeague } from 'store/slices/leaguesSlice';
 
 const LeagueScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'League'>
@@ -125,6 +126,7 @@ const LeagueScreen: React.FC<
     dispatch(startLoading());
     try {
       await API.deleteLeague(id);
+      navigation.navigate('Leagues');
     } catch (error) {
     } finally {
       dispatch(stopLoading());
@@ -152,7 +154,6 @@ const LeagueScreen: React.FC<
   };
 
   const addUserToRoom = (user: ShallowUser) => {
-    console.log(user);
     setLeague(prevState => ({
       ...prevState,
       readyUsers: (prevState?.readyUsers || []).concat([user.id]),
@@ -202,8 +203,15 @@ const LeagueScreen: React.FC<
     });
 
     SOCKET.on(SOCKET_EVENTS.USER_JOINED_LEAGUE, (user: ShallowUser) => {
-      console.log(user);
       addUserToRoom(user);
+    });
+
+    SOCKET.on(SOCKET_EVENTS.LEAGUE_DELETED, (leagueId: number) => {
+      if (leagueId === id) {
+        navigation.navigate('Leagues');
+        dispatch(showToast({ text: 'League deleted', type: 'error' }));
+        dispatch(removeLeague(leagueId));
+      }
     });
 
     SOCKET.on(
@@ -495,11 +503,19 @@ const LeagueScreen: React.FC<
         visible={userActionSheetVisible && !!selectedUser}
       />
       <ActionSheet visible={actionSheetVisible} close={closeActionSheet}>
-        <GhostButton
-          title="Leave league"
-          color="danger500"
-          onPress={leaveLeague}
-        />
+        {youAreAdmin ? (
+          <GhostButton
+            title="Delete league"
+            color="danger500"
+            onPress={deleteLeague}
+          />
+        ) : (
+          <GhostButton
+            title="Leave league"
+            color="danger500"
+            onPress={leaveLeague}
+          />
+        )}
       </ActionSheet>
     </ScreenWrapper>
   );

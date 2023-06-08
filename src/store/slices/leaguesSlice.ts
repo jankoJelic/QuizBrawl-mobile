@@ -27,17 +27,15 @@ export const leaguesSlice = createSlice({
     setLeagueImages: (state, action) => {
       state.leagueImages = action.payload;
     },
-    removeUserFromLeague: (state, action) => {},
-    updateLeague: (state, action) => {},
+    removeLeague: (state, action) => {
+      const leagueId = action.payload;
+      state.leagues = state.leagues.filter(l => l.id !== leagueId);
+      state.myLeagues = state.myLeagues.filter(l => l.id !== leagueId);
+    },
   },
 });
 
-export const {
-  setLeagueImages,
-  setLeagues,
-  setMyLeagues,
-  removeUserFromLeague,
-  updateLeague,
-} = leaguesSlice.actions;
+export const { setLeagueImages, setLeagues, setMyLeagues, removeLeague } =
+  leaguesSlice.actions;
 
 export default leaguesSlice.reducer;

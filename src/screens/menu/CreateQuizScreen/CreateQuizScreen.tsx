@@ -16,6 +16,7 @@ import { StyleSheet } from 'react-native';
 import { FlatList, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
+import leaguesAPI from 'services/api/endpoints/leaguesAPI';
 import { Question } from 'services/socket/socketPayloads';
 import {
   showOoopsToast,
@@ -46,7 +47,7 @@ const CreateQuizScreen: React.FC<
   const { firstName } = useAppSelector(state => state.data.userData);
   const { questions } = useAppSelector(state => state.createQuiz);
 
-  const { quiz } = route.params || {};
+  const { quiz, leagueId } = route.params || {};
   const IS_EDIT_MODE = !!quiz;
 
   const [selectedTopic, setselectedTopic] = useState<Topic>(
@@ -106,7 +107,14 @@ const CreateQuizScreen: React.FC<
       const newQuiz = await API.createQuiz(payload);
       dispatch(addQuiz(newQuiz));
       showSuccessToast();
-      navigation.navigate('MyQuizes');
+
+      if (!!leagueId) {
+        const league = await API.getLeague(leagueId);
+        await API.addQuizToLeague(newQuiz.id, leagueId);
+        navigation.navigate('League', league);
+      } else {
+        navigation.navigate('MyQuizes');
+      }
     } catch (error) {
       showOoopsToast();
     }

@@ -77,7 +77,7 @@ const CreateLeagueScreen: React.FC<
       });
 
       dispatch(setLeagues(store.getState().leagues.leagues.concat([league])));
-      navigation.navigate('Leagues');
+      navigation.navigate('League', { league });
     } catch (error) {
     } finally {
       dispatch(stopLoading());
