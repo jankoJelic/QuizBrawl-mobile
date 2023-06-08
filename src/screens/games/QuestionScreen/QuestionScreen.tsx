@@ -59,6 +59,7 @@ const QuestionScreen: React.FC<
     leagueType,
   } = useAppSelector((state: RootState) => state.game);
   const IS_LEAGUE_GAME = !!leagueId;
+  const youAreAdmin = activeRoom.userId === userData.id;
 
   const isBrawlGame = type === 'brawl';
   const isClassicGame = type === 'classic';
@@ -272,7 +273,11 @@ const QuestionScreen: React.FC<
           </TileWrapper>
           {answersArray.map((a: CorrectAnswer, index: number) => (
             <AnswerTile
-              disabled={answeringDisabled || isSelected(a)}
+              disabled={
+                answeringDisabled ||
+                isSelected(a) ||
+                (IS_LEAGUE_GAME && youAreAdmin)
+              }
               status={answerStatus(a)}
               title={
                 index === 0

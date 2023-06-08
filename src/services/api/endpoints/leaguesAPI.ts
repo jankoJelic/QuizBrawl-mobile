@@ -43,6 +43,18 @@ const leaguesAPI = {
     const { data } = await patch(`leagues/${leagueId}/addUser/${userId}`);
     return data;
   },
+
+  submitLeagueScore: async (
+    leagueId: number,
+    score: Record<number, number>,
+  ) => {
+    const { data } = await post(`/leagues/league/${leagueId}/score`, { score });
+    return data;
+  },
+
+  leaveLeague: async (leagueId: number) => {
+    await post(`leagues/league/${leagueId}/leave`);
+  },
 };
 
 export default leaguesAPI;

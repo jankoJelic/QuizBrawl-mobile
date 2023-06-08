@@ -6,7 +6,11 @@ import NavHeader from 'components/layout/NavHeader';
 import BodyLarge from 'components/typography/BodyLarge';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Colors } from 'constants/styles/Colors';
-import { AN, PADDING_HORIZONTAL } from 'constants/styles/appStyles';
+import {
+  AN,
+  PADDING_HORIZONTAL,
+  SCREEN_WIDTH,
+} from 'constants/styles/appStyles';
 import ActionSheet from 'containers/ActionSheet';
 import PasswordPopup from 'containers/Popup/PasswordPopup';
 import QuizesList from 'containers/lists/QuizesList';
@@ -34,7 +38,7 @@ import { removeDuplicatesFromArray } from 'util/array/removeDuplicatesFromArray'
 import UserActionSheet from 'containers/ActionSheet/UserActionSheet';
 import { initializeGame } from 'store/slices/gameSlice';
 import { Question } from 'services/socket/socketPayloads';
-import { Room, Topic } from 'store/types/dataSliceTypes';
+import { Room } from 'store/types/dataSliceTypes';
 
 const LeagueScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'League'>
@@ -58,12 +62,12 @@ const LeagueScreen: React.FC<
     quizes?.find(q => q?.id === league.selectedQuizId),
   );
 
+  const [actionSheetVisible, setActionSheetVisible] = useState(false);
   const [userActionSheetVisible, setUserActionSheetVisible] = useState(false);
 
   const {
     bet,
     gamesPlayed,
-    image,
     reward,
     score,
     users,
@@ -80,12 +84,21 @@ const LeagueScreen: React.FC<
 
   const youAreInLeague = users?.some(u => u.id === userData.id);
   const youAreAdmin = userId === userData.id;
+  const isRoundGame = type === 'ROUND';
 
   useEffect(() => {
     if (onQuestion === 0) {
       navigation.navigate('GameSplash');
     }
   }, [onQuestion]);
+
+  const closeActionSheet = () => {
+    setActionSheetVisible(false);
+  };
+
+  const openActionSheet = () => {
+    setActionSheetVisible(true);
+  };
 
   const closePasswordModal = () => {
     setPasswordModalVisible(false);
@@ -215,7 +228,7 @@ const LeagueScreen: React.FC<
   useEffect(() => {
     getQuizes();
     getLeague();
-    connectToLeagueSocket();
+    if (youAreInLeague) connectToLeagueSocket();
 
     return () => {
       disconnectFromLeagueSocket();
@@ -312,8 +325,6 @@ const LeagueScreen: React.FC<
     navigation.navigate('CreateQuiz', { leagueId: id });
   };
 
-  const onPressMore = () => {};
-
   const onPressStartGame = () => {
     SOCKET.emit(SOCKET_EVENTS.LEAGUE_GAME_STARTED, {
       leagueId: id,
@@ -326,7 +337,13 @@ const LeagueScreen: React.FC<
       initializeGame({
         leagueId: id,
         questions: quiz?.questions as Question[],
-        room: { ...quiz, users: users as UserData[], type: 'brawl' },
+        room: {
+          ...quiz,
+          users: users as UserData[],
+          type: 'brawl',
+          maxPlayers: users?.length || 1,
+          bet,
+        },
       }),
     );
   };
@@ -350,6 +367,17 @@ const LeagueScreen: React.FC<
     }
   };
 
+  const leaveLeague = async () => {
+    dispatch(startLoading());
+    try {
+      await API.leaveLeague(id);
+      navigation.navigate('Leagues');
+    } catch (error) {
+    } finally {
+      dispatch(stopLoading());
+    }
+  };
+
   return (
     <ScreenWrapper fullWidth>
       <NavHeader
@@ -358,7 +386,7 @@ const LeagueScreen: React.FC<
           <MyIcon
             name="more-horizontal"
             color="neutral300"
-            onPress={onPressMore}
+            onPress={openActionSheet}
           />
         }
       />
@@ -388,12 +416,7 @@ const LeagueScreen: React.FC<
         ListFooterComponent={
           <>
             <BodyLarge text="Quizzes" style={styles.quizzesSubtitle} />
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                left: PADDING_HORIZONTAL,
-              }}>
+            <View style={styles.quizzesListContainer}>
               <GhostButton
                 title="+ Add"
                 style={{ width: AN(65) }}
@@ -423,9 +446,18 @@ const LeagueScreen: React.FC<
         />
       </ActionSheet>
       {youAreInLeague ? (
-        <></>
+        <CTA
+          title="Start game"
+          onPress={onPressStartGame}
+          style={{ ...commonStyles.ctaFooter, width: SCREEN_WIDTH * 0.9 }}
+          disabled={!startGameEnabled}
+        />
       ) : (
-        <CTA title="Join league" onPress={onPressJoinLeague} />
+        <CTA
+          title="Join league"
+          onPress={onPressJoinLeague}
+          style={{ width: SCREEN_WIDTH * 0.9, alignSelf: 'center' }}
+        />
       )}
 
       <PasswordPopup
@@ -434,17 +466,19 @@ const LeagueScreen: React.FC<
         error={passwordError}
         onSubmit={onSubmitPassword}
       />
-      <CTA
-        title="Start game"
-        onPress={onPressStartGame}
-        style={commonStyles.ctaFooter}
-        disabled={!startGameEnabled}
-      />
+
       <UserActionSheet
         selectedUser={selectedUser}
         closeModal={closeUserActionSheet}
         visible={userActionSheetVisible && !!selectedUser}
       />
+      <ActionSheet visible={actionSheetVisible} close={closeActionSheet}>
+        <GhostButton
+          title="Leave league"
+          color="danger500"
+          onPress={leaveLeague}
+        />
+      </ActionSheet>
     </ScreenWrapper>
   );
 };
@@ -491,6 +525,11 @@ const createStyles = (colors: Colors) =>
       marginTop: AN(25),
       marginBottom: AN(5),
       marginLeft: PADDING_HORIZONTAL,
+    },
+    quizzesListContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      left: PADDING_HORIZONTAL,
     },
   });
 

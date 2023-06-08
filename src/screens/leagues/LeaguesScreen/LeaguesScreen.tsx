@@ -27,7 +27,6 @@ const LeaguesScreen: React.FC<
   const { leagues } = useAppSelector(state => state.leagues);
   const { id } = useAppSelector(state => state.data.userData);
 
-  const [selectedLeague, setSelectedLeague] = useState<League>();
   const [leaguesToDisplay, setLeaguesToDisplay] = useState<League[]>(leagues);
   const [searchInput, setSearchInput] = useState('');
 
