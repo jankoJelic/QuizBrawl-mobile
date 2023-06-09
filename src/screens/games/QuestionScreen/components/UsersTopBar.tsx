@@ -1,10 +1,11 @@
-import UserAvatar from 'components/icons/UserAvatar';
+// import UserAvatar from 'components/icons/UserAvatar';
 import BodySmall from 'components/typography/BodySmall/BodySmall';
 import { Colors } from 'constants/styles/Colors';
 import { SCREEN_WIDTH, AN, BORDER_RADIUS } from 'constants/styles/appStyles';
 import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import { useAppSelector } from 'store/index';
 import { UserData } from 'store/types/authSliceTypes';
 
@@ -30,7 +31,11 @@ const UsersTopBar = ({ wrongUsers, correctUser }: Props) => {
           width: SCREEN_WIDTH / (activeRoom.users.length + 2),
           borderColor: borderColor(),
         }}>
-        <UserAvatar size={AN(20)} avatar={item.avatar} />
+        <FastImage
+          style={{ width: AN(25), aspectRatio: 1 }}
+          source={{ uri: item.avatar }}
+        />
+        {/* <UserAvatar size={AN(20)} avatar={item.avatar} /> */}
         <BodySmall text={item.firstName} style={{ marginTop: AN(2) }} />
         <BodySmall text={String(score[item.id])} />
       </View>

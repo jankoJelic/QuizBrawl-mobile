@@ -93,7 +93,9 @@ const QuestionScreen: React.FC<
     selectedAnswers.includes(answer);
 
   const correctAnswerGuessed = isSelected(correctAnswer);
-  const allUsersGuessed = wrongUsers?.length === users?.length;
+  const allUsersGuessed = IS_LEAGUE_GAME
+    ? wrongUsers.length === users.length - 1
+    : wrongUsers?.length === users?.length;
 
   const answeringDisabled =
     allUsersGuessed ||

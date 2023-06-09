@@ -82,6 +82,7 @@ const LeagueScreen: React.FC<
     nextQuizUserId,
     readyUsers: rawReadyUsers,
   } = league || {};
+
   const readyUsers = removeDuplicatesFromArray(rawReadyUsers);
 
   const youAreInLeague = users?.some(u => u.id === userData.id);
@@ -374,7 +375,7 @@ const LeagueScreen: React.FC<
           ...quiz,
           users: users as UserData[],
           type: 'brawl',
-          maxPlayers: users?.length || 1,
+          maxPlayers: users?.length ? users.length - 1 : 2,
           bet,
         },
       }),
@@ -382,7 +383,9 @@ const LeagueScreen: React.FC<
   };
 
   const startGameEnabled =
-    readyUsers?.length === users?.length && !!selectedQuiz;
+    readyUsers?.length === users?.length &&
+    !!selectedQuiz &&
+    selectedQuiz?.userId === nextQuizUserId;
 
   const setNextQuiz = (quiz: Quiz) => {
     if (nextQuizUserId === userData.id) {

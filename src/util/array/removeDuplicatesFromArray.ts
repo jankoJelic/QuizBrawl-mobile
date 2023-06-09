@@ -1,6 +1,6 @@
 export const removeDuplicatesFromArray = (arr: any[]) => {
   let uniqueChars: any[] = [];
-  arr.forEach(c => {
+  arr?.forEach(c => {
     if (!uniqueChars.includes(c)) {
       uniqueChars.push(c);
     }

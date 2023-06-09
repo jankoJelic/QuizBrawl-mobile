@@ -11,6 +11,7 @@ import MainStackNavigator from './src/navigation/MainStackNavigator';
 import FullScreenSpinner from './src/components/modals/FullScreenSpinner';
 import Toast from 'components/modals/Toast';
 import { configureGoogleSignIn } from 'services/googleAuth/configureGoogleSignIn';
+import { enableScreens } from 'react-native-screens';
 
 function App(): JSX.Element {
   const { topColor, bottomColor } = useAppSelector(
@@ -19,6 +20,7 @@ function App(): JSX.Element {
 
   useEffect(() => {
     configureGoogleSignIn();
+    enableScreens();
   }, []);
 
   return (

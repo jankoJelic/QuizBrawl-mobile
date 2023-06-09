@@ -48,8 +48,6 @@ const leaguesAPI = {
     leagueId: number,
     score: Record<number, number>,
   ) => {
-    console.log('leagueId', leagueId);
-    console.log('score', score);
     const { data } = await post(`/leagues/league/${leagueId}/score`, { score });
     return data;
   },
