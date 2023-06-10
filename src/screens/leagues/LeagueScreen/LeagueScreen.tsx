@@ -40,6 +40,7 @@ import { initializeGame } from 'store/slices/gameSlice';
 import { Question } from 'services/socket/socketPayloads';
 import { Room } from 'store/types/dataSliceTypes';
 import { removeLeague } from 'store/slices/leaguesSlice';
+import { showOoopsToast } from 'store/actions/appStateActions';
 
 const LeagueScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'League'>
@@ -153,11 +154,16 @@ const LeagueScreen: React.FC<
   };
 
   const getLeague = async () => {
-    const updatedLeague = await API.getLeague(id);
-    setLeague(updatedLeague);
+    try {
+      const updatedLeague = await API.getLeague(id);
+      setLeague(updatedLeague);
 
-    if (!updatedLeague.readyUsers.includes(userData.id))
-      connectToLeagueSocket();
+      if (!updatedLeague.readyUsers.includes(userData.id))
+        connectToLeagueSocket();
+    } catch (error) {
+      navigation.navigate('Leagues');
+      dispatch(showOoopsToast());
+    }
   };
 
   const addUserToRoom = (user: ShallowUser) => {
