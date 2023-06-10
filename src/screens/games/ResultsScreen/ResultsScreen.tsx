@@ -9,6 +9,7 @@ import { LOBBY_IDS } from 'constants/constants';
 import { Colors } from 'constants/styles/Colors';
 import { AN, SCREEN_HEIGHT, SCREEN_WIDTH } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
+import TileWrapper from 'hoc/TileWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import usePreventNativeBackButton from 'navigation/hooks/usePreventNativeBack';
@@ -36,10 +37,10 @@ const ResultsScreen: React.FC<
   const { styles } = useStyles(createStyles);
   const dispatch = useDispatch();
   const { id } = useAppSelector(state => state.data.userData);
-  const { leagues } = useAppSelector(state => state.leagues);
   const { activeRoom, score, answers } =
     useAppSelector(state => state.game) || {};
   const { users, bet, maxPlayers } = activeRoom || [];
+  const youAreQuizAdmin = activeRoom.userId === id;
 
   const isMultiPlayerGame = maxPlayers > 1;
 
@@ -132,6 +133,7 @@ const ResultsScreen: React.FC<
 
   const submitLeagueScore = async () => {
     if (!leagueId) return;
+    if (activeRoom.userId === id) return;
     const reward = await API.submitLeagueScore(leagueId, score, activeRoom.id);
     setReward(String(reward));
   };
@@ -227,10 +229,21 @@ const ResultsScreen: React.FC<
             style={styles.trophy}
           />
         )}
-        <Title
-          color="warning400"
-          text={`${reward}${isLeagueGame ? 'points' : ''}`}
-        />
+        {youAreQuizAdmin && isLeagueGame ? (
+          <></>
+        ) : (
+          <TileWrapper
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              ...(isLeagueGame && { top: SCREEN_HEIGHT / 2 }),
+            }}>
+            <Title
+              color="warning400"
+              text={`${reward}${isLeagueGame ? ' points' : ''}`}
+            />
+          </TileWrapper>
+        )}
       </Animated.View>
     </ScreenWrapper>
   );

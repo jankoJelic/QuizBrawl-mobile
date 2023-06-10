@@ -6,7 +6,6 @@ import LeagueTile from 'components/tiles/LeagueTile/LeagueTile';
 import BodyLarge from 'components/typography/BodyLarge';
 import { Colors } from 'constants/styles/Colors';
 import { AN } from 'constants/styles/appStyles';
-import PasswordPopup from 'containers/Popup/PasswordPopup';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';

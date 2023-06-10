@@ -82,6 +82,7 @@ const LeagueScreen: React.FC<
     password,
     nextQuizUserId,
     readyUsers: rawReadyUsers,
+    quizIdHistory,
   } = league || {};
 
   const readyUsers = removeDuplicatesFromArray(rawReadyUsers);
@@ -406,7 +407,14 @@ const LeagueScreen: React.FC<
     selectedQuiz?.userId === nextQuizUserId;
 
   const setNextQuiz = (quiz: Quiz) => {
-    if (nextQuizUserId === userData.id) {
+    if (quizIdHistory.includes(quiz.id)) {
+      dispatch(
+        showToast({
+          text: 'Quiz already used in this league',
+          type: 'error',
+        }),
+      );
+    } else if (nextQuizUserId === userData.id) {
       SOCKET.emit(SOCKET_EVENTS.NEXT_QUIZ_SELECTED, {
         leagueId: id,
         quiz,

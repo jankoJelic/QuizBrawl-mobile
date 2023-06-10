@@ -85,6 +85,7 @@ export interface League {
   nextQuizUserId: number;
   readyUsers: number[];
   selectedQuizId: number;
+  quizIdHistory: number[];
 }
 
 export type LeagueType = 'ADMIN' | 'ROUND';
