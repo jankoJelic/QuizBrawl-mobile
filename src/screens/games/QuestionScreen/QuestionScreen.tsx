@@ -67,8 +67,6 @@ const QuestionScreen: React.FC<
   const { answerTime, id: roomId, users, topic, userId } = activeRoom || {};
   const youAreAdmin = userId === userData.id;
 
-  const isAdminLeagueGame = IS_LEAGUE_GAME && leagueType === 'ADMIN';
-
   const currentQuestion: Question = questions[onQuestion];
   const {
     answer1,
@@ -142,11 +140,12 @@ const QuestionScreen: React.FC<
   };
 
   useEffect(() => {
-    const allUsersHaveAnsweredWrong = isAdminLeagueGame
+    const allUsersHaveAnsweredWrong = IS_LEAGUE_GAME
       ? wrongUsers.length + 1 === users.length
       : wrongUsers.length === users.length;
 
-    if (allUsersHaveAnsweredWrong && isBrawlGame) nextQuestion();
+    if (allUsersHaveAnsweredWrong && (isBrawlGame || IS_LEAGUE_GAME))
+      nextQuestion();
   }, [wrongUsers.length]);
 
   const handleCorrectAnswer = ({ answer, userId }: SelectedAnswerPayload) => {
@@ -299,7 +298,7 @@ const QuestionScreen: React.FC<
               userName={userNameByAnswer[a]}
             />
           ))}
-          {youAreAdmin ? (
+          {youAreAdmin && IS_LEAGUE_GAME ? (
             <BodyMedium
               text="Spectator"
               color="warning500"

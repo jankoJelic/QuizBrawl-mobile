@@ -132,7 +132,8 @@ const LeagueScreen: React.FC<
     dispatch(startLoading());
     try {
       await API.deleteLeague(id);
-      navigation.navigate('Leagues');
+      SOCKET.emit(SOCKET_EVENTS.LEAGUE_DELETED, id);
+      handleLeagueDeleted(id);
     } catch (error) {
     } finally {
       dispatch(stopLoading());
@@ -200,6 +201,14 @@ const LeagueScreen: React.FC<
     }));
   };
 
+  const handleLeagueDeleted = (leagueId: number) => {
+    if (leagueId === id) {
+      navigation.navigate('Leagues');
+      dispatch(showToast({ text: 'League deleted', type: 'error' }));
+      dispatch(removeLeague(leagueId));
+    }
+  };
+
   const userInLeague = (userId: number) =>
     league?.users?.some(u => u.id === userId);
 
@@ -218,11 +227,7 @@ const LeagueScreen: React.FC<
     });
 
     SOCKET.on(SOCKET_EVENTS.LEAGUE_DELETED, (leagueId: number) => {
-      if (leagueId === id) {
-        navigation.navigate('Leagues');
-        dispatch(showToast({ text: 'League deleted', type: 'error' }));
-        dispatch(removeLeague(leagueId));
-      }
+      handleLeagueDeleted(leagueId);
     });
 
     SOCKET.on(
@@ -375,9 +380,9 @@ const LeagueScreen: React.FC<
           ...quiz,
           users: users as UserData[],
           type: 'brawl',
-          maxPlayers: users?.length ? users.length - 1 : 2,
+          maxPlayers: users?.length,
           bet,
-          
+          answerTime: 15,
         },
       }),
     );
@@ -451,7 +456,9 @@ const LeagueScreen: React.FC<
             </View>
           </>
         }
-        data={removeDuplicatesFromArray(users)}
+        data={removeDuplicatesFromArray(users).sort((a, b) =>
+          score[a.id] > score[b.id] ? -1 : 1,
+        )}
         renderItem={renderUser}
         keyExtractor={item => `${item.id}_${item.firstName}_league_standing`}
         ListFooterComponent={

@@ -175,7 +175,11 @@ const ResultsScreen: React.FC<
       />
       {isMultiPlayerGame || isLeagueGame ? (
         <FlatList
-          data={usersByScore}
+          data={
+            isLeagueGame
+              ? usersByScore?.filter(u => u.id !== activeRoom.userId)
+              : usersByScore
+          }
           renderItem={renderUser}
           keyExtractor={item => item.id + 'user_results'}
         />

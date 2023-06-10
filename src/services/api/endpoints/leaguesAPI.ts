@@ -57,7 +57,7 @@ const leaguesAPI = {
   },
 
   registerLeagueAnswer: async (leagueId: number, correct: boolean) => {
-    post(`/leagues/league/${leagueId}/answer`);
+    post(`/leagues/league/${leagueId}/answer`, { correct });
   },
 };
 
