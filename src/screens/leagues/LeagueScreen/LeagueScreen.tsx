@@ -322,8 +322,8 @@ const LeagueScreen: React.FC<
         : ((myCorrectAnswers() * 100) / myTotalAnswers()).toFixed(2);
 
     const myGamesPlayed = () => {
-      if (!!totalAnswers && item.id in totalAnswers) {
-        return String(totalAnswers[item.id]);
+      if (!!gamesPlayed && item.id in gamesPlayed) {
+        return String(gamesPlayed[item.id]);
       } else return '0';
     };
 

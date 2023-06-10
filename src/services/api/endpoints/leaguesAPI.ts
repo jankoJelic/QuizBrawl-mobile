@@ -47,8 +47,12 @@ const leaguesAPI = {
   submitLeagueScore: async (
     leagueId: number,
     score: Record<number, number>,
+    quizId: number,
   ) => {
-    const { data } = await post(`/leagues/league/${leagueId}/score`, { score });
+    const { data } = await post(`/leagues/league/${leagueId}/score`, {
+      score,
+      quizId,
+    });
     return data;
   },
 
