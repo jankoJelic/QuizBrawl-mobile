@@ -58,7 +58,7 @@ const ResultsScreen: React.FC<
       Animated.spring(rewardTranslateY, {
         toValue: SCREEN_HEIGHT,
         useNativeDriver: true,
-        delay: 800, 
+        delay: 800,
       }),
     ]).start();
   };
@@ -137,7 +137,7 @@ const ResultsScreen: React.FC<
       await submitSoloGameScore();
     } else if (isCashGame) {
       await submitCashGameScore();
-    } else if (!!leagueId) {
+    } else if (isLeagueGame) {
       const reward = await API.submitLeagueScore(leagueId, score);
     }
 
@@ -161,7 +161,7 @@ const ResultsScreen: React.FC<
       SOCKET.off(SOCKET_EVENTS.WRONG_ANSWER_SELECTED);
     }
 
-    API.updateQuestionStats(answers);
+    if (!isLeagueGame) API.updateQuestionStats(answers);
   }, []);
 
   return (
@@ -173,7 +173,7 @@ const ResultsScreen: React.FC<
         style={{ marginBottom: AN(24) }}
         fullWidth
       />
-      {isMultiPlayerGame ? (
+      {isMultiPlayerGame || isLeagueGame ? (
         <FlatList
           data={usersByScore}
           renderItem={renderUser}

@@ -366,7 +366,7 @@ const LeagueScreen: React.FC<
     });
   };
 
-  const startLeagueGame = (quiz: Room & { questions: Question[] }) => {
+  const startLeagueGame = (quiz: Quiz & { questions: Question[] }) => {
     dispatch(
       initializeGame({
         leagueId: id,
@@ -377,6 +377,7 @@ const LeagueScreen: React.FC<
           type: 'brawl',
           maxPlayers: users?.length ? users.length - 1 : 2,
           bet,
+          
         },
       }),
     );
@@ -461,6 +462,7 @@ const LeagueScreen: React.FC<
                 title="+ Add"
                 style={{ width: AN(65) }}
                 onPress={onPressAddQuiz}
+                disabled={!youAreInLeague}
               />
               <QuizesList
                 horizontal

@@ -11,7 +11,9 @@ import { UserData } from 'store/types/authSliceTypes';
 
 const UsersTopBar = ({ wrongUsers, correctUser }: Props) => {
   const { styles, colors } = useStyles(createStyles);
-  const { activeRoom, score } = useAppSelector(state => state.game);
+  const { activeRoom, score, leagueId } = useAppSelector(state => state.game);
+  const isLeagueGame = !!leagueId;
+  const { users } = activeRoom || {};
 
   const renderUser = ({ item }: { item: UserData }) => {
     const borderColor = () => {
@@ -28,14 +30,13 @@ const UsersTopBar = ({ wrongUsers, correctUser }: Props) => {
       <View
         style={{
           ...styles.userTile,
-          width: SCREEN_WIDTH / (activeRoom.users.length + 2),
+          width: SCREEN_WIDTH / (users.length + 2),
           borderColor: borderColor(),
         }}>
         <FastImage
           style={{ width: AN(25), aspectRatio: 1 }}
           source={{ uri: item.avatar }}
         />
-        {/* <UserAvatar size={AN(20)} avatar={item.avatar} /> */}
         <BodySmall text={item.firstName} style={{ marginTop: AN(2) }} />
         <BodySmall text={String(score[item.id])} />
       </View>
@@ -43,7 +44,9 @@ const UsersTopBar = ({ wrongUsers, correctUser }: Props) => {
   };
   return (
     <FlatList
-      data={activeRoom.users}
+      data={
+        isLeagueGame ? users.filter(u => u.id !== activeRoom.userId) : users
+      }
       renderItem={renderUser}
       horizontal
       showsHorizontalScrollIndicator={false}

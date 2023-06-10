@@ -59,13 +59,14 @@ const QuestionScreen: React.FC<
     leagueType,
   } = useAppSelector((state: RootState) => state.game);
   const IS_LEAGUE_GAME = !!leagueId;
-  const youAreAdmin = activeRoom.userId === userData.id;
 
   const isBrawlGame = type === 'brawl';
   const isClassicGame = type === 'classic';
   const nextQuestionTimeout = isBrawlGame ? 2000 : 0;
 
-  const { answerTime, id: roomId, users, topic } = activeRoom || {};
+  const { answerTime, id: roomId, users, topic, userId } = activeRoom || {};
+  const youAreAdmin = userId === userData.id;
+
   const isAdminLeagueGame = IS_LEAGUE_GAME && leagueType === 'ADMIN';
 
   const currentQuestion: Question = questions[onQuestion];
@@ -298,6 +299,15 @@ const QuestionScreen: React.FC<
               userName={userNameByAnswer[a]}
             />
           ))}
+          {youAreAdmin ? (
+            <BodyMedium
+              text="Spectator"
+              color="warning500"
+              style={{ textAlign: 'center', marginTop: AN(20) }}
+            />
+          ) : (
+            <></>
+          )}
         </View>
         {type === 'classic' ? (
           <>

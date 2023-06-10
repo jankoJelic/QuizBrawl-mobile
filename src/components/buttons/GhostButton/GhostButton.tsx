@@ -14,6 +14,7 @@ const GhostButton = ({
   iconName = '',
   iconColor = 'neutral300',
   style = {},
+  disabled = false,
 }: Props) => {
   const { colors, styles } = useStyles(createStyles);
 
@@ -26,9 +27,15 @@ const GhostButton = ({
 
   return (
     <TouchableOpacity
+      disabled={disabled}
       activeOpacity={0.75}
       onPress={onPress}
-      style={{ ...styles.container, borderColor: colors[color], ...style }}>
+      style={{
+        ...styles.container,
+        borderColor: colors[color],
+        ...style,
+        opacity: disabled ? 0.6 : 1,
+      }}>
       {renderIcon()}
       <BodyMedium text={title} color={color} weight="bold" />
     </TouchableOpacity>
@@ -59,4 +66,5 @@ interface Props {
   iconName?: IconName | '';
   iconColor?: Color;
   style?: {};
+  disabled?: boolean;
 }
