@@ -33,7 +33,7 @@ const ResultsScreen: React.FC<
 > = ({ navigation, route }) => {
   usePreventNativeBackButton();
   const { leagueId } = route.params || {};
-  const { styles, colors } = useStyles(createStyles);
+  const { styles } = useStyles(createStyles);
   const dispatch = useDispatch();
   const { id } = useAppSelector(state => state.data.userData);
   const { leagues } = useAppSelector(state => state.leagues);
@@ -130,6 +130,12 @@ const ResultsScreen: React.FC<
     if (!!reward) handleReward(reward);
   };
 
+  const submitLeagueScore = async () => {
+    if (!leagueId) return;
+    const reward = await API.submitLeagueScore(leagueId, score, activeRoom.id);
+    setReward(String(reward));
+  };
+
   const submitScoreAndGetReward = async () => {
     if (isArenaGame) {
       await submitArenaGameScore();
@@ -138,7 +144,7 @@ const ResultsScreen: React.FC<
     } else if (isCashGame) {
       await submitCashGameScore();
     } else if (isLeagueGame) {
-      const reward = await API.submitLeagueScore(leagueId, score);
+      await submitLeagueScore();
     }
 
     displayReward();
@@ -146,14 +152,6 @@ const ResultsScreen: React.FC<
 
   useEffect(() => {
     submitScoreAndGetReward();
-
-    if (!!leagueId) {
-      const myLeague = leagues.find(l => l.id === leagueId);
-      SOCKET.emit(SOCKET_EVENTS.LEAGUE_GAME_ENDED, {
-        league: myLeague,
-        userId: id,
-      });
-    }
 
     if (isMultiPlayerGame) {
       if (!leagueId) SOCKET.emit(SOCKET_EVENTS.GAME_ENDED, activeRoom);
@@ -221,11 +219,18 @@ const ResultsScreen: React.FC<
           opacity: rewardOpacity,
           ...styles.trophyContainer,
         }}>
-        <MyImage
-          name={isArenaGame ? 'trophy' : 'money'}
-          style={styles.trophy}
+        {isLeagueGame ? (
+          <></>
+        ) : (
+          <MyImage
+            name={isArenaGame ? 'trophy' : 'money'}
+            style={styles.trophy}
+          />
+        )}
+        <Title
+          color="warning400"
+          text={`${reward}${isLeagueGame ? 'points' : ''}`}
         />
-        <Title color="warning400" text={reward} />
       </Animated.View>
     </ScreenWrapper>
   );
