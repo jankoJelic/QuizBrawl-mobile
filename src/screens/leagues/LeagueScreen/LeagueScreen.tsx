@@ -162,7 +162,7 @@ const LeagueScreen: React.FC<
         connectToLeagueSocket();
     } catch (error) {
       navigation.navigate('Leagues');
-      dispatch(showOoopsToast());
+      showOoopsToast();
     }
   };
 
@@ -249,8 +249,8 @@ const LeagueScreen: React.FC<
 
     SOCKET.on(
       SOCKET_EVENTS.LEAGUE_GAME_STARTED,
-      (nextQuiz: Room & { questions: Question[] }) => {
-        startLeagueGame(nextQuiz);
+      (payload: { quiz: Room & { questions: Question[] }; league: League }) => {
+        startLeagueGame({ quiz: payload.quiz, league: payload.league });
       },
     );
 
@@ -319,7 +319,7 @@ const LeagueScreen: React.FC<
     const myAccuracy =
       myTotalAnswers() === 0
         ? '0.00'
-        : (myCorrectAnswers() / myTotalAnswers()).toFixed(2);
+        : ((myCorrectAnswers() * 100) / myTotalAnswers()).toFixed(2);
 
     const myGamesPlayed = () => {
       if (!!totalAnswers && item.id in totalAnswers) {
@@ -377,16 +377,22 @@ const LeagueScreen: React.FC<
     });
   };
 
-  const startLeagueGame = (quiz: Quiz & { questions: Question[] }) => {
+  const startLeagueGame = ({
+    quiz,
+    league,
+  }: {
+    quiz: Quiz & { questions: Question[] };
+    league: League;
+  }) => {
     dispatch(
       initializeGame({
         leagueId: id,
         questions: quiz?.questions as Question[],
         room: {
           ...quiz,
-          users: users as UserData[],
+          users: league.users as UserData[],
           type: 'brawl',
-          maxPlayers: users?.length,
+          maxPlayers: league.users?.length,
           bet,
           answerTime: 15,
         },
