@@ -19,7 +19,6 @@ import useFCM from 'services/fcm/useFCM';
 import { Colors } from 'constants/styles/Colors';
 import useStyles from 'hooks/styles/useStyles';
 import BottomNavigation from 'navigation/BottomNavigation';
-import API from 'services/api';
 import { useAppSelector } from 'store/index';
 import { getMyQuizzes } from 'store/actions/dataActions';
 
