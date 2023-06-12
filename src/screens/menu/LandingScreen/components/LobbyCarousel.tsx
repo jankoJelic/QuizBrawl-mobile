@@ -1,24 +1,24 @@
 import React, { useEffect, useRef } from 'react';
-import FeatherIcon from 'assets/icons/MyIcon';
-import TileWrapper from 'hoc/TileWrapper';
-import Carousel from 'react-native-snap-carousel';
-import { StyleSheet, View } from 'react-native';
-import { useAppSelector } from 'store/index';
-import { Lobby, LobbyName } from 'store/types/dataSliceTypes';
-import { AN, SCREEN_WIDTH } from 'constants/styles/appStyles';
 import { useDispatch } from 'react-redux';
-import API from 'services/api';
-import { joinLobby, setLobbies } from 'store/slices/dataSlice';
+import { StyleSheet, View } from 'react-native';
+import FastImage from 'react-native-fast-image';
+import Carousel from 'react-native-snap-carousel';
+
+import { useMyNavigation } from 'navigation/hooks/useMyNavigation';
+import { useAppSelector } from 'store/index';
+import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
+import { LOBBY_IDS } from 'constants/constants';
+import { AN, SCREEN_WIDTH } from 'constants/styles/appStyles';
+import TileWrapper from 'hoc/TileWrapper';
+import { Lobby, LobbyName } from 'store/types/dataSliceTypes';
 import Title from 'components/typography/Title';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Color, Colors } from 'constants/styles/Colors';
 import useStyles from 'hooks/styles/useStyles';
 import { setRooms } from 'store/slices/dataSlice';
-import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
-import { LOBBY_IDS } from 'constants/constants';
-import FastImage from 'react-native-fast-image';
 import BodySmall from 'components/typography/BodySmall/BodySmall';
-import { useMyNavigation } from 'navigation/hooks/useMyNavigation';
+import { joinLobby, setLobbies } from 'store/slices/dataSlice';
+import API from 'services/api';
 
 const LobbyCarousel = () => {
   const dispatch = useDispatch();
@@ -28,6 +28,8 @@ const LobbyCarousel = () => {
   const { styles, colors } = useStyles(createStyles);
 
   const { lobbies, rooms, userData } = useAppSelector(state => state.data);
+  const { dailies } = userData || {};
+  const dailiesDone = Object.keys(dailies || []).length;
 
   const getLobbies = async () => {
     const lobbies = await API.getLobbies();
@@ -154,6 +156,8 @@ const LobbyCarousel = () => {
       }
     };
 
+    const isSoloLobby = item.name === 'Solo';
+
     return (
       <TileWrapper style={styles.itemContainer} onPress={onPressTile}>
         <Title
@@ -165,9 +169,19 @@ const LobbyCarousel = () => {
         {renderIcon(item?.name)}
         <View style={styles.infoContainer}>
           <BodyMedium
-            text={`Players online: ${String(item?.users?.length || '0')}`}
+            text={
+              isSoloLobby
+                ? `Events left: ${String(rooms.length - dailiesDone)}`
+                : `Players online: ${String(item?.users?.length || '0')}`
+            }
           />
-          <BodyMedium text={`Rooms: ${String(getLobbyRoomsCount(item.id))}`} />
+          <BodyMedium
+            text={
+              isSoloLobby
+                ? `Events in total: ${String(String(rooms.length))}`
+                : `Rooms: ${String(getLobbyRoomsCount(item.id))}`
+            }
+          />
         </View>
       </TileWrapper>
     );
