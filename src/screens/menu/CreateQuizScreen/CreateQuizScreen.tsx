@@ -148,7 +148,7 @@ const CreateQuizScreen: React.FC<
       <FlatList
         ListHeaderComponent={
           <>
-            <NavHeader title="Create your quiz" />
+            <NavHeader title="Create your quiz" fullWidth />
             <TopicsList
               selectedTopic={selectedTopic}
               onSelectTopic={setselectedTopic}
