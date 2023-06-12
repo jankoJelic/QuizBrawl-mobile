@@ -2,18 +2,19 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import NavHeader from 'components/layout/NavHeader';
 import BodyLarge from 'components/typography/BodyLarge';
 import { Colors } from 'constants/styles/Colors';
-import { AN, BORDER_RADIUS } from 'constants/styles/appStyles';
+import { AN, BORDER_RADIUS, SCREEN_WIDTH } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import TouchableBounce from 'hoc/TouchableBounce';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
 import { useAppSelector } from 'store/index';
 import { setProfileColor, setUserAvatar } from 'store/slices/dataSlice';
 import FastImage from 'react-native-fast-image';
+import UserAvatar from 'components/icons/UserAvatar';
 
 const CustomizeProfileScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'CustomizeProfile'>
@@ -95,6 +96,9 @@ const CustomizeProfileScreen: React.FC<
   return (
     <ScreenWrapper>
       <NavHeader title="Customize" fullWidth style={{ marginBottom: AN(20) }} />
+      <View style={{ alignSelf: 'center', marginVertical: AN(20) }}>
+        <UserAvatar size={SCREEN_WIDTH * 0.4} />
+      </View>
       <BodyLarge text="Select color" />
       <FlatList
         data={profileColors}
