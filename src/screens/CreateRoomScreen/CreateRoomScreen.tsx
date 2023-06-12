@@ -26,7 +26,7 @@ import { useDispatch } from 'react-redux';
 import { startLoading, stopLoading } from 'store/slices/appStateSlice';
 import { LOBBY_IDS } from 'constants/constants';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
-import { joinRoom } from 'store/slices/dataSlice';
+import { addNewRoom, joinRoom } from 'store/slices/dataSlice';
 import TopicsList from 'containers/TopicsList/TopicsList';
 import { useAppSelector } from 'store/index';
 
@@ -79,8 +79,8 @@ const CreateRoomScreen: React.FC<
       };
 
       const room = await API.createRoom(body);
-
       dispatch(joinRoom(room));
+      dispatch(addNewRoom(room));
 
       SOCKET.emit(SOCKET_EVENTS.ROOM_CREATED, room);
 

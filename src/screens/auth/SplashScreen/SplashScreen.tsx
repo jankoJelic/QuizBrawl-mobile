@@ -15,13 +15,17 @@ const SplashScreen = ({
   const { styles, colors } = useStyles(createStyles);
 
   const checkForPin = async () => {
-    const accessToken = await ENCRYPTED_STORAGE.getValue('accessToken');
+    try {
+      const accessToken = await ENCRYPTED_STORAGE.getValue('accessToken');
 
-    if (!!accessToken) {
-      await API.getUserData();
-      navigation.navigate('Landing');
-    } else {
-      navigation.navigate('SelectProvider', { flow: 'register' });
+      if (!!accessToken) {
+        await API.getUserData();
+        navigation.navigate('Landing');
+      } else {
+        navigation.navigate('SelectProvider', { flow: 'register' });
+      }
+    } catch (error) {
+      navigation.navigate('SelectProvider', { flow: 'login' });
     }
   };
 

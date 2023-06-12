@@ -27,7 +27,6 @@ const RoomScreen: React.FC<
   const { onQuestion } = useAppSelector(state => state.game);
   const { rooms, userData } = useAppSelector(state => state.data);
   const room = rooms.find(r => r.id === route.params.room.id);
-
   const {
     name,
     userId,
@@ -39,7 +38,6 @@ const RoomScreen: React.FC<
     readyUsers,
     hostName,
   } = room || {};
-
   const isRoomAdmin = userId === userData.id;
 
   const [userActionSheetVisible, setUserActionSheetVisible] = useState(false);
