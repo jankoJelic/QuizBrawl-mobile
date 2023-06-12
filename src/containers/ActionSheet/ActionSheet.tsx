@@ -2,6 +2,7 @@ import { Colors } from 'constants/styles/Colors';
 import {
   AN,
   BORDER_RADIUS,
+  IS_ANDROID,
   PADDING_HORIZONTAL,
   SCREEN_WIDTH,
 } from 'constants/styles/appStyles';
@@ -31,7 +32,7 @@ const createStyles = (colors: Colors) =>
   StyleSheet.create({
     modal: {
       position: 'absolute',
-      bottom: 0,
+      bottom: IS_ANDROID ? AN(-15) : 0,
       backgroundColor: colors.tileBackground,
       width: SCREEN_WIDTH,
       alignSelf: 'center',

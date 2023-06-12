@@ -84,6 +84,8 @@ const CreateLeagueScreen: React.FC<
     }
   };
 
+  const filteredLeagueImages = leagueImages.slice(1, leagueImages.length - 1);
+
   return (
     <ScreenWrapper>
       <NavHeader title="Create league" fullWidth />
@@ -96,7 +98,7 @@ const CreateLeagueScreen: React.FC<
         {leagueImages.length ? (
           <View>
             <FlatList
-              data={leagueImages}
+              data={filteredLeagueImages}
               renderItem={renderImage}
               horizontal
               keyExtractor={item => item + '_leagueImage'}

@@ -448,6 +448,7 @@ const LeagueScreen: React.FC<
     <ScreenWrapper fullWidth>
       <NavHeader
         title={name}
+        onPressLeftIcon={navigation.goBack}
         RightIcon={
           <MyIcon
             name="more-horizontal"
