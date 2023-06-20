@@ -19,6 +19,7 @@ const UserTile = ({
   onPress = () => {},
   isOnline,
   showTrophies = false,
+  rank,
 }: Props) => {
   const { styles, commonStyles } = useStyles(createStyles);
 
@@ -34,7 +35,8 @@ const UserTile = ({
 
   return (
     <TileWrapper key={user.id} style={styles.container} onPress={onPressMe}>
-      <View style={{ flexDirection: 'row' }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        {rank && <BodyMedium text={String(rank)} style={{ right: AN(6) }} />}
         <UserAvatar size={AN(22)} avatar={user.avatar} color={user.color} />
         <BodyMedium
           text={`${user.firstName} ${user.lastName}`}
@@ -81,4 +83,5 @@ interface Props {
   onPress?: (user: ShallowUser) => void;
   isOnline?: boolean;
   showTrophies?: boolean;
+  rank?: number;
 }
