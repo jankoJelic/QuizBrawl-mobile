@@ -1,3 +1,4 @@
+import MyIcon from 'assets/icons/MyIcon';
 import FeatherIcon from 'assets/icons/MyIcon';
 import UserAvatar from 'components/icons/UserAvatar';
 import Tag from 'components/misc/Tag';
@@ -17,10 +18,15 @@ const UserTile = ({
   isReady,
   onPress = () => {},
   isOnline,
+  showTrophies = false,
 }: Props) => {
   const { styles, commonStyles } = useStyles(createStyles);
 
-  const rightSideText = !!score ? `${String(score)} pts` : `lvl ${user.level}`;
+  const rightSideText = showTrophies
+    ? String(user.trophies)
+    : !!score
+    ? `${String(score)} pts`
+    : `lvl ${user.level}`;
 
   const onPressMe = () => {
     onPress(user);
@@ -49,6 +55,7 @@ const UserTile = ({
         )}
         {isOnline && <View style={commonStyles.onlineIndicator} />}
         <Tag text={rightSideText} color="brand500" />
+        {showTrophies && <MyIcon name="trophy" />}
       </View>
     </TileWrapper>
   );
@@ -73,4 +80,5 @@ interface Props {
   isReady?: boolean;
   onPress?: (user: ShallowUser) => void;
   isOnline?: boolean;
+  showTrophies?: boolean;
 }

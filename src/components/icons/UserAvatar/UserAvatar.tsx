@@ -15,6 +15,7 @@ const UserAvatar = ({
   avatar = '',
   color = '',
   showBorder = false,
+  style = {},
 }) => {
   const { styles, colors } = useStyles(createStyles);
   const { userData } = useAppSelector(state => state.data);
@@ -34,6 +35,7 @@ const UserAvatar = ({
           borderWidth: showBorder ? 1 : 0,
           borderColor: colors.neutral500,
         },
+        style,
       ]}>
       {AVATAR ? (
         <FastImage

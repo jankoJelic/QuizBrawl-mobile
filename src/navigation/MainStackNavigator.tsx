@@ -24,6 +24,7 @@ import QuizesScreen from 'screens/menu/MyQuizesScreen';
 import LeaguesScreen from 'screens/leagues/LeaguesScreen';
 import LeagueScreen from 'screens/leagues/LeagueScreen';
 import CreateLeagueScreen from 'screens/leagues/CreateLeagueScreen';
+import LeaderboardsScreen from 'screens/menu/LeaderboardsScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamsList>();
 
@@ -64,6 +65,7 @@ const MainStackNavigator = () => (
 
     <Stack.Screen name="Friends" component={FriendsScreen} />
     <Stack.Screen name="Market" component={MarketScreen} />
+    <Stack.Screen name="Leaderboards" component={LeaderboardsScreen} />
 
     <Stack.Screen name="CreateQuiz" component={CreateQuizScreen} />
     <Stack.Screen name="MyQuizes" component={QuizesScreen} />

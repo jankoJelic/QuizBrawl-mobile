@@ -51,7 +51,9 @@ const BottomNavigation = () => {
 
   const startQuickGame = () => {};
 
-  const goToRankings = () => {};
+  const goToRankings = () => {
+    navigation.navigate('Leaderboards');
+  };
 
   const goToLeagues = () => {
     navigation.navigate('Leagues');

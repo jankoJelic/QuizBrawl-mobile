@@ -1,6 +1,6 @@
 import FeatherIcon from 'assets/icons/MyIcon';
 import Title from 'components/typography/Title';
-import { Colors } from 'constants/styles/Colors';
+import { Color, Colors } from 'constants/styles/Colors';
 import { PADDING_HORIZONTAL, AN } from 'constants/styles/appStyles';
 import useStyles from 'hooks/styles/useStyles';
 import { useMyNavigation } from 'navigation/hooks/useMyNavigation';
@@ -16,6 +16,7 @@ const NavHeader = ({
   onPressLeftIcon,
   onPressRightIcon,
   RightIcon,
+  color = 'mainTextColor',
 }: Props) => {
   const { styles } = useStyles(createStyles);
   const navigation = useMyNavigation();
@@ -41,10 +42,10 @@ const NavHeader = ({
         name="arrow-left"
         size={iconSize}
         onPress={showLeftIcon ? onPressLeftArrow : undefined}
-        color="mainTextColor"
+        color={color}
         style={{ opacity: showLeftIcon ? 1 : 0 }}
       />
-      <Title text={title} color="mainTextColor" />
+      <Title text={title} color={color} />
       {!!RightIcon ? (
         RightIcon
       ) : (
@@ -52,7 +53,7 @@ const NavHeader = ({
           name="x"
           size={iconSize}
           onPress={onPressRightArrow}
-          color="mainTextColor"
+          color={color}
           style={{ opacity: showRightIcon ? 1 : 0 }}
         />
       )}
@@ -82,4 +83,5 @@ interface Props {
   onPressLeftIcon?: () => void;
   onPressRightIcon?: () => void;
   RightIcon?: JSX.Element;
+  color?: Color;
 }

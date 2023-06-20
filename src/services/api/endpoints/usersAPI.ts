@@ -29,4 +29,9 @@ export const usersAPI = {
   registerAnswers: async (correct: boolean, topic: Topic) => {
     post('/users/registerAnswer', { correct, topic });
   },
+
+  getLeaderboards: async () => {
+    const { data } = await get('/users/leaderboards');
+    return data;
+  },
 };

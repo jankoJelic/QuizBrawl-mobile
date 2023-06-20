@@ -17,6 +17,7 @@ export type MainStackParamsList = {
   Profile: UserData;
   Friends: undefined;
   Market: undefined;
+  Leaderboards: undefined;
 
   Lobby: { lobbyId: number };
   CashGameLobby: undefined;

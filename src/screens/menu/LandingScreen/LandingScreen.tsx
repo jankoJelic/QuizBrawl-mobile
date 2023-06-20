@@ -21,6 +21,7 @@ import useStyles from 'hooks/styles/useStyles';
 import BottomNavigation from 'navigation/BottomNavigation';
 import { useAppSelector } from 'store/index';
 import { getMyQuizzes } from 'store/actions/dataActions';
+import { setStatusBar } from 'store/slices/appStateSlice';
 
 const LandingScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Landing'>
@@ -36,6 +37,7 @@ const LandingScreen: React.FC<
 
   useEffect(() => {
     if (isFocused) {
+      dispatch(setStatusBar({ topColor: colors.neutral500 }));
       dispatch(exitLobby());
       dispatch(exitRoom());
     }

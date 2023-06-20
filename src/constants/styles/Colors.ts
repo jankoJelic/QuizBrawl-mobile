@@ -69,6 +69,10 @@ export const lightThemeColors = {
   lightGrey: '#F0EEED',
   platinum: '#EEE9DA',
   transparent: ' #00FFFFFF',
+  // leaderboards
+  gold: '#FFD700',
+  silver: '#808080',
+  bronze: '#CD7F32',
 };
 
 export const darkThemeColors = {

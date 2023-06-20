@@ -31,6 +31,10 @@ const MyIcon = ({
   const imageStyle = { width: size, height: size, ...style };
 
   switch (name) {
+    case 'trophy':
+      return (
+        <FastImage style={imageStyle} source={require('../icons/trophy.png')} />
+      );
     case 'market':
       return (
         <FastImage source={require('../icons/market.png')} style={imageStyle} />

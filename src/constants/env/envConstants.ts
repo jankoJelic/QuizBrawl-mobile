@@ -7,7 +7,6 @@ import {
   OAUTH_WEB_CLIENT_ID,
   FIREBASE_STORAGE_BUCKET,
 } from '@env';
-import { Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
 export const BASE_URL = 'https://quiz-clash.herokuapp.com';
