@@ -46,7 +46,16 @@ const LeaderboardsScreen = () => {
   }: {
     item: ShallowUser;
     index: number;
-  }) => <UserTile user={item} showTrophies rank={index + 4} />;
+  }) => (
+    <UserTile
+      user={item}
+      showTrophies
+      rank={index + 4}
+      onPress={() => {
+        setSelectedUser(item);
+      }}
+    />
+  );
 
   const closeUserActionSheet = () => {
     setSelectedUser(undefined);
