@@ -1,5 +1,5 @@
 import FeatherIcon from 'assets/icons/MyIcon';
-import Title from 'components/typography/Title';
+import HeadingH1 from 'components/typography/HeadingH1';
 import { Color, Colors } from 'constants/styles/Colors';
 import { PADDING_HORIZONTAL, AN } from 'constants/styles/appStyles';
 import useStyles from 'hooks/styles/useStyles';
@@ -45,7 +45,7 @@ const NavHeader = ({
         color={color}
         style={{ opacity: showLeftIcon ? 1 : 0 }}
       />
-      <Title text={title} color={color} />
+      <HeadingH1 text={title} color={color} />
       {!!RightIcon ? (
         RightIcon
       ) : (
@@ -68,7 +68,8 @@ const createStyles = (colors: Colors) =>
       alignItems: 'center',
       justifyContent: 'space-between',
       paddingHorizontal: PADDING_HORIZONTAL,
-      marginVertical: AN(20),
+      marginTop: AN(15),
+      marginBottom: AN(30),
     },
   });
 

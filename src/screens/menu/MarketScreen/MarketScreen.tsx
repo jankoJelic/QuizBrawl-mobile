@@ -69,7 +69,7 @@ const MarketScreen: React.FC<
 
   return (
     <ScreenWrapper>
-      <NavHeader title="Market" />
+      <NavHeader title="Market" fullWidth />
       <BodyLarge
         text={`Balance:  ${money}$`}
         style={{ marginBottom: AN(20) }}
