@@ -10,6 +10,7 @@ import useStyles from 'hooks/styles/useStyles';
 import React, { useEffect, useState } from 'react';
 import { TextInput, View, StyleSheet } from 'react-native';
 import Collapsible from 'react-native-collapsible';
+import FastImage from 'react-native-fast-image';
 import { Asset, launchImageLibrary } from 'react-native-image-picker';
 import { useDispatch } from 'react-redux';
 import { answersArray } from 'screens/games/QuestionScreen/QuestionScreen';
@@ -24,9 +25,9 @@ import {
 
 const QuestionInput = ({ index, question }: Props) => {
   const dispatch = useDispatch();
-  const { styles, colors } = useStyles(createStyles);
+  const { styles } = useStyles(createStyles);
 
-  const { activeQuestionIndex, questions, name } = useAppSelector(
+  const { activeQuestionIndex, questions } = useAppSelector(
     state => state.createQuiz,
   );
   const collapsed = activeQuestionIndex !== index;
@@ -35,14 +36,16 @@ const QuestionInput = ({ index, question }: Props) => {
   const [image, setImage] = useState<Asset | string | undefined>(
     question?.image || undefined,
   );
+  const [imageUrl, setImageUrl] = useState('');
 
-  const getImageUrl = async () => {
-    if (!image) return;
-    const url = await getFirebaseImageUrl(image?.fileName || '');
-  };
   useEffect(() => {
-    getImageUrl();
+    if (typeof question?.image === 'string') {
+      getFirebaseImageUrl(question?.image).then(res => {
+        setImageUrl(res);
+      });
+    }
   }, []);
+
   const [answer1, setAnswer1] = useState(question.answer1 || '');
   const [answer2, setAnswer2] = useState(question.answer2 || '');
   const [answer3, setAnswer3] = useState(question.answer3 || '');
@@ -175,15 +178,30 @@ const QuestionInput = ({ index, question }: Props) => {
       {renderQuestion()}
       <Collapsible collapsed={collapsed}>
         <TileWrapper style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <BodyMedium
-            text={
-              typeof image === 'string'
-                ? image
-                : image?.fileName || 'No image selected'
-            }
-            style={{ flex: 1, padingRight: AN(10) }}
-            color="neutral400"
-          />
+          {image?.uri ? (
+            <FastImage
+              source={{ uri: image.uri }}
+              style={styles.image}
+              resizeMode="contain"
+            />
+          ) : imageUrl ? (
+            <FastImage
+              source={{ uri: imageUrl }}
+              style={styles.image}
+              resizeMode="contain"
+            />
+          ) : (
+            <BodyMedium
+              text={
+                typeof image === 'string'
+                  ? image
+                  : image?.fileName || 'No image selected'
+              }
+              style={{ flex: 1, padingRight: AN(10) }}
+              color="neutral400"
+            />
+          )}
+
           <GhostButton
             title={image ? 'Remove' : 'Add image'}
             style={{ flex: 0.5 }}
@@ -220,6 +238,7 @@ const createStyles = (colors: Colors) =>
     },
     questionText: { flex: 1, color: colors.mainTextColor },
     container: { marginTop: AN(12) },
+    image: { flex: 1, width: AN(50), height: AN(50) },
   });
 
 export default QuestionInput;

@@ -34,7 +34,6 @@ import {
 } from 'store/slices/createQuizSlice';
 import { Topic } from 'store/types/dataSliceTypes';
 import { isIntegerBewteen } from 'util/strings/isIntegerBetween';
-import storage from '@react-native-firebase/storage';
 import { uploadFirebaseImage } from 'services/firebaseStorage/firebaseStorage';
 
 const CreateQuizScreen: React.FC<
@@ -118,6 +117,7 @@ const CreateQuizScreen: React.FC<
   };
 
   const submitQuiz = async () => {
+    dispatch(startLoading());
     try {
       const newQuiz = await API.createQuiz(payload);
 
@@ -131,7 +131,9 @@ const CreateQuizScreen: React.FC<
       } else {
         navigation.navigate('MyQuizes');
       }
+      dispatch(stopLoading());
     } catch (error) {
+      dispatch(stopLoading());
       showOoopsToast();
     }
   };
@@ -142,7 +144,6 @@ const CreateQuizScreen: React.FC<
     dispatch(startLoading());
     try {
       const newQuiz = await API.updateQuiz(quiz.id, payload);
-      console.log(payload);
       dispatch(updateQuiz(newQuiz));
       uploadImages();
       navigation.goBack();

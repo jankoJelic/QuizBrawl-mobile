@@ -2,9 +2,9 @@ import storage from '@react-native-firebase/storage';
 
 export const getFirebaseImageUrl = async (
   imageName: string,
-  customQuiz?: boolean,
+  prefix = 'customQuizzes',
 ) => {
-  return await storage().ref(`customQuizzes/${imageName}`).getDownloadURL();
+  return await storage().ref(`${prefix}/${imageName}`).getDownloadURL();
 };
 
 export const uploadFirebaseImage = async ({
