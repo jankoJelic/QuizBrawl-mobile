@@ -146,7 +146,6 @@ const QuestionScreen: React.FC<
   useEffect(() => {
     if (!!image && typeof image === 'string') {
       getFirebaseImageUrl(image).then(res => {
-        console.log(res);
         setImageUrl(res);
       });
     }
