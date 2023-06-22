@@ -25,6 +25,7 @@ import LeaguesScreen from 'screens/leagues/LeaguesScreen';
 import LeagueScreen from 'screens/leagues/LeagueScreen';
 import CreateLeagueScreen from 'screens/leagues/CreateLeagueScreen';
 import LeaderboardsScreen from 'screens/menu/LeaderboardsScreen';
+import AboutScreen from 'screens/menu/AboutScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamsList>();
 
@@ -47,6 +48,7 @@ const MainStackNavigator = () => (
     {/* PROFILE SCREENS */}
     <Stack.Screen name="CustomizeProfile" component={CustomizeProfileScreen} />
     <Stack.Screen name="Inbox" component={InboxScreen} />
+    <Stack.Screen name="About" component={AboutScreen} />
     <Stack.Screen
       name="Profile"
       component={ProfileScreen}

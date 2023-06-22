@@ -29,13 +29,16 @@ const Sidebar = ({ children }: Props) => {
   const onClose = () => {
     dispatch(hideSideBar());
   };
-  
 
   const onOpen = () => {};
 
   const goToProfile = () => {
     navigation.navigate('Profile', userData);
     onClose();
+  };
+
+  const goToAboutScreen = () => {
+    navigation.navigate('About');
   };
 
   const onPressLogout = () => {
@@ -118,7 +121,7 @@ const Sidebar = ({ children }: Props) => {
             <MenuTile
               title="Get to know me"
               icon="coffee"
-              onPress={goToProfile}
+              onPress={goToAboutScreen}
             />
 
             <BodySmall
