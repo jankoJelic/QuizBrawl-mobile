@@ -2,15 +2,10 @@ import axios from 'axios';
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import handleAccessToken from './interceptors/handleAccessToken';
 import handleRefreshToken from './interceptors/handleRefreshToken';
-import { Platform } from 'react-native';
+import { BASE_URL } from 'constants/env/envConstants';
 
 const httpClient = axios.create({
-  baseURL: Platform.select({
-    android: 'https://quiz-clash.herokuapp.com',
-    ios: 'https://quiz-clash.herokuapp.com',
-    // android: 'http://10.0.2.2:3000',
-    // ios: 'http://localhost:3000',
-  }),
+  baseURL: BASE_URL,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
