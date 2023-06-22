@@ -6,15 +6,20 @@ import {
   OAUTH_IOS_CLIENT_ID,
   OAUTH_WEB_CLIENT_ID,
   FIREBASE_STORAGE_BUCKET,
+  ENV,
 } from '@env';
+import { Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
-export const BASE_URL = 'https://quiz-clash.herokuapp.com';
+export const IS_DEV = ENV === 'dev';
 
-// Platform.select({
-//   android: 'http://10.0.2.2:3000',
-//   ios: 'http://localhost:3000',
-// });
+export const BASE_URL = IS_DEV
+  ? Platform.select({
+      android: 'http://10.0.2.2:3000',
+      ios: 'http://localhost:3000',
+    })
+  : 'https://quiz-clash.herokuapp.com';
+
 export const SALT = SALT_DEV;
 export const WS_URL = WS_URL_DEV;
 export const BASE_URL_IMAGES = BASE_IMAGES_URL;

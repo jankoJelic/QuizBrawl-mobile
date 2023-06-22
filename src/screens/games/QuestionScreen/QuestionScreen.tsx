@@ -3,7 +3,7 @@ import CTA from 'components/buttons/CTA';
 import AnswerTile from 'components/tiles/AnswerTile';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Colors } from 'constants/styles/Colors';
-import { AN } from 'constants/styles/appStyles';
+import { AN, SCREEN_HEIGHT } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import TileWrapper from 'hoc/TileWrapper';
 import useStyles from 'hooks/styles/useStyles';
@@ -27,6 +27,9 @@ import { registerAnswer } from 'store/slices/dataSlice';
 import RateQuestionBar from './components/RateQuestionBar';
 import QuestionCountdown from './components/QuestionCountdown';
 import API from 'services/api';
+import storage from '@react-native-firebase/storage';
+import FastImage from 'react-native-fast-image';
+import { getFirebaseImageUrl } from 'services/firebaseStorage/firebaseStorage';
 
 const startingUsersByAnswer = {
   answer1: '',
@@ -82,6 +85,7 @@ const QuestionScreen: React.FC<
   const [secondsLeft, setSecondsLeft] = useState(answerTime);
   const [wrongUsers, setWrongUsers] = useState<number[]>([]);
   const [correctUser, setCorrectUser] = useState(0);
+  const [imageUrl, setImageUrl] = useState('');
   const [liked, setLiked] = useState<undefined | boolean>(undefined);
 
   const [userNameByAnswer, setUserNameByAnswer] = useState<
@@ -138,6 +142,15 @@ const QuestionScreen: React.FC<
     setWrongUsers(prevState => prevState.concat([userId]));
     setUserNameForAnswer(answer, userId);
   };
+
+  useEffect(() => {
+    if (!!image && typeof image === 'string') {
+      getFirebaseImageUrl(image).then(res => {
+        console.log(res);
+        setImageUrl(res);
+      });
+    }
+  }, [onQuestion]);
 
   useEffect(() => {
     const allUsersHaveAnsweredWrong = IS_LEAGUE_GAME
@@ -274,6 +287,15 @@ const QuestionScreen: React.FC<
           />
           <TileWrapper style={styles.questionTile}>
             <BodyMedium text={question} style={{ textAlign: 'center' }} />
+            {!!imageUrl ? (
+              <FastImage
+                source={{ uri: imageUrl }}
+                style={styles.image}
+                resizeMode="contain"
+              />
+            ) : (
+              <></>
+            )}
           </TileWrapper>
           {answersArray.map((a: CorrectAnswer, index: number) => (
             <AnswerTile
@@ -337,6 +359,11 @@ const createStyles = (colors: Colors) =>
       position: 'absolute',
       bottom: AN(20),
       alignSelf: 'center',
+    },
+    image: {
+      width: '100%',
+      marginTop: AN(10),
+      height: SCREEN_HEIGHT * 0.22,
     },
   });
 
