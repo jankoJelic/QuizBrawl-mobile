@@ -229,6 +229,11 @@ export const authSlice = createSlice({
     setInbox: (state, action) => {
       state.userData.inbox = action.payload;
     },
+    updateBalance: (state, action: { payload: number }) => {
+      const currentBalance = state.userData.money;
+      const updatedBalance = currentBalance + action.payload;
+      state.userData.money = updatedBalance;
+    },
   },
 });
 
@@ -262,6 +267,7 @@ export const {
   storeReward,
   registerDailyResult,
   setInbox,
+  updateBalance,
 } = authSlice.actions;
 
 export default authSlice.reducer;

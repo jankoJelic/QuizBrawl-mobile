@@ -43,7 +43,7 @@ export interface ShallowUser {
 }
 
 export interface Reward {
-  name: string;
+  name?: string;
   image?: string;
   description?: string;
   payload: string;

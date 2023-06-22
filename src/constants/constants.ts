@@ -6,3 +6,5 @@ export const LOBBY_IDS = {
 
 export const APP_DISPLAY_NAME = 'Quiz Clash';
 export const STORE_URL = '';
+
+export const AVATAR_PRICE = 100;

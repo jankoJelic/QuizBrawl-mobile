@@ -27,6 +27,16 @@ const rewardsAPI = {
     );
     return data;
   },
+
+  getMarket: async () => {
+    const { data } = await get<MarketResponse>('/rewards/market');
+    return data;
+  },
+
+  makeMarketPurchase: async ({ type, payload }: MarketPurchaseBody) => {
+    const { data } = await post(`/rewards/market/buy/${type}`, { payload });
+    return data;
+  },
 };
 
 export default rewardsAPI;
@@ -36,4 +46,15 @@ export type MultiplayerGameScore = Record<number, number>;
 interface RegisterCashScoreResponse {
   money: number;
   reward?: Reward;
+}
+
+export interface MarketResponse {
+  avatars: string[];
+}
+
+export type MarketProductType = 'avatar';
+
+interface MarketPurchaseBody {
+  type: MarketProductType;
+  payload: any;
 }
