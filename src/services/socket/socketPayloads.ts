@@ -1,3 +1,4 @@
+import { Asset } from 'react-native-image-picker';
 import { UserData } from 'store/types/authSliceTypes';
 import { Room, Topic } from 'store/types/dataSliceTypes';
 
@@ -21,7 +22,7 @@ export interface Question {
   answer4: string;
   correctAnswer: CorrectAnswer;
   difficulty: 'EASY' | 'MEDIUM' | 'HARD';
-  image?: string;
+  image?: string | Asset;
   topic: Topic;
   id: number;
 }

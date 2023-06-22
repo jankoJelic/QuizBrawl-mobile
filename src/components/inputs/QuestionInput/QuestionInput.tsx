@@ -2,15 +2,18 @@ import MyIcon from 'assets/icons/MyIcon';
 import CTA from 'components/buttons/CTA';
 import GhostButton from 'components/buttons/GhostButton/GhostButton';
 import AnswerTile from 'components/tiles/AnswerTile';
+import BodyMedium from 'components/typography/BodyMedium';
 import { Colors } from 'constants/styles/Colors';
 import { AN } from 'constants/styles/appStyles';
 import TileWrapper from 'hoc/TileWrapper';
 import useStyles from 'hooks/styles/useStyles';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextInput, View, StyleSheet } from 'react-native';
 import Collapsible from 'react-native-collapsible';
+import { Asset, launchImageLibrary } from 'react-native-image-picker';
 import { useDispatch } from 'react-redux';
 import { answersArray } from 'screens/games/QuestionScreen/QuestionScreen';
+import { getFirebaseImageUrl } from 'services/firebaseStorage/firebaseStorage';
 import { CorrectAnswer, Question } from 'services/socket/socketPayloads';
 import { useAppSelector } from 'store/index';
 import { editQuestion, removeQuestion } from 'store/slices/createQuizSlice';
@@ -29,6 +32,17 @@ const QuestionInput = ({ index, question }: Props) => {
   const collapsed = activeQuestionIndex !== index;
 
   const [questionText, setQuestionText] = useState(question.question);
+  const [image, setImage] = useState<Asset | string | undefined>(
+    question?.image || undefined,
+  );
+
+  const getImageUrl = async () => {
+    if (!image) return;
+    const url = await getFirebaseImageUrl(image?.fileName || '');
+  };
+  useEffect(() => {
+    getImageUrl();
+  }, []);
   const [answer1, setAnswer1] = useState(question.answer1 || '');
   const [answer2, setAnswer2] = useState(question.answer2 || '');
   const [answer3, setAnswer3] = useState(question.answer3 || '');
@@ -67,6 +81,7 @@ const QuestionInput = ({ index, question }: Props) => {
       answer3,
       answer4,
       correctAnswer,
+      ...(!!image && { image }),
     };
 
     const payload = { question: questionPayload as Question, index };
@@ -144,10 +159,38 @@ const QuestionInput = ({ index, question }: Props) => {
       />
     ));
 
+  const onPressAddImage = async () => {
+    if (!image) {
+      const result = await launchImageLibrary({ mediaType: 'photo' });
+      if (!!result?.assets) {
+        setImage(result.assets[0]);
+      }
+    } else {
+      setImage(undefined);
+    }
+  };
+
   return (
     <View style={styles.container}>
       {renderQuestion()}
       <Collapsible collapsed={collapsed}>
+        <TileWrapper style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <BodyMedium
+            text={
+              typeof image === 'string'
+                ? image
+                : image?.fileName || 'No image selected'
+            }
+            style={{ flex: 1, padingRight: AN(10) }}
+            color="neutral400"
+          />
+          <GhostButton
+            title={image ? 'Remove' : 'Add image'}
+            style={{ flex: 0.5 }}
+            onPress={onPressAddImage}
+            color={image ? 'danger500' : 'brand500'}
+          />
+        </TileWrapper>
         {renderAnswers()}
         {questionSaved ? (
           <GhostButton

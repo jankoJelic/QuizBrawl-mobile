@@ -34,6 +34,8 @@ import {
 } from 'store/slices/createQuizSlice';
 import { Topic } from 'store/types/dataSliceTypes';
 import { isIntegerBewteen } from 'util/strings/isIntegerBetween';
+import storage from '@react-native-firebase/storage';
+import { uploadFirebaseImage } from 'services/firebaseStorage/firebaseStorage';
 
 const CreateQuizScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'CreateQuiz'>
@@ -91,17 +93,36 @@ const CreateQuizScreen: React.FC<
     };
   }, []);
 
+  const uploadImages = () => {
+    questions.forEach(q => {
+      if (typeof q.image !== 'string') {
+        uploadFirebaseImage({
+          folder: 'customQuizzes',
+          fileName: q.image?.fileName as string,
+          filePath: q.image?.uri as string,
+        });
+      }
+    });
+  };
+
   const payload = {
     answerTime: Number(answerTime),
     name: quizName,
-    questions,
+    questions: questions.map(q => ({
+      ...q,
+      ...(typeof q?.image !== 'string' && !!q?.image
+        ? { image: q.image.fileName }
+        : { image: q.image }),
+    })),
     topic: selectedTopic,
   };
 
   const submitQuiz = async () => {
     try {
       const newQuiz = await API.createQuiz(payload);
+
       dispatch(addQuiz(newQuiz));
+      uploadImages();
 
       if (!!leagueId) {
         const league = await API.getLeague(leagueId);
@@ -117,10 +138,13 @@ const CreateQuizScreen: React.FC<
 
   const onPressUpdate = async () => {
     if (!quiz?.id) return;
+
     dispatch(startLoading());
     try {
       const newQuiz = await API.updateQuiz(quiz.id, payload);
+      console.log(payload);
       dispatch(updateQuiz(newQuiz));
+      uploadImages();
       navigation.goBack();
     } catch (error) {
       showOoopsToast();
