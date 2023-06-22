@@ -14,7 +14,7 @@ import { Linking, StyleSheet, Text, View } from 'react-native';
 const AboutScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'About'>
 > = ({ navigation }) => {
-  const { styles, colors, commonStyles } = useStyles(createStyles);
+  const { styles, commonStyles } = useStyles(createStyles);
 
   const prepareSupportEmail = () => {
     Linking.openURL('mailto:quizclashgame@gmail.com?subject=Hello');
@@ -25,7 +25,7 @@ const AboutScreen: React.FC<
   return (
     <ScreenWrapper>
       <NavHeader fullWidth title="About me" />
-      <Text style={{ textAlign: 'center', marginTop: AN(20) }}>
+      <Text style={styles.description}>
         <BodyLarge
           text={`Hello, I am a very passionate developer and quiz maker. Hope you are enjoying this game with yours friends as much as I've enjoyed making it.
 
@@ -40,7 +40,7 @@ If you would like to contribute by creating amazing new questions, contact me at
       </Text>
       <View style={commonStyles.ctaFooter}>
         <BodyMedium
-          style={{ textAlign: 'center' }}
+          style={styles.footerText}
           text="You can also support my effort by buying me coffee and for that I buy you in-game coffee :)"
         />
         <CTA title="Buy me a coffee" onPress={onPressBuyCoffee} />
@@ -49,6 +49,10 @@ If you would like to contribute by creating amazing new questions, contact me at
   );
 };
 
-const createStyles = (colors: Colors) => StyleSheet.create({});
+const createStyles = (colors: Colors) =>
+  StyleSheet.create({
+    description: { textAlign: 'center', marginTop: AN(20) },
+    footerText: { textAlign: 'center', marginBottom: AN(10) },
+  });
 
 export default AboutScreen;
