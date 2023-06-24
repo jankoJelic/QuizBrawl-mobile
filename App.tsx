@@ -1,10 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  Alert,
-  KeyboardAvoidingView,
-  SafeAreaView,
-  StatusBar,
-} from 'react-native';
+import { KeyboardAvoidingView, SafeAreaView, StatusBar } from 'react-native';
 import { useAppSelector } from './src/store';
 import { NavigationContainer } from '@react-navigation/native';
 import MainStackNavigator from './src/navigation/MainStackNavigator';
@@ -12,11 +7,12 @@ import FullScreenSpinner from './src/components/modals/FullScreenSpinner';
 import Toast from 'components/modals/Toast';
 import { configureGoogleSignIn } from 'services/googleAuth/configureGoogleSignIn';
 import { enableScreens } from 'react-native-screens';
+import Reward from 'containers/Reward/Reward';
 
 function App(): JSX.Element {
-  const { topColor, bottomColor } = useAppSelector(
-    state => state.appState.statusBar,
-  );
+  const {
+    statusBar: { topColor, bottomColor },
+  } = useAppSelector(state => state.appState);
 
   useEffect(() => {
     configureGoogleSignIn();
@@ -33,6 +29,7 @@ function App(): JSX.Element {
           <FullScreenSpinner />
         </SafeAreaView>
         <Toast />
+        <Reward />
       </NavigationContainer>
     </KeyboardAvoidingView>
   );

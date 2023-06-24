@@ -10,16 +10,15 @@ import CreateYourQuizTile from './components/CreateYourQuizTile';
 import { connectToSocket } from 'services/socket/connectToSocket';
 import { useIsFocused } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { exitLobby, exitRoom, setFriends } from 'store/slices/dataSlice';
+import { exitLobby, exitRoom } from 'store/slices/dataSlice';
 import usePreventNativeBackButton from 'navigation/hooks/usePreventNativeBack';
-import { AN } from 'constants/styles/appStyles';
+import { AN, IS_ANDROID } from 'constants/styles/appStyles';
 import Sidebar from 'containers/SideBar';
 import { PermissionsAndroid, StyleSheet } from 'react-native';
 import useFCM from 'services/fcm/useFCM';
 import { Colors } from 'constants/styles/Colors';
 import useStyles from 'hooks/styles/useStyles';
 import BottomNavigation from 'navigation/BottomNavigation';
-import { useAppSelector } from 'store/index';
 import { getMyQuizzes } from 'store/actions/dataActions';
 import { setStatusBar } from 'store/slices/appStateSlice';
 
@@ -28,7 +27,6 @@ const LandingScreen: React.FC<
 > = ({ navigation }) => {
   usePreventNativeBackButton();
   const { colors } = useStyles(createStyles);
-  const { friends } = useAppSelector(state => state.data.userData);
 
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
@@ -45,10 +43,10 @@ const LandingScreen: React.FC<
 
   useEffect(() => {
     connectToSocket(navigation);
-
-    PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
-    );
+    if (IS_ANDROID)
+      PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+      );
 
     getMyQuizzes();
   }, []);

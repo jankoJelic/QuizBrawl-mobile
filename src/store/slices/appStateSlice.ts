@@ -5,6 +5,12 @@ import {
   darkThemeColors,
 } from '../../constants/styles/Colors';
 
+type Currency = 'trophies' | 'points' | 'money';
+type Reward = {
+  visible: boolean;
+  amount: number;
+  currency: Currency;
+};
 export interface AppState {
   theme: 'light' | 'dark';
   colors: Colors;
@@ -12,7 +18,14 @@ export interface AppState {
   statusBar: StatusBarState;
   toast: ToastState;
   sideBarVisible: boolean;
+  reward: Reward;
 }
+
+const initialRewardState = {
+  visible: false,
+  amount: 0,
+  currency: 'trophies' as Currency,
+};
 
 const initialState: AppState = {
   theme: 'light',
@@ -29,6 +42,7 @@ const initialState: AppState = {
     type: 'success',
   },
   sideBarVisible: false,
+  reward: initialRewardState,
 };
 
 export const appStateSlice = createSlice({
@@ -65,6 +79,16 @@ export const appStateSlice = createSlice({
     hideSideBar: state => {
       state.sideBarVisible = false;
     },
+    hideReward: state => {
+      state.reward.visible = false;
+    },
+    showReward: (state, action: { payload: Reward }) => {
+      state.reward = {
+        visible: true,
+        amount: action.payload.amount,
+        currency: action.payload.currency,
+      };
+    },
   },
 });
 
@@ -77,6 +101,8 @@ export const {
   hideToast,
   showSideBar,
   hideSideBar,
+  hideReward,
+  showReward,
 } = appStateSlice.actions;
 
 export default appStateSlice.reducer;
