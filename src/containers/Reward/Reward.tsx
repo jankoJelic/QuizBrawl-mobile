@@ -31,8 +31,10 @@ const Reward = () => {
     switch (currency) {
       case 'trophies':
         return 'trophy';
-      default:
+      case 'money':
         return 'money';
+      default:
+        return '';
     }
   };
 
@@ -43,7 +45,12 @@ const Reward = () => {
       animationIn="bounceInDown"
       animationOut="fadeOutUp">
       <Animated.View style={styles.trophyContainer}>
-        <MyImage name={iconName()} style={styles.trophy} />
+        {!!iconName() && (
+          <MyImage
+            name={iconName() as 'money' | 'trophy'}
+            style={styles.trophy}
+          />
+        )}
         <TileWrapper style={styles.amount}>
           <Title
             color="warning400"
