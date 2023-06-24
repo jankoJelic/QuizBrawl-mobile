@@ -14,6 +14,10 @@ import { useDispatch } from 'react-redux';
 import API from 'services/api';
 import { signInWithGoogle } from 'services/googleAuth/loginWithGoogle';
 import { startLoading, stopLoading } from 'store/slices/appStateSlice';
+import {
+  AppleButton,
+  appleAuth,
+} from '@invertase/react-native-apple-authentication';
 
 const SelectProviderScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'SelectProvider'>
@@ -48,6 +52,33 @@ const SelectProviderScreen: React.FC<
     navigation.navigate(isLoginFlow ? 'Register' : 'Login');
   };
 
+  const onPressAppleButton = async () => {
+    dispatch(startLoading());
+    try {
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        // Note: it appears putting FULL_NAME first is important, see issue #293
+        requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+      });
+
+      // get current authentication state for user
+      // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+      const credentialState = await appleAuth.getCredentialStateForUser(
+        appleAuthRequestResponse.user,
+      );
+
+      // use credentialState response to ensure the user is authenticated
+      if (credentialState === appleAuth.State.AUTHORIZED) {
+        console.log(appleAuth.Scope, appleAuth.State);
+        // user is authenticated
+      }
+    } catch (e) {
+      console.log(JSON.stringify(e));
+    } finally {
+      dispatch(stopLoading());
+    }
+  };
+
   return (
     <ScreenWrapper>
       <NavHeader
@@ -61,6 +92,19 @@ const SelectProviderScreen: React.FC<
         title={`${action} with Google`}
         onPress={initializeGoogleSignIn}
         iconName="googleLogo"
+      />
+
+      <View style={styles.horizontalLineContainer}>
+        <BodyMedium text="    or    " />
+      </View>
+      <AppleButton
+        buttonStyle={AppleButton.Style.WHITE}
+        buttonType={AppleButton.Type.SIGN_IN}
+        style={{
+          width: '100%', // You must specify a width
+          height: 45, // You must specify a height
+        }}
+        onPress={onPressAppleButton}
       />
       <View style={styles.horizontalLineContainer}>
         <BodyMedium text="    or    " />

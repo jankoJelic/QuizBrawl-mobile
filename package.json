@@ -11,6 +11,7 @@
     "purge": "rm -rf node_modules && yarn cache clean && watchman watch-del-all && yarn && yarn start --reset-cache"
   },
   "dependencies": {
+    "@invertase/react-native-apple-authentication": "^2.2.2",
     "@react-native-firebase/app": "^17.5.0",
     "@react-native-firebase/crashlytics": "^18.0.0",
     "@react-native-firebase/messaging": "^17.5.0",
