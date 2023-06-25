@@ -22,7 +22,7 @@ const LeaguesScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Leagues'>
 > = ({ navigation }) => {
   const dispatch = useDispatch();
-  const { styles, colors, commonStyles } = useStyles(createStyles);
+  const { styles, commonStyles } = useStyles(createStyles);
   const { leagues } = useAppSelector(state => state.leagues);
   const { id } = useAppSelector(state => state.data.userData);
 
@@ -80,25 +80,32 @@ const LeaguesScreen: React.FC<
   return (
     <ScreenWrapper>
       <NavHeader fullWidth title="Leagues" />
-      <BodyLarge text="My leagues" style={{ marginBottom: AN(10) }} />
 
       <FlatList
-        data={myLeagues}
-        renderItem={renderItem}
-        keyExtractor={item => item.id + '_myLeague'}
-        style={{ maxHeight: (myLeagues?.length || 0) * 80 }}
-        contentContainerStyle={{ maxHeight: (myLeagues?.length || 0) * 80 }}
-      />
-      <BodyLarge text="All leagues" style={{ top: AN(20) }} />
-      <InputField
-        placeholder="Search..."
-        value={searchInput}
-        onChangeText={setSearchInput}
-      />
-      <FlatList
+        ListHeaderComponent={
+          <>
+            <BodyLarge text="My leagues" style={{ marginBottom: AN(10) }} />
+            <FlatList
+              data={myLeagues}
+              renderItem={renderItem}
+              keyExtractor={item => item.id + '_myLeague'}
+              style={{ maxHeight: (myLeagues?.length || 0) * 80 }}
+              contentContainerStyle={{
+                maxHeight: (myLeagues?.length || 0) * 80,
+              }}
+            />
+            <BodyLarge text="All leagues" style={{ top: AN(20) }} />
+            <InputField
+              placeholder="Search..."
+              value={searchInput}
+              onChangeText={setSearchInput}
+            />
+          </>
+        }
         data={leaguesToDisplay}
         renderItem={renderItem}
         keyExtractor={item => item.id + '_allLeagues'}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: AN(200) }}
       />
       <CTA
         title="Create new league"
