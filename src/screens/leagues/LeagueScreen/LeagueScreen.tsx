@@ -406,7 +406,11 @@ const LeagueScreen: React.FC<
 
   const allUsersReady = readyUsers?.length === users?.length;
   const startGameEnabled =
-    allUsersReady && !!selectedQuiz && selectedQuiz?.userId === nextQuizUserId;
+    !allUsersReady ||
+    (allUsersReady &&
+      !!selectedQuiz &&
+      selectedQuiz?.userId === nextQuizUserId &&
+      users?.length > 2);
 
   const setNextQuiz = (quiz: Quiz) => {
     if (quizIdHistory.includes(quiz.id)) {
@@ -539,7 +543,7 @@ const LeagueScreen: React.FC<
           title={allUsersReady ? 'Start game' : 'Invite players'}
           onPress={allUsersReady ? onPressStartGame : invitePlayers}
           style={{ ...commonStyles.ctaFooter, width: SCREEN_WIDTH * 0.9 }}
-          // disabled={!startGameEnabled}
+          disabled={!startGameEnabled}
         />
       ) : (
         <CTA
