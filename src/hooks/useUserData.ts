@@ -15,7 +15,9 @@ export const getUserLevel = (correctAnswersCount: number) => {
 };
 
 export const getFavouriteTopic = (totalAnswers: Record<Topic, number>) => {
-  const highestPlayedAnswers = Math.max(...Object.values(totalAnswers)) || 0;
+  const highestPlayedAnswers = totalAnswers
+    ? Math.max(...Object.values(totalAnswers))
+    : 0;
   return Object.keys(totalAnswers).find(
     key => totalAnswers[key] === highestPlayedAnswers,
   );
