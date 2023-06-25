@@ -169,6 +169,7 @@ const LeagueScreen: React.FC<
 
   const addUserToRoom = (user: ShallowUser) => {
     setLeague(prevState => {
+      const newUserId = user.id;
       const userIsReady = prevState.readyUsers.some(id => id === user.id);
       const userInRoom = prevState.users.some(u => u.id === user.id);
       return {
@@ -177,6 +178,7 @@ const LeagueScreen: React.FC<
           readyUsers: prevState.readyUsers.concat([user.id]),
         }),
         ...(!userInRoom && { users: prevState.users.concat([user]) }),
+        score: { ...prevState.score, userId: 0 },
       };
     });
   };
