@@ -7,6 +7,7 @@ import ActionSheet from './ActionSheet';
 import { useAppSelector } from 'store/index';
 import GhostButton from 'components/buttons/GhostButton/GhostButton';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
+import { getUserLevel } from 'hooks/useUserData';
 
 const UserActionSheet = ({
   selectedUser,
@@ -40,7 +41,17 @@ const UserActionSheet = ({
         value={String(selectedUser?.accuracyPercentage) + '%'}
       />
       <InfoLine title="Favourite topic" value={selectedUser?.favouriteTopic} />
-      <InfoLine title="Rank" value={String(selectedUser?.rank)} />
+      <InfoLine
+        title="Rank"
+        value={getUserLevel(
+          selectedUser
+            ? Object?.values(selectedUser?.correctAnswers)?.reduce(
+                (a, b) => a + b,
+                0,
+              )
+            : 0,
+        )}
+      />
       {youAreSelected || isFriend ? (
         <></>
       ) : (

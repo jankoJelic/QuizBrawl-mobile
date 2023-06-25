@@ -116,7 +116,7 @@ const CreateLeagueScreen: React.FC<
           onChangeText={setPassword}
         />
 
-        <InputField title="Buy in" value={bet} onChangeText={setBet} />
+        {/* <InputField title="Buy in" value={bet} onChangeText={setBet} /> */}
         <BodyLarge text="Type" style={styles.subtitle} />
         <CheckboxTile
           onPress={() => {

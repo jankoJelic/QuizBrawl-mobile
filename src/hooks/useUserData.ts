@@ -1,6 +1,6 @@
 import { useAppSelector } from 'store/index';
 
-const getUserLevel = (correctAnswersCount: number) => {
+export const getUserLevel = (correctAnswersCount: number) => {
   if (correctAnswersCount < 100) return levels[100];
   if (correctAnswersCount < 200) return levels[200];
   if (correctAnswersCount < 400) return levels[400];

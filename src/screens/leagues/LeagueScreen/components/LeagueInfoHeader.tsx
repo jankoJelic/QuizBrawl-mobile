@@ -34,8 +34,8 @@ const LeagueInfoHeader = ({ selectedQuiz, league }: Props) => {
             style={styles.alignTextRight}
           />
           <BodyLarge text={`Type: ${type}`} />
-          <BodyLarge text={`Bet: ${bet}`} style={styles.alignTextRight} />
-          <BodyLarge text={`Reward: ${bet}`} style={styles.alignTextRight} />
+          {/* <BodyLarge text={`Bet: ${bet}`} style={styles.alignTextRight} />
+          <BodyLarge text={`Reward: ${bet}`} style={styles.alignTextRight} /> */}
         </View>
       </View>
       <View>
