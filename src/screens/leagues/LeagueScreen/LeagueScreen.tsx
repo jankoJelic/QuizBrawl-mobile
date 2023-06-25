@@ -171,12 +171,12 @@ const LeagueScreen: React.FC<
   const addUserToRoom = (user: ShallowUser) => {
     setLeague(prevState => {
       const newUserId = user.id;
-      const userIsReady = prevState.readyUsers.some(id => id === user.id);
-      const userInRoom = prevState.users.some(u => u.id === user.id);
+      const userIsReady = prevState.readyUsers.some(id => id === newUserId);
+      const userInRoom = prevState.users.some(u => u.id === newUserId);
       return {
         ...prevState,
         ...(!userIsReady && {
-          readyUsers: prevState.readyUsers.concat([user.id]),
+          readyUsers: prevState.readyUsers.concat([newUserId]),
         }),
         ...(!userInRoom && { users: prevState.users.concat([user]) }),
         score: { ...prevState.score, userId: 0 },
@@ -404,10 +404,9 @@ const LeagueScreen: React.FC<
     );
   };
 
+  const allUsersReady = readyUsers?.length === users?.length;
   const startGameEnabled =
-    readyUsers?.length === users?.length &&
-    !!selectedQuiz &&
-    selectedQuiz?.userId === nextQuizUserId;
+    allUsersReady && !!selectedQuiz && selectedQuiz?.userId === nextQuizUserId;
 
   const setNextQuiz = (quiz: Quiz) => {
     if (quizIdHistory.includes(quiz.id)) {
@@ -445,6 +444,23 @@ const LeagueScreen: React.FC<
     } finally {
       dispatch(stopLoading());
     }
+  };
+
+  const sendLeagueGameInvite = (id: number) => {
+    API.sendNotification({
+      recipientId: id,
+      title: `${name}: ${userData.firstName} wants you to join a game`,
+      text: 'League game invite',
+      data: { type: 'LEAGUE_GAME_INVITE', payload: String(id) },
+    });
+  };
+
+  const invitePlayers = () => {
+    const notReadyUsersIds = users
+      .filter(u => !readyUsers.includes(u.id))
+      .map(u => u.id);
+
+    notReadyUsersIds.forEach(sendLeagueGameInvite);
   };
 
   return (
@@ -520,10 +536,10 @@ const LeagueScreen: React.FC<
       </ActionSheet>
       {youAreInLeague ? (
         <CTA
-          title="Start game"
-          onPress={onPressStartGame}
+          title={allUsersReady ? 'Start game' : 'Invite players'}
+          onPress={allUsersReady ? onPressStartGame : invitePlayers}
           style={{ ...commonStyles.ctaFooter, width: SCREEN_WIDTH * 0.9 }}
-          disabled={!startGameEnabled}
+          // disabled={!startGameEnabled}
         />
       ) : (
         <CTA

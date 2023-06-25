@@ -1,6 +1,7 @@
+import { MessageType } from 'store/types/dataSliceTypes';
 import httpClient from '../httpClient';
 
-const { destroy, patch, get } = httpClient;
+const { destroy, post, get } = httpClient;
 
 export const messagesAPI = {
   deleteMessage: async (id: string) => {
@@ -16,4 +17,15 @@ export const messagesAPI = {
     const { data } = await get('/messages');
     return data;
   },
+
+  sendNotification: async (body: SendNotificationBody) => {
+    post('/messages/message', body);
+  },
 };
+
+interface SendNotificationBody {
+  title: string;
+  recipientId: number;
+  text: string;
+  data: { type: MessageType; payload: string };
+}

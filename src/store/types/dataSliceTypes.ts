@@ -43,6 +43,7 @@ export type GameType = 'brawl' | 'classic';
 export type MessageType =
   | 'REWARD'
   | 'GAME_INVITE'
+  | 'LEAGUE_GAME_INVITE'
   | 'FRIEND_REQUEST'
   | 'JOIN_LEAGUE_REQUEST';
 
