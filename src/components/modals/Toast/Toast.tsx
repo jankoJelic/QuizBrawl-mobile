@@ -12,6 +12,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Modal from 'react-native-modal';
 import { useDispatch } from 'react-redux';
+import { handleOnPressNotification } from 'services/fcm/useFCM';
 import { useAppSelector } from 'store/index';
 import { hideToast } from 'store/slices/appStateSlice';
 
@@ -19,7 +20,7 @@ const Toast = () => {
   const dispatch = useDispatch();
   const { styles, colors } = useStyles(createStyles);
   const { toast } = useAppSelector(state => state.appState);
-  const { visible, text, type } = toast;
+  const { visible, text, type, remoteMessage } = toast || {};
 
   const hide = () => {
     dispatch(hideToast());
@@ -45,15 +46,9 @@ const Toast = () => {
   };
 
   const onPressToast = () => {
-    return;
-    // if (
-    //   toast?.text.includes('friend request') &&
-    //   toast?.text.includes('accepted')
-    // ) {
-    //   navigation.navigate('Friends');
-    // } else if (toast?.text.includes('friend request')) {
-    //   navigation.navigate('Inbox');
-    // }
+    if (remoteMessage?.hasOwnProperty('data')) {
+      handleOnPressNotification(remoteMessage);
+    }
   };
 
   return (

@@ -4,6 +4,7 @@ import {
   Colors,
   darkThemeColors,
 } from '../../constants/styles/Colors';
+import { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 
 type Currency = 'trophies' | 'points' | 'money';
 type Reward = {
@@ -40,6 +41,7 @@ const initialState: AppState = {
     visible: false,
     text: '',
     type: 'success',
+    remoteMessage: {},
   },
   sideBarVisible: false,
   reward: initialRewardState,
@@ -72,6 +74,7 @@ export const appStateSlice = createSlice({
     },
     hideToast: state => {
       state.toast.visible = false;
+      state.toast.remoteMessage = {};
     },
     showSideBar: state => {
       state.sideBarVisible = true;
@@ -111,6 +114,7 @@ interface ToastState {
   visible?: boolean;
   text: string;
   type: 'success' | 'error' | 'warning';
+  remoteMessage?: FirebaseMessagingTypes.RemoteMessage | {};
 }
 
 interface StatusBarState {

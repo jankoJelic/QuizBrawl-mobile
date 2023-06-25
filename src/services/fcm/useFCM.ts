@@ -1,11 +1,14 @@
-import messaging, {
-  FirebaseMessagingTypes,
-} from '@react-native-firebase/messaging';
+import messaging from '@react-native-firebase/messaging';
 import { navigate } from 'navigation/MainStackNavigator';
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import API from 'services/api';
 import { store } from 'store/index';
-import { startLoading, stopLoading } from 'store/slices/appStateSlice';
+import {
+  showToast,
+  startLoading,
+  stopLoading,
+} from 'store/slices/appStateSlice';
 import { MessageType } from 'store/types/dataSliceTypes';
 
 export interface Notification {
@@ -39,6 +42,8 @@ export const handleOnPressNotification = async (message: Notification) => {
 };
 
 const useFCM = () => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     messaging()
       .getToken()
@@ -53,20 +58,30 @@ const useFCM = () => {
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(remoteMessage => {
-      console.log('on IN APP ===> message!!!');
-      console.log(remoteMessage);
+      dispatch(
+        showToast({
+          text: remoteMessage.notification?.title || '',
+          type: 'success',
+          remoteMessage,
+        }),
+      );
     });
 
     return unsubscribe;
   }, []);
 
   useEffect(() => {
-    messaging()
-      .getInitialNotification()
-      .then((message: FirebaseMessagingTypes.RemoteMessage) => {
-        handleOnPressNotification(message);
-      });
+    messaging().getInitialNotification().then(handleOnPressNotification);
+    messaging().onNotificationOpenedApp(handleOnPressNotification);
   }, []);
+
+  // useEffect(() => {
+  //   messaging()
+  //     .()
+  //     .then((message: FirebaseMessagingTypes.RemoteMessage) => {
+  //       handleOnPressNotification(message);
+  //     });
+  // }, []);
 };
 
 export default useFCM;
