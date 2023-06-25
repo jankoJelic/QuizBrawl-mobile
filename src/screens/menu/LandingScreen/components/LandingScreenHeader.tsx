@@ -17,7 +17,7 @@ const LandingScreenHeader = () => {
   const dispatch = useDispatch();
   const { styles } = useStyles(createStyles);
   const { userData } = useAppSelector(state => state.data);
-  const { notificationsCount } = useUserData();
+  const { notificationsCount, userLevel } = useUserData();
 
   const openSideBar = () => {
     dispatch(showSideBar());
@@ -30,11 +30,7 @@ const LandingScreenHeader = () => {
         <BodyMedium text="Wanna play a little game?" />
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Tag
-          text={`lvl ${String(userData.level)}`}
-          style={{ marginRight: AN(8) }}
-          color="brand500"
-        />
+        <Tag text={userLevel} style={{ marginRight: AN(8) }} color="brand500" />
         <UserAvatar onPress={openSideBar} />
       </View>
       {notificationsCount ? (

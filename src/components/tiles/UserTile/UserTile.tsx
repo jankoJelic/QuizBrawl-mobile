@@ -7,6 +7,7 @@ import { Colors } from 'constants/styles/Colors';
 import { PADDING_HORIZONTAL, AN } from 'constants/styles/appStyles';
 import TileWrapper from 'hoc/TileWrapper';
 import useStyles from 'hooks/styles/useStyles';
+import { useUserData } from 'hooks/useUserData';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { View } from 'react-native';
@@ -22,12 +23,13 @@ const UserTile = ({
   rank,
 }: Props) => {
   const { styles, commonStyles } = useStyles(createStyles);
+  const { userLevel } = useUserData();
 
   const rightSideText = showTrophies
     ? String(user.trophies)
     : !!score
     ? `${String(score)} pts`
-    : `lvl ${user.level}`;
+    : userLevel;
 
   const onPressMe = () => {
     onPress(user);
