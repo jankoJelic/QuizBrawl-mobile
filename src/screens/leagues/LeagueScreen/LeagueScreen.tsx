@@ -42,6 +42,8 @@ import { Room } from 'store/types/dataSliceTypes';
 import { removeLeague } from 'store/slices/leaguesSlice';
 import { showOoopsToast } from 'store/actions/appStateActions';
 import LeagueActionSheet from './components/LeagueActionSheet';
+import Popup from 'containers/Popup/Popup';
+import ChecklistItem from 'components/tiles/ChecklistItem';
 
 const LeagueScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'League'>
@@ -54,6 +56,7 @@ const LeagueScreen: React.FC<
 
   const [league, setLeague] = useState<League>(route.params.league);
 
+  const [startGameModalVisible, setStartGameModalVisible] = useState(false);
   const [passwordModalVisible, setPasswordModalVisible] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
@@ -405,12 +408,12 @@ const LeagueScreen: React.FC<
   };
 
   const allUsersReady = readyUsers?.length === users?.length;
+  const quizIsSelected =
+    !!selectedQuiz && selectedQuiz?.userId === nextQuizUserId;
+  const atLeast3Players = users?.length > 2;
+
   const startGameEnabled =
-    !allUsersReady ||
-    (allUsersReady &&
-      !!selectedQuiz &&
-      selectedQuiz?.userId === nextQuizUserId &&
-      users?.length > 2);
+    !allUsersReady || (allUsersReady && quizIsSelected && atLeast3Players);
 
   const setNextQuiz = (quiz: Quiz) => {
     if (quizIdHistory.includes(quiz.id)) {
@@ -465,6 +468,14 @@ const LeagueScreen: React.FC<
       .map(u => u.id);
 
     notReadyUsersIds.forEach(sendLeagueGameInvite);
+  };
+
+  const openStartGameInfoModal = () => {
+    setStartGameModalVisible(true);
+  };
+
+  const closeStartGameModal = () => {
+    setStartGameModalVisible(false);
   };
 
   return (
@@ -539,12 +550,23 @@ const LeagueScreen: React.FC<
         />
       </ActionSheet>
       {youAreInLeague ? (
-        <CTA
-          title={allUsersReady ? 'Start game' : 'Invite players'}
-          onPress={allUsersReady ? onPressStartGame : invitePlayers}
-          style={{ ...commonStyles.ctaFooter, width: SCREEN_WIDTH * 0.9 }}
-          disabled={!startGameEnabled}
-        />
+        <View style={commonStyles.ctaFooter}>
+          {startGameEnabled ? (
+            <></>
+          ) : (
+            <MyIcon
+              name="info"
+              style={{ alignSelf: 'flex-end', marginBottom: AN(10) }}
+              onPress={openStartGameInfoModal}
+            />
+          )}
+          <CTA
+            title={allUsersReady ? 'Start game' : 'Invite players'}
+            onPress={allUsersReady ? onPressStartGame : invitePlayers}
+            style={{ width: SCREEN_WIDTH * 0.9 }}
+            disabled={!startGameEnabled}
+          />
+        </View>
       ) : (
         <CTA
           title="Join league"
@@ -559,6 +581,25 @@ const LeagueScreen: React.FC<
         error={passwordError}
         onSubmit={onSubmitPassword}
       />
+      <Popup
+        visible={startGameModalVisible}
+        closeModal={closeStartGameModal}
+        title="Requirements:"
+        firstButtonTitle="OK"
+        onPressFirstButton={closeStartGameModal}
+        Content={
+          <>
+            <ChecklistItem
+              title="At least 3 players"
+              checked={atLeast3Players}
+            />
+            <ChecklistItem title="All users ready" checked={allUsersReady} />
+            <ChecklistItem
+              title="Next up user has selected the quiz"
+              checked={quizIsSelected}
+            />
+          </>
+        }></Popup>
 
       <UserActionSheet
         selectedUser={selectedUser}
