@@ -63,6 +63,11 @@ const leaguesAPI = {
   registerLeagueAnswer: async (leagueId: number, correct: boolean) => {
     post(`/leagues/league/${leagueId}/answer`, { correct });
   },
+
+  updateLeague: async (leagueId: number, body: Partial<CreateLeagueBody>) => {
+    const { data } = await patch(`/leagues/${leagueId}`, body);
+    return data;
+  },
 };
 
 export default leaguesAPI;

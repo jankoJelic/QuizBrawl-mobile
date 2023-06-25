@@ -49,12 +49,6 @@ const InputField = forwardRef((props: Props, ref) => {
       <BodyLarge text={title} style={styles.title} color={color} />
       <TextInput
         ref={inputRef}
-        style={[
-          styles.inputField,
-          {
-            borderColor: colors[color],
-          },
-        ]}
         selectionColor={colors.brand500}
         cursorColor={colors.brand500}
         onFocus={onFocus}
@@ -64,6 +58,13 @@ const InputField = forwardRef((props: Props, ref) => {
         placeholder={props.placeholder}
         placeholderTextColor={colors.neutral300}
         {...props}
+        style={[
+          styles.inputField,
+          {
+            borderColor: colors[color],
+          },
+          props?.style ? props.style : {},
+        ]}
       />
       {!!props.icon && (
         <FeatherIcon

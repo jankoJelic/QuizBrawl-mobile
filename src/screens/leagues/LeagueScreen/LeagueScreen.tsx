@@ -41,6 +41,7 @@ import { Question } from 'services/socket/socketPayloads';
 import { Room } from 'store/types/dataSliceTypes';
 import { removeLeague } from 'store/slices/leaguesSlice';
 import { showOoopsToast } from 'store/actions/appStateActions';
+import LeagueActionSheet from './components/LeagueActionSheet';
 
 const LeagueScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'League'>
@@ -544,21 +545,14 @@ const LeagueScreen: React.FC<
         closeModal={closeUserActionSheet}
         visible={userActionSheetVisible && !!selectedUser}
       />
-      <ActionSheet visible={actionSheetVisible} close={closeActionSheet}>
-        {youAreAdmin ? (
-          <GhostButton
-            title="Delete league"
-            color="danger500"
-            onPress={deleteLeague}
-          />
-        ) : (
-          <GhostButton
-            title="Leave league"
-            color="danger500"
-            onPress={leaveLeague}
-          />
-        )}
-      </ActionSheet>
+      <LeagueActionSheet
+        visible={actionSheetVisible}
+        close={closeActionSheet}
+        onPressDeleteLeague={deleteLeague}
+        onPressLeaveLeague={leaveLeague}
+        league={league}
+        updateLeague={getLeague}
+      />
     </ScreenWrapper>
   );
 };
