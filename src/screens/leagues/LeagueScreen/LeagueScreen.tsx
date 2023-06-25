@@ -599,7 +599,8 @@ const LeagueScreen: React.FC<
               checked={quizIsSelected}
             />
           </>
-        }></Popup>
+        }
+      />
 
       <UserActionSheet
         selectedUser={selectedUser}
