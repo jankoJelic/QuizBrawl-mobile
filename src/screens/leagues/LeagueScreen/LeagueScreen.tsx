@@ -588,7 +588,7 @@ const LeagueScreen: React.FC<
         firstButtonTitle="OK"
         onPressFirstButton={closeStartGameModal}
         Content={
-          <>
+          <View style={{ marginBottom: AN(12) }}>
             <ChecklistItem
               title="At least 3 players"
               checked={atLeast3Players}
@@ -598,7 +598,7 @@ const LeagueScreen: React.FC<
               title="Next up user has selected the quiz"
               checked={quizIsSelected}
             />
-          </>
+          </View>
         }
       />
 
