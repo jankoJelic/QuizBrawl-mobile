@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import { KeyboardAvoidingView, SafeAreaView, StatusBar } from 'react-native';
 import { useAppSelector } from './src/store';
 import { NavigationContainer } from '@react-navigation/native';
-import MainStackNavigator from './src/navigation/MainStackNavigator';
+import MainStackNavigator, {
+  navigationRef,
+} from './src/navigation/MainStackNavigator';
 import FullScreenSpinner from './src/components/modals/FullScreenSpinner';
 import Toast from 'components/modals/Toast';
 import { configureGoogleSignIn } from 'services/googleAuth/configureGoogleSignIn';
@@ -21,7 +23,7 @@ function App(): JSX.Element {
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
-      <NavigationContainer>
+      <NavigationContainer ref={navigationRef}>
         <SafeAreaView style={{ flex: 0, backgroundColor: topColor }} />
         <SafeAreaView style={{ backgroundColor: bottomColor, flex: 1 }}>
           <StatusBar backgroundColor={topColor} barStyle="light-content" />

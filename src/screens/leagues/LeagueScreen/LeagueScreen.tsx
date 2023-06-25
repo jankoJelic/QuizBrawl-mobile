@@ -451,7 +451,7 @@ const LeagueScreen: React.FC<
       recipientId: id,
       title: `${name}: ${userData.firstName} wants you to join a game`,
       text: 'League game invite',
-      data: { type: 'LEAGUE_GAME_INVITE', payload: String(id) },
+      data: { type: 'LEAGUE_GAME_INVITE', payload: String(league.id) },
     });
   };
 

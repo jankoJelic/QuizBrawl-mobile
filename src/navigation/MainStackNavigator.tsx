@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNavigationContainerRef } from '@react-navigation/native';
 import { MainStackParamsList } from './MainStackParamsList';
 import SplashScreen from 'screens/auth/SplashScreen';
 import EnterPinCodeScreen from 'screens/auth/EnterPinCodeScreen';
@@ -28,6 +29,14 @@ import LeaderboardsScreen from 'screens/menu/LeaderboardsScreen';
 import AboutScreen from 'screens/menu/AboutScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamsList>();
+
+export const navigationRef = createNavigationContainerRef();
+
+export function navigate(name: keyof MainStackParamsList, params: any) {
+  if (navigationRef.isReady()) {
+    navigationRef.navigate(name, params);
+  }
+}
 
 const MainStackNavigator = () => (
   <Stack.Navigator
