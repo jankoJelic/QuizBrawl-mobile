@@ -7,7 +7,7 @@ import ActionSheet from './ActionSheet';
 import { useAppSelector } from 'store/index';
 import GhostButton from 'components/buttons/GhostButton/GhostButton';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
-import { getUserLevel } from 'hooks/useUserData';
+import { getFavouriteTopic, getUserLevel } from 'hooks/useUserData';
 
 const UserActionSheet = ({
   selectedUser,
@@ -40,7 +40,12 @@ const UserActionSheet = ({
         title="Accuracy"
         value={String(selectedUser?.accuracyPercentage) + '%'}
       />
-      <InfoLine title="Favourite topic" value={selectedUser?.favouriteTopic} />
+      <InfoLine
+        title="Favourite topic"
+        value={
+          selectedUser ? getFavouriteTopic(selectedUser?.totalAnswers) : ''
+        }
+      />
       <InfoLine
         title="Rank"
         value={getUserLevel(

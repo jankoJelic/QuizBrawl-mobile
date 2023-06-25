@@ -1,4 +1,5 @@
 import { useAppSelector } from 'store/index';
+import { Topic } from 'store/types/dataSliceTypes';
 
 export const getUserLevel = (correctAnswersCount: number) => {
   if (correctAnswersCount < 100) return levels[100];
@@ -13,8 +14,15 @@ export const getUserLevel = (correctAnswersCount: number) => {
   return levels[10000];
 };
 
+export const getFavouriteTopic = (totalAnswers: Record<Topic, number>) => {
+  const highestPlayedAnswers = Math.max(...Object.values(totalAnswers)) || 0;
+  return Object.keys(totalAnswers).find(
+    key => totalAnswers[key] === highestPlayedAnswers,
+  );
+};
+
 export const useUserData = () => {
-  const { inbox, correctAnswers } = useAppSelector(
+  const { inbox, correctAnswers, totalAnswers } = useAppSelector(
     state => state.data.userData,
   );
 
@@ -28,7 +36,9 @@ export const useUserData = () => {
 
   const userLevel = getUserLevel(totalCorrectAnswers);
 
-  return { unreadMessages, notificationsCount, userLevel };
+  const favouriteTopic = getFavouriteTopic(totalAnswers);
+
+  return { unreadMessages, notificationsCount, userLevel, favouriteTopic };
 };
 
 const levels = {
