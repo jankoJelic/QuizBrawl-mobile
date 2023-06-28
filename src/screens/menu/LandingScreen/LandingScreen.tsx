@@ -21,6 +21,7 @@ import useStyles from 'hooks/styles/useStyles';
 import BottomNavigation from 'navigation/BottomNavigation';
 import { getMyQuizzes } from 'store/actions/dataActions';
 import { setStatusBar } from 'store/slices/appStateSlice';
+import { playSound } from 'services/sounds/soundPlayer';
 
 const LandingScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Landing'>
@@ -34,6 +35,7 @@ const LandingScreen: React.FC<
   useFCM();
 
   useEffect(() => {
+    playSound('error');
     if (isFocused) {
       dispatch(setStatusBar({ topColor: colors.neutral500 }));
       dispatch(exitLobby());

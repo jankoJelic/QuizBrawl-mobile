@@ -24,7 +24,12 @@
 		CAF83F9ACBAEC19040E95FF3 /* Pods_CrabJourney_CrabJourneyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F2E6C6184336F919E8668E /* Pods_CrabJourney_CrabJourneyTests.framework */; };
 		D1906B9A5FE54281ADBB72D5 /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C11D690D6DD945AAAB9CF8C8 /* Lato-BoldItalic.ttf */; };
 		D89C84E76FE94BB0BA331EB5 /* Lato-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 03E1E61E20864E9CAEA524A2 /* Lato-ThinItalic.ttf */; };
+		EB216F152A4A1AC500F33EFA /* success.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EB216F142A4A1AC400F33EFA /* success.mp3 */; };
+		EB216F172A4A29F500F33EFA /* error.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EB216F162A4A29F500F33EFA /* error.mp3 */; };
 		EB30352229CF690A00A2D55A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB30352129CF690A00A2D55A /* GoogleService-Info.plist */; };
+		EBAE20A92A4CC1F300E5F14C /* defeat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EBAE20A62A4CC1F200E5F14C /* defeat.mp3 */; };
+		EBAE20AA2A4CC1F300E5F14C /* reward.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EBAE20A72A4CC1F200E5F14C /* reward.mp3 */; };
+		EBAE20AB2A4CC1F300E5F14C /* notification.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EBAE20A82A4CC1F300E5F14C /* notification.mp3 */; };
 		EBFBC8C529E20E59001A8DFA /* LaunchScreen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EBFBC8C429E20E59001A8DFA /* LaunchScreen.jpg */; };
 /* End PBXBuildFile section */
 
@@ -64,7 +69,12 @@
 		C11D690D6DD945AAAB9CF8C8 /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-BoldItalic.ttf"; path = "../src/assets/fonts/Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
 		C1B8EBD1AA599BCCE5CB81F2 /* Pods-CrabJourney-CrabJourneyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CrabJourney-CrabJourneyTests.debug.xcconfig"; path = "Target Support Files/Pods-CrabJourney-CrabJourneyTests/Pods-CrabJourney-CrabJourneyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		DF1B7A6549B84FA6AD41AF1E /* Lato-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Italic.ttf"; path = "../src/assets/fonts/Lato-Italic.ttf"; sourceTree = "<group>"; };
+		EB216F142A4A1AC400F33EFA /* success.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = success.mp3; path = ../../../../Desktop/success.mp3; sourceTree = "<group>"; };
+		EB216F162A4A29F500F33EFA /* error.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = error.mp3; path = ../../../../Desktop/error.mp3; sourceTree = "<group>"; };
 		EB30352129CF690A00A2D55A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		EBAE20A62A4CC1F200E5F14C /* defeat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = defeat.mp3; path = ../../../../Desktop/defeat.mp3; sourceTree = "<group>"; };
+		EBAE20A72A4CC1F200E5F14C /* reward.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = reward.mp3; path = ../../../../Desktop/reward.mp3; sourceTree = "<group>"; };
+		EBAE20A82A4CC1F300E5F14C /* notification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = notification.mp3; path = ../../../../Desktop/notification.mp3; sourceTree = "<group>"; };
 		EBFBC8C429E20E59001A8DFA /* LaunchScreen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = LaunchScreen.jpg; path = ../../../../Downloads/LaunchScreen.jpg; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FE27DACA83E620DC9EACF322 /* Pods-CrabJourney.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CrabJourney.release.xcconfig"; path = "Target Support Files/Pods-CrabJourney/Pods-CrabJourney.release.xcconfig"; sourceTree = "<group>"; };
@@ -135,6 +145,11 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				EBAE20A62A4CC1F200E5F14C /* defeat.mp3 */,
+				EBAE20A82A4CC1F300E5F14C /* notification.mp3 */,
+				EBAE20A72A4CC1F200E5F14C /* reward.mp3 */,
+				EB216F162A4A29F500F33EFA /* error.mp3 */,
+				EB216F142A4A1AC400F33EFA /* success.mp3 */,
 				13B07FAE1A68108700A75B9A /* CrabJourney */,
 				00E356EF1AD99517003FC87E /* CrabJourneyTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -281,12 +296,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				EBAE20A92A4CC1F300E5F14C /* defeat.mp3 in Resources */,
+				EB216F172A4A29F500F33EFA /* error.mp3 in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				EBFBC8C529E20E59001A8DFA /* LaunchScreen.jpg in Resources */,
+				EBAE20AA2A4CC1F300E5F14C /* reward.mp3 in Resources */,
 				EB30352229CF690A00A2D55A /* GoogleService-Info.plist in Resources */,
 				84C20FC89C344E24A1FB09BC /* Lato-Black.ttf in Resources */,
 				9B4DB493B4B142438FFA5E86 /* Lato-BlackItalic.ttf in Resources */,
 				8A7A2747B98A47B1BEBC6AEE /* Lato-Bold.ttf in Resources */,
+				EB216F152A4A1AC500F33EFA /* success.mp3 in Resources */,
 				D1906B9A5FE54281ADBB72D5 /* Lato-BoldItalic.ttf in Resources */,
 				9D88EBC11F3A450681392585 /* Lato-Italic.ttf in Resources */,
 				46A65F5EE35240A2BD5608F4 /* Lato-Light.ttf in Resources */,
@@ -294,6 +313,7 @@
 				7E0958DBF708477EBD2C508E /* Lato-Regular.ttf in Resources */,
 				38AB9861B9F4454795DFF420 /* Lato-Thin.ttf in Resources */,
 				D89C84E76FE94BB0BA331EB5 /* Lato-ThinItalic.ttf in Resources */,
+				EBAE20AB2A4CC1F300E5F14C /* notification.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
