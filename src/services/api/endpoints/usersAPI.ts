@@ -34,4 +34,9 @@ export const usersAPI = {
     const { data } = await get('/users/leaderboards');
     return data;
   },
+
+  getUserRank: async (userId: number) => {
+    const { data } = await get(`/users/${userId}/rank`);
+    return data;
+  },
 };

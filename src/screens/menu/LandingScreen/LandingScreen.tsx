@@ -21,6 +21,7 @@ import useStyles from 'hooks/styles/useStyles';
 import BottomNavigation from 'navigation/BottomNavigation';
 import { getMyQuizzes } from 'store/actions/dataActions';
 import { setStatusBar } from 'store/slices/appStateSlice';
+import { checkMusicEnabled } from 'services/encryptedStorage/tokens/musicEnabledStorage';
 
 const LandingScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Landing'>
@@ -49,6 +50,7 @@ const LandingScreen: React.FC<
       );
 
     getMyQuizzes();
+    checkMusicEnabled();
   }, []);
 
   usePreventNativeBackButton(() => true);

@@ -6,7 +6,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import FastImage, { Source } from 'react-native-fast-image';
 
-const ProfileBadge = ({ amount, imageSource, color }: Props) => {
+const ProfileBadge = ({ amount, imageSource, color, isLoading }: Props) => {
   const { colors, styles } = useStyles(createStyles);
   return (
     <View style={{ ...styles.container, borderColor: colors[color] }}>
@@ -14,7 +14,7 @@ const ProfileBadge = ({ amount, imageSource, color }: Props) => {
         source={imageSource}
         style={{ width: AN(30), aspectRatio: 1 }}
       />
-      <BodySmall text={String(amount)} color={color} />
+      <BodySmall text={isLoading ? '...' : String(amount)} color={color} />
     </View>
   );
 };
@@ -38,4 +38,5 @@ interface Props {
   imageSource: Source;
   amount: string;
   color: Color;
+  isLoading?: boolean;
 }

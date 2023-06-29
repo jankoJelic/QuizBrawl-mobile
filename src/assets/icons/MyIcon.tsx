@@ -143,5 +143,7 @@ export type IconName =
   | 'money'
   | 'friends'
   | 'league'
+  | 'volume-2'
+  | 'volume-x'
   | 'chevron-down'
   | 'chevron-up';

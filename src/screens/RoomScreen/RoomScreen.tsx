@@ -1,7 +1,9 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import MyIcon from 'assets/icons/MyIcon';
 import CTA from 'components/buttons/CTA';
 import GhostButton from 'components/buttons/GhostButton/GhostButton';
 import RoundButton from 'components/buttons/RoundButton/RoundButton';
+import VolumeIcon from 'components/icons/VolumeIcon/VolumeIcon';
 import NavHeader from 'components/layout/NavHeader';
 import InfoLine from 'components/tiles/InfoLine/InfoLine';
 import UserTile from 'components/tiles/UserTile/UserTile';
@@ -102,6 +104,7 @@ const RoomScreen: React.FC<
         style={{ marginBottom: AN(20) }}
         onPressLeftIcon={onPressLeftArrow}
         showRightIcon={false}
+        RightIcon={<VolumeIcon />}
       />
       <MyScrollView>
         <InfoLine title="Host:" value={hostName} />

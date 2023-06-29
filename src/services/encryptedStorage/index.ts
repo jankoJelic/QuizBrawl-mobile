@@ -44,6 +44,7 @@ type EncryptedStorageKey =
   | 'pin'
   | 'accessToken'
   | 'refreshToken'
+  | 'musicEnabled'
   | 'credentials';
 
 export default ENCRYPTED_STORAGE;

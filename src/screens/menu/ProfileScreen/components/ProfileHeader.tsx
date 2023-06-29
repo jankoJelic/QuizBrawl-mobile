@@ -8,7 +8,7 @@ import {
   PADDING_HORIZONTAL,
 } from 'constants/styles/appStyles';
 import useStyles from 'hooks/styles/useStyles';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { setColorOpacity } from 'util/strings/setColorOpacity';
@@ -16,6 +16,7 @@ import ProfileBadge from './ProfileBadge';
 import { useAppSelector } from 'store/index';
 import { useMyNavigation } from 'navigation/hooks/useMyNavigation';
 import { UserData } from 'store/types/authSliceTypes';
+import API from 'services/api';
 
 const ProfileHeader = ({ user }: Props) => {
   const navigation = useMyNavigation();
@@ -26,13 +27,28 @@ const ProfileHeader = ({ user }: Props) => {
     lastName,
     avatar,
     trophies,
-    rank,
     color,
     level,
     isPremium,
     createdAt,
     accuracyPercentage,
+    id,
   } = data || {};
+
+  const [rank, setRank] = useState<number | undefined>(undefined);
+
+  const getUserRank = async () => {
+    try {
+      const fetchedRank = await API.getUserRank(id);
+      setRank(fetchedRank);
+    } catch (error) {
+      setRank(0);
+    }
+  };
+
+  useEffect(() => {
+    getUserRank();
+  }, []);
 
   return (
     <View style={[styles.container, { backgroundColor: color }]}>
@@ -72,6 +88,7 @@ const ProfileHeader = ({ user }: Props) => {
           imageSource={require('../../../../assets/icons/ranking.png')}
           amount={!!rank ? String(rank) : 'n/a'}
           color="danger500"
+          isLoading={rank === undefined}
         />
       </View>
     </View>
