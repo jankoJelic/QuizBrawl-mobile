@@ -14,7 +14,7 @@ import { exitLobby, exitRoom } from 'store/slices/dataSlice';
 import usePreventNativeBackButton from 'navigation/hooks/usePreventNativeBack';
 import { AN, IS_ANDROID } from 'constants/styles/appStyles';
 import Sidebar from 'containers/SideBar';
-import { PermissionsAndroid, StyleSheet } from 'react-native';
+import { PermissionsAndroid, StyleSheet, Text } from 'react-native';
 import useFCM from 'services/fcm/useFCM';
 import { Colors } from 'constants/styles/Colors';
 import useStyles from 'hooks/styles/useStyles';
@@ -22,6 +22,7 @@ import BottomNavigation from 'navigation/BottomNavigation';
 import { getMyQuizzes } from 'store/actions/dataActions';
 import { setStatusBar } from 'store/slices/appStateSlice';
 import { checkMusicEnabled } from 'services/encryptedStorage/tokens/musicEnabledStorage';
+import Title from 'components/typography/Title';
 
 const LandingScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Landing'>
@@ -54,6 +55,22 @@ const LandingScreen: React.FC<
   }, []);
 
   usePreventNativeBackButton(() => true);
+
+  // logo playground
+  // return (
+  //   <ScreenWrapper style={{ paddingTop: AN(300) }}>
+  //     <Title
+  //       weight="bold"
+  //       text="Quiz"
+  //       style={{ fontSize: AN(60), lineHeight: 65, textAlign: 'center' }}
+  //     />
+  //     <Title
+  //       weight="bold"
+  //       text=" Clash"
+  //       style={{ fontSize: AN(60), lineHeight: 65, textAlign: 'center' }}
+  //     />
+  //   </ScreenWrapper>
+  // );
 
   return (
     <ScreenWrapper style={{ paddingHorizontal: 0, paddingTop: AN(15) }}>
