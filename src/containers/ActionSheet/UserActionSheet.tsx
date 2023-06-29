@@ -49,7 +49,7 @@ const UserActionSheet = ({
       <InfoLine
         title="Rank"
         value={getUserLevel(
-          selectedUser
+          selectedUser?.correctAnswers
             ? Object?.values(selectedUser?.correctAnswers)?.reduce(
                 (a, b) => a + b,
                 0,

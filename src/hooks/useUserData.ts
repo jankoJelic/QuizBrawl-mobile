@@ -18,6 +18,7 @@ export const getFavouriteTopic = (totalAnswers: Record<Topic, number>) => {
   const highestPlayedAnswers = totalAnswers
     ? Math.max(...Object.values(totalAnswers))
     : 0;
+  if (!totalAnswers) return 'General';
   return Object.keys(totalAnswers).find(
     key => totalAnswers[key] === highestPlayedAnswers,
   );
