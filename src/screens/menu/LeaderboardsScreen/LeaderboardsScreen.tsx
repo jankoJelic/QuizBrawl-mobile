@@ -22,6 +22,7 @@ import { setColorOpacity } from 'util/strings/setColorOpacity';
 import LinearGradient from 'react-native-linear-gradient';
 import UserActionSheet from 'containers/ActionSheet/UserActionSheet';
 import MyIcon from 'assets/icons/MyIcon';
+import TouchableBounce from 'hoc/TouchableBounce';
 
 const LeaderboardsScreen = () => {
   const { styles, colors } = useStyles(createStyles);
@@ -40,13 +41,7 @@ const LeaderboardsScreen = () => {
     getLeaderboards();
   }, []);
 
-  const renderPlayer = ({
-    item,
-    index,
-  }: {
-    item: ShallowUser;
-    index: number;
-  }) => (
+  const renderPlayer = ({ item, index }: RenderPlayerProps) => (
     <UserTile
       user={item}
       showTrophies
@@ -61,13 +56,7 @@ const LeaderboardsScreen = () => {
     setSelectedUser(undefined);
   };
 
-  const renderTrophyCount = ({
-    count,
-    color,
-  }: {
-    count: number;
-    color: Color;
-  }) => (
+  const renderTrophyCount = ({ count, color }: RenderTrophyCountProps) => (
     <View style={{ flexDirection: 'row' }}>
       <BodyMedium text={String(count)} color={color} />
       <MyIcon name="trophy" />
@@ -75,9 +64,16 @@ const LeaderboardsScreen = () => {
   );
 
   const renderSecondPlayer = () => (
-    <View style={{ alignItems: 'center', top: AN(20), left: AN(15) }}>
+    <TouchableBounce
+      onPress={() => {
+        setSelectedUser(players[1]);
+      }}
+      style={{ alignItems: 'center', top: AN(20), left: AN(15) }}>
       <BodyMedium text="#2" />
       <UserAvatar
+        onPress={() => {
+          setSelectedUser(players[1]);
+        }}
         avatar={players[1].avatar}
         color={players[1].color}
         showBorder
@@ -89,7 +85,7 @@ const LeaderboardsScreen = () => {
         color: 'mainTextColor',
         count: players[1].trophies,
       })}
-    </View>
+    </TouchableBounce>
   );
 
   const renderFirstPlayer = () => (
@@ -171,6 +167,7 @@ const LeaderboardsScreen = () => {
         visible={!!selectedUser}
         closeModal={closeUserActionSheet}
         selectedUser={selectedUser}
+        viewProfileButtonVisible
       />
     </ScreenWrapper>
   );
@@ -208,3 +205,13 @@ const createStyles = (colors: Colors) =>
   });
 
 export default LeaderboardsScreen;
+
+interface RenderTrophyCountProps {
+  count: number;
+  color: Color;
+}
+
+interface RenderPlayerProps {
+  item: ShallowUser;
+  index: number;
+}

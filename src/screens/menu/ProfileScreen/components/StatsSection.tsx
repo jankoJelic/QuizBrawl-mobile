@@ -7,6 +7,7 @@ import React from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { TOPICS } from 'screens/CreateRoomScreen/CreateRoomScreen';
 import { Topic } from 'store/types/dataSliceTypes';
+import { calculateUserAccuracy } from 'util/calculateUserAccuracy';
 
 const initialAnswers = {
   General: 0,
@@ -20,31 +21,16 @@ const initialAnswers = {
 };
 
 const StatsSection = ({ correctAnswers, totalAnswers }: Props) => {
-  const { colors, styles } = useStyles(createStyles);
+  const { styles } = useStyles(createStyles);
 
   const realCorrectAnswers = correctAnswers || initialAnswers;
   const realTotalAnswers = totalAnswers || initialAnswers;
-
-  const correctAnswersCount = Object.values(realCorrectAnswers).reduce(
-    (a, b) => a + b,
-    0,
+  const totalAccuracy = calculateUserAccuracy(
+    realCorrectAnswers,
+    realTotalAnswers,
   );
 
-  const totalAnswersCount = Object.values(realTotalAnswers).reduce(
-    (a, b) => a + b,
-    0,
-  );
-
-  const totalAccuracy =
-    totalAnswersCount === 0
-      ? '0.00'
-      : ((correctAnswersCount / totalAnswersCount) * 100).toFixed(2);
-
-  const renderStats = ({
-    item,
-  }: {
-    item: { name: Topic; icon: JSX.Element };
-  }) => {
+  const renderStats = ({ item }: RenderStatsProps) => {
     const topicPercentage =
       (
         (realCorrectAnswers[item.name] * 100 || 0) /
@@ -79,12 +65,7 @@ const StatsSection = ({ correctAnswers, totalAnswers }: Props) => {
         renderItem={renderStats}
         keyExtractor={item => item.name + '_accuracyByTopic'}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{
-          left: PADDING_HORIZONTAL,
-          paddingRight: PADDING_HORIZONTAL,
-          height: AN(110),
-        }}
-        // style={{ height: AN(100) }}
+        contentContainerStyle={styles.accuracyList}
       />
     </>
   );
@@ -103,6 +84,11 @@ const createStyles = (colors: Colors) =>
       marginTop: AN(24),
       marginBottom: AN(7),
     },
+    accuracyList: {
+      left: PADDING_HORIZONTAL,
+      paddingRight: PADDING_HORIZONTAL,
+      height: AN(110),
+    },
   });
 
 export default StatsSection;
@@ -110,4 +96,8 @@ export default StatsSection;
 interface Props {
   correctAnswers: Record<Topic, number>;
   totalAnswers: Record<Topic, number>;
+}
+
+interface RenderStatsProps {
+  item: { name: Topic; icon: JSX.Element };
 }

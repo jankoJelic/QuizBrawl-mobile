@@ -8,17 +8,23 @@ import { useAppSelector } from 'store/index';
 import GhostButton from 'components/buttons/GhostButton/GhostButton';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { getFavouriteTopic, getUserLevel } from 'hooks/useUserData';
+import CTA from 'components/buttons/CTA';
+import { calculateUserAccuracy } from 'util/calculateUserAccuracy';
+import { Topic } from 'store/types/dataSliceTypes';
 
 const UserActionSheet = ({
   selectedUser,
   visible,
   closeModal,
   AdditionalContent = <></>,
+  viewProfileButtonVisible = false,
 }: Props) => {
   const { userData } = useAppSelector(state => state.data);
 
+  const { totalAnswers, correctAnswers, id } = selectedUser || {};
+
   const youAreSelected = userData?.id === selectedUser?.id;
-  const isFriend = userData?.friends?.includes(selectedUser?.id);
+  const isFriend = userData?.friends?.includes(id);
 
   const sendFriendRequest = async () => {
     SOCKET.emit(SOCKET_EVENTS.FRIEND_REQUEST_SENT, {
@@ -38,7 +44,12 @@ const UserActionSheet = ({
       <InfoLine title="Level" value={String(selectedUser?.level)} />
       <InfoLine
         title="Accuracy"
-        value={String(selectedUser?.accuracyPercentage) + '%'}
+        value={
+          calculateUserAccuracy(
+            correctAnswers || ({ General: 0 } as Record<Topic, number>),
+            totalAnswers || ({ General: 0 } as Record<Topic, number>),
+          ) + '%'
+        }
       />
       <InfoLine
         title="Favourite topic"
@@ -65,6 +76,11 @@ const UserActionSheet = ({
           onPress={sendFriendRequest}
         />
       )}
+      {viewProfileButtonVisible ? (
+        <CTA title="View profile" onPress={sendFriendRequest} />
+      ) : (
+        <></>
+      )}
       {AdditionalContent}
     </ActionSheet>
   );
@@ -77,4 +93,5 @@ interface Props {
   visible: boolean;
   closeModal: () => any;
   AdditionalContent?: JSX.Element;
+  viewProfileButtonVisible?: boolean;
 }
