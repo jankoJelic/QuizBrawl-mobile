@@ -11,6 +11,7 @@ import { useUserData } from 'hooks/useUserData';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { View } from 'react-native';
+import { useAppSelector } from 'store/index';
 import { ShallowUser } from 'store/types/authSliceTypes';
 
 const UserTile = ({
@@ -24,6 +25,7 @@ const UserTile = ({
 }: Props) => {
   const { styles, commonStyles } = useStyles(createStyles);
   const { userLevel } = useUserData();
+  const { id } = useAppSelector(state => state.data.userData);
 
   const rightSideText = showTrophies
     ? String(user.trophies)
@@ -43,6 +45,7 @@ const UserTile = ({
         <BodyMedium
           text={`${user.firstName} ${user.lastName}`}
           style={{ marginLeft: AN(10) }}
+          color={user.id === id ? 'brand500' : 'mainTextColor'}
         />
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
