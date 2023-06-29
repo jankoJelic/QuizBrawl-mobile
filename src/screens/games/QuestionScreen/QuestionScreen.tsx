@@ -108,7 +108,6 @@ const QuestionScreen: React.FC<
   const lastQuestionBugCheck = onQuestion > questions.length - 1 || !question;
 
   const nextQuestion = () => {
-    if (!isClassicGame) setCorrectAnswerShown(true);
     setUserNameByAnswer(startingUsersByAnswer);
     clearCountdownInterval();
 
@@ -145,10 +144,13 @@ const QuestionScreen: React.FC<
   };
 
   useEffect(() => {
-    if (allUsersHaveAnsweredWrong) {
+    if (
+      allUsersHaveAnsweredWrong ||
+      (!isClassicGame && !correctAnswerGuessed && !secondsLeft)
+    ) {
       setCorrectAnswerShown(true);
     }
-  }, [allUsersHaveAnsweredWrong]);
+  }, [allUsersHaveAnsweredWrong, correctAnswerGuessed]);
 
   useEffect(() => {
     if (!!image && typeof image === 'string') {
