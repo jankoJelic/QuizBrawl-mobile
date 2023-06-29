@@ -34,6 +34,8 @@ const AnswerTile = ({
         return 'brand500';
       case 'wrong':
         return 'danger500';
+      case 'green':
+        return 'success400';
       default:
         return 'neutral400';
     }
@@ -107,7 +109,7 @@ export default AnswerTile;
 interface Props {
   onPress: () => void;
   title: string;
-  status: 'regular' | 'correct' | 'wrong';
+  status: 'regular' | 'correct' | 'wrong' | 'green';
   disabled?: boolean;
   userName?: string;
   inputMode?: boolean;

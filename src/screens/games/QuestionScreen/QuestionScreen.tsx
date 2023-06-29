@@ -52,15 +52,8 @@ const QuestionScreen: React.FC<
   const { styles } = useStyles(createStyles);
   const countdownInterval = useRef(null);
   const { userData } = useAppSelector(state => state.data);
-  const {
-    questions,
-    activeRoom,
-    type,
-    selectedAnswers,
-    onQuestion,
-    leagueId,
-    leagueType,
-  } = useAppSelector((state: RootState) => state.game);
+  const { questions, activeRoom, type, selectedAnswers, onQuestion, leagueId } =
+    useAppSelector((state: RootState) => state.game);
   const IS_LEAGUE_GAME = !!leagueId;
 
   const isBrawlGame = type === 'brawl';
@@ -87,6 +80,7 @@ const QuestionScreen: React.FC<
   const [correctUser, setCorrectUser] = useState(0);
   const [imageUrl, setImageUrl] = useState('');
   const [liked, setLiked] = useState<undefined | boolean>(undefined);
+  const [correctAnswerShown, setCorrectAnswerShown] = useState(false);
 
   const [userNameByAnswer, setUserNameByAnswer] = useState<
     Record<CorrectAnswer, string>
@@ -99,6 +93,10 @@ const QuestionScreen: React.FC<
   const allUsersGuessed = IS_LEAGUE_GAME
     ? wrongUsers.length === users.length - 1
     : wrongUsers?.length === users?.length;
+
+  const allUsersHaveAnsweredWrong = IS_LEAGUE_GAME
+    ? wrongUsers.length + 1 === users.length
+    : wrongUsers.length === users.length;
 
   const answeringDisabled =
     allUsersGuessed ||
@@ -145,6 +143,12 @@ const QuestionScreen: React.FC<
   };
 
   useEffect(() => {
+    if (allUsersHaveAnsweredWrong) {
+      setCorrectAnswerShown(true);
+    }
+  }, [allUsersHaveAnsweredWrong]);
+
+  useEffect(() => {
     if (!!image && typeof image === 'string') {
       getFirebaseImageUrl(image).then(res => {
         setImageUrl(res);
@@ -153,10 +157,6 @@ const QuestionScreen: React.FC<
   }, [onQuestion]);
 
   useEffect(() => {
-    const allUsersHaveAnsweredWrong = IS_LEAGUE_GAME
-      ? wrongUsers.length + 1 === users.length
-      : wrongUsers.length === users.length;
-
     if (allUsersHaveAnsweredWrong && (isBrawlGame || IS_LEAGUE_GAME))
       nextQuestion();
   }, [wrongUsers.length]);
@@ -257,7 +257,9 @@ const QuestionScreen: React.FC<
   };
 
   const answerStatus = (answer: CorrectAnswer) =>
-    correctAnswer === answer && correctAnswerGuessed
+    answer === correctAnswer && allUsersHaveAnsweredWrong
+      ? 'green'
+      : correctAnswer === answer && correctAnswerGuessed
       ? 'correct'
       : isSelected(answer)
       ? 'wrong'
