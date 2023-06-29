@@ -59,7 +59,7 @@ const BottomNavigation = () => {
 
   const roomsByPriority = rooms
     .slice()
-    .sort((a, b) => (a.lobbyId < b.lobbyId ? 1 : -1));
+    .sort((a, b) => (a.lobbyId < b.lobbyId ? -1 : 1));
 
   const startQuickGame = () => {
     const availableRoom = roomsByPriority.find(
