@@ -2,6 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import NavHeader from 'components/layout/NavHeader';
 import FullScreenSpinner from 'components/modals/FullScreenSpinner';
 import UserTile from 'components/tiles/UserTile/UserTile';
+import BodyMedium from 'components/typography/BodyMedium';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React, { useEffect, useState } from 'react';
@@ -51,10 +52,10 @@ const FriendsScreen: React.FC<
       <NavHeader title="Friends" fullWidth />
       {isLoading ? (
         <FullScreenSpinner />
+      ) : friends.length ? (
+        <FlatList data={friends || []} renderItem={renderFriend} />
       ) : (
-        <>
-          <FlatList data={friends || []} renderItem={renderFriend} />
-        </>
+        <BodyMedium text="No friends added" style={{ textAlign: 'center' }} />
       )}
     </ScreenWrapper>
   );
