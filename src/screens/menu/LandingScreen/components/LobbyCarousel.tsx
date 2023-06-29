@@ -25,7 +25,7 @@ const LobbyCarousel = () => {
   const navigation = useMyNavigation();
   const carouselRef = useRef(null);
 
-  const { styles, colors } = useStyles(createStyles);
+  const { styles } = useStyles(createStyles);
 
   const { lobbies, rooms, userData } = useAppSelector(state => state.data);
   const { dailies } = userData || {};
@@ -52,7 +52,7 @@ const LobbyCarousel = () => {
         return (
           <FastImage
             source={require('../../../../assets/icons/lobbies/arena.png')}
-            style={{ width: SCREEN_WIDTH * 0.2, aspectRatio: 1 }}
+            style={styles.image}
           />
         );
 
@@ -60,7 +60,7 @@ const LobbyCarousel = () => {
         return (
           <FastImage
             source={require('../../../../assets/icons/lobbies/money.png')}
-            style={{ width: SCREEN_WIDTH * 0.2, aspectRatio: 1 }}
+            style={styles.image}
           />
         );
 
@@ -68,7 +68,7 @@ const LobbyCarousel = () => {
         return (
           <FastImage
             source={require('../../../../assets/icons/lobbies/shield.png')}
-            style={{ width: SCREEN_WIDTH * 0.2, aspectRatio: 1 }}
+            style={styles.image}
           />
         );
 
@@ -215,6 +215,7 @@ const createStyles = (colors: Colors) =>
     infoContainer: { alignItems: 'center', marginTop: AN(10) },
     title: { marginBottom: AN(10) },
     description: { textAlign: 'center', marginBottom: AN(6), opacity: 0.7 },
+    image: { width: SCREEN_WIDTH * 0.2, aspectRatio: 1 },
   });
 
 export default LobbyCarousel;
