@@ -9,7 +9,11 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useMyNavigation } from './hooks/useMyNavigation';
 import { useAppSelector } from 'store/index';
 import { LOBBY_IDS } from 'constants/constants';
-import { goToRoomScreen, goToSoloEvent } from './methods/goToRoomScreen';
+import {
+  createNewRoom,
+  goToRoomScreen,
+  goToSoloEvent,
+} from './methods/goToRoomScreen';
 
 const NavIcon = ({
   title = '',
@@ -68,6 +72,7 @@ const BottomNavigation = () => {
         goToRoomScreen(availableRoom);
       }
     } else {
+      createNewRoom();
     }
   };
 

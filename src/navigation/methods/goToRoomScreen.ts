@@ -1,11 +1,13 @@
+import { LOBBY_IDS } from 'constants/constants';
 import { navigate } from 'navigation/MainStackNavigator';
 import API from 'services/api';
+import { CreateRoomBody } from 'services/api/endpoints/roomsAPI';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { store } from 'store/index';
 import { startLoading, stopLoading } from 'store/slices/appStateSlice';
-import { joinRoom } from 'store/slices/dataSlice';
+import { addNewRoom, joinRoom } from 'store/slices/dataSlice';
 import { initializeGame } from 'store/slices/gameSlice';
-import { Room } from 'store/types/dataSliceTypes';
+import { Lobby, Room, Topic } from 'store/types/dataSliceTypes';
 
 export const goToRoomScreen = (room: Room) => {
   const state = store.getState();
@@ -32,6 +34,39 @@ export const goToSoloEvent = async (room: Room) => {
     );
     navigate('GameSplash');
   } catch (error) {
+  } finally {
+    store.dispatch(stopLoading());
+  }
+};
+
+export const quickRoomData = () => {
+  const state = store.getState();
+  const { userData, lobbies } = state.data;
+  const roomName = `${userData.firstName}'s room`;
+  return {
+    name: roomName,
+    topic: 'General' as Topic,
+    answerTime: 12,
+    maxPlayers: 2,
+    lobby: lobbies.find(l => l.id === LOBBY_IDS.ARENA) as Lobby,
+    questionsCount: 10,
+    readyUsers: [userData.id],
+    password: '',
+  };
+};
+
+export const createNewRoom = async (body?: CreateRoomBody) => {
+  store.dispatch(startLoading());
+  try {
+    const payload = body || quickRoomData();
+    const room = await API.createRoom(payload);
+    store.dispatch(joinRoom(room));
+    store.dispatch(addNewRoom(room));
+
+    SOCKET.emit(SOCKET_EVENTS.ROOM_CREATED, room);
+
+    navigate('Room', { room });
+  } catch (e) {
   } finally {
     store.dispatch(stopLoading());
   }

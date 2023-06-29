@@ -28,7 +28,7 @@ const roomsAPI = {
 
 export default roomsAPI;
 
-interface CreateRoomBody {
+export interface CreateRoomBody {
   name: string;
   maxPlayers: number;
   answerTime: number;
@@ -36,4 +36,5 @@ interface CreateRoomBody {
   lobby: Lobby;
   questionsCount?: number;
   readyUsers: number[];
+  bet?: number;
 }

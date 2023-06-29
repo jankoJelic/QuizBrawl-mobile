@@ -12,23 +12,18 @@ import {
   ShowbizIcon,
   MusicIcon,
 } from 'assets/icons/topics';
-import useStyles from 'hooks/styles/useStyles';
 import { Lobby, Topic } from 'store/types/dataSliceTypes';
 import NavHeader from 'components/layout/NavHeader';
 import InputField from 'components/inputs/InputField';
 import MyScrollView from 'hoc/MyScrollView';
 import CTA from 'components/buttons/CTA';
 import { isIntegerBewteen } from 'util/strings/isIntegerBetween';
-import API from 'services/api';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
-import { useDispatch } from 'react-redux';
-import { startLoading, stopLoading } from 'store/slices/appStateSlice';
 import { LOBBY_IDS } from 'constants/constants';
-import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
-import { addNewRoom, joinRoom } from 'store/slices/dataSlice';
 import TopicsList from 'containers/TopicsList/TopicsList';
 import { useAppSelector } from 'store/index';
+import { createNewRoom } from 'navigation/methods/goToRoomScreen';
 
 const iconSize = AN(36);
 
@@ -46,11 +41,8 @@ export const TOPICS = [
 
 const CreateRoomScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'CreateRoom'>
-> = ({ navigation, route }) => {
-  const dispatch = useDispatch();
+> = ({ route }) => {
   const { lobbyId } = route.params;
-
-  const { styles, colors } = useStyles(createStyles);
   const { lobbies, userData } = useAppSelector(state => state.data);
 
   const [selectedTopic, setselectedTopic] = useState<Topic>('General');
@@ -64,31 +56,18 @@ const CreateRoomScreen: React.FC<
   const isCashGame = lobbyId === LOBBY_IDS.CASH_GAME;
 
   const onPressConfirm = async () => {
-    dispatch(startLoading());
-    try {
-      const body = {
-        name: roomName,
-        topic: selectedTopic,
-        answerTime: Number(answerTime),
-        maxPlayers: Number(maxPlayers),
-        lobby: lobbies.find(l => l.id === lobbyId) as Lobby,
-        questionsCount: Number(questionsCount),
-        readyUsers: [userData.id],
-        password,
-        ...(isCashGame && { bet }),
-      };
-
-      const room = await API.createRoom(body);
-      dispatch(joinRoom(room));
-      dispatch(addNewRoom(room));
-
-      SOCKET.emit(SOCKET_EVENTS.ROOM_CREATED, room);
-
-      navigation.navigate('Room', { room });
-    } catch (e) {
-    } finally {
-      dispatch(stopLoading());
-    }
+    const body = {
+      name: roomName,
+      topic: selectedTopic,
+      answerTime: Number(answerTime),
+      maxPlayers: Number(maxPlayers),
+      lobby: lobbies.find(l => l.id === lobbyId) as Lobby,
+      questionsCount: Number(questionsCount),
+      readyUsers: [userData.id],
+      password,
+      ...(isCashGame && { bet: Number(bet) }),
+    };
+    await createNewRoom(body);
   };
 
   const maxPlayersValid = isIntegerBewteen({
