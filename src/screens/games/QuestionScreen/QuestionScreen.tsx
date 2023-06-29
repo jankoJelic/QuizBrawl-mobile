@@ -91,12 +91,12 @@ const QuestionScreen: React.FC<
 
   const correctAnswerGuessed = isSelected(correctAnswer);
   const allUsersGuessed = IS_LEAGUE_GAME
-    ? wrongUsers.length === users.length - 1
+    ? wrongUsers?.length === users?.length - 1
     : wrongUsers?.length === users?.length;
 
   const allUsersHaveAnsweredWrong = IS_LEAGUE_GAME
-    ? wrongUsers.length + 1 === users.length
-    : wrongUsers.length === users.length;
+    ? wrongUsers?.length + 1 === users?.length
+    : wrongUsers?.length === users?.length;
 
   const answeringDisabled =
     allUsersGuessed ||

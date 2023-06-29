@@ -7,6 +7,9 @@ import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useMyNavigation } from './hooks/useMyNavigation';
+import { useAppSelector } from 'store/index';
+import { LOBBY_IDS } from 'constants/constants';
+import { goToRoomScreen, goToSoloEvent } from './methods/goToRoomScreen';
 
 const NavIcon = ({
   title = '',
@@ -38,8 +41,9 @@ const NavIcon = ({
 };
 
 const BottomNavigation = () => {
-  const { colors, styles } = useStyles(createStyles);
+  const { styles } = useStyles(createStyles);
   const navigation = useMyNavigation();
+  const { rooms } = useAppSelector(state => state.data);
 
   const goTopMarket = () => {
     navigation.navigate('Market');
@@ -49,7 +53,23 @@ const BottomNavigation = () => {
     navigation.navigate('Friends');
   };
 
-  const startQuickGame = () => {};
+  const roomsByPriority = rooms
+    .slice()
+    .sort((a, b) => (a.lobbyId < b.lobbyId ? 1 : -1));
+
+  const startQuickGame = () => {
+    const availableRoom = roomsByPriority.find(
+      r => !r.password && r.users.length < r.maxPlayers,
+    );
+    if (!!availableRoom) {
+      if (availableRoom.lobbyId === LOBBY_IDS.SOLO) {
+        goToSoloEvent(availableRoom);
+      } else {
+        goToRoomScreen(availableRoom);
+      }
+    } else {
+    }
+  };
 
   const goToRankings = () => {
     navigation.navigate('Leaderboards');

@@ -32,7 +32,7 @@ const Stack = createNativeStackNavigator<MainStackParamsList>();
 
 export const navigationRef = createNavigationContainerRef();
 
-export function navigate(name: keyof MainStackParamsList, params: any) {
+export function navigate(name: keyof MainStackParamsList, params?: any) {
   if (navigationRef.isReady()) {
     navigationRef.navigate(name, params);
   }

@@ -12,15 +12,15 @@ import PasswordPopup from 'containers/Popup/PasswordPopup';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
+import {
+  goToRoomScreen,
+  goToSoloEvent,
+} from 'navigation/methods/goToRoomScreen';
 import React, { useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
-import API from 'services/api';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
 import { useAppSelector } from 'store/index';
-import { startLoading, stopLoading } from 'store/slices/appStateSlice';
-import { joinRoom } from 'store/slices/dataSlice';
-import { initializeGame } from 'store/slices/gameSlice';
 import { Room } from 'store/types/dataSliceTypes';
 
 const LobbyScreen: React.FC<
@@ -63,21 +63,7 @@ const LobbyScreen: React.FC<
     };
 
     const onPressEvent = async () => {
-      dispatch(startLoading());
-
-      try {
-        const questions = await API.startDailyEvent(item.id);
-        dispatch(
-          initializeGame({
-            room: { ...item, users: [userData] },
-            questions,
-          }),
-        );
-        navigation.navigate('GameSplash');
-      } catch (error) {
-      } finally {
-        dispatch(stopLoading());
-      }
+      goToSoloEvent(item);
     };
 
     if (isSoloLobby)
@@ -87,13 +73,7 @@ const LobbyScreen: React.FC<
   };
 
   const enterRoom = (room: Room) => {
-    dispatch(joinRoom(room));
-    SOCKET.emit(SOCKET_EVENTS.USER_JOINED_ROOM, {
-      roomId: room.id,
-      user: userData,
-    });
-
-    navigation.navigate('Room', { room });
+    goToRoomScreen(room);
   };
 
   const submitPassword = (input: string) => {
