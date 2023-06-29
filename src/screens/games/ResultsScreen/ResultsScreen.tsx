@@ -19,6 +19,7 @@ import FastImage from 'react-native-fast-image';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
+import { playSound } from 'services/sounds/soundPlayer';
 import { useAppSelector } from 'store/index';
 import {
   registerDailyResult,
@@ -48,6 +49,15 @@ const ResultsScreen: React.FC<
   const [rewardTranslateY] = useState(new Animated.Value(0));
   const [reward, setReward] = useState('0');
   const [specialReward, setSpecialReward] = useState<Reward>();
+
+  useEffect(() => {
+    if (reward == '0') return;
+    if (Number(reward) > 0) {
+      playSound('reward');
+    } else {
+      playSound('defeat');
+    }
+  }, [reward]);
 
   const displayReward = () => {
     Animated.sequence([

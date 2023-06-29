@@ -5,6 +5,7 @@ import {
   darkThemeColors,
 } from '../../constants/styles/Colors';
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
+import { playSound } from 'services/sounds/soundPlayer';
 
 type Currency = 'trophies' | 'points' | 'money';
 type Reward = {
@@ -70,6 +71,7 @@ export const appStateSlice = createSlice({
       state.statusBar = { ...state.statusBar, ...action.payload };
     },
     showToast: (state, action: { payload: ToastState }) => {
+      playSound('notification');
       state.toast = { ...action.payload, visible: true };
     },
     hideToast: state => {
