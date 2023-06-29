@@ -14,8 +14,8 @@ const turnMusicOn = () => {
 
 export const checkMusicEnabled = async () => {
   const musicEnabled = await ENCRYPTED_STORAGE.getValue('musicEnabled');
-  if (!musicEnabled) {
-    turnMusicOn();
+  if (musicEnabled === 'false') {
+    turnMusicOff();
   }
 };
 
