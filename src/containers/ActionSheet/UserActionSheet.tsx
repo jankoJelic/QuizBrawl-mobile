@@ -2,7 +2,7 @@ import InfoLine from 'components/tiles/InfoLine/InfoLine';
 import BodyLarge from 'components/typography/BodyLarge';
 import { AN } from 'constants/styles/appStyles';
 import React from 'react';
-import { ShallowUser } from 'store/types/authSliceTypes';
+import { ShallowUser, UserData } from 'store/types/authSliceTypes';
 import ActionSheet from './ActionSheet';
 import { useAppSelector } from 'store/index';
 import GhostButton from 'components/buttons/GhostButton/GhostButton';
@@ -11,6 +11,7 @@ import { getFavouriteTopic, getUserLevel } from 'hooks/useUserData';
 import CTA from 'components/buttons/CTA';
 import { calculateUserAccuracy } from 'util/calculateUserAccuracy';
 import { Topic } from 'store/types/dataSliceTypes';
+import { useMyNavigation } from 'navigation/hooks/useMyNavigation';
 
 const UserActionSheet = ({
   selectedUser,
@@ -19,6 +20,7 @@ const UserActionSheet = ({
   AdditionalContent = <></>,
   viewProfileButtonVisible = false,
 }: Props) => {
+  const navigation = useMyNavigation();
   const { userData } = useAppSelector(state => state.data);
 
   const { totalAnswers, correctAnswers, id } = selectedUser || {};
@@ -32,6 +34,11 @@ const UserActionSheet = ({
       recipientId: selectedUser?.id,
     });
     closeModal();
+  };
+
+  const viewProfile = () => {
+    closeModal();
+    navigation.navigate('Profile', selectedUser as UserData);
   };
 
   return (
@@ -77,7 +84,7 @@ const UserActionSheet = ({
         />
       )}
       {viewProfileButtonVisible ? (
-        <CTA title="View profile" onPress={sendFriendRequest} />
+        <CTA title="View profile" onPress={viewProfile} />
       ) : (
         <></>
       )}

@@ -89,7 +89,11 @@ const LeaderboardsScreen = () => {
   );
 
   const renderFirstPlayer = () => (
-    <View style={{ alignItems: 'center' }}>
+    <TouchableBounce
+      style={{ alignItems: 'center' }}
+      onPress={() => {
+        setSelectedUser(players[0]);
+      }}>
       <BodyMedium text="#1" color="gold" />
       <UserAvatar
         avatar={players[0].avatar}
@@ -97,17 +101,24 @@ const LeaderboardsScreen = () => {
         showBorder
         size={AN(65)}
         style={{ borderColor: colors.gold, borderWidth: 5 }}
+        onPress={() => {
+          setSelectedUser(players[0]);
+        }}
       />
       <BodyMedium text={players[0].firstName} color="gold" />
       {renderTrophyCount({
         color: 'gold',
         count: players[0].trophies,
       })}
-    </View>
+    </TouchableBounce>
   );
 
   const renderThirdPlayer = () => (
-    <View style={{ alignItems: 'center', top: AN(30), right: AN(15) }}>
+    <TouchableBounce
+      style={{ alignItems: 'center', top: AN(30), right: AN(15) }}
+      onPress={() => {
+        setSelectedUser(players[2]);
+      }}>
       <BodyMedium text="#3" color="bronze" />
       <UserAvatar
         avatar={players[2].avatar}
@@ -118,13 +129,16 @@ const LeaderboardsScreen = () => {
           borderColor: colors.bronze,
           borderWidth: 5,
         }}
+        onPress={() => {
+          setSelectedUser(players[1]);
+        }}
       />
       <BodyMedium text={players[2].firstName} color="bronze" />
       {renderTrophyCount({
         color: 'bronze',
         count: players[2].trophies,
       })}
-    </View>
+    </TouchableBounce>
   );
 
   return (
