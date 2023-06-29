@@ -82,7 +82,7 @@ const MessageTile = ({ message }: Props) => {
         onPress={toggleCollapsed}>
         <BodyMedium
           onPress={toggleCollapsed}
-          text={new Date(Number(createdAt)).toLocaleString()}
+          text={new Date(createdAt).toLocaleString()}
           color="neutral400"
           weight={fontWeight as FontWeight}
         />
