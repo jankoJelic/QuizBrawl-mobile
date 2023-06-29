@@ -27,9 +27,9 @@ import { registerAnswer } from 'store/slices/dataSlice';
 import RateQuestionBar from './components/RateQuestionBar';
 import QuestionCountdown from './components/QuestionCountdown';
 import API from 'services/api';
-import storage from '@react-native-firebase/storage';
 import FastImage from 'react-native-fast-image';
 import { getFirebaseImageUrl } from 'services/firebaseStorage/firebaseStorage';
+import { playSound } from 'services/sounds/soundPlayer';
 
 const startingUsersByAnswer = {
   answer1: '',
@@ -135,6 +135,7 @@ const QuestionScreen: React.FC<
   };
 
   const handleWrongAnswer = ({ answer, userId }: SelectedAnswerPayload) => {
+    playSound('error');
     if (isClassicGame) clearCountdownInterval();
     if (selectedAnswers.includes(answer)) return;
 
@@ -161,6 +162,7 @@ const QuestionScreen: React.FC<
   }, [wrongUsers.length]);
 
   const handleCorrectAnswer = ({ answer, userId }: SelectedAnswerPayload) => {
+    playSound('success');
     if (isClassicGame) clearCountdownInterval();
     if (selectedAnswers.includes(answer)) return;
 
