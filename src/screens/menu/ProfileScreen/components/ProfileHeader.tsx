@@ -1,7 +1,7 @@
 import MyIcon from 'assets/icons/MyIcon';
 import UserAvatar from 'components/icons/UserAvatar';
 import BodyLarge from 'components/typography/BodyLarge';
-import { Color, Colors } from 'constants/styles/Colors';
+import { Colors } from 'constants/styles/Colors';
 import {
   AN,
   SCREEN_WIDTH,
@@ -17,23 +17,14 @@ import { useAppSelector } from 'store/index';
 import { useMyNavigation } from 'navigation/hooks/useMyNavigation';
 import { UserData } from 'store/types/authSliceTypes';
 import API from 'services/api';
+import { getUserLevel } from 'hooks/useUserData';
 
 const ProfileHeader = ({ user }: Props) => {
   const navigation = useMyNavigation();
   const { colors, styles } = useStyles(createStyles);
   const data = user ? user : useAppSelector(state => state.data.userData);
-  const {
-    firstName,
-    lastName,
-    avatar,
-    trophies,
-    color,
-    level,
-    isPremium,
-    createdAt,
-    accuracyPercentage,
-    id,
-  } = data || {};
+  const { firstName, lastName, avatar, trophies, color, totalAnswers, id } =
+    data || {};
 
   const [rank, setRank] = useState<number | undefined>(undefined);
 
@@ -75,14 +66,18 @@ const ProfileHeader = ({ user }: Props) => {
       />
       <View style={styles.profileBadges}>
         <ProfileBadge
-          amount={String(rank)}
-          imageSource={require('../../../../assets/icons/lobbies/shield.png')}
-          color="brand500"
-        />
-        <ProfileBadge
           imageSource={require('../../../../assets/icons/trophy.png')}
           amount={String(trophies)}
           color="warning500"
+        />
+        <ProfileBadge
+          amount={getUserLevel(
+            totalAnswers
+              ? Object?.values(totalAnswers)?.reduce((a, b) => a + b, 0)
+              : 0,
+          )}
+          imageSource={require('../../../../assets/icons/lobbies/shield.png')}
+          color="brand500"
         />
         <ProfileBadge
           imageSource={require('../../../../assets/icons/ranking.png')}

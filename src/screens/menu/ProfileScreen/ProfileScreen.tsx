@@ -54,6 +54,8 @@ const ProfileScreen: React.FC<
     });
   };
 
+  const sendGift = () => {};
+
   return (
     <ScreenWrapper fullWidth>
       <MyScrollView>
@@ -76,7 +78,7 @@ const ProfileScreen: React.FC<
         ) : (
           <View style={{ paddingHorizontal: PADDING_HORIZONTAL }}>
             <GhostButton
-              onPress={deleteFriend}
+              onPress={sendGift}
               title="Send gift"
               color="brand500"
             />
