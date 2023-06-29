@@ -171,21 +171,23 @@ const LobbyCarousel = () => {
           <BodyMedium
             text={
               isSoloLobby
-                ? `Events left: ${String(rooms.length - dailiesDone)}`
-                : `Players online: ${String(item?.users?.length || '0')}`
+                ? `Events left: ${rooms.length - dailiesDone}`
+                : `Players online: ${item?.users?.length || '0'}`
             }
           />
           <BodyMedium
             text={
               isSoloLobby
-                ? `Events in total: ${String(String(rooms.length))}`
-                : `Rooms: ${String(getLobbyRoomsCount(item.id))}`
+                ? `Total events: ${rooms.length}`
+                : `Rooms: ${getLobbyRoomsCount(item.id)}`
             }
           />
         </View>
       </TileWrapper>
     );
   };
+
+  //String(String(rooms.length))
 
   return (
     <View style={{ marginTop: AN(12) }}>
