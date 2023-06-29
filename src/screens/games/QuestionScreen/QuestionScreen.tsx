@@ -108,10 +108,12 @@ const QuestionScreen: React.FC<
   const lastQuestionBugCheck = onQuestion > questions.length - 1 || !question;
 
   const nextQuestion = () => {
+    if (!isClassicGame) setCorrectAnswerShown(true);
     setUserNameByAnswer(startingUsersByAnswer);
     clearCountdownInterval();
 
     setTimeout(() => {
+      setCorrectAnswerShown(false);
       if (isClassicGame) {
         setLiked(undefined);
       }
@@ -257,7 +259,7 @@ const QuestionScreen: React.FC<
   };
 
   const answerStatus = (answer: CorrectAnswer) =>
-    answer === correctAnswer && allUsersHaveAnsweredWrong
+    answer === correctAnswer && correctAnswerShown
       ? 'green'
       : correctAnswer === answer && correctAnswerGuessed
       ? 'correct'

@@ -27,8 +27,8 @@
 		EB216F152A4A1AC500F33EFA /* success.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EB216F142A4A1AC400F33EFA /* success.mp3 */; };
 		EB216F172A4A29F500F33EFA /* error.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EB216F162A4A29F500F33EFA /* error.mp3 */; };
 		EB30352229CF690A00A2D55A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB30352129CF690A00A2D55A /* GoogleService-Info.plist */; };
+		EB61A14F2A4DE83100AF883F /* reward.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EB61A14E2A4DE83000AF883F /* reward.mp3 */; };
 		EBAE20A92A4CC1F300E5F14C /* defeat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EBAE20A62A4CC1F200E5F14C /* defeat.mp3 */; };
-		EBAE20AA2A4CC1F300E5F14C /* reward.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EBAE20A72A4CC1F200E5F14C /* reward.mp3 */; };
 		EBAE20AB2A4CC1F300E5F14C /* notification.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EBAE20A82A4CC1F300E5F14C /* notification.mp3 */; };
 		EBFBC8C529E20E59001A8DFA /* LaunchScreen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EBFBC8C429E20E59001A8DFA /* LaunchScreen.jpg */; };
 /* End PBXBuildFile section */
@@ -72,8 +72,8 @@
 		EB216F142A4A1AC400F33EFA /* success.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = success.mp3; path = ../../../../Desktop/success.mp3; sourceTree = "<group>"; };
 		EB216F162A4A29F500F33EFA /* error.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = error.mp3; path = ../../../../Desktop/error.mp3; sourceTree = "<group>"; };
 		EB30352129CF690A00A2D55A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		EB61A14E2A4DE83000AF883F /* reward.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = reward.mp3; path = ../../../../Desktop/reward.mp3; sourceTree = "<group>"; };
 		EBAE20A62A4CC1F200E5F14C /* defeat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = defeat.mp3; path = ../../../../Desktop/defeat.mp3; sourceTree = "<group>"; };
-		EBAE20A72A4CC1F200E5F14C /* reward.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = reward.mp3; path = ../../../../Desktop/reward.mp3; sourceTree = "<group>"; };
 		EBAE20A82A4CC1F300E5F14C /* notification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = notification.mp3; path = ../../../../Desktop/notification.mp3; sourceTree = "<group>"; };
 		EBFBC8C429E20E59001A8DFA /* LaunchScreen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = LaunchScreen.jpg; path = ../../../../Downloads/LaunchScreen.jpg; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -145,9 +145,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				EB61A14E2A4DE83000AF883F /* reward.mp3 */,
 				EBAE20A62A4CC1F200E5F14C /* defeat.mp3 */,
 				EBAE20A82A4CC1F300E5F14C /* notification.mp3 */,
-				EBAE20A72A4CC1F200E5F14C /* reward.mp3 */,
 				EB216F162A4A29F500F33EFA /* error.mp3 */,
 				EB216F142A4A1AC400F33EFA /* success.mp3 */,
 				13B07FAE1A68108700A75B9A /* CrabJourney */,
@@ -300,8 +300,8 @@
 				EB216F172A4A29F500F33EFA /* error.mp3 in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				EBFBC8C529E20E59001A8DFA /* LaunchScreen.jpg in Resources */,
-				EBAE20AA2A4CC1F300E5F14C /* reward.mp3 in Resources */,
 				EB30352229CF690A00A2D55A /* GoogleService-Info.plist in Resources */,
+				EB61A14F2A4DE83100AF883F /* reward.mp3 in Resources */,
 				84C20FC89C344E24A1FB09BC /* Lato-Black.ttf in Resources */,
 				9B4DB493B4B142438FFA5E86 /* Lato-BlackItalic.ttf in Resources */,
 				8A7A2747B98A47B1BEBC6AEE /* Lato-Bold.ttf in Resources */,
