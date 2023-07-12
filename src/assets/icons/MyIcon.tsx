@@ -31,6 +31,13 @@ const MyIcon = ({
   const imageStyle = { width: size, height: size, ...style };
 
   switch (name) {
+    case 'mushroom':
+      return (
+        <FastImage
+          style={imageStyle}
+          source={require('../icons/mushroom.png')}
+        />
+      );
     case 'trophy':
       return (
         <FastImage style={imageStyle} source={require('../icons/trophy.png')} />
@@ -126,6 +133,7 @@ export type IconName =
   | 'lock'
   | 'unlock'
   | 'coffee'
+  | 'mushroom'
   | 'check'
   | 'check-circle'
   | 'googleLogo'

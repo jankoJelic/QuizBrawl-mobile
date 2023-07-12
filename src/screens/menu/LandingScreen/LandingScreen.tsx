@@ -6,7 +6,7 @@ import LandingScreenHeader from './components/LandingScreenHeader';
 import LobbyCarousel from './components/LobbyCarousel';
 import AssetsTile from './components/AssetsTile';
 import MyScrollView from 'hoc/MyScrollView';
-import CreateYourQuizTile from './components/CreateYourQuizTile';
+import CreateQuizBanner from './components/CreateQuizBanner';
 import { connectToSocket } from 'services/socket/connectToSocket';
 import { useIsFocused } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
@@ -14,7 +14,7 @@ import { exitLobby, exitRoom } from 'store/slices/dataSlice';
 import usePreventNativeBackButton from 'navigation/hooks/usePreventNativeBack';
 import { AN, IS_ANDROID } from 'constants/styles/appStyles';
 import Sidebar from 'containers/SideBar';
-import { PermissionsAndroid, StyleSheet, Text } from 'react-native';
+import { PermissionsAndroid, StyleSheet } from 'react-native';
 import useFCM from 'services/fcm/useFCM';
 import { Colors } from 'constants/styles/Colors';
 import useStyles from 'hooks/styles/useStyles';
@@ -22,7 +22,7 @@ import BottomNavigation from 'navigation/BottomNavigation';
 import { getMyQuizzes } from 'store/actions/dataActions';
 import { setStatusBar } from 'store/slices/appStateSlice';
 import { checkMusicEnabled } from 'services/encryptedStorage/tokens/musicEnabledStorage';
-import Title from 'components/typography/Title';
+import CreateLeagueBanner from './components/CreateLeagueBanner';
 
 const LandingScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'Landing'>
@@ -79,7 +79,8 @@ const LandingScreen: React.FC<
           <LandingScreenHeader />
           <AssetsTile />
           <LobbyCarousel />
-          <CreateYourQuizTile />
+          <CreateLeagueBanner />
+          <CreateQuizBanner />
         </MyScrollView>
       </Sidebar>
       <BottomNavigation />
