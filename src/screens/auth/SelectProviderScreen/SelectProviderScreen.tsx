@@ -2,18 +2,20 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import CTA from 'components/buttons/CTA';
 import GhostButton from 'components/buttons/GhostButton/GhostButton';
 import NavHeader from 'components/layout/NavHeader';
+import BodyLarge from 'components/typography/BodyLarge';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Colors } from 'constants/styles/Colors';
 import { AN, SCREEN_HEIGHT } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
 import { signInWithGoogle } from 'services/googleAuth/loginWithGoogle';
 import { startLoading, stopLoading } from 'store/slices/appStateSlice';
+import TermsOfUse from './TermsOfUse';
 
 const SelectProviderScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'SelectProvider'>
@@ -24,6 +26,16 @@ const SelectProviderScreen: React.FC<
 
   const isLoginFlow = flow === 'login';
   const action = isLoginFlow ? 'Sign in' : 'Register';
+
+  const [termsVisible, setTermsVisible] = useState(false);
+
+  const openTerms = () => {
+    setTermsVisible(true);
+  };
+
+  const closeTerms = () => {
+    setTermsVisible(false);
+  };
 
   const initializeGoogleSignIn = async () => {
     dispatch(startLoading());
@@ -56,6 +68,13 @@ const SelectProviderScreen: React.FC<
         style={{ marginBottom: SCREEN_HEIGHT * 0.2 }}
         showLeftIcon={flow === 'login'}
       />
+      <Text style={{ marginBottom: SCREEN_HEIGHT * 0.05 }} onPress={openTerms}>
+        <BodyLarge
+          text="By registering, you are accepting"
+          style={{ textAlign: 'center' }}
+        />
+        <BodyLarge text=" Quiz Clash terms of use" color="brand500" />
+      </Text>
 
       <GhostButton
         title={`${action} with Google`}
@@ -82,6 +101,7 @@ const SelectProviderScreen: React.FC<
 
         <CTA title={isLoginFlow ? 'Register' : 'Login'} onPress={onPressCTA} />
       </View>
+      <TermsOfUse visible={termsVisible} close={closeTerms} />
     </ScreenWrapper>
   );
 };
