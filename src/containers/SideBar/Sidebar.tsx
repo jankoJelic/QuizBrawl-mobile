@@ -118,11 +118,7 @@ const Sidebar = ({ children }: Props) => {
               icon="share-2"
               onPress={onPressShare}
             />
-            <MenuTile
-              title="Get to know me"
-              icon="coffee"
-              onPress={goToAboutScreen}
-            />
+            <MenuTile title="Credits" icon="coffee" onPress={goToAboutScreen} />
 
             <BodySmall
               text="Legal"

@@ -1,58 +1,87 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import CTA from 'components/buttons/CTA';
 import NavHeader from 'components/layout/NavHeader';
 import BodyLarge from 'components/typography/BodyLarge';
-import BodyMedium from 'components/typography/BodyMedium';
 import { Colors } from 'constants/styles/Colors';
 import { AN } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React from 'react';
-import { Linking, StyleSheet, Text, View } from 'react-native';
+import { Linking, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 const AboutScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'About'>
 > = ({ navigation }) => {
-  const { styles, commonStyles, colors } = useStyles(createStyles);
+  const FLAT_ICON_URL = 'https://www.flaticon.com';
+  const TRIVIA_API_URL = 'https://the-trivia-api.com';
+  const OPEN_TDB_URL = 'https://opentdb.com/';
+  const { styles } = useStyles(createStyles);
 
   const prepareSupportEmail = () => {
     Linking.openURL('mailto:quizclashgame@gmail.com?subject=Hello');
   };
 
-  const onPressBuyCoffee = async () => {};
+  const openFlatIcon = async () => {
+    Linking.openURL(FLAT_ICON_URL);
+  };
+
+  const openTriviaApi = async () => {
+    Linking.openURL(TRIVIA_API_URL);
+  };
+
+  const openOpenTDB = async () => {
+    Linking.openURL(OPEN_TDB_URL);
+  };
 
   return (
     <ScreenWrapper>
-      <NavHeader fullWidth title="About me" />
-      <Text style={styles.description}>
-        <BodyLarge
-          text={`Hello, I am a very passionate developer and quiz maker. Hope you are enjoying this game with yours friends as much as I've enjoyed making it.
+      <NavHeader fullWidth title="Credits" />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Text style={styles.description}>
+          <BodyLarge
+            text={`Hello, I am a very passionate developer and quiz maker. Hope you are enjoying this game with your friends as much as I've enjoyed making it.
 
 If you would like to contribute by creating amazing new questions, contact me at`}
-        />
-        <BodyLarge
-          text={`  quizclashgame@gmail.com
+          />
+          <BodyLarge
+            text={`  quizclashgame@gmail.com
 `}
-          color="brand500"
-          onPress={prepareSupportEmail}
-        />
-      </Text>
-      <View style={styles.separator} />
-      <Text style={{ textAlign: 'center' }}>
-        <BodyLarge text="Special thanks to" />
-        <BodyLarge text=" https://www.flaticon.com " color="brand500" />
-        <BodyLarge text="for providing this app with a lot of amazing avatars players can use and win!" />
-      </Text>
-      <View style={styles.separator} />
+            color="brand500"
+            onPress={prepareSupportEmail}
+          />
+        </Text>
+        <View style={styles.separator} />
+        <Text style={{ textAlign: 'center' }}>
+          <BodyLarge text="Special thanks to" />
+          <BodyLarge
+            text={` ${FLAT_ICON_URL} `}
+            color="brand500"
+            onPress={openFlatIcon}
+          />
+          <BodyLarge text="for providing this app with a lot of amazing avatars players can use and win!" />
+        </Text>
+        <View style={styles.separator} />
 
-      {/* <View style={commonStyles.ctaFooter}>
-        <BodyMedium
-          style={styles.footerText}
-          text="You can also support my effort by buying me coffee and for that I buy you in-game coffee :)"
-        />
-        <CTA title="Buy me a coffee" onPress={onPressBuyCoffee} />
-      </View> */}
+        <View style={styles.separator} />
+        <Text style={{ textAlign: 'center' }}>
+          <BodyLarge text="Other than my own questions, I have imported some from these APIs in order to deliver a more diverse game to you guys:" />
+          <BodyLarge
+            text={`\n • ${TRIVIA_API_URL} `}
+            color="brand500"
+            onPress={openTriviaApi}
+          />
+          <BodyLarge
+            text={`\n • ${OPEN_TDB_URL} `}
+            color="brand500"
+            onPress={openOpenTDB}
+          />
+          <BodyLarge
+            text={`\n Amazing stuff fellas, cheers!`}
+            onPress={openOpenTDB}
+          />
+        </Text>
+        <View style={styles.separator} />
+      </ScrollView>
     </ScreenWrapper>
   );
 };
@@ -65,7 +94,7 @@ const createStyles = (colors: Colors) =>
       width: '100%',
       height: 1,
       backgroundColor: colors.neutral400,
-      marginVertical: AN(8),
+      marginVertical: AN(12),
     },
   });
 
