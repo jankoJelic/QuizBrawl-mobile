@@ -16,6 +16,7 @@ import { useDispatch } from 'react-redux';
 import { deleteTokens } from 'services/encryptedStorage/tokens/tokenStorage';
 import { useAppSelector } from 'store/index';
 import { hideSideBar } from 'store/slices/appStateSlice';
+import { clearDataSlice } from 'store/slices/dataSlice';
 import { Children } from 'util/types/children.type';
 
 const Sidebar = ({ children }: Props) => {
@@ -23,8 +24,8 @@ const Sidebar = ({ children }: Props) => {
   const navigation = useMyNavigation();
   const { sideBarVisible } = useAppSelector(state => state.appState);
   const { userData } = useAppSelector(state => state.data);
-  const { styles, colors } = useStyles(createStyles);
-  const { notificationsCount, unreadMessages } = useUserData();
+  const { styles } = useStyles(createStyles);
+  const { unreadMessages } = useUserData();
 
   const onClose = () => {
     dispatch(hideSideBar());
@@ -45,6 +46,7 @@ const Sidebar = ({ children }: Props) => {
     deleteTokens();
     navigation.navigate('SelectProvider', { flow: 'login' });
     onClose();
+    dispatch(clearDataSlice());
   };
 
   const onPressShare = async () => {
@@ -108,19 +110,19 @@ const Sidebar = ({ children }: Props) => {
               color="neutral400"
               style={{ marginTop: AN(18) }}
             />
-            <MenuTile
+            {/* <MenuTile
               title="Rate Quiz Clash"
               icon="star"
               onPress={goToProfile}
-            />
-            <MenuTile
+            /> */}
+            {/* <MenuTile
               title="Share to friend"
               icon="share-2"
               onPress={onPressShare}
-            />
+            /> */}
             <MenuTile title="Credits" icon="coffee" onPress={goToAboutScreen} />
 
-            <BodySmall
+            {/* <BodySmall
               text="Legal"
               color="neutral400"
               style={{ marginTop: AN(18) }}
@@ -139,7 +141,7 @@ const Sidebar = ({ children }: Props) => {
               title="Privacy statement"
               icon="key"
               onPress={goToProfile}
-            />
+            /> */}
           </MyScrollView>
         );
       }}>

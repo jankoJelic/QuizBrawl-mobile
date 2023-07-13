@@ -52,7 +52,7 @@ const FriendsScreen: React.FC<
       <NavHeader title="Friends" fullWidth />
       {isLoading ? (
         <FullScreenSpinner />
-      ) : friends.length ? (
+      ) : friends?.length ? (
         <FlatList data={friends || []} renderItem={renderFriend} />
       ) : (
         <BodyMedium text="No friends added" style={{ textAlign: 'center' }} />
