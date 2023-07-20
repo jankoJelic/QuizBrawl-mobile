@@ -17,6 +17,7 @@ const MenuTile = ({
   tagColor,
   style = {},
   notification = '',
+  iconColor = 'brand500',
 }: Props) => {
   const { styles } = useStyles(createStyles);
 
@@ -26,7 +27,7 @@ const MenuTile = ({
       onPress={onPress}
       activeOpacity={0.8}>
       <View style={styles.row}>
-        <MyIcon name={icon} style={styles.icon} />
+        <MyIcon name={icon} style={styles.icon} color={iconColor} />
         <BodyMedium text={title} />
       </View>
       {!!tag && <Tag text={tag} color={tagColor} />}
@@ -63,4 +64,5 @@ interface Props {
   tagColor?: Color;
   style?: {};
   notification?: string;
+  iconColor?: Color;
 }

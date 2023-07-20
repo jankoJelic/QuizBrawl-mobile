@@ -1,21 +1,26 @@
-import { useNavigation } from '@react-navigation/native';
 import MenuTile from 'components/tiles/MenuTile';
 import BodySmall from 'components/typography/BodySmall/BodySmall';
 import { APP_DISPLAY_NAME } from 'constants/constants';
 import { Colors } from 'constants/styles/Colors';
 import { AN, SCREEN_HEIGHT, SCREEN_WIDTH } from 'constants/styles/appStyles';
+import PasswordPopup from 'containers/Popup/PasswordPopup';
 import UserInfoTile from 'containers/UserInfoTile/UserInfoTile';
 import MyScrollView from 'hoc/MyScrollView';
 import useStyles from 'hooks/styles/useStyles';
 import { useUserData } from 'hooks/useUserData';
 import { useMyNavigation } from 'navigation/hooks/useMyNavigation';
-import React from 'react';
+import React, { useState } from 'react';
 import { Share, StyleSheet } from 'react-native';
 import { Drawer } from 'react-native-drawer-layout';
 import { useDispatch } from 'react-redux';
+import API from 'services/api';
 import { deleteTokens } from 'services/encryptedStorage/tokens/tokenStorage';
 import { useAppSelector } from 'store/index';
-import { hideSideBar } from 'store/slices/appStateSlice';
+import {
+  hideSideBar,
+  startLoading,
+  stopLoading,
+} from 'store/slices/appStateSlice';
 import { clearDataSlice } from 'store/slices/dataSlice';
 import { Children } from 'util/types/children.type';
 
@@ -26,6 +31,17 @@ const Sidebar = ({ children }: Props) => {
   const { userData } = useAppSelector(state => state.data);
   const { styles } = useStyles(createStyles);
   const { unreadMessages } = useUserData();
+
+  const [passwordPopupVisible, setPasswordPopupVisible] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
+
+  const openPasswordPopup = () => {
+    setPasswordPopupVisible(true);
+  };
+
+  const closePasswordPopup = () => {
+    setPasswordPopupVisible(false);
+  };
 
   const onClose = () => {
     dispatch(hideSideBar());
@@ -49,15 +65,19 @@ const Sidebar = ({ children }: Props) => {
     dispatch(clearDataSlice());
   };
 
-  const onPressShare = async () => {
-    try {
-      await Share.share({
-        message: `We can playe ${APP_DISPLAY_NAME} together!`,
-      });
-    } catch (e) {
-    } finally {
-    }
+  const showInvalidPassword = () => {
+    setPasswordError('Invalid password');
   };
+
+  // const onPressShare = async () => {
+  //   try {
+  //     await Share.share({
+  //       message: `We can playe ${APP_DISPLAY_NAME} together!`,
+  //     });
+  //   } catch (e) {
+  //   } finally {
+  //   }
+  // };
 
   const goToInbox = () => {
     navigation.navigate('Inbox');
@@ -65,6 +85,24 @@ const Sidebar = ({ children }: Props) => {
 
   const goToCustomizeProfile = () => {
     navigation.navigate('CustomizeProfile');
+  };
+
+  const onSubmitDeleteAccount = async (password: string) => {
+    dispatch(startLoading());
+    try {
+      const success = await API.deleteUser(password);
+      console.log(success);
+      if (success) {
+        closePasswordPopup();
+        onPressLogout();
+      } else {
+        showInvalidPassword();
+      }
+    } catch (error) {
+      showInvalidPassword();
+    } finally {
+      dispatch(stopLoading());
+    }
   };
 
   return (
@@ -104,7 +142,12 @@ const Sidebar = ({ children }: Props) => {
               onPress={goToCustomizeProfile}
             />
             <MenuTile title="Logout" icon="log-out" onPress={onPressLogout} />
-
+            <MenuTile
+              title="Delete my account"
+              icon="trash"
+              iconColor="danger500"
+              onPress={openPasswordPopup}
+            />
             <BodySmall
               text="Show some love"
               color="neutral400"
@@ -142,6 +185,13 @@ const Sidebar = ({ children }: Props) => {
               icon="key"
               onPress={goToProfile}
             /> */}
+            <PasswordPopup
+              visible={passwordPopupVisible}
+              closeModal={closePasswordPopup}
+              text="Caution! All your progress will be lost"
+              error={!!passwordError}
+              onSubmit={onSubmitDeleteAccount}
+            />
           </MyScrollView>
         );
       }}>

@@ -46,8 +46,8 @@
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-		<key>NSExceptionDomains</key>
+		<false/>
+		<!-- <key>NSExceptionDomains</key>
 		<dict>
 			<key>10.0.2.2</key>
 			<dict>
@@ -59,7 +59,7 @@
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
-		</dict>
+		</dict> -->
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Users can also take pictures and use them for questions</string>

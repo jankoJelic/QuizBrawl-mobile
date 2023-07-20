@@ -4,7 +4,7 @@ import { storeUserData } from 'store/slices/dataSlice';
 import { UserData } from 'store/types/authSliceTypes';
 import { storeTokens } from 'services/encryptedStorage/tokens/tokenStorage';
 
-const { post, get, patch } = httpClient;
+const { post, get, patch, destroy } = httpClient;
 
 const initialTotalAnswers = {
   General: 0,
@@ -75,6 +75,12 @@ export const authAPI = {
 
   connectToFCM: async (fcmToken: string) => {
     get('/messages/fcmToken', { params: { fcmToken } });
+  },
+
+  deleteUser: async (password: string) => {
+    const { data } = await destroy<boolean>(`/auth/${password}`);
+    console.log(data);
+    return data;
   },
 };
 

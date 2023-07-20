@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import Popup from './Popup';
 import InputField from 'components/inputs/InputField';
 
-const PasswordPopup = ({ visible, closeModal, error, onSubmit }: Props) => {
+const PasswordPopup = ({
+  visible,
+  closeModal,
+  error,
+  onSubmit,
+  text = '',
+}: Props) => {
   const [input, setInput] = useState('');
 
   const onSubmitMe = () => {
@@ -18,6 +24,7 @@ const PasswordPopup = ({ visible, closeModal, error, onSubmit }: Props) => {
       secondButtonTitle="Cancel"
       onPressFirstButton={onSubmitMe}
       onPressSecondButton={closeModal}
+      text={text}
       Content={
         <InputField value={input} onChangeText={setInput} error={error} />
       }
@@ -32,4 +39,5 @@ interface Props {
   closeModal: () => any;
   error: boolean;
   onSubmit: (txt: string) => any;
+  text?: string;
 }
