@@ -1,3 +1,4 @@
+import { IS_TABLET } from 'constants/constants';
 import { Color } from 'constants/styles/Colors';
 import { FONTS } from 'constants/styles/appStyles';
 import useTheme from 'hooks/styles/useTheme';
@@ -35,7 +36,7 @@ const BaseTextComponent = ({
         fontFamily: fontFamily(),
         color: colors[color],
         fontSize,
-        lineHeight: fontSize * 1.4,
+        lineHeight: fontSize * (IS_TABLET ? 2 : 1.4),
         ...style,
       }}
       onPress={onPress ? onPress : undefined}>
