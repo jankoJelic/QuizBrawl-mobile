@@ -77,11 +77,11 @@ const ProfileScreen: React.FC<
           </>
         ) : (
           <View style={{ paddingHorizontal: PADDING_HORIZONTAL }}>
-            <GhostButton
+            {/* <GhostButton
               onPress={sendGift}
               title="Send gift"
               color="brand500"
-            />
+            /> */}
             <GhostButton
               onPress={deleteFriend}
               title="Remove friend"
