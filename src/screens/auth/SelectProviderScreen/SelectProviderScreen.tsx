@@ -75,7 +75,7 @@ const SelectProviderScreen: React.FC<
         />
         <BodyLarge text=" Quiz Clash terms of use" color="brand500" />
       </Text>
-
+      {/* 
       <GhostButton
         title={`${action} with Google`}
         onPress={initializeGoogleSignIn}
@@ -83,7 +83,7 @@ const SelectProviderScreen: React.FC<
       />
       <View style={styles.horizontalLineContainer}>
         <BodyMedium text="    or    " />
-      </View>
+      </View> */}
       <GhostButton
         title={`${action} with e-mail`}
         onPress={chooseAuthWithEmail}
