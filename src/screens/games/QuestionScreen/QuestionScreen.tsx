@@ -153,7 +153,8 @@ const QuestionScreen: React.FC<
   useEffect(() => {
     if (
       allUsersHaveAnsweredWrong ||
-      (!isClassicGame && !correctAnswerGuessed && !secondsLeft)
+      (!isClassicGame && !correctAnswerGuessed && !secondsLeft) ||
+      (isClassicGame && allUsersHaveAnsweredWrong)
     ) {
       setCorrectAnswerShown(true);
     }
