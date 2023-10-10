@@ -60,7 +60,14 @@ const QuestionScreen: React.FC<
   const isClassicGame = type === 'classic';
   const nextQuestionTimeout = isBrawlGame ? 2000 : 0;
 
-  const { answerTime, id: roomId, users, topic, userId } = activeRoom || {};
+  const {
+    answerTime,
+    id: roomId,
+    users,
+    topic,
+    userId,
+    questionsCount,
+  } = activeRoom || {};
   const youAreAdmin = userId === userData.id;
 
   const currentQuestion: Question = questions[onQuestion];
@@ -150,7 +157,7 @@ const QuestionScreen: React.FC<
     ) {
       setCorrectAnswerShown(true);
     }
-  }, [allUsersHaveAnsweredWrong, correctAnswerGuessed]);
+  }, [allUsersHaveAnsweredWrong, correctAnswerGuessed, secondsLeft]);
 
   useEffect(() => {
     if (!!image && typeof image === 'string') {
@@ -285,6 +292,10 @@ const QuestionScreen: React.FC<
           ) : (
             <></>
           )}
+          <BodyMedium
+            style={{ alignSelf: 'center' }}
+            text={`${onQuestion + 1} / ${questionsCount}`}
+          />
           <QuestionCountdown
             allUSersGuessed={allUsersGuessed}
             correctUser={correctUser}
@@ -294,7 +305,7 @@ const QuestionScreen: React.FC<
           />
           <TileWrapper style={styles.questionTile}>
             <BodyMedium text={question} style={{ textAlign: 'center' }} />
-            {!!imageUrl ? (
+            {imageUrl ? (
               <FastImage
                 source={{ uri: imageUrl }}
                 style={styles.image}
@@ -324,7 +335,8 @@ const QuestionScreen: React.FC<
               onPress={() => {
                 onSelectAnswer(a);
               }}
-              userName={userNameByAnswer[a]}
+              userName={userNameByAnswer[a] || ''}
+              key={`${a}${index}`}
             />
           ))}
           {youAreAdmin && IS_LEAGUE_GAME ? (
