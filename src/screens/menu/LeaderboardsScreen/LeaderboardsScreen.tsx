@@ -130,7 +130,7 @@ const LeaderboardsScreen = () => {
           borderWidth: 5,
         }}
         onPress={() => {
-          setSelectedUser(players[1]);
+          setSelectedUser(players[2]);
         }}
       />
       <BodyMedium text={players[2].firstName} color="bronze" />
