@@ -154,7 +154,7 @@ const QuestionScreen: React.FC<
     if (
       allUsersHaveAnsweredWrong ||
       (!isClassicGame && !correctAnswerGuessed && !secondsLeft) ||
-      (isClassicGame && allUsersHaveAnsweredWrong)
+      (isClassicGame && (allUsersHaveAnsweredWrong || !secondsLeft))
     ) {
       setCorrectAnswerShown(true);
     }
