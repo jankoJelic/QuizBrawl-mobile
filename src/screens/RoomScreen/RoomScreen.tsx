@@ -1,5 +1,4 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import MyIcon from 'assets/icons/MyIcon';
 import CTA from 'components/buttons/CTA';
 import GhostButton from 'components/buttons/GhostButton/GhostButton';
 import RoundButton from 'components/buttons/RoundButton/RoundButton';
@@ -64,8 +63,8 @@ const RoomScreen: React.FC<
     SOCKET.emit(SOCKET_EVENTS.GAME_STARTED, { room });
   };
 
-  const roomIsFull = users?.length === maxPlayers;
-  const startGameDisabled = !roomIsFull || readyUsers?.length !== maxPlayers;
+  const startGameDisabled =
+    users?.length !== readyUsers?.length || (users?.length && users.length < 2);
   const youAreReady = readyUsers?.includes(userData?.id);
 
   const onPressReady = () => {
