@@ -66,9 +66,9 @@ export const connectToSocket = (navigation: any) => {
 
     const state = store.getState();
     const {
-      userData: { id: myId, room: myRoom, lobby },
+      userData: { id: myId, lobby },
     } = state.data || {};
-    const { user, room } = payload || {};
+    const { user } = payload || {};
 
     const iWasKicked = user?.id === myId;
 
