@@ -154,11 +154,11 @@ export const authSlice = createSlice({
       state.rooms = updatedRooms;
     },
     addMessageToInbox: (state, action) => {
-      const currentInbox = !!state.userData.inbox ? state.userData.inbox : [];
+      const currentInbox = state.userData.inbox ? state.userData.inbox : [];
       state.userData.inbox = [action.payload].concat(currentInbox);
     },
     deleteMessage: (state, action: { payload: string }) => {
-      const currentInbox = !!state.userData.inbox ? state.userData.inbox : [];
+      const currentInbox = state.userData.inbox ? state.userData.inbox : [];
       state.userData.inbox = currentInbox.filter(
         mess => mess.id !== action.payload,
       );
