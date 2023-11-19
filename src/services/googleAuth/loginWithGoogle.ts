@@ -5,27 +5,28 @@ import { store } from 'store/index';
 import { showToast } from 'store/slices/appStateSlice';
 
 export const signInWithGoogle = async () => {
-  const isPlayServiceAvailable = await GoogleSignin.hasPlayServices();
-  if (IS_ANDROID) await GoogleSignin.signOut();
+  try {
+    const isPlayServiceAvailable = await GoogleSignin.hasPlayServices();
+    if (IS_ANDROID) await GoogleSignin.signOut();
 
-  if (!isPlayServiceAvailable) {
-    store.dispatch(
-      showToast({
-        text: "You don't have Play services supported on device",
-        type: 'error',
-      }),
-    );
-    return;
-  }
+    if (!isPlayServiceAvailable) {
+      store.dispatch(
+        showToast({
+          text: "You don't have Play services supported on device",
+          type: 'error',
+        }),
+      );
+      return;
+    }
 
-  const { idToken, user } = await GoogleSignin.signIn();
-  const { email, name, photo } = user || {};
+    const { idToken, user } = await GoogleSignin.signIn();
+    const { email, name, photo } = user || {};
 
-
-  await API.loginWithGoogle({
-    email,
-    googleAuthId: idToken as string,
-    name: name as string,
-    photo: photo as string,
-  });
+    await API.loginWithGoogle({
+      email,
+      googleAuthId: idToken as string,
+      name: name as string,
+      photo: photo as string,
+    });
+  } catch (error) {}
 };
