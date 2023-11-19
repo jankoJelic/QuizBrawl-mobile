@@ -103,17 +103,14 @@ export const connectToSocket = (navigation: any) => {
     if (userData?.room?.id === payload?.id) {
       const lobbyId = userData.lobby.id;
 
-      switch (lobbyId) {
-        case LOBBY_IDS.ARENA:
-          dispatch(
-            showToast({
-              text: 'Room dismissed',
-              type: 'warning',
-            }),
-          );
-          navigation.navigate('Lobby', { lobbyId: LOBBY_IDS.ARENA });
-        default:
-          return;
+      if (lobbyId === LOBBY_IDS.ARENA) {
+        dispatch(
+          showToast({
+            text: 'Room dismissed',
+            type: 'warning',
+          }),
+        );
+        navigation.navigate('Lobby', { lobbyId: LOBBY_IDS.ARENA });
       }
     }
   });
