@@ -15,9 +15,8 @@ import Title from 'components/typography/Title';
 import BodyMedium from 'components/typography/BodyMedium';
 import { Color, Colors } from 'constants/styles/Colors';
 import useStyles from 'hooks/styles/useStyles';
-import { setRooms } from 'store/slices/dataSlice';
+import { setRooms, joinLobby, setLobbies } from 'store/slices/dataSlice';
 import BodySmall from 'components/typography/BodySmall/BodySmall';
-import { joinLobby, setLobbies } from 'store/slices/dataSlice';
 import API from 'services/api';
 
 const LobbyCarousel = () => {
