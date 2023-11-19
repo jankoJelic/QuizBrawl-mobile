@@ -117,6 +117,7 @@ const RoomScreen: React.FC<
         <View style={{ marginVertical: AN(10) }}>
           {users?.map(u => (
             <UserTile
+              key={`user-in-room-${u.id}`}
               user={u}
               isReady={readyUsers?.includes(u.id)}
               onPress={showUserInfo}
@@ -126,7 +127,7 @@ const RoomScreen: React.FC<
         <CTA
           onPress={startGame}
           title="Start Game"
-          disabled={startGameDisabled}
+          disabled={Boolean(startGameDisabled)}
         />
         {!youAreReady ? (
           <RoundButton
@@ -147,13 +148,11 @@ const RoomScreen: React.FC<
         AdditionalContent={
           <>
             {isRoomAdmin && !youAreSelected ? (
-              <>
-                <GhostButton
-                  title="Kick from room"
-                  onPress={kickPlayerFromRoom}
-                  color="danger500"
-                />
-              </>
+              <GhostButton
+                title="Kick from room"
+                onPress={kickPlayerFromRoom}
+                color="danger500"
+              />
             ) : (
               <></>
             )}
