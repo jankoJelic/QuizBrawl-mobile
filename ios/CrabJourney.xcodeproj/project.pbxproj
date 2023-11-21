@@ -11,19 +11,19 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		219E2048938714B547232321 /* Pods_CrabJourney.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49AAD576534C75264D33F2A7 /* Pods_CrabJourney.framework */; };
 		24703F0A6C8D40DA8E3B42B9 /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6BBA6F59E51F4FB08B8D03DC /* Lato-LightItalic.ttf */; };
 		38AB9861B9F4454795DFF420 /* Lato-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D43C02D37E14E4A9600288C /* Lato-Thin.ttf */; };
 		46A65F5EE35240A2BD5608F4 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 92D367B11CF34ECAB6C451FC /* Lato-Light.ttf */; };
+		4A1E3B9F541CC39D49F5DBA1 /* Pods_CrabJourney.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B34C8C8B3EC9A34434E4FD /* Pods_CrabJourney.framework */; };
 		7E0958DBF708477EBD2C508E /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63C56D69286E4B208C9C7D0B /* Lato-Regular.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		84C20FC89C344E24A1FB09BC /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EA0F1830CA7487898AEF0E0 /* Lato-Black.ttf */; };
 		8A7A2747B98A47B1BEBC6AEE /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2423F841ECEB400E932FB625 /* Lato-Bold.ttf */; };
 		9B4DB493B4B142438FFA5E86 /* Lato-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 359EDE0C96EA498689B149D3 /* Lato-BlackItalic.ttf */; };
 		9D88EBC11F3A450681392585 /* Lato-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DF1B7A6549B84FA6AD41AF1E /* Lato-Italic.ttf */; };
+		ABA2AA704A30CB2A443411CB /* Pods_CrabJourney_CrabJourneyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E6DCA07BC5723D422036D7A /* Pods_CrabJourney_CrabJourneyTests.framework */; };
 		D1906B9A5FE54281ADBB72D5 /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C11D690D6DD945AAAB9CF8C8 /* Lato-BoldItalic.ttf */; };
 		D89C84E76FE94BB0BA331EB5 /* Lato-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 03E1E61E20864E9CAEA524A2 /* Lato-ThinItalic.ttf */; };
-		E0872FB1932344D37D574850 /* Pods_CrabJourney_CrabJourneyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 358650E075A22FDCC63DD3B3 /* Pods_CrabJourney_CrabJourneyTests.framework */; };
 		EB1A89C32A4E372300A70A4F /* LaunchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = EB1A89C22A4E372300A70A4F /* LaunchScreen.png */; };
 		EB30352229CF690A00A2D55A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB30352129CF690A00A2D55A /* GoogleService-Info.plist */; };
 		EBB37B882A4F8AEF001AC69F /* reward.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EBB37B832A4F8AEE001AC69F /* reward.mp3 */; };
@@ -55,15 +55,15 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = CrabJourney/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CrabJourney/main.m; sourceTree = "<group>"; };
 		2423F841ECEB400E932FB625 /* Lato-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Bold.ttf"; path = "../src/assets/fonts/Lato-Bold.ttf"; sourceTree = "<group>"; };
-		358650E075A22FDCC63DD3B3 /* Pods_CrabJourney_CrabJourneyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CrabJourney_CrabJourneyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		29B34C8C8B3EC9A34434E4FD /* Pods_CrabJourney.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CrabJourney.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		359EDE0C96EA498689B149D3 /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-BlackItalic.ttf"; path = "../src/assets/fonts/Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
 		3EA0F1830CA7487898AEF0E0 /* Lato-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Black.ttf"; path = "../src/assets/fonts/Lato-Black.ttf"; sourceTree = "<group>"; };
-		49AAD576534C75264D33F2A7 /* Pods_CrabJourney.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CrabJourney.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		53B9693FE8B1B5B1C4471189 /* Pods-CrabJourney.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CrabJourney.release.xcconfig"; path = "Target Support Files/Pods-CrabJourney/Pods-CrabJourney.release.xcconfig"; sourceTree = "<group>"; };
 		63C56D69286E4B208C9C7D0B /* Lato-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Regular.ttf"; path = "../src/assets/fonts/Lato-Regular.ttf"; sourceTree = "<group>"; };
 		6BBA6F59E51F4FB08B8D03DC /* Lato-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-LightItalic.ttf"; path = "../src/assets/fonts/Lato-LightItalic.ttf"; sourceTree = "<group>"; };
 		6BCDF6E073C33F4763D593EC /* Pods-CrabJourney-CrabJourneyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CrabJourney-CrabJourneyTests.release.xcconfig"; path = "Target Support Files/Pods-CrabJourney-CrabJourneyTests/Pods-CrabJourney-CrabJourneyTests.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = CrabJourney/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8E6DCA07BC5723D422036D7A /* Pods_CrabJourney_CrabJourneyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CrabJourney_CrabJourneyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9261ACF26AD1E74A2D97A312 /* Pods-CrabJourney.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CrabJourney.debug.xcconfig"; path = "Target Support Files/Pods-CrabJourney/Pods-CrabJourney.debug.xcconfig"; sourceTree = "<group>"; };
 		92D367B11CF34ECAB6C451FC /* Lato-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Light.ttf"; path = "../src/assets/fonts/Lato-Light.ttf"; sourceTree = "<group>"; };
 		9D43C02D37E14E4A9600288C /* Lato-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Thin.ttf"; path = "../src/assets/fonts/Lato-Thin.ttf"; sourceTree = "<group>"; };
@@ -86,7 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E0872FB1932344D37D574850 /* Pods_CrabJourney_CrabJourneyTests.framework in Frameworks */,
+				ABA2AA704A30CB2A443411CB /* Pods_CrabJourney_CrabJourneyTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,7 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				219E2048938714B547232321 /* Pods_CrabJourney.framework in Frameworks */,
+				4A1E3B9F541CC39D49F5DBA1 /* Pods_CrabJourney.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,8 +138,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				49AAD576534C75264D33F2A7 /* Pods_CrabJourney.framework */,
-				358650E075A22FDCC63DD3B3 /* Pods_CrabJourney_CrabJourneyTests.framework */,
+				29B34C8C8B3EC9A34434E4FD /* Pods_CrabJourney.framework */,
+				8E6DCA07BC5723D422036D7A /* Pods_CrabJourney_CrabJourneyTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -212,6 +212,7 @@
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
+				32DE26CD3A5BF23B20E166FD /* [CP] Embed Pods Frameworks */,
 				3BF335BB979E470E02011295 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -234,6 +235,7 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				FE0BAE3E72DFD9E682747225 /* [CP] Embed Pods Frameworks */,
 				846FEDE98C937977661F2C0F /* [CP] Copy Pods Resources */,
 				BAC3DB9A05F8CABBBF0C0D93 /* [CP-User] [RNFB] Core Configuration */,
 				C31B5DF25246B2198EA07A69 /* [CP-User] [RNFB] Crashlytics Configuration */,
@@ -335,6 +337,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
+		};
+		32DE26CD3A5BF23B20E166FD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CrabJourney-CrabJourneyTests/Pods-CrabJourney-CrabJourneyTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CrabJourney-CrabJourneyTests/Pods-CrabJourney-CrabJourneyTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CrabJourney-CrabJourneyTests/Pods-CrabJourney-CrabJourneyTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		3BF335BB979E470E02011295 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -458,6 +477,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FE0BAE3E72DFD9E682747225 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CrabJourney/Pods-CrabJourney-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CrabJourney/Pods-CrabJourney-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CrabJourney/Pods-CrabJourney-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

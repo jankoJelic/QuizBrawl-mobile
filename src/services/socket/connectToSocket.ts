@@ -161,7 +161,6 @@ export const connectToSocket = (navigation: any) => {
     const state = store.getState();
 
     const friendThatNeedsToBeRemoved = state.data.userData.friends?.find(
-      // @ts-ignore
       (fr: ShallowUser) => fr?.id == userId,
     );
     dispatch(removeFriend(friendThatNeedsToBeRemoved as Partial<UserData>));

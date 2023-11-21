@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createSlice } from '@reduxjs/toolkit';
 import { Reward, UserData } from 'store/types/authSliceTypes';
 import { Lobby, Room, Topic } from 'store/types/dataSliceTypes';
