@@ -213,7 +213,6 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				3BF335BB979E470E02011295 /* [CP] Copy Pods Resources */,
-				6E89DE6323D1CED72C6EBC48 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -238,7 +237,6 @@
 				846FEDE98C937977661F2C0F /* [CP] Copy Pods Resources */,
 				BAC3DB9A05F8CABBBF0C0D93 /* [CP-User] [RNFB] Core Configuration */,
 				C31B5DF25246B2198EA07A69 /* [CP-User] [RNFB] Crashlytics Configuration */,
-				4C454434722B9BE36509338A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -353,40 +351,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CrabJourney-CrabJourneyTests/Pods-CrabJourney-CrabJourneyTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4C454434722B9BE36509338A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CrabJourney/Pods-CrabJourney-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CrabJourney/Pods-CrabJourney-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CrabJourney/Pods-CrabJourney-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6E89DE6323D1CED72C6EBC48 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CrabJourney-CrabJourneyTests/Pods-CrabJourney-CrabJourneyTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CrabJourney-CrabJourneyTests/Pods-CrabJourney-CrabJourneyTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CrabJourney-CrabJourneyTests/Pods-CrabJourney-CrabJourneyTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		846FEDE98C937977661F2C0F /* [CP] Copy Pods Resources */ = {
