@@ -73,6 +73,7 @@
 		EB1A89C22A4E372300A70A4F /* LaunchScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LaunchScreen.png; path = ../../../../Desktop/LaunchScreen.png; sourceTree = "<group>"; };
 		EB30352129CF690A00A2D55A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EB732D7B2A6D538000332F97 /* CrabJourney.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CrabJourney.entitlements; path = CrabJourney/CrabJourney.entitlements; sourceTree = "<group>"; };
+		EBB264E72B0F27930000FEB2 /* hermes.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = hermes.xcframework; path = "Pods/hermes-engine/destroot/Library/Frameworks/universal/hermes.xcframework"; sourceTree = "<group>"; };
 		EBB37B832A4F8AEE001AC69F /* reward.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = reward.mp3; path = ../../../../Desktop/QC/reward.mp3; sourceTree = "<group>"; };
 		EBB37B842A4F8AEE001AC69F /* success.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = success.mp3; path = ../../../../Desktop/QC/success.mp3; sourceTree = "<group>"; };
 		EBB37B852A4F8AEE001AC69F /* defeat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = defeat.mp3; path = ../../../../Desktop/QC/defeat.mp3; sourceTree = "<group>"; };
@@ -137,6 +138,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EBB264E72B0F27930000FEB2 /* hermes.xcframework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				29B34C8C8B3EC9A34434E4FD /* Pods_CrabJourney.framework */,
 				8E6DCA07BC5723D422036D7A /* Pods_CrabJourney_CrabJourneyTests.framework */,
@@ -212,8 +214,8 @@
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				32DE26CD3A5BF23B20E166FD /* [CP] Embed Pods Frameworks */,
 				3BF335BB979E470E02011295 /* [CP] Copy Pods Resources */,
+				340035DE00BB4FD7E19D3F45 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -235,10 +237,10 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				FE0BAE3E72DFD9E682747225 /* [CP] Embed Pods Frameworks */,
 				846FEDE98C937977661F2C0F /* [CP] Copy Pods Resources */,
 				BAC3DB9A05F8CABBBF0C0D93 /* [CP-User] [RNFB] Core Configuration */,
 				C31B5DF25246B2198EA07A69 /* [CP-User] [RNFB] Crashlytics Configuration */,
+				31746C421E71C4B8D1EEEF92 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -338,7 +340,24 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		32DE26CD3A5BF23B20E166FD /* [CP] Embed Pods Frameworks */ = {
+		31746C421E71C4B8D1EEEF92 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CrabJourney/Pods-CrabJourney-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CrabJourney/Pods-CrabJourney-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CrabJourney/Pods-CrabJourney-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		340035DE00BB4FD7E19D3F45 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -477,23 +496,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FE0BAE3E72DFD9E682747225 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CrabJourney/Pods-CrabJourney-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CrabJourney/Pods-CrabJourney-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CrabJourney/Pods-CrabJourney-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
