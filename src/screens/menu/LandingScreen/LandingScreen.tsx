@@ -75,7 +75,7 @@ const LandingScreen: React.FC<
   return (
     <ScreenWrapper style={{ paddingHorizontal: 0, paddingTop: AN(15) }}>
       <Sidebar>
-        <MyScrollView>
+        <MyScrollView style={{ paddingBottom: AN(150) }}>
           <LandingScreenHeader />
           <AssetsTile />
           <LobbyCarousel />

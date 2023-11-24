@@ -7,6 +7,7 @@ const MyScrollView = ({ children, style = {} }: Props) => {
     <ScrollView
       style={[style]}
       contentContainerStyle={[styles.content, style]}
+      showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}>
       {children}
     </ScrollView>

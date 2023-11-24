@@ -102,7 +102,6 @@ export const connectToSocket = (navigation: any) => {
 
     if (userData?.room?.id === payload?.id) {
       const lobbyId = userData.lobby.id;
-
       if (lobbyId === LOBBY_IDS.ARENA) {
         dispatch(
           showToast({
