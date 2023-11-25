@@ -29,7 +29,7 @@ export type MainStackParamsList = {
   CreateRoom: { lobbyId: number };
   Room: { room: Room };
 
-  GameSplash: undefined;
+  GameSplash: { room: Room };
   Question: undefined;
   Results: { leagueId?: number };
 

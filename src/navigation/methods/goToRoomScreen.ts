@@ -32,7 +32,7 @@ export const goToSoloEvent = async (room: Room) => {
         questions,
       }),
     );
-    navigate('GameSplash');
+    navigate('GameSplash', { room });
   } catch (error) {
   } finally {
     store.dispatch(stopLoading());

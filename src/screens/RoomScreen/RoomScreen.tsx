@@ -47,9 +47,8 @@ const RoomScreen: React.FC<
   const youAreSelected = selectedUser?.id === userData.id;
 
   useEffect(() => {
-    if (onQuestion === 0) {
-      navigation.navigate('GameSplash');
-    }
+    if (onQuestion === 0)
+      navigation.navigate('GameSplash', { room: room as Room });
   }, [onQuestion]);
 
   const onPressLeftArrow = () => {
