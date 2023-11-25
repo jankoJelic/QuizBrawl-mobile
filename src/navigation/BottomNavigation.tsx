@@ -14,6 +14,10 @@ import {
   goToRoomScreen,
   goToSoloEvent,
 } from './methods/goToRoomScreen';
+import API from 'services/api';
+import { useDispatch } from 'react-redux';
+import { initializeGame } from 'store/slices/gameSlice';
+import { navigate } from './MainStackNavigator';
 
 const NavIcon = ({
   title = '',
@@ -45,6 +49,7 @@ const NavIcon = ({
 };
 
 const BottomNavigation = () => {
+  const dispatch = useDispatch();
   const { styles } = useStyles(createStyles);
   const navigation = useMyNavigation();
   const { rooms } = useAppSelector(state => state.data);
@@ -61,18 +66,27 @@ const BottomNavigation = () => {
     .slice()
     .sort((a, b) => (a.lobbyId < b.lobbyId ? -1 : 1));
 
-  const startQuickGame = () => {
-    const availableRoom = roomsByPriority.find(
-      r => !r.password && r.users.length < r.maxPlayers,
-    );
-    if (!!availableRoom) {
-      if (availableRoom.lobbyId === LOBBY_IDS.SOLO) {
-        goToSoloEvent(availableRoom);
+  const startQuickGame = async () => {
+    try {
+      console.log('here');
+      const { questions, room } = await API.startQuickGame();
+      console.log(questions, room);
+      dispatch(initializeGame({ room, questions }));
+      navigation.navigate('GameSplash', { room });
+    } catch (error) {
+      const availableRoom = roomsByPriority.find(
+        r => !r.password && r.users.length < r.maxPlayers,
+      );
+
+      if (availableRoom) {
+        if (availableRoom.lobbyId === LOBBY_IDS.SOLO) {
+          goToSoloEvent(availableRoom);
+        } else {
+          goToRoomScreen(availableRoom);
+        }
       } else {
-        goToRoomScreen(availableRoom);
+        createNewRoom();
       }
-    } else {
-      createNewRoom();
     }
   };
 

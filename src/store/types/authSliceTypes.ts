@@ -18,6 +18,7 @@ export interface UserData extends ShallowUser {
   totalAnswers: Record<Topic, number>;
   dailies: null | {};
   leagueIds: number[];
+  isBot: boolean;
 }
 
 export interface ShallowUser {
