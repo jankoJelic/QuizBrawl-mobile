@@ -17,7 +17,9 @@ import {
 import API from 'services/api';
 import { useDispatch } from 'react-redux';
 import { initializeGame } from 'store/slices/gameSlice';
-import { navigate } from './MainStackNavigator';
+import { startLoading, stopLoading } from 'store/slices/appStateSlice';
+import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
+import { joinRoom } from 'store/slices/dataSlice';
 
 const NavIcon = ({
   title = '',
@@ -52,7 +54,7 @@ const BottomNavigation = () => {
   const dispatch = useDispatch();
   const { styles } = useStyles(createStyles);
   const navigation = useMyNavigation();
-  const { rooms } = useAppSelector(state => state.data);
+  const { rooms, userData } = useAppSelector(state => state.data);
 
   const goTopMarket = () => {
     navigation.navigate('Market');
@@ -67,11 +69,15 @@ const BottomNavigation = () => {
     .sort((a, b) => (a.lobbyId < b.lobbyId ? -1 : 1));
 
   const startQuickGame = async () => {
+    dispatch(startLoading());
     try {
-      console.log('here');
       const { questions, room } = await API.startQuickGame();
-      console.log(questions, room);
+      dispatch(joinRoom(room));
       dispatch(initializeGame({ room, questions }));
+      SOCKET.emit(SOCKET_EVENTS.USER_JOINED_ROOM, {
+        roomId: room.id,
+        user: userData,
+      });
       navigation.navigate('GameSplash', { room });
     } catch (error) {
       const availableRoom = roomsByPriority.find(
@@ -87,6 +93,8 @@ const BottomNavigation = () => {
       } else {
         createNewRoom();
       }
+    } finally {
+      dispatch(stopLoading());
     }
   };
 

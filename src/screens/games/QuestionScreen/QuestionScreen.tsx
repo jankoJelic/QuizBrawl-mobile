@@ -30,6 +30,8 @@ import API from 'services/api';
 import FastImage from 'react-native-fast-image';
 import { getFirebaseImageUrl } from 'services/firebaseStorage/firebaseStorage';
 import { playSound } from 'services/sounds/soundPlayer';
+import selectRandomFromArray from 'util/array/selectRandomFromArray';
+import { shuffleArray } from 'util/array/shuffleArray';
 
 const startingUsersByAnswer = {
   answer1: '',
@@ -69,6 +71,7 @@ const QuestionScreen: React.FC<
     questionsCount,
   } = activeRoom || {};
   const youAreAdmin = userId === userData.id;
+  const isBotGame = users.some(u => u.isBot);
 
   const currentQuestion: Question = questions[onQuestion];
   const {
@@ -160,6 +163,24 @@ const QuestionScreen: React.FC<
     }
   }, [allUsersHaveAnsweredWrong, correctAnswerGuessed, secondsLeft]);
 
+  const [botAnswerTime, setBotAnswerTime] = useState<number[]>([]);
+  useEffect(() => {
+    const listOfAvailableSeconds = [];
+    for (let i = 3; i < answerTime; i++) {
+      listOfAvailableSeconds.push(i);
+    }
+    const numberOfBots = users.filter(u => u.isBot).length;
+    const randomBotTimes = shuffleArray(listOfAvailableSeconds).slice(
+      0,
+      numberOfBots - 1,
+    );
+    setBotAnswerTime(randomBotTimes);
+  }, []);
+
+  useEffect(() => {
+    if (botAnswerTime.includes(secondsLeft) && isBotGame) mockBotAnswer();
+  }, [secondsLeft]);
+
   useEffect(() => {
     if (!!image && typeof image === 'string') {
       getFirebaseImageUrl(image).then(res => {
@@ -177,7 +198,6 @@ const QuestionScreen: React.FC<
     playSound('success');
     if (isClassicGame) clearCountdownInterval();
     if (selectedAnswers.includes(answer)) return;
-
     dispatch(selectCorrectQuestion({ answer, userId }));
     setCorrectUser(userId);
     setUserNameForAnswer(answer, userId);
@@ -189,7 +209,6 @@ const QuestionScreen: React.FC<
       let updatedState = prevState;
       updatedState[answer] = users.find(u => u.id === userId)
         ?.firstName as string;
-
       return updatedState;
     });
   };
@@ -202,6 +221,7 @@ const QuestionScreen: React.FC<
   }, []);
 
   const clearCountdownInterval = () => {
+    // @ts-ignore
     clearInterval(countdownInterval?.current);
     setSecondsLeft(answerTime);
   };
@@ -213,6 +233,7 @@ const QuestionScreen: React.FC<
       return;
     }
 
+    // @ts-ignore
     countdownInterval.current = setInterval(() => {
       setSecondsLeft(prevState => {
         if (prevState === 0) {
@@ -231,23 +252,47 @@ const QuestionScreen: React.FC<
     nextQuestion();
   };
 
+  const mockBotAnswer = () => {
+    const botIds = users.filter(u => u.isBot).map(u => u.id);
+    const randomBotThatHasNotAnsweredId = botIds.find(
+      id => !wrongUsers.includes(id),
+    );
+    const notSelectdAnswers = answersArray.filter(
+      a => !selectedAnswers.some(ans => ans === a),
+    );
+    const randomAnswerThatHasNotBeenAnsweredYet =
+      selectRandomFromArray(notSelectdAnswers);
+    if (
+      !randomBotThatHasNotAnsweredId ||
+      !randomAnswerThatHasNotBeenAnsweredYet
+    )
+      return;
+    sendBrawlAnswer({
+      userId: randomBotThatHasNotAnsweredId,
+      answer: randomAnswerThatHasNotBeenAnsweredYet,
+    });
+  };
+
+  const sendBrawlAnswer = ({ userId, answer }: SendBrawlAnswerParams) => {
+    const payload = {
+      answer,
+      userId,
+      roomId,
+      topic,
+      ...(IS_LEAGUE_GAME && { leagueId }),
+    };
+    if (answer === correctAnswer) {
+      if (IS_LEAGUE_GAME) API.registerLeagueAnswer(leagueId, true);
+      SOCKET.emit(SOCKET_EVENTS.CORRECT_ANSWER_SELECTED, payload);
+    } else {
+      if (IS_LEAGUE_GAME) API.registerLeagueAnswer(leagueId, false);
+      SOCKET.emit(SOCKET_EVENTS.WRONG_ANSWER_SELECTED, payload);
+    }
+  };
+
   const onSelectAnswer = (answer: CorrectAnswer) => {
     if (isBrawlGame) {
-      const payload = {
-        answer,
-        userId: userData.id,
-        roomId,
-        topic,
-        ...(IS_LEAGUE_GAME && { leagueId }),
-      };
-
-      if (answer === correctAnswer) {
-        if (IS_LEAGUE_GAME) API.registerLeagueAnswer(leagueId, true);
-        SOCKET.emit(SOCKET_EVENTS.CORRECT_ANSWER_SELECTED, payload);
-      } else {
-        if (IS_LEAGUE_GAME) API.registerLeagueAnswer(leagueId, false);
-        SOCKET.emit(SOCKET_EVENTS.WRONG_ANSWER_SELECTED, payload);
-      }
+      sendBrawlAnswer({ userId: userData.id, answer });
     } else if (type === 'classic') {
       const payload = { answer, userId: userData.id };
       if (answer === correctAnswer) {
@@ -388,3 +433,8 @@ const createStyles = (colors: Colors) =>
   });
 
 export default QuestionScreen;
+
+interface SendBrawlAnswerParams {
+  userId: number;
+  answer: CorrectAnswer;
+}

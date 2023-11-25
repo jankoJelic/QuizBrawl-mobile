@@ -92,7 +92,7 @@ export const authSlice = createSlice({
           ? {
               ...room,
               users: room.users.filter(u => u.id !== user.id),
-              readyUsers: room.readyUsers.filter(
+              readyUsers: room.readyUsers?.filter(
                 id => String(id) !== String(user.id),
               ),
             }

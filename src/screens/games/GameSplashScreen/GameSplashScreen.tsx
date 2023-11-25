@@ -1,6 +1,8 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { TopicIcon } from 'assets/icons/topics';
+import UserAvatar from 'components/icons/UserAvatar';
 import BodyLarge from 'components/typography/BodyLarge';
+import BodyMedium from 'components/typography/BodyMedium';
 import Title from 'components/typography/Title';
 import { Colors } from 'constants/styles/Colors';
 import { AN, FONTS } from 'constants/styles/appStyles';
@@ -56,14 +58,37 @@ const GameSplashScreen: React.FC<
       data={users}
       keyExtractor={item => `gamesplash-${item.id}`}
       numColumns={2}
-      contentContainerStyle={{ width: '100%' }}
+      contentContainerStyle={styles.multiUserList}
+      ListHeaderComponent={
+        <View
+          style={{
+            flexDirection: 'row',
+            height: AN(50),
+            justifyContent: 'center',
+          }}>
+          <TopicIcon
+            topic={topic}
+            style={{ height: AN(40), aspectRatio: 1, marginRight: AN(20) }}
+          />
+          <Title text={topic} />
+        </View>
+      }
       renderItem={({ item }) => {
         return (
-          <View style={{ width: '50%' }}>
-            <FastImage
-              source={{ uri: item.avatar }}
-              style={{ width: AN(25), aspectRatio: 1 }}
+          <View
+            style={{
+              ...styles.multiUserItem,
+              height: '100%',
+            }}>
+            <UserAvatar
+              size={AN(70)}
+              avatar={item.avatar}
+              color={item.color}
+              style={{ marginBottom: AN(10) }}
             />
+            <BodyLarge text={item.firstName} />
+            <BodyLarge text={item.lastName} />
+            <BodyMedium text={item.rank} />
           </View>
         );
       }}
@@ -85,8 +110,19 @@ const createStyles = (colors: Colors) =>
       color: colors.brand500,
       textAlign: 'center',
       fontSize: AN(55),
+      position: 'absolute',
     },
     screen: { alignItems: 'center', justifyContent: 'center' },
+    multiUserList: {
+      width: '100%',
+      height: '100%',
+      paddingTop: AN(20),
+    },
+    multiUserItem: {
+      width: '50%',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
   });
 
 export default GameSplashScreen;

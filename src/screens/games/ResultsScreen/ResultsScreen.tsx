@@ -42,6 +42,7 @@ const ResultsScreen: React.FC<
     useAppSelector(state => state.game) || {};
   const { users, bet, maxPlayers } = activeRoom || [];
   const youAreQuizAdmin = activeRoom.userId === id;
+  const isBotGame = users.some(u => u.isBot);
 
   const isMultiPlayerGame = maxPlayers > 1;
 
@@ -102,6 +103,10 @@ const ResultsScreen: React.FC<
   const goToLobby = () => {
     navigation.navigate('Lobby', { lobbyId: activeRoom.lobbyId });
     dispatch(finishGame());
+  };
+
+  const goToLandingScreen = () => {
+    navigation.navigate('Landing');
   };
 
   const submitArenaGameScore = async () => {
@@ -222,8 +227,14 @@ const ResultsScreen: React.FC<
         <></>
       )}
       <CTA
-        title={isMultiPlayerGame ? 'Go to room' : 'Go to lobby'}
-        onPress={isMultiPlayerGame ? goToRoom : goToLobby}
+        title={isMultiPlayerGame && !isBotGame ? 'Go to room' : 'Go to lobby'}
+        onPress={
+          isBotGame
+            ? goToLandingScreen
+            : isMultiPlayerGame
+            ? goToRoom
+            : goToLobby
+        }
       />
       <Animated.View
         style={{
