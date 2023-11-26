@@ -91,7 +91,6 @@ const Sidebar = ({ children }: Props) => {
     dispatch(startLoading());
     try {
       const success = await API.deleteUser(password);
-      console.log(success);
       if (success) {
         closePasswordPopup();
         onPressLogout();

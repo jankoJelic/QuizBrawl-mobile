@@ -79,7 +79,6 @@ export const authAPI = {
 
   deleteUser: async (password: string) => {
     const { data } = await destroy<boolean>(`/auth/${password}`);
-    console.log(data);
     return data;
   },
 };

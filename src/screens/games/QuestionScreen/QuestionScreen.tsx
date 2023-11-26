@@ -254,8 +254,8 @@ const QuestionScreen: React.FC<
 
   const mockBotAnswer = () => {
     const botIds = users.filter(u => u.isBot).map(u => u.id);
-    const randomBotThatHasNotAnsweredId = botIds.find(
-      id => !wrongUsers.includes(id),
+    const randomBotThatHasNotAnsweredId = selectRandomFromArray(
+      botIds.filter(id => !wrongUsers.includes(id)),
     );
     const notSelectdAnswers = answersArray.filter(
       a => !selectedAnswers.some(ans => ans === a),

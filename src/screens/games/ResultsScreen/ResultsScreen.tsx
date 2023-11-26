@@ -23,6 +23,7 @@ import { playSound } from 'services/sounds/soundPlayer';
 import { useAppSelector } from 'store/index';
 import {
   registerDailyResult,
+  removeUserFromRoom,
   storeReward,
   updateMoneyBalance,
   updateTrophies,
@@ -37,7 +38,8 @@ const ResultsScreen: React.FC<
   const { leagueId } = route.params || {};
   const { styles } = useStyles(createStyles);
   const dispatch = useDispatch();
-  const { id } = useAppSelector(state => state.data.userData);
+  const { userData } = useAppSelector(state => state.data);
+  const { id } = userData;
   const { activeRoom, score, answers } =
     useAppSelector(state => state.game) || {};
   const { users, bet, maxPlayers } = activeRoom || [];
@@ -107,12 +109,17 @@ const ResultsScreen: React.FC<
 
   const goToLandingScreen = () => {
     navigation.navigate('Landing');
+    SOCKET.emit(SOCKET_EVENTS.USER_LEFT_ROOM, {
+      user: userData,
+      room: activeRoom,
+    });
+    dispatch(removeUserFromRoom({ room: activeRoom, user: userData }));
+    API.deleteRoom(activeRoom.id);
   };
 
   const submitArenaGameScore = async () => {
     const myRewardInTrophies = await API.registerArenaGameScore(score);
     setReward(String(myRewardInTrophies));
-
     dispatch(updateTrophies(myRewardInTrophies));
   };
 
