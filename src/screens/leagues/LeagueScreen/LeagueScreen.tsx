@@ -52,7 +52,7 @@ const LeagueScreen: React.FC<
   const isFocused = useIsFocused();
   const { styles, commonStyles } = useStyles(createStyles);
   const { userData } = useAppSelector(state => state.data);
-  const { onQuestion } = useAppSelector(state => state.game);
+  const { onQuestion, activeRoom } = useAppSelector(state => state.game);
 
   const [league, setLeague] = useState<League>(route.params.league);
 
@@ -74,12 +74,9 @@ const LeagueScreen: React.FC<
   const {
     bet,
     gamesPlayed,
-    reward,
     score,
     users,
-    type,
     name,
-    userId,
     totalAnswers,
     correctAnswers,
     id,
@@ -92,13 +89,12 @@ const LeagueScreen: React.FC<
   const readyUsers = removeDuplicatesFromArray(rawReadyUsers);
 
   const youAreInLeague = users?.some(u => u.id === userData.id);
-  const youAreAdmin = userId === userData.id;
-  const isRoundGame = type === 'ROUND';
+  // const youAreAdmin = userId === userData.id;
+  // const isRoundGame = type === 'ROUND';
 
   useEffect(() => {
-    if (onQuestion === 0) {
-      navigation.navigate('GameSplash');
-    }
+    if (onQuestion === 0)
+      navigation.navigate('GameSplash', { room: activeRoom });
   }, [onQuestion]);
 
   const closeActionSheet = () => {
@@ -297,7 +293,7 @@ const LeagueScreen: React.FC<
   };
 
   const onPressJoinLeague = () => {
-    if (!!password) {
+    if (password) {
       setPasswordModalVisible(true);
     } else {
       joinLeague();
@@ -394,7 +390,8 @@ const LeagueScreen: React.FC<
     dispatch(
       initializeGame({
         leagueId: id,
-        questions: quiz?.questions as Question[],
+        questions: quiz?.questions,
+        // @ts-ignore
         room: {
           ...quiz,
           users: league.users as UserData[],
@@ -512,7 +509,7 @@ const LeagueScreen: React.FC<
           </>
         }
         data={removeDuplicatesFromArray(users).sort((a, b) =>
-          score[a.id] > score[b.id] ? -1 : 1,
+          score ? (score[a.id] > score[b.id] ? -1 : 1) : 1,
         )}
         renderItem={renderUser}
         keyExtractor={item => `${item.id}_${item.firstName}_league_standing`}

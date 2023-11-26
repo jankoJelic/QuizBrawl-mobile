@@ -172,7 +172,7 @@ const QuestionScreen: React.FC<
     const numberOfBots = users.filter(u => u.isBot).length;
     const randomBotTimes = shuffleArray(listOfAvailableSeconds).slice(
       0,
-      numberOfBots - 1,
+      numberOfBots,
     );
     setBotAnswerTime(randomBotTimes);
   }, []);
@@ -381,7 +381,11 @@ const QuestionScreen: React.FC<
               onPress={() => {
                 onSelectAnswer(a);
               }}
-              userName={userNameByAnswer[a] || ''}
+              userName={
+                correctAnswerShown && a === correctAnswer
+                  ? ''
+                  : userNameByAnswer[a] || ''
+              }
               key={`${a}${index}`}
             />
           ))}
