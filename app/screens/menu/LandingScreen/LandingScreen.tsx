@@ -56,33 +56,17 @@ const LandingScreen: React.FC<
 
   usePreventNativeBackButton(() => true);
 
-  // logo playground
-  // return (
-  //   <ScreenWrapper style={{ paddingTop: AN(300) }}>
-  //     <Title
-  //       weight="bold"
-  //       text="Quiz"
-  //       style={{ fontSize: AN(60), lineHeight: 65, textAlign: 'center' }}
-  //     />
-  //     <Title
-  //       weight="bold"
-  //       text=" Clash"
-  //       style={{ fontSize: AN(60), lineHeight: 65, textAlign: 'center' }}
-  //     />
-  //   </ScreenWrapper>
-  // );
-
   return (
     <ScreenWrapper style={{ paddingHorizontal: 0, paddingTop: AN(15) }}>
-      {/* <Sidebar> */}
-      <MyScrollView style={{ paddingBottom: AN(150) }}>
-        <LandingScreenHeader />
-        <AssetsTile />
-        <LobbyCarousel />
-        <CreateLeagueBanner />
-        <CreateQuizBanner />
-      </MyScrollView>
-      {/* </Sidebar> */}
+      <Sidebar>
+        <MyScrollView style={{ paddingBottom: AN(150) }}>
+          <LandingScreenHeader />
+          <AssetsTile />
+          <LobbyCarousel />
+          <CreateLeagueBanner />
+          <CreateQuizBanner />
+        </MyScrollView>
+      </Sidebar>
       <BottomNavigation />
     </ScreenWrapper>
   );

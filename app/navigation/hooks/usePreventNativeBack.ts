@@ -3,9 +3,8 @@ import { BackHandler } from 'react-native';
 
 const usePreventNativeBackButton = (backAction = () => true) => {
   useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', backAction);
-    return () =>
-      BackHandler.removeEventListener('hardwareBackPress', backAction);
+    const subscription = BackHandler.addEventListener('hardwareBackPress', backAction);
+    return () => subscription.remove();
   }, []);
 };
 

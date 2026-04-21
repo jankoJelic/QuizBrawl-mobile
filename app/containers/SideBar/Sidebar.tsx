@@ -9,7 +9,13 @@ import useStyles from "hooks/styles/useStyles";
 import { useUserData } from "hooks/useUserData";
 import { useMyNavigation } from "navigation/hooks/useMyNavigation";
 import React, { useEffect, useRef, useState } from "react";
-import { Animated, Pressable, StyleSheet, View } from "react-native";
+import {
+  Animated,
+  PanResponder,
+  Pressable,
+  StyleSheet,
+  View,
+} from "react-native";
 import { useDispatch } from "react-redux";
 import API from "services/api";
 import { deleteTokens } from "services/encryptedStorage/tokens/tokenStorage";
@@ -37,6 +43,27 @@ const Sidebar = ({ children }: Props) => {
 
   const [passwordPopupVisible, setPasswordPopupVisible] = useState(false);
   const [passwordError, setPasswordError] = useState("");
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: (_, { dx, dy }) =>
+        Math.abs(dx) > Math.abs(dy) && dx < -10,
+      onPanResponderMove: (_, { dx }) => {
+        if (dx < 0) translateX.setValue(dx);
+      },
+      onPanResponderRelease: (_, { dx, vx }) => {
+        if (dx < -DRAWER_WIDTH / 3 || vx < -0.5) {
+          dispatch(hideSideBar());
+        } else {
+          Animated.timing(translateX, {
+            toValue: 0,
+            duration: 150,
+            useNativeDriver: true,
+          }).start();
+        }
+      },
+    }),
+  ).current;
 
   useEffect(() => {
     Animated.parallel([
@@ -123,17 +150,16 @@ const Sidebar = ({ children }: Props) => {
   return (
     <View style={styles.root}>
       {children}
-      {sideBarVisible && (
-        <Animated.View
-          style={[styles.backdrop, { opacity: backdropOpacity }]}
-          pointerEvents={sideBarVisible ? "auto" : "none"}
-        >
-          <Pressable style={StyleSheet.absoluteFill} onPress={onClose} />
-        </Animated.View>
-      )}
+      <Animated.View
+        style={[styles.backdrop, { opacity: backdropOpacity }]}
+        pointerEvents={sideBarVisible ? "auto" : "none"}
+      >
+        <Pressable style={StyleSheet.absoluteFill} onPress={onClose} />
+      </Animated.View>
       <Animated.View
         style={[styles.drawer, { transform: [{ translateX }] }]}
         pointerEvents={sideBarVisible ? "auto" : "none"}
+        {...panResponder.panHandlers}
       >
         <MyScrollView style={styles.container}>
           <UserInfoTile onPress={goToProfile} />
@@ -148,9 +174,7 @@ const Sidebar = ({ children }: Props) => {
             icon="mail"
             onPress={goToInbox}
             notification={
-              unreadMessages?.length
-                ? String(unreadMessages.length)
-                : undefined
+              unreadMessages?.length ? String(unreadMessages.length) : undefined
             }
           />
           <MenuTile
@@ -219,6 +243,7 @@ const createStyles = (colors: Colors) =>
   StyleSheet.create({
     root: {
       flex: 1,
+      paddingTop: AN(15),
     },
     backdrop: {
       ...StyleSheet.absoluteFillObject,
@@ -237,6 +262,7 @@ const createStyles = (colors: Colors) =>
       flex: 1,
       backgroundColor: colors.neutral500,
       paddingLeft: AN(10),
+      paddingTop: AN(15),
     },
   });
 
