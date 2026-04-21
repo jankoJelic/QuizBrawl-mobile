@@ -1,0 +1,37 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@/*": ["./*"],
+      "assets": ["./app/assets"],
+      "assets/*": ["./app/assets/*"],
+      "components": ["./app/components"],
+      "components/*": ["./app/components/*"],
+      "containers": ["./app/containers"],
+      "containers/*": ["./app/containers/*"],
+      "constants": ["./app/constants"],
+      "constants/*": ["./app/constants/*"],
+      "hoc": ["./app/hoc"],
+      "hoc/*": ["./app/hoc/*"],
+      "hooks": ["./app/hooks"],
+      "hooks/*": ["./app/hooks/*"],
+      "navigation": ["./app/navigation"],
+      "navigation/*": ["./app/navigation/*"],
+      "services": ["./app/services"],
+      "services/*": ["./app/services/*"],
+      "screens": ["./app/screens"],
+      "screens/*": ["./app/screens/*"],
+      "store": ["./app/store"],
+      "store/*": ["./app/store/*"],
+      "util": ["./app/util"],
+      "util/*": ["./app/util/*"]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+  ]
+}
