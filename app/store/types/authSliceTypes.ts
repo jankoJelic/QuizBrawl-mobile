@@ -19,6 +19,7 @@ export interface UserData extends ShallowUser {
   dailies: null | {};
   leagueIds: number[];
   isBot: boolean;
+  isGuest: boolean;
 }
 
 export interface ShallowUser {
@@ -41,6 +42,7 @@ export interface ShallowUser {
   correctAnswers: Record<Topic, number>;
   friends: number[] | ShallowUser[]; // in JWT it is number[] and then we fetch the rest
   color: string;
+  isGuest: boolean;
 }
 
 export interface Reward {

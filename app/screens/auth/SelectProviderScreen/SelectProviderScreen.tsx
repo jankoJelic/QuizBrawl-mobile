@@ -11,10 +11,11 @@ import useStyles from "hooks/styles/useStyles";
 import { MainStackParamsList } from "navigation/MainStackParamsList";
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import API from "services/api";
 import { signInWithGoogle } from "services/googleAuth/loginWithGoogle";
 import { startLoading, stopLoading } from "store/slices/appStateSlice";
+import { RootState } from "store";
 import TermsOfUse from "./TermsOfUse";
 
 const SelectProviderScreen: React.FC<
@@ -23,6 +24,8 @@ const SelectProviderScreen: React.FC<
   const dispatch = useDispatch();
   const { styles } = useStyles(createStyles);
   const { flow } = route.params || {};
+  const userData = useSelector((state: RootState) => state.data.userData);
+  const guestId = userData?.isGuest ? userData.id : undefined;
 
   const isLoginFlow = flow === "login";
   const action = isLoginFlow ? "Sign in" : "Register";
@@ -41,7 +44,8 @@ const SelectProviderScreen: React.FC<
     dispatch(startLoading());
 
     try {
-      await signInWithGoogle();
+      const googleData = await signInWithGoogle();
+      await API.loginWithGoogle({ ...googleData, guestId });
       await API.getUserData();
       navigation.navigate("Landing");
     } catch (e) {

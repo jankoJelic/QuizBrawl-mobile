@@ -18,15 +18,18 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import API from "services/api";
 import { startLoading, stopLoading } from "store/slices/appStateSlice";
+import { RootState } from "store";
 
 const RegisterScreen = ({
   navigation,
 }: NativeStackScreenProps<MainStackParamsList, "Register">) => {
   const { styles } = useStyles(createStyles);
   const dispatch = useDispatch();
+  const userData = useSelector((state: RootState) => state.data.userData);
+  const guestId = userData?.isGuest ? userData.id : undefined;
 
   const firstNameInputRef = useRef<TextInput>();
   const lastNameInputRef = useRef<TextInput>();
@@ -45,19 +48,10 @@ const RegisterScreen = ({
 
     try {
       if (password === confirmPassword) {
-        await API.registerUser({
-          firstName,
-          lastName,
-          email,
-          password,
-        });
-
+        await API.registerUser({ firstName, lastName, email, password, guestId });
         await API.getUserData();
-
         navigation.navigate("Landing");
       }
-
-      // navigation.navigate('SetupPinCode', { email, password });
     } catch (e) {
     } finally {
       dispatch(stopLoading());

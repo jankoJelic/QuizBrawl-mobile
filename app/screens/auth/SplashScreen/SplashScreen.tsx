@@ -19,10 +19,11 @@ const SplashScreen = ({
       const accessToken = await ENCRYPTED_STORAGE.getValue("accessToken");
       if (!!accessToken) {
         await API.getUserData();
-        navigation.navigate("Landing");
       } else {
-        navigation.navigate("SelectProvider", { flow: "register" });
+        await API.loginAsGuest();
+        await API.getUserData();
       }
+      navigation.navigate("Landing");
     } catch (error) {
       navigation.navigate("SelectProvider", { flow: "login" });
     }

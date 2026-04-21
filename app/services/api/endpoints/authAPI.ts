@@ -63,7 +63,6 @@ export const authAPI = {
 
   updateUser: async (body: Partial<UserData>) => {
     const { data } = await patch("/auth/updateUser", body);
-
     return data;
   },
 
@@ -71,6 +70,13 @@ export const authAPI = {
     const {
       data: { accessToken, refreshToken },
     } = await post<AccessTokens>("/auth/google", body);
+    await storeTokens(accessToken, refreshToken);
+  },
+
+  loginAsGuest: async () => {
+    const {
+      data: { accessToken, refreshToken },
+    } = await post<AccessTokens>("/auth/guest");
     await storeTokens(accessToken, refreshToken);
   },
 
@@ -93,6 +99,7 @@ interface RegisterBody {
   password: string;
   firstName: string;
   lastName: string;
+  guestId?: number;
 }
 
 interface AccessTokens {
@@ -105,4 +112,5 @@ interface GoogleAuthBody {
   photo: string;
   name: string;
   googleAuthId: string;
+  guestId?: number;
 }
