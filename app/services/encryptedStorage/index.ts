@@ -1,14 +1,14 @@
-import EncryptedStorage from 'react-native-encrypted-storage';
+import * as SecureStore from 'expo-secure-store';
 
 const storeValue = async (key: EncryptedStorageKey, value: any) => {
   try {
-    await EncryptedStorage.setItem(key, JSON.stringify(value));
+    await SecureStore.setItemAsync(key, JSON.stringify(value));
   } catch (error) {}
 };
 
 const getValue = async (key: EncryptedStorageKey) => {
   try {
-    const value = await EncryptedStorage.getItem(key);
+    const value = await SecureStore.getItemAsync(key);
 
     if (!!value) {
       return JSON.parse(value);
@@ -22,13 +22,17 @@ const getValue = async (key: EncryptedStorageKey) => {
 
 const removeValue = async (key: EncryptedStorageKey) => {
   try {
-    await EncryptedStorage.removeItem(key);
+    await SecureStore.deleteItemAsync(key);
   } catch (error) {}
 };
 
+const ALL_KEYS: EncryptedStorageKey[] = [
+  'userData', 'pin', 'accessToken', 'refreshToken', 'musicEnabled', 'credentials',
+];
+
 const clearStorage = async () => {
   try {
-    await EncryptedStorage.clear();
+    await Promise.all(ALL_KEYS.map(key => SecureStore.deleteItemAsync(key)));
   } catch (error) {}
 };
 

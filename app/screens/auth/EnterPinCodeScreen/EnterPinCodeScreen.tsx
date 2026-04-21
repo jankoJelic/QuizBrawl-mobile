@@ -5,7 +5,7 @@ import PinCodeDots from 'components/inputs/PinCodeKeyboard/PinCodeDots';
 import BodyLarge from 'components/typography/BodyLarge';
 import BodyMedium from 'components/typography/BodyMedium';
 import Logo from 'components/typography/Logo';
-import { DEVICE_ID } from 'constants/env/envConstants';
+import { getDeviceId } from 'constants/env/envConstants';
 import { Colors } from 'constants/styles/Colors';
 import { AN } from 'constants/styles/appStyles';
 import ScreenWrapper from 'hoc/ScreenWrapper';
@@ -50,7 +50,7 @@ const EnterPinCodeScreen: React.FC<
     dispatch(startLoading());
     try {
       const encryptionKey = await API.getPinEncryptionKey({
-        deviceId: DEVICE_ID,
+        deviceId: await getDeviceId(),
         pin: input,
       });
 

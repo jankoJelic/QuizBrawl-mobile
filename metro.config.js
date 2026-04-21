@@ -12,6 +12,7 @@ config.resolver = {
   ...resolver,
   assetExts: resolver.assetExts.filter((ext) => ext !== 'svg'),
   sourceExts: [...resolver.sourceExts, 'svg'],
+  blockList: [/.*\.test\.(ts|tsx|js|jsx)$/, /.*\.spec\.(ts|tsx|js|jsx)$/],
 };
 
 module.exports = config;

@@ -14,7 +14,7 @@ import FastImage from 'react-native-fast-image';
 import { Asset, launchImageLibrary } from 'react-native-image-picker';
 import { useDispatch } from 'react-redux';
 import { answersArray } from 'screens/games/QuestionScreen/QuestionScreen';
-import { getFirebaseImageUrl } from 'services/firebaseStorage/firebaseStorage';
+import { getImageUrl } from 'services/firebaseStorage/firebaseStorage';
 import { CorrectAnswer, Question } from 'services/socket/socketPayloads';
 import { useAppSelector } from 'store/index';
 import { editQuestion, removeQuestion } from 'store/slices/createQuizSlice';
@@ -36,15 +36,7 @@ const QuestionInput = ({ index, question }: Props) => {
   const [image, setImage] = useState<Asset | string | undefined>(
     question?.image || undefined,
   );
-  const [imageUrl, setImageUrl] = useState('');
-
-  useEffect(() => {
-    if (typeof question?.image === 'string') {
-      getFirebaseImageUrl(question?.image).then(res => {
-        setImageUrl(res);
-      });
-    }
-  }, []);
+  const imageUrl = typeof question?.image === 'string' ? getImageUrl(question.image) : '';
 
   const [answer1, setAnswer1] = useState(question.answer1 || '');
   const [answer2, setAnswer2] = useState(question.answer2 || '');

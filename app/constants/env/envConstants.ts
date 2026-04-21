@@ -7,7 +7,7 @@ import {
   ENV,
 } from "@env";
 import { Platform } from "react-native";
-import DeviceInfo from "react-native-device-info";
+import * as Application from "expo-application";
 
 export const IS_DEV = ENV === "dev";
 
@@ -22,4 +22,9 @@ export const GOOGLE_OAUTH_WEB_CLIENT_ID = OAUTH_WEB_CLIENT_ID;
 export const GOOGLE_OAUTH_IOS_CLIENT_ID = OAUTH_IOS_CLIENT_ID;
 export const STORAGE_BUCKET = FIREBASE_STORAGE_BUCKET;
 
-export const DEVICE_ID = DeviceInfo.getDeviceId();
+export const getDeviceId = async (): Promise<string> => {
+  if (Platform.OS === 'ios') {
+    return (await Application.getIosIdForVendorAsync()) ?? 'unknown';
+  }
+  return Application.getAndroidId() ?? 'unknown';
+};

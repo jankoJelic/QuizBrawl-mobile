@@ -28,7 +28,7 @@ import RateQuestionBar from './components/RateQuestionBar';
 import QuestionCountdown from './components/QuestionCountdown';
 import API from 'services/api';
 import FastImage from 'react-native-fast-image';
-import { getFirebaseImageUrl } from 'services/firebaseStorage/firebaseStorage';
+import { getImageUrl } from 'services/firebaseStorage/firebaseStorage';
 import { playSound } from 'services/sounds/soundPlayer';
 import selectRandomFromArray from 'util/array/selectRandomFromArray';
 import { shuffleArray } from 'util/array/shuffleArray';
@@ -88,7 +88,7 @@ const QuestionScreen: React.FC<
   const [secondsLeft, setSecondsLeft] = useState(answerTime);
   const [wrongUsers, setWrongUsers] = useState<number[]>([]);
   const [correctUser, setCorrectUser] = useState(0);
-  const [imageUrl, setImageUrl] = useState('');
+  const imageUrl = typeof image === 'string' ? getImageUrl(image) : '';
   const [liked, setLiked] = useState<undefined | boolean>(undefined);
   const [correctAnswerShown, setCorrectAnswerShown] = useState(false);
 
@@ -180,14 +180,6 @@ const QuestionScreen: React.FC<
   useEffect(() => {
     if (botAnswerTime.includes(secondsLeft) && isBotGame) mockBotAnswer();
   }, [secondsLeft]);
-
-  useEffect(() => {
-    if (!!image && typeof image === 'string') {
-      getFirebaseImageUrl(image).then(res => {
-        setImageUrl(res);
-      });
-    }
-  }, [onQuestion]);
 
   useEffect(() => {
     if (allUsersHaveAnsweredWrong && (isBrawlGame || IS_LEAGUE_GAME))

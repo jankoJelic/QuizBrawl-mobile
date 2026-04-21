@@ -34,7 +34,7 @@ import {
 } from 'store/slices/createQuizSlice';
 import { Topic } from 'store/types/dataSliceTypes';
 import { isIntegerBewteen } from 'util/strings/isIntegerBetween';
-import { uploadFirebaseImage } from 'services/firebaseStorage/firebaseStorage';
+import { uploadImage } from 'services/firebaseStorage/firebaseStorage';
 
 const CreateQuizScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'CreateQuiz'>
@@ -92,37 +92,36 @@ const CreateQuizScreen: React.FC<
     };
   }, []);
 
-  const uploadImages = () => {
-    questions.forEach(q => {
-      if (typeof q.image !== 'string') {
-        uploadFirebaseImage({
-          folder: 'customQuizzes',
-          fileName: q.image?.fileName as string,
-          filePath: q.image?.uri as string,
-        });
-      }
-    });
-  };
+  const buildPayloadWithImages = async () => {
+    const updatedQuestions = await Promise.all(
+      questions.map(async q => {
+        if (typeof q.image !== 'string' && !!q.image) {
+          const result = await uploadImage({
+            fileName: q.image.fileName,
+            filePath: q.image.uri,
+            mimeType: q.image.type,
+          });
+          return { ...q, image: result.id };
+        }
+        return { ...q, image: typeof q.image === 'string' ? q.image : undefined };
+      }),
+    );
 
-  const payload = {
-    answerTime: Number(answerTime),
-    name: quizName,
-    questions: questions.map(q => ({
-      ...q,
-      ...(typeof q?.image !== 'string' && !!q?.image
-        ? { image: q.image.fileName }
-        : { image: q.image }),
-    })),
-    topic: selectedTopic,
+    return {
+      answerTime: Number(answerTime),
+      name: quizName,
+      questions: updatedQuestions,
+      topic: selectedTopic,
+    };
   };
 
   const submitQuiz = async () => {
     dispatch(startLoading());
     try {
+      const payload = await buildPayloadWithImages();
       const newQuiz = await API.createQuiz(payload);
 
       dispatch(addQuiz(newQuiz));
-      uploadImages();
 
       if (!!leagueId) {
         const league = await API.getLeague(leagueId);
@@ -143,9 +142,9 @@ const CreateQuizScreen: React.FC<
 
     dispatch(startLoading());
     try {
+      const payload = await buildPayloadWithImages();
       const newQuiz = await API.updateQuiz(quiz.id, payload);
       dispatch(updateQuiz(newQuiz));
-      uploadImages();
       navigation.goBack();
     } catch (error) {
       showOoopsToast();

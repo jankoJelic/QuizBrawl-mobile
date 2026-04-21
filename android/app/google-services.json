@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "240585406592",
+    "project_id": "quiz-clash-aecd4",
+    "storage_bucket": "quiz-clash-aecd4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:240585406592:android:172d445c2992e1c0f40e65",
+        "android_client_info": {
+          "package_name": "com.quizclash"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDlZNw_UsWXPS2xcfpCVgtRLzsKtCgMjc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

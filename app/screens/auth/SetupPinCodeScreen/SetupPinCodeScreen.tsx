@@ -12,7 +12,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import PinCodeDots from 'components/inputs/PinCodeKeyboard/PinCodeDots';
 import { encryptData } from 'services/aesCrypto/aesCrypto';
-import { DEVICE_ID } from 'constants/env/envConstants';
+import { getDeviceId } from 'constants/env/envConstants';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
 import ENCRYPTED_STORAGE from 'services/encryptedStorage';
@@ -59,7 +59,7 @@ const EnterPinCodeScreen: React.FC<
   const onSuccessfullPinSetup = async () => {
     try {
       const encryptionKey = await API.getPinEncryptionKey({
-        deviceId: DEVICE_ID,
+        deviceId: await getDeviceId(),
         pin: input,
       });
 
