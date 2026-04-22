@@ -12,15 +12,31 @@ const httpClient = axios.create({
   },
 });
 
-httpClient.interceptors.request.use(handleAccessToken);
+httpClient.interceptors.request.use(config => {
+  if (__DEV__) (config as any).metadata = { startTime: Date.now() };
+  return handleAccessToken(config);
+});
+
 httpClient.interceptors.response.use(
-  response => response,
+  response => {
+    if (__DEV__) {
+      const ms = Date.now() - (response.config as any).metadata?.startTime;
+      console.log(
+        `[API] ${response.config.method?.toUpperCase()} ${response.config.url} → ${response.status} (${ms}ms)`,
+        response.data,
+      );
+    }
+    return response;
+  },
   error => {
     const { config, response } = error;
-    console.error(
-      `[API Error] ${config?.method?.toUpperCase()} ${config?.url} → ${response?.status}`,
-      response?.data ?? error.message,
-    );
+    if (__DEV__) {
+      const ms = Date.now() - (config as any)?.metadata?.startTime;
+      console.error(
+        `[API] ${config?.method?.toUpperCase()} ${config?.url} → ${response?.status} (${ms}ms)`,
+        response?.data ?? error.message,
+      );
+    }
     return Promise.reject(error);
   },
 );

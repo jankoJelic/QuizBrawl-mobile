@@ -7,7 +7,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>$(DEVELOPMENT_LANGUAGE)</string>
     <key>CFBundleDisplayName</key>
-    <string>qc-mobile</string>
+    <string>Quiz Clash</string>
     <key>CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
     <key>CFBundleIdentifier</key>
@@ -34,7 +34,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>exp+qc-mobile</string>
+          <string>exp+quiz-clash</string>
         </array>
       </dict>
     </array>
@@ -50,6 +50,16 @@
       <false/>
       <key>NSAllowsLocalNetworking</key>
       <true/>
+      <key>NSExceptionDomains</key>
+      <dict>
+        <key>api.dicebear.com</key>
+        <dict>
+          <key>NSExceptionAllowsInsecureHTTPLoads</key>
+          <false/>
+          <key>NSIncludesSubdomains</key>
+          <true/>
+        </dict>
+      </dict>
     </dict>
     <key>NSFaceIDUsageDescription</key>
     <string>Allow $(PRODUCT_NAME) to access your Face ID biometric data.</string>

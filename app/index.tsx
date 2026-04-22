@@ -6,6 +6,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { store } from 'store';
 import MainStackNavigator, { navigationRef } from 'navigation/MainStackNavigator';
 import { configureGoogleSignIn } from 'services/googleAuth/configureGoogleSignIn';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 SplashScreen.preventAutoHideAsync();
 configureGoogleSignIn();
@@ -16,10 +17,12 @@ export default function App() {
   }, []);
 
   return (
-    <Provider store={store}>
-      <NavigationContainer ref={navigationRef}>
-        <MainStackNavigator />
-      </NavigationContainer>
-    </Provider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Provider store={store}>
+        <NavigationContainer ref={navigationRef}>
+          <MainStackNavigator />
+        </NavigationContainer>
+      </Provider>
+    </GestureHandlerRootView>
   );
 }

@@ -26,6 +26,7 @@
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="qcmobile"/>
         <data android:scheme="exp+qc-mobile"/>
+        <data android:scheme="exp+quiz-clash"/>
       </intent-filter>
     </activity>
   </application>

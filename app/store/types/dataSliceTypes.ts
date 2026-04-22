@@ -37,7 +37,7 @@ export type Topic =
   | 'Geography'
   | 'Showbiz'
   | 'Science'
-  | 'Actualities';
+  | 'News';
 
 export interface TopicData {
   id: number;
