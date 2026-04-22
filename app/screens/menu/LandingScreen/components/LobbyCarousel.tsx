@@ -112,7 +112,6 @@ const LobbyCarousel = () => {
     };
 
     const renderDescription = (lobbyName: string) => {
-      console.log(lobbyName);
       switch (lobbyName) {
         case "Arena":
           return (
@@ -188,8 +187,8 @@ const LobbyCarousel = () => {
   };
 
   const ITEM_WIDTH = SCREEN_WIDTH / 1.65;
-  const ITEM_GAP = AN(10);
-  const SIDE_PADDING = (SCREEN_WIDTH - ITEM_WIDTH) / 2;
+  const ITEM_GAP = AN(24);
+  const SIDE_PADDING = (SCREEN_WIDTH - ITEM_WIDTH) / 3;
 
   return (
     <View style={{ marginTop: AN(12) }}>
@@ -198,11 +197,14 @@ const LobbyCarousel = () => {
         data={lobbies}
         renderItem={renderItem}
         keyExtractor={(item) => String(item.id)}
-        showsHorizontalScrollIndicator={false}
         snapToInterval={ITEM_WIDTH + ITEM_GAP}
+        snapToAlignment="start"
         decelerationRate="fast"
-        contentContainerStyle={{ paddingHorizontal: SIDE_PADDING }}
-        ItemSeparatorComponent={() => <View style={{ width: ITEM_GAP }} />}
+        contentContainerStyle={{
+          paddingHorizontal: SIDE_PADDING,
+          gap: ITEM_GAP,
+        }}
+        showsHorizontalScrollIndicator={false}
       />
     </View>
   );
@@ -211,6 +213,7 @@ const LobbyCarousel = () => {
 const createStyles = (colors: Colors) =>
   StyleSheet.create({
     itemContainer: {
+      width: SCREEN_WIDTH / 1.65,
       alignItems: "center",
       justifyContent: "center",
       paddingVertical: AN(20),
