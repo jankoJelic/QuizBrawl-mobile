@@ -9,6 +9,18 @@ export const SOCKET = SocketIOClient(`${BASE_URL}/events`, {
   query: { userId: store.getState().data.userData.id },
 });
 
+if (__DEV__) {
+  SOCKET.onAny((event: string) => {
+    console.log(`[WS ←] ${event}`);
+  });
+
+  const _emit = SOCKET.emit.bind(SOCKET);
+  (SOCKET as any).emit = (event: string, ...args: any[]) => {
+    console.log(`[WS →] ${event}`);
+    return _emit(event, ...args);
+  };
+}
+
 export const SOCKET_EVENTS = {
   USER_JOINED_LOBBY: 'USER_JOINED_LOBBY', // in progress
   USER_LEFT_LOBBY: 'USER_LEFT_LOBBY',

@@ -1,28 +1,28 @@
-import UserAvatar from 'components/icons/UserAvatar';
-import NavHeader from 'components/layout/NavHeader';
-import FullScreenSpinner from 'components/modals/FullScreenSpinner';
-import UserTile from 'components/tiles/UserTile/UserTile';
-import BodyMedium from 'components/typography/BodyMedium';
-import { Color, Colors } from 'constants/styles/Colors';
+import UserAvatar from "components/icons/UserAvatar";
+import NavHeader from "components/layout/NavHeader";
+import FullScreenSpinner from "components/modals/FullScreenSpinner";
+import UserTile from "components/tiles/UserTile/UserTile";
+import BodyMedium from "components/typography/BodyMedium";
+import { Color, Colors } from "constants/styles/Colors";
 import {
   AN,
   BORDER_RADIUS,
   PADDING_HORIZONTAL,
   SCREEN_WIDTH,
-} from 'constants/styles/appStyles';
-import ScreenWrapper from 'hoc/ScreenWrapper';
-import useStyles from 'hooks/styles/useStyles';
-import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
-import { useDispatch } from 'react-redux';
-import API from 'services/api';
-import { setStatusBar } from 'store/slices/appStateSlice';
-import { ShallowUser } from 'store/types/authSliceTypes';
-import { setColorOpacity } from 'util/strings/setColorOpacity';
-import LinearGradient from 'react-native-linear-gradient';
-import UserActionSheet from 'containers/ActionSheet/UserActionSheet';
-import MyIcon from 'assets/icons/MyIcon';
-import TouchableBounce from 'hoc/TouchableBounce';
+} from "constants/styles/appStyles";
+import ScreenWrapper from "hoc/ScreenWrapper";
+import useStyles from "hooks/styles/useStyles";
+import React, { useEffect, useState } from "react";
+import { FlatList, StyleSheet, View } from "react-native";
+import { useDispatch } from "react-redux";
+import API from "services/api";
+import { setStatusBar } from "store/slices/appStateSlice";
+import { ShallowUser } from "store/types/authSliceTypes";
+import { setColorOpacity } from "util/strings/setColorOpacity";
+import LinearGradient from "react-native-linear-gradient";
+import UserActionSheet from "containers/ActionSheet/UserActionSheet";
+import MyIcon from "assets/icons/MyIcon";
+import TouchableBounce from "hoc/TouchableBounce";
 
 const LeaderboardsScreen = () => {
   const { styles, colors } = useStyles(createStyles);
@@ -57,7 +57,7 @@ const LeaderboardsScreen = () => {
   };
 
   const renderTrophyCount = ({ count, color }: RenderTrophyCountProps) => (
-    <View style={{ flexDirection: 'row' }}>
+    <View style={{ flexDirection: "row" }}>
       <BodyMedium text={String(count)} color={color} />
       <MyIcon name="trophy" />
     </View>
@@ -68,7 +68,8 @@ const LeaderboardsScreen = () => {
       onPress={() => {
         setSelectedUser(players[1]);
       }}
-      style={{ alignItems: 'center', top: AN(20), left: AN(15) }}>
+      style={{ alignItems: "center", top: AN(20), left: AN(15) }}
+    >
       <BodyMedium text="#2" />
       <UserAvatar
         onPress={() => {
@@ -82,7 +83,7 @@ const LeaderboardsScreen = () => {
       />
       <BodyMedium text={players[1].firstName} />
       {renderTrophyCount({
-        color: 'mainTextColor',
+        color: "mainTextColor",
         count: players[1].trophies,
       })}
     </TouchableBounce>
@@ -90,10 +91,11 @@ const LeaderboardsScreen = () => {
 
   const renderFirstPlayer = () => (
     <TouchableBounce
-      style={{ alignItems: 'center' }}
+      style={{ alignItems: "center" }}
       onPress={() => {
         setSelectedUser(players[0]);
-      }}>
+      }}
+    >
       <BodyMedium text="#1" color="gold" />
       <UserAvatar
         avatar={players[0].avatar}
@@ -107,7 +109,7 @@ const LeaderboardsScreen = () => {
       />
       <BodyMedium text={players[0].firstName} color="gold" />
       {renderTrophyCount({
-        color: 'gold',
+        color: "gold",
         count: players[0].trophies,
       })}
     </TouchableBounce>
@@ -115,10 +117,11 @@ const LeaderboardsScreen = () => {
 
   const renderThirdPlayer = () => (
     <TouchableBounce
-      style={{ alignItems: 'center', top: AN(30), right: AN(15) }}
+      style={{ alignItems: "center", top: AN(30), right: AN(15) }}
       onPress={() => {
         setSelectedUser(players[2]);
-      }}>
+      }}
+    >
       <BodyMedium text="#3" color="bronze" />
       <UserAvatar
         avatar={players[2].avatar}
@@ -135,7 +138,7 @@ const LeaderboardsScreen = () => {
       />
       <BodyMedium text={players[2].firstName} color="bronze" />
       {renderTrophyCount({
-        color: 'bronze',
+        color: "bronze",
         count: players[2].trophies,
       })}
     </TouchableBounce>
@@ -157,7 +160,8 @@ const LeaderboardsScreen = () => {
             style={{
               ...styles.top3Players,
               backgroundColor: players[0].color,
-            }}>
+            }}
+          >
             <LinearGradient
               colors={[
                 players[0]?.color as string,
@@ -172,7 +176,7 @@ const LeaderboardsScreen = () => {
           <FlatList
             data={players.slice(3, players.length - 1)}
             renderItem={renderPlayer}
-            keyExtractor={player => String(player.id) + 'leaderboards'}
+            keyExtractor={(player) => String(player.id) + "leaderboards"}
             contentContainerStyle={styles.leaderboardsList}
           />
         </View>
@@ -201,9 +205,9 @@ const createStyles = (colors: Colors) =>
       marginTop: AN(20),
     },
     top3Players: {
-      flexDirection: 'row',
+      flexDirection: "row",
       width: SCREEN_WIDTH,
-      justifyContent: 'space-around',
+      justifyContent: "space-around",
       paddingTop: AN(20),
       height: AN(180),
       borderBottomLeftRadius: BORDER_RADIUS,
@@ -211,9 +215,9 @@ const createStyles = (colors: Colors) =>
     },
     linearGradient: {
       width: SCREEN_WIDTH,
-      position: 'absolute',
+      position: "absolute",
       bottom: 0,
-      height: '100%',
+      height: "100%",
       left: 0,
     },
   });

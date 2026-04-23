@@ -1,65 +1,66 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import CTA from 'components/buttons/CTA';
-import AnswerTile from 'components/tiles/AnswerTile';
-import BodyMedium from 'components/typography/BodyMedium';
-import { Colors } from 'constants/styles/Colors';
-import { AN, SCREEN_HEIGHT } from 'constants/styles/appStyles';
-import ScreenWrapper from 'hoc/ScreenWrapper';
-import TileWrapper from 'hoc/TileWrapper';
-import useStyles from 'hooks/styles/useStyles';
-import { MainStackParamsList } from 'navigation/MainStackParamsList';
-import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { View } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
-import { CorrectAnswer, Question } from 'services/socket/socketPayloads';
-import { RootState, useAppSelector } from 'store/index';
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import CTA from "components/buttons/CTA";
+import AnswerTile from "components/tiles/AnswerTile";
+import BodyMedium from "components/typography/BodyMedium";
+import { Colors } from "constants/styles/Colors";
+import { AN, SCREEN_HEIGHT } from "constants/styles/appStyles";
+import ScreenWrapper from "hoc/ScreenWrapper";
+import TileWrapper from "hoc/TileWrapper";
+import useStyles from "hooks/styles/useStyles";
+import { MainStackParamsList } from "navigation/MainStackParamsList";
+import React, { useEffect, useRef, useState } from "react";
+import { StyleSheet } from "react-native";
+import { View } from "react-native";
+import { useDispatch } from "react-redux";
+import { SOCKET, SOCKET_EVENTS } from "services/socket/socket";
+import { CorrectAnswer, Question } from "services/socket/socketPayloads";
+import { RootState, useAppSelector } from "store/index";
 import {
   SelectedAnswerPayload,
   goToNextQuestion,
   selectCorrectQuestion,
   selectWrongQuestion,
-} from 'store/slices/gameSlice';
-import UsersTopBar from './components/UsersTopBar';
-import FullScreenSpinner from 'components/modals/FullScreenSpinner';
-import { registerAnswer } from 'store/slices/dataSlice';
-import RateQuestionBar from './components/RateQuestionBar';
-import QuestionCountdown from './components/QuestionCountdown';
-import API from 'services/api';
-import FastImage from 'react-native-fast-image';
-import { getImageUrl } from 'services/firebaseStorage/firebaseStorage';
-import { playSound } from 'services/sounds/soundPlayer';
-import selectRandomFromArray from 'util/array/selectRandomFromArray';
-import { shuffleArray } from 'util/array/shuffleArray';
+} from "store/slices/gameSlice";
+import UsersTopBar from "./components/UsersTopBar";
+import FullScreenSpinner from "components/modals/FullScreenSpinner";
+import { registerAnswer } from "store/slices/dataSlice";
+import RateQuestionBar from "./components/RateQuestionBar";
+import QuestionCountdown from "./components/QuestionCountdown";
+import API from "services/api";
+import FastImage from "react-native-fast-image";
+import { getImageUrl } from "services/firebaseStorage/firebaseStorage";
+import { playSound } from "services/sounds/soundPlayer";
+import selectRandomFromArray from "util/array/selectRandomFromArray";
+import { shuffleArray } from "util/array/shuffleArray";
 
 const startingUsersByAnswer = {
-  answer1: '',
-  answer2: '',
-  answer3: '',
-  answer4: '',
+  answer1: "",
+  answer2: "",
+  answer3: "",
+  answer4: "",
 };
 
 export const answersArray: CorrectAnswer[] = [
-  'answer1',
-  'answer2',
-  'answer3',
-  'answer4',
+  "answer1",
+  "answer2",
+  "answer3",
+  "answer4",
 ];
 
 const QuestionScreen: React.FC<
-  NativeStackScreenProps<MainStackParamsList, 'Question'>
+  NativeStackScreenProps<MainStackParamsList, "Question">
 > = ({ navigation }) => {
   const dispatch = useDispatch();
   const { styles } = useStyles(createStyles);
   const countdownInterval = useRef(null);
-  const { userData } = useAppSelector(state => state.data);
+  const { userData } = useAppSelector((state) => state.data);
   const { questions, activeRoom, type, selectedAnswers, onQuestion, leagueId } =
     useAppSelector((state: RootState) => state.game);
+
   const IS_LEAGUE_GAME = !!leagueId;
 
-  const isBrawlGame = type === 'brawl';
-  const isClassicGame = type === 'classic';
+  const isBrawlGame = type === "brawl";
+  const isClassicGame = type === "classic";
   const nextQuestionTimeout = isBrawlGame ? 2000 : 0;
 
   const {
@@ -71,7 +72,7 @@ const QuestionScreen: React.FC<
     questionsCount,
   } = activeRoom || {};
   const youAreAdmin = userId === userData.id;
-  const isBotGame = users.some(u => u.isBot);
+  const isBotGame = users.some((u) => u.isBot);
 
   const currentQuestion: Question = questions[onQuestion];
   const {
@@ -88,7 +89,7 @@ const QuestionScreen: React.FC<
   const [secondsLeft, setSecondsLeft] = useState(answerTime);
   const [wrongUsers, setWrongUsers] = useState<number[]>([]);
   const [correctUser, setCorrectUser] = useState(0);
-  const imageUrl = typeof image === 'string' ? getImageUrl(image) : '';
+  const imageUrl = typeof image === "string" ? getImageUrl(image) : "";
   const [liked, setLiked] = useState<undefined | boolean>(undefined);
   const [correctAnswerShown, setCorrectAnswerShown] = useState(false);
 
@@ -112,7 +113,7 @@ const QuestionScreen: React.FC<
     allUsersGuessed ||
     correctAnswerGuessed ||
     secondsLeft < 1 ||
-    wrongUsers.some(id => id === userData.id);
+    wrongUsers.some((id) => id === userData.id);
 
   const isLastQuestion = questions.length <= onQuestion + 1;
   const lastQuestionBugCheck = onQuestion > questions.length - 1 || !question;
@@ -139,17 +140,17 @@ const QuestionScreen: React.FC<
   const goToResults = () => {
     setTimeout(() => {
       clearCountdownInterval();
-      navigation.navigate('Results', { leagueId });
+      navigation.navigate("Results", { leagueId });
     }, nextQuestionTimeout);
   };
 
   const handleWrongAnswer = ({ answer, userId }: SelectedAnswerPayload) => {
-    playSound('error');
+    playSound("error");
     if (isClassicGame) clearCountdownInterval();
     if (selectedAnswers.includes(answer)) return;
 
     dispatch(selectWrongQuestion({ answer, userId }));
-    setWrongUsers(prevState => prevState.concat([userId]));
+    setWrongUsers((prevState) => prevState.concat([userId]));
     setUserNameForAnswer(answer, userId);
   };
 
@@ -169,7 +170,7 @@ const QuestionScreen: React.FC<
     for (let i = 3; i < answerTime; i++) {
       listOfAvailableSeconds.push(i);
     }
-    const numberOfBots = users.filter(u => u.isBot).length;
+    const numberOfBots = users.filter((u) => u.isBot).length;
     const randomBotTimes = shuffleArray(listOfAvailableSeconds).slice(
       0,
       numberOfBots,
@@ -187,7 +188,7 @@ const QuestionScreen: React.FC<
   }, [wrongUsers.length]);
 
   const handleCorrectAnswer = ({ answer, userId }: SelectedAnswerPayload) => {
-    playSound('success');
+    playSound("success");
     if (isClassicGame) clearCountdownInterval();
     if (selectedAnswers.includes(answer)) return;
     dispatch(selectCorrectQuestion({ answer, userId }));
@@ -197,20 +198,25 @@ const QuestionScreen: React.FC<
   };
 
   const setUserNameForAnswer = (answer: CorrectAnswer, userId: number) => {
-    setUserNameByAnswer(prevState => {
+    setUserNameByAnswer((prevState) => {
       let updatedState = prevState;
-      updatedState[answer] = users.find(u => u.id === userId)
+      updatedState[answer] = users.find((u) => u.id === userId)
         ?.firstName as string;
       return updatedState;
     });
   };
 
   useEffect(() => {
-    if (isBrawlGame) {
-      SOCKET.on(SOCKET_EVENTS.WRONG_ANSWER_SELECTED, handleWrongAnswer);
-      SOCKET.on(SOCKET_EVENTS.CORRECT_ANSWER_SELECTED, handleCorrectAnswer);
-    }
-  }, []);
+    if (!isBrawlGame) return;
+
+    SOCKET.on(SOCKET_EVENTS.WRONG_ANSWER_SELECTED, handleWrongAnswer);
+    SOCKET.on(SOCKET_EVENTS.CORRECT_ANSWER_SELECTED, handleCorrectAnswer);
+
+    return () => {
+      SOCKET.off(SOCKET_EVENTS.WRONG_ANSWER_SELECTED, handleWrongAnswer);
+      SOCKET.off(SOCKET_EVENTS.CORRECT_ANSWER_SELECTED, handleCorrectAnswer);
+    };
+  }, [onQuestion]);
 
   const clearCountdownInterval = () => {
     // @ts-ignore
@@ -227,7 +233,7 @@ const QuestionScreen: React.FC<
 
     // @ts-ignore
     countdownInterval.current = setInterval(() => {
-      setSecondsLeft(prevState => {
+      setSecondsLeft((prevState) => {
         if (prevState === 0) {
           if (isBrawlGame) nextQuestion();
         }
@@ -245,12 +251,12 @@ const QuestionScreen: React.FC<
   };
 
   const mockBotAnswer = () => {
-    const botIds = users.filter(u => u.isBot).map(u => u.id);
+    const botIds = users.filter((u) => u.isBot).map((u) => u.id);
     const randomBotThatHasNotAnsweredId = selectRandomFromArray(
-      botIds.filter(id => !wrongUsers.includes(id)),
+      botIds.filter((id) => !wrongUsers.includes(id)),
     );
     const notSelectdAnswers = answersArray.filter(
-      a => !selectedAnswers.some(ans => ans === a),
+      (a) => !selectedAnswers.some((ans) => ans === a),
     );
     const randomAnswerThatHasNotBeenAnsweredYet =
       selectRandomFromArray(notSelectdAnswers);
@@ -285,7 +291,7 @@ const QuestionScreen: React.FC<
   const onSelectAnswer = (answer: CorrectAnswer) => {
     if (isBrawlGame) {
       sendBrawlAnswer({ userId: userData.id, answer });
-    } else if (type === 'classic') {
+    } else if (type === "classic") {
       const payload = { answer, userId: userData.id };
       if (answer === correctAnswer) {
         // in brawl games, these stats are updated by events
@@ -307,12 +313,12 @@ const QuestionScreen: React.FC<
 
   const answerStatus = (answer: CorrectAnswer) =>
     answer === correctAnswer && correctAnswerShown
-      ? 'green'
+      ? "green"
       : correctAnswer === answer && correctAnswerGuessed
-      ? 'correct'
-      : isSelected(answer)
-      ? 'wrong'
-      : 'regular';
+        ? "correct"
+        : isSelected(answer)
+          ? "wrong"
+          : "regular";
 
   if (lastQuestionBugCheck) return <FullScreenSpinner />;
 
@@ -331,7 +337,7 @@ const QuestionScreen: React.FC<
             <></>
           )}
           <BodyMedium
-            style={{ alignSelf: 'center' }}
+            style={{ alignSelf: "center" }}
             text={`${onQuestion + 1} / ${questionsCount}`}
           />
           <QuestionCountdown
@@ -342,7 +348,7 @@ const QuestionScreen: React.FC<
             correctAnswerGuessed={correctAnswerGuessed}
           />
           <TileWrapper style={styles.questionTile}>
-            <BodyMedium text={question} style={{ textAlign: 'center' }} />
+            <BodyMedium text={question} style={{ textAlign: "center" }} />
             {imageUrl ? (
               <FastImage
                 source={{ uri: imageUrl }}
@@ -365,18 +371,18 @@ const QuestionScreen: React.FC<
                 index === 0
                   ? answer1
                   : index === 1
-                  ? answer2
-                  : index === 2
-                  ? answer3
-                  : answer4
+                    ? answer2
+                    : index === 2
+                      ? answer3
+                      : answer4
               }
               onPress={() => {
                 onSelectAnswer(a);
               }}
               userName={
                 correctAnswerShown && a === correctAnswer
-                  ? ''
-                  : userNameByAnswer[a] || ''
+                  ? ""
+                  : userNameByAnswer[a] || ""
               }
               key={`${a}${index}`}
             />
@@ -385,13 +391,13 @@ const QuestionScreen: React.FC<
             <BodyMedium
               text="Spectator"
               color="warning500"
-              style={{ textAlign: 'center', marginTop: AN(20) }}
+              style={{ textAlign: "center", marginTop: AN(20) }}
             />
           ) : (
             <></>
           )}
         </View>
-        {type === 'classic' ? (
+        {type === "classic" ? (
           <>
             {liked === undefined ? <RateQuestionBar onRate={onRate} /> : <></>}
             <CTA
@@ -412,17 +418,17 @@ const createStyles = (colors: Colors) =>
   StyleSheet.create({
     questionTile: {
       minHeight: AN(100),
-      justifyContent: 'center',
+      justifyContent: "center",
       padding: AN(20),
       marginVertical: AN(20),
     },
     nextQuestionCta: {
-      position: 'absolute',
+      position: "absolute",
       bottom: AN(20),
-      alignSelf: 'center',
+      alignSelf: "center",
     },
     image: {
-      width: '100%',
+      width: "100%",
       marginTop: AN(10),
       height: SCREEN_HEIGHT * 0.22,
     },

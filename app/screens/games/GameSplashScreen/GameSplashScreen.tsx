@@ -23,10 +23,9 @@ const GameSplashScreen: React.FC<
   useEffect(() => {
     let countdownInterval = setInterval(() => {
       setCountdown(c => {
-        if (c === 0) {
+        if (c <= 0) {
           clearInterval(countdownInterval);
-          navigation.navigate('Question');
-          return 3;
+          return 0;
         }
         return c - 1;
       });
@@ -36,6 +35,12 @@ const GameSplashScreen: React.FC<
       clearInterval(countdownInterval);
     };
   }, []);
+
+  useEffect(() => {
+    if (countdown === 0) {
+      navigation.navigate('Question');
+    }
+  }, [countdown]);
 
   const isSoloGame = users.length < 2;
 
