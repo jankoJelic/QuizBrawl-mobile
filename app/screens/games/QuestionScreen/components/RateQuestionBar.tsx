@@ -24,13 +24,13 @@ const RateQuestionBar = ({ onRate }: Props) => {
       <View style={styles.iconsContainer}>
         <MyIcon
           family="antDesign"
-          name="dislike2"
+          name="dislike"
           color="danger500"
           onPress={onDislike}
         />
         <MyIcon
           family="antDesign"
-          name="like2"
+          name="like"
           color="success500"
           onPress={onLike}
         />

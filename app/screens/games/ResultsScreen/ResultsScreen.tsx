@@ -1,64 +1,64 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import CTA from 'components/buttons/CTA';
-import MyImage from 'components/icons/MyImage';
-import NavHeader from 'components/layout/NavHeader';
-import UserTile from 'components/tiles/UserTile/UserTile';
-import BodyLarge from 'components/typography/BodyLarge';
-import Title from 'components/typography/Title';
-import { LOBBY_IDS } from 'constants/constants';
-import { Colors } from 'constants/styles/Colors';
-import { AN, SCREEN_HEIGHT, SCREEN_WIDTH } from 'constants/styles/appStyles';
-import ScreenWrapper from 'hoc/ScreenWrapper';
-import TileWrapper from 'hoc/TileWrapper';
-import useStyles from 'hooks/styles/useStyles';
-import { MainStackParamsList } from 'navigation/MainStackParamsList';
-import usePreventNativeBackButton from 'navigation/hooks/usePreventNativeBack';
-import React, { useEffect, useState } from 'react';
-import { Animated, FlatList, StyleSheet, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
-import { useDispatch } from 'react-redux';
-import API from 'services/api';
-import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
-import { playSound } from 'services/sounds/soundPlayer';
-import { useAppSelector } from 'store/index';
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import CTA from "components/buttons/CTA";
+import MyImage from "components/icons/MyImage";
+import NavHeader from "components/layout/NavHeader";
+import UserTile from "components/tiles/UserTile/UserTile";
+import BodyLarge from "components/typography/BodyLarge";
+import Title from "components/typography/Title";
+import { LOBBY_IDS } from "constants/constants";
+import { Colors } from "constants/styles/Colors";
+import { AN, SCREEN_HEIGHT, SCREEN_WIDTH } from "constants/styles/appStyles";
+import ScreenWrapper from "hoc/ScreenWrapper";
+import TileWrapper from "hoc/TileWrapper";
+import useStyles from "hooks/styles/useStyles";
+import { MainStackParamsList } from "navigation/MainStackParamsList";
+import usePreventNativeBackButton from "navigation/hooks/usePreventNativeBack";
+import React, { useEffect, useState } from "react";
+import { Animated, FlatList, StyleSheet, View } from "react-native";
+import FastImage from "react-native-fast-image";
+import { useDispatch } from "react-redux";
+import API from "services/api";
+import { SOCKET, SOCKET_EVENTS } from "services/socket/socket";
+import { playSound } from "services/sounds/soundPlayer";
+import { useAppSelector } from "store/index";
 import {
   registerDailyResult,
   removeUserFromRoom,
   storeReward,
   updateMoneyBalance,
   updateTrophies,
-} from 'store/slices/dataSlice';
-import { finishGame } from 'store/slices/gameSlice';
-import { Reward, UserData } from 'store/types/authSliceTypes';
+} from "store/slices/dataSlice";
+import { finishGame } from "store/slices/gameSlice";
+import { Reward, UserData } from "store/types/authSliceTypes";
 
 const ResultsScreen: React.FC<
-  NativeStackScreenProps<MainStackParamsList, 'Results'>
+  NativeStackScreenProps<MainStackParamsList, "Results">
 > = ({ navigation, route }) => {
   usePreventNativeBackButton();
   const { leagueId } = route.params || {};
   const { styles } = useStyles(createStyles);
   const dispatch = useDispatch();
-  const { userData } = useAppSelector(state => state.data);
+  const { userData } = useAppSelector((state) => state.data);
   const { id } = userData;
   const { activeRoom, score, answers } =
-    useAppSelector(state => state.game) || {};
+    useAppSelector((state) => state.game) || {};
   const { users, bet, maxPlayers } = activeRoom || [];
   const youAreQuizAdmin = activeRoom.userId === id;
-  const isBotGame = users.some(u => u.isBot);
+  const isBotGame = users?.some((u) => u.isBot);
 
   const isMultiPlayerGame = maxPlayers > 1;
 
   const [rewardOpacity] = useState(new Animated.Value(0));
   const [rewardTranslateY] = useState(new Animated.Value(0));
-  const [reward, setReward] = useState('0');
+  const [reward, setReward] = useState("0");
   const [specialReward, setSpecialReward] = useState<Reward>();
 
   useEffect(() => {
-    if (reward == '0') return;
+    if (reward == "0") return;
     if (Number(reward) > 0) {
-      playSound('reward');
+      playSound("reward");
     } else {
-      playSound('defeat');
+      playSound("defeat");
     }
   }, [reward]);
 
@@ -89,26 +89,26 @@ const ResultsScreen: React.FC<
   const isLeagueGame = !!leagueId;
 
   const renderUser = ({ item }: { item: UserData }) => (
-    <UserTile user={item} score={String(score[item.id]) || '0'} />
+    <UserTile user={item} score={String(score[item.id]) || "0"} />
   );
 
   const goToRoom = async () => {
     if (isLeagueGame) {
       const league = await API.getLeague(leagueId);
-      navigation.navigate('League', { league });
+      navigation.navigate("League", { league });
     } else {
-      navigation.navigate('Room', { room: activeRoom });
+      navigation.navigate("Room", { room: activeRoom });
     }
     dispatch(finishGame());
   };
 
   const goToLobby = () => {
-    navigation.navigate('Lobby', { lobbyId: activeRoom.lobbyId });
+    navigation.navigate("Lobby", { lobbyId: activeRoom.lobbyId });
     dispatch(finishGame());
   };
 
   const goToLandingScreen = () => {
-    navigation.navigate('Landing');
+    navigation.navigate("Landing");
     SOCKET.emit(SOCKET_EVENTS.USER_LEFT_ROOM, {
       user: userData,
       room: activeRoom,
@@ -199,11 +199,11 @@ const ResultsScreen: React.FC<
         <FlatList
           data={
             isLeagueGame
-              ? usersByScore?.filter(u => u.id !== activeRoom.userId)
+              ? usersByScore?.filter((u) => u.id !== activeRoom.userId)
               : usersByScore
           }
           renderItem={renderUser}
-          keyExtractor={item => item.id + 'user_results'}
+          keyExtractor={(item) => item.id + "user_results"}
         />
       ) : (
         <>
@@ -211,22 +211,22 @@ const ResultsScreen: React.FC<
             text={`${String(myScore)} / ${String(activeRoom.questionsCount)}`}
             style={styles.score}
           />
-          <BodyLarge text={myAccuracy + '%'} style={styles.accuracy} />
+          <BodyLarge text={myAccuracy + "%"} style={styles.accuracy} />
         </>
       )}
       {!!specialReward ? (
-        <View style={{ alignItems: 'center' }}>
+        <View style={{ alignItems: "center" }}>
           <FastImage
             source={{ uri: specialReward.payload }}
             style={{ width: SCREEN_WIDTH * 0.6, aspectRatio: 1 }}
           />
           <BodyLarge
             text="Congrats!"
-            style={{ textAlign: 'center', marginTop: AN(20) }}
+            style={{ textAlign: "center", marginTop: AN(20) }}
             weight="bold"
           />
           <BodyLarge
-            style={{ textAlign: 'center', marginVertical: AN(10) }}
+            style={{ textAlign: "center", marginVertical: AN(10) }}
             text={`Your knowledge in ${activeRoom.topic.toLowerCase()} has won you a cool avatar to show off!`}
           />
         </View>
@@ -234,13 +234,13 @@ const ResultsScreen: React.FC<
         <></>
       )}
       <CTA
-        title={isMultiPlayerGame && !isBotGame ? 'Go to room' : 'Go to lobby'}
+        title={isMultiPlayerGame && !isBotGame ? "Go to room" : "Go to lobby"}
         onPress={
           isBotGame
             ? goToLandingScreen
             : isMultiPlayerGame
-            ? goToRoom
-            : goToLobby
+              ? goToRoom
+              : goToLobby
         }
       />
       <Animated.View
@@ -248,12 +248,13 @@ const ResultsScreen: React.FC<
           transform: [{ translateY: rewardTranslateY }],
           opacity: rewardOpacity,
           ...styles.trophyContainer,
-        }}>
+        }}
+      >
         {isLeagueGame ? (
           <></>
         ) : (
           <MyImage
-            name={isArenaGame ? 'trophy' : 'money'}
+            name={isArenaGame ? "trophy" : "money"}
             style={styles.trophy}
           />
         )}
@@ -262,13 +263,14 @@ const ResultsScreen: React.FC<
         ) : (
           <TileWrapper
             style={{
-              alignItems: 'center',
-              justifyContent: 'center',
+              alignItems: "center",
+              justifyContent: "center",
               ...(isLeagueGame && { top: SCREEN_HEIGHT / 2 }),
-            }}>
+            }}
+          >
             <Title
               color="warning400"
-              text={`${reward}${isLeagueGame ? ' points' : ''}`}
+              text={`${reward}${isLeagueGame ? " points" : ""}`}
             />
           </TileWrapper>
         )}
@@ -280,11 +282,11 @@ const ResultsScreen: React.FC<
 const createStyles = (colors: Colors) =>
   StyleSheet.create({
     trophyContainer: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      position: 'absolute',
-      alignSelf: 'center',
-      margin: 'auto',
+      alignItems: "center",
+      justifyContent: "center",
+      position: "absolute",
+      alignSelf: "center",
+      margin: "auto",
     },
     trophy: {
       width: SCREEN_WIDTH * 0.4,
@@ -292,13 +294,13 @@ const createStyles = (colors: Colors) =>
       marginTop: SCREEN_HEIGHT * 0.2,
     },
     score: {
-      textAlign: 'center',
+      textAlign: "center",
       fontSize: AN(50),
       lineHeight: AN(50),
       marginTop: AN(30),
     },
     accuracy: {
-      textAlign: 'center',
+      textAlign: "center",
       marginTop: AN(10),
       marginBottom: AN(20),
     },

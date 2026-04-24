@@ -72,7 +72,7 @@ const QuestionScreen: React.FC<
     questionsCount,
   } = activeRoom || {};
   const youAreAdmin = userId === userData.id;
-  const isBotGame = users.some((u) => u.isBot);
+  const isBotGame = users?.some((u) => u.isBot);
 
   const currentQuestion: Question = questions[onQuestion];
   const {
