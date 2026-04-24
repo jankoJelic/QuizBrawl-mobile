@@ -12,6 +12,7 @@ import {
   ShowbizIcon,
   MusicIcon,
   ScienceIcon,
+  NewsIcon,
 } from "assets/icons/topics";
 import { Lobby, Topic } from "store/types/dataSliceTypes";
 import NavHeader from "components/layout/NavHeader";
@@ -39,7 +40,7 @@ export const TOPIC_ICONS: Record<string, JSX.Element> = {
   sports: <SportsIcon style={iconStyle} />,
   art: <ArtIcon style={iconStyle} />,
   science: <ScienceIcon style={iconStyle} />,
-  actualities: <GeneralIcon style={iconStyle} />,
+  news: <NewsIcon style={iconStyle} />,
 };
 
 const CreateRoomScreen: React.FC<

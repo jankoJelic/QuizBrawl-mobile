@@ -1,14 +1,14 @@
-import FeatherIcon from 'assets/icons/MyIcon';
-import HeadingH1 from 'components/typography/HeadingH1';
-import { Color, Colors } from 'constants/styles/Colors';
-import { PADDING_HORIZONTAL, AN } from 'constants/styles/appStyles';
-import useStyles from 'hooks/styles/useStyles';
-import { useMyNavigation } from 'navigation/hooks/useMyNavigation';
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import FeatherIcon from "assets/icons/MyIcon";
+import HeadingH1 from "components/typography/HeadingH1";
+import { Color, Colors } from "constants/styles/Colors";
+import { PADDING_HORIZONTAL, AN } from "constants/styles/appStyles";
+import useStyles from "hooks/styles/useStyles";
+import { useMyNavigation } from "navigation/hooks/useMyNavigation";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 
 const NavHeader = ({
-  title = '',
+  title = "",
   fullWidth = false,
   showLeftIcon = true,
   showRightIcon = true,
@@ -16,7 +16,7 @@ const NavHeader = ({
   onPressLeftIcon,
   onPressRightIcon,
   RightIcon,
-  color = 'mainTextColor',
+  color = "mainTextColor",
 }: Props) => {
   const { styles } = useStyles(createStyles);
   const navigation = useMyNavigation();
@@ -28,7 +28,7 @@ const NavHeader = ({
   };
 
   const onPressRightArrow = () => {
-    onPressRightIcon ? onPressRightIcon() : navigation.navigate('Landing');
+    onPressRightIcon ? onPressRightIcon() : navigation.navigate("Landing");
   };
 
   return (
@@ -37,7 +37,8 @@ const NavHeader = ({
         ...styles.container,
         ...(fullWidth && { paddingHorizontal: 0 }),
         ...style,
-      }}>
+      }}
+    >
       <FeatherIcon
         name="arrow-left"
         size={iconSize}
@@ -64,12 +65,13 @@ const NavHeader = ({
 const createStyles = (colors: Colors) =>
   StyleSheet.create({
     container: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
       paddingHorizontal: PADDING_HORIZONTAL,
       marginTop: AN(15),
       marginBottom: AN(30),
+      paddingTop: AN(10),
     },
   });
 

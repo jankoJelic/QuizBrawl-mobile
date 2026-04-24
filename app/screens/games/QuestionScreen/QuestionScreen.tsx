@@ -251,24 +251,34 @@ const QuestionScreen: React.FC<
   };
 
   const mockBotAnswer = () => {
-    const botIds = users.filter((u) => u.isBot).map((u) => u.id);
-    const randomBotThatHasNotAnsweredId = selectRandomFromArray(
-      botIds.filter((id) => !wrongUsers.includes(id)),
+    const botsNotAnswered = users.filter(
+      (u) => u.isBot && !wrongUsers.includes(u.id),
     );
-    const notSelectdAnswers = answersArray.filter(
-      (a) => !selectedAnswers.some((ans) => ans === a),
+    const bot = selectRandomFromArray(botsNotAnswered);
+    if (!bot) return;
+
+    const difficultyDelta: Record<string, number> = { EASY: 15, MEDIUM: 0, HARD: -20 };
+    const difficulty = currentQuestion?.difficulty ?? 'MEDIUM';
+    const adjustedAccuracy = Math.min(
+      100,
+      Math.max(0, bot.accuracyPercentage + difficultyDelta[difficulty]),
     );
-    const randomAnswerThatHasNotBeenAnsweredYet =
-      selectRandomFromArray(notSelectdAnswers);
-    if (
-      !randomBotThatHasNotAnsweredId ||
-      !randomAnswerThatHasNotBeenAnsweredYet
-    )
-      return;
-    sendBrawlAnswer({
-      userId: randomBotThatHasNotAnsweredId,
-      answer: randomAnswerThatHasNotBeenAnsweredYet,
-    });
+
+    const shouldAnswerCorrectly = Math.random() * 100 < adjustedAccuracy;
+
+    let answer: CorrectAnswer;
+    if (shouldAnswerCorrectly) {
+      answer = correctAnswer;
+    } else {
+      const wrongAnswers = answersArray.filter(
+        (a) => a !== correctAnswer && !selectedAnswers.includes(a),
+      );
+      const fallback = answersArray.filter((a) => !selectedAnswers.includes(a));
+      answer = selectRandomFromArray(wrongAnswers.length ? wrongAnswers : fallback);
+    }
+
+    if (!answer) return;
+    sendBrawlAnswer({ userId: bot.id, answer });
   };
 
   const sendBrawlAnswer = ({ userId, answer }: SendBrawlAnswerParams) => {
