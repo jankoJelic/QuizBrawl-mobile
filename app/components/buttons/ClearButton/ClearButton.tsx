@@ -2,7 +2,7 @@ import BodyMedium from 'components/typography/BodyMedium';
 import { Color } from 'constants/styles/Colors';
 import TouchableBounce from 'hoc/TouchableBounce';
 import React from 'react';
-import FastImage from 'react-native-fast-image';
+import { Image } from 'expo-image';
 
 const ClearButton = ({
   title,
@@ -23,7 +23,7 @@ const ClearButton = ({
         ...style,
       }}>
       {isLoading ? (
-        <FastImage
+        <Image
           source={require('../../../assets/spinners/doubleRingSpinner.png')}
           style={{}}
         />

@@ -15,7 +15,7 @@ import { MainStackParamsList } from "navigation/MainStackParamsList";
 import usePreventNativeBackButton from "navigation/hooks/usePreventNativeBack";
 import React, { useEffect, useState } from "react";
 import { Animated, FlatList, StyleSheet, View } from "react-native";
-import FastImage from "react-native-fast-image";
+import { Image } from 'expo-image';
 import { useDispatch } from "react-redux";
 import API from "services/api";
 import { SOCKET, SOCKET_EVENTS } from "services/socket/socket";
@@ -216,7 +216,7 @@ const ResultsScreen: React.FC<
       )}
       {!!specialReward ? (
         <View style={{ alignItems: "center" }}>
-          <FastImage
+          <Image
             source={{ uri: specialReward.payload }}
             style={{ width: SCREEN_WIDTH * 0.6, aspectRatio: 1 }}
           />

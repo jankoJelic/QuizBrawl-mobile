@@ -10,7 +10,7 @@ import {
 import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { Image } from 'expo-image';
 import { League } from 'services/api/endpoints/leaguesAPI';
 import { Quiz } from 'store/slices/createQuizSlice';
 
@@ -27,7 +27,7 @@ const LeagueInfoHeader = ({ selectedQuiz, league }: Props) => {
   return (
     <View style={styles.leagueInfoHeader}>
       <View style={{ flexDirection: 'row' }}>
-        <FastImage source={{ uri: image }} style={styles.image} />
+        <Image source={{ uri: image }} style={styles.image} />
         <View>
           <BodyLarge
             text={`Admin: ${admin?.firstName}`}

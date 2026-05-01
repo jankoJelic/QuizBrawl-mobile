@@ -7,7 +7,7 @@ import {
 import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { Image } from 'expo-image';
 import { useAppSelector } from 'store';
 import { setColorOpacity } from 'util/strings/setColorOpacity';
 
@@ -18,7 +18,7 @@ const FullScreenSpinner = () => {
   return (
     <View style={[styles.container, { zIndex: isLoading ? 999 : -1 }]}>
       {IS_IOS ? (
-        <FastImage
+        <Image
           source={require('../../../assets/spinners/fullScreenSpinner.png')}
           style={{ width: SCREEN_WIDTH / 2.2, aspectRatio: 1 }}
         />

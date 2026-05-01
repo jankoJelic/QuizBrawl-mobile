@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { FlatList, StyleSheet, View } from "react-native";
-import FastImage from "react-native-fast-image";
+import { Image } from 'expo-image';
 
 import { useMyNavigation } from "navigation/hooks/useMyNavigation";
 import { useAppSelector } from "store/index";
@@ -47,7 +47,7 @@ const LobbyCarousel = () => {
     switch (lobbyName) {
       case "Arena":
         return (
-          <FastImage
+          <Image
             source={require("../../../../assets/icons/lobbies/arena.png")}
             style={styles.image}
           />
@@ -55,7 +55,7 @@ const LobbyCarousel = () => {
 
       case "Cash game":
         return (
-          <FastImage
+          <Image
             source={require("../../../../assets/icons/lobbies/money.png")}
             style={styles.image}
           />
@@ -63,7 +63,7 @@ const LobbyCarousel = () => {
 
       case "Solo":
         return (
-          <FastImage
+          <Image
             source={require("../../../../assets/icons/lobbies/shield.png")}
             style={styles.image}
           />

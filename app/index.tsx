@@ -1,3 +1,4 @@
+import '@react-native-firebase/app';
 import 'react-native-gesture-handler';
 import { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';

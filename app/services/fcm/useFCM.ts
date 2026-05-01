@@ -45,54 +45,46 @@ const useFCM = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    messaging()
-      .getToken()
-      .then(token => {
-        API.connectToFCM(token).catch(e => {});
+    let unsubscribeTokenRefresh: (() => void) | undefined;
+    try {
+      messaging()
+        .getToken()
+        .then(token => {
+          API.connectToFCM(token).catch(() => {});
+        })
+        .catch(() => {});
+
+      unsubscribeTokenRefresh = messaging().onTokenRefresh(token => {
+        API.connectToFCM(token);
       });
+    } catch {}
 
-    return messaging().onTokenRefresh(token => {
-      API.connectToFCM(token);
-    });
+    return () => unsubscribeTokenRefresh?.();
   }, []);
 
   useEffect(() => {
-    const unsubscribe = messaging().onMessage(remoteMessage => {
-      dispatch(
-        showToast({
-          text: remoteMessage.notification?.title || '',
-          type: 'success',
-          remoteMessage,
-        }),
-      );
-    });
+    let unsubscribe: (() => void) | undefined;
+    try {
+      unsubscribe = messaging().onMessage(remoteMessage => {
+        dispatch(
+          showToast({
+            text: remoteMessage.notification?.title || '',
+            type: 'success',
+            remoteMessage,
+          }),
+        );
+      });
+    } catch {}
 
-    return unsubscribe;
+    return () => unsubscribe?.();
   }, []);
 
   useEffect(() => {
-    messaging().getInitialNotification().then(handleOnPressNotification);
-    messaging().onNotificationOpenedApp(handleOnPressNotification);
+    try {
+      messaging().getInitialNotification().then(handleOnPressNotification).catch(() => {});
+      messaging().onNotificationOpenedApp(handleOnPressNotification);
+    } catch {}
   }, []);
-
-  // useEffect(() => {
-  //   messaging()
-  //     .()
-  //     .then((message: FirebaseMessagingTypes.RemoteMessage) => {
-  //       handleOnPressNotification(message);
-  //     });
-  // }, []);
 };
 
 export default useFCM;
-
-{
-  /* 
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    });
-
-    return unsubscribe;
-  }, []);*/
-}

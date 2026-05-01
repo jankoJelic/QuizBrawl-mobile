@@ -8,7 +8,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import GoogleLogo from './googleLogo.svg';
-import FastImage from 'react-native-fast-image';
+import { Image } from 'expo-image';
 
 const MyIcon = ({
   name,
@@ -33,43 +33,43 @@ const MyIcon = ({
   switch (name) {
     case 'mushroom':
       return (
-        <FastImage
+        <Image
           style={imageStyle}
           source={require('../icons/mushroom.png')}
         />
       );
     case 'trophy':
       return (
-        <FastImage style={imageStyle} source={require('../icons/trophy.png')} />
+        <Image style={imageStyle} source={require('../icons/trophy.png')} />
       );
     case 'market':
       return (
-        <FastImage source={require('../icons/market.png')} style={imageStyle} />
+        <Image source={require('../icons/market.png')} style={imageStyle} />
       );
     case 'friends':
       return (
-        <FastImage
+        <Image
           source={require('../icons/friends.png')}
           style={imageStyle}
         />
       );
     case 'league':
       return (
-        <FastImage
+        <Image
           source={require('../../assets/icons/leagues.png')}
           style={imageStyle}
         />
       );
     case 'money':
       return (
-        <FastImage
+        <Image
           source={require('../../assets/icons/lobbies/money.png')}
           style={imageStyle}
         />
       );
     case 'ranking':
       return (
-        <FastImage
+        <Image
           source={require('../icons/ranking.png')}
           style={imageStyle}
         />
@@ -78,7 +78,7 @@ const MyIcon = ({
       return <GoogleLogo style={style} />;
     case 'colorPalette':
       return (
-        <FastImage
+        <Image
           source={require('./colorPalette.png')}
           tintColor={colors[color]}
           style={imageStyle}

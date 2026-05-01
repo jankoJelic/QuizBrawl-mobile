@@ -19,7 +19,7 @@ import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { Image } from 'expo-image';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
 import { SOCKET, SOCKET_EVENTS } from 'services/socket/socket';
@@ -340,7 +340,7 @@ const LeagueScreen: React.FC<
     return (
       <TouchableOpacity style={styles.tableRow} onPress={onPressPlayer}>
         <View style={styles.userCell}>
-          <FastImage style={styles.userAvatar} source={{ uri: item.avatar }} />
+          <Image style={styles.userAvatar} source={{ uri: item.avatar }} />
           <BodyMedium text={item.firstName + '  '} color={rowColor} />
           {(readyUsers?.includes(item.id) || item.id === userData.id) && (
             <MyIcon name="check-circle" size={AN(14)} color="success400" />

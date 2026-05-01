@@ -4,13 +4,13 @@ import { AN } from 'constants/styles/appStyles';
 import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import FastImage, { Source } from 'react-native-fast-image';
+import { Image, ImageSource } from 'expo-image';
 
 const ProfileBadge = ({ amount, imageSource, color, isLoading }: Props) => {
   const { colors, styles } = useStyles(createStyles);
   return (
     <View style={{ ...styles.container, borderColor: colors[color] }}>
-      <FastImage
+      <Image
         source={imageSource}
         style={{ width: AN(30), aspectRatio: 1 }}
       />
@@ -35,7 +35,7 @@ const createStyles = (colors: Colors) =>
 export default ProfileBadge;
 
 interface Props {
-  imageSource: Source;
+  imageSource: ImageSource;
   amount: string;
   color: Color;
   isLoading?: boolean;

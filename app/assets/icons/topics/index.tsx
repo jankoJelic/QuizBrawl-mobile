@@ -1,35 +1,35 @@
 // @ts-nocheck
 import React from "react";
 import { ViewStyle } from "react-native";
-import FastImage from "react-native-fast-image";
+import { Image } from 'expo-image';
 import { Topic } from "store/types/dataSliceTypes";
 
 export const ArtIcon = (props: ViewStyle) => (
-  <FastImage source={require("./art.png")} {...props} />
+  <Image source={require("./art.png")} {...props} />
 );
 export const GeneralIcon = (props: ViewStyle) => (
-  <FastImage source={require("./general.png")} {...props} />
+  <Image source={require("./general.png")} {...props} />
 );
 export const GeographyIcon = (props: ViewStyle) => (
-  <FastImage source={require("./geography.png")} {...props} />
+  <Image source={require("./geography.png")} {...props} />
 );
 export const SportsIcon = (props: ViewStyle) => (
-  <FastImage source={require("./sports.png")} {...props} />
+  <Image source={require("./sports.png")} {...props} />
 );
 export const HistoryIcon = (props: ViewStyle) => (
-  <FastImage source={require("./history.png")} {...props} />
+  <Image source={require("./history.png")} {...props} />
 );
 export const ShowbizIcon = (props: ViewStyle) => (
-  <FastImage source={require("./showbiz.png")} {...props} />
+  <Image source={require("./showbiz.png")} {...props} />
 );
 export const MusicIcon = (props: ViewStyle) => (
-  <FastImage source={require("./music.png")} {...props} />
+  <Image source={require("./music.png")} {...props} />
 );
 export const ScienceIcon = (props: ViewStyle) => (
-  <FastImage source={require("./science.png")} {...props} />
+  <Image source={require("./science.png")} {...props} />
 );
 export const NewsIcon = (props: ViewStyle) => (
-  <FastImage source={require("./news.png")} {...props} />
+  <Image source={require("./news.png")} {...props} />
 );
 
 export const TopicIcon = (props: { topic: Topic } & { style: ViewStyle }) => {

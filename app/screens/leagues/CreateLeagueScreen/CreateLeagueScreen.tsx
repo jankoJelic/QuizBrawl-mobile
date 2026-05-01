@@ -13,7 +13,7 @@ import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React, { useEffect, useState } from 'react';
 import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { Image } from 'expo-image';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
 import { LeagueType } from 'services/api/endpoints/leaguesAPI';
@@ -56,7 +56,7 @@ const CreateLeagueScreen: React.FC<
           ...styles.leagueImageContainer,
           borderColor: isSelected ? colors.brand500 : colors.neutral500,
         }}>
-        <FastImage style={styles.leagueImage} source={{ uri: item }} />
+        <Image style={styles.leagueImage} source={{ uri: item }} />
       </TouchableBounce>
     );
   };

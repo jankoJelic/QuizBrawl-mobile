@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux';
 import API from 'services/api';
 import { useAppSelector } from 'store/index';
 import { setProfileColor, setUserAvatar } from 'store/slices/dataSlice';
-import FastImage from 'react-native-fast-image';
+import { Image } from 'expo-image';
 import UserAvatar from 'components/icons/UserAvatar';
 
 const CustomizeProfileScreen: React.FC<
@@ -79,7 +79,7 @@ const CustomizeProfileScreen: React.FC<
 
     return (
       <TouchableBounce onPress={onSelectAvatar} style={styles.avatar}>
-        <FastImage source={{ uri: item }} style={styles.fullWidth} />
+        <Image source={{ uri: item }} style={styles.fullWidth} />
       </TouchableBounce>
     );
   };

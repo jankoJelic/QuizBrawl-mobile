@@ -11,7 +11,6 @@ import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Animated, View, FlatList } from 'react-native';
-import FastImage from 'react-native-fast-image';
 
 const GameSplashScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'GameSplash'>

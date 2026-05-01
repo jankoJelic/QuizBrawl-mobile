@@ -10,7 +10,7 @@ import useStyles from 'hooks/styles/useStyles';
 import React, { useEffect, useState } from 'react';
 import { TextInput, View, StyleSheet } from 'react-native';
 import Collapsible from 'react-native-collapsible';
-import FastImage from 'react-native-fast-image';
+import { Image } from 'expo-image';
 import { Asset, launchImageLibrary } from 'react-native-image-picker';
 import { useDispatch } from 'react-redux';
 import { answersArray } from 'screens/games/QuestionScreen/QuestionScreen';
@@ -171,16 +171,16 @@ const QuestionInput = ({ index, question }: Props) => {
       <Collapsible collapsed={collapsed}>
         <TileWrapper style={{ flexDirection: 'row', alignItems: 'center' }}>
           {image?.uri ? (
-            <FastImage
+            <Image
               source={{ uri: image.uri }}
               style={styles.image}
-              resizeMode="contain"
+              contentFit="contain"
             />
           ) : imageUrl ? (
-            <FastImage
+            <Image
               source={{ uri: imageUrl }}
               style={styles.image}
-              resizeMode="contain"
+              contentFit="contain"
             />
           ) : (
             <BodyMedium

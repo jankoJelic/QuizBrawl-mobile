@@ -12,7 +12,7 @@ import useStyles from 'hooks/styles/useStyles';
 import { MainStackParamsList } from 'navigation/MainStackParamsList';
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { Image } from 'expo-image';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
 import { MarketResponse } from 'services/api/endpoints/rewardsAPI';
@@ -62,7 +62,7 @@ const MarketScreen: React.FC<
 
     return (
       <TouchableBounce onPress={buyAvatar} disabled={money < AVATAR_PRICE}>
-        <FastImage source={{ uri: item }} style={styles.avatar} />
+        <Image source={{ uri: item }} style={styles.avatar} />
       </TouchableBounce>
     );
   };

@@ -8,7 +8,7 @@ import TileWrapper from 'hoc/TileWrapper';
 import useStyles from 'hooks/styles/useStyles';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { Image } from 'expo-image';
 import { League } from 'services/api/endpoints/leaguesAPI';
 
 const LeagueTile = ({ league, onPress }: Props) => {
@@ -23,7 +23,7 @@ const LeagueTile = ({ league, onPress }: Props) => {
   return (
     <TileWrapper style={styles.container} onPress={onPressMe}>
       <View style={styles.leftSide}>
-        <FastImage style={styles.image} source={{ uri: image }} />
+        <Image style={styles.image} source={{ uri: image }} />
         <View>
           <BodyLarge text={name} />
           <BodyMedium

@@ -6,7 +6,7 @@ import TouchableBounce from 'hoc/TouchableBounce';
 import useStyles from 'hooks/styles/useStyles';
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { Image } from 'expo-image';
 
 const CTA = ({
   onPress = () => {},
@@ -34,7 +34,7 @@ const CTA = ({
       disabled={disabled}>
       <BlueGradient pressedIn={pressedIn} disabled={disabled}>
         {isLoading ? (
-          <FastImage
+          <Image
             style={styles.spinner}
             source={require('../../../assets/spinners/doubleRingSpinner.png')}
           />

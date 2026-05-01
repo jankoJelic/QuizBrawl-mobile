@@ -1,18 +1,18 @@
 import React from 'react';
-import FastImage from 'react-native-fast-image';
+import { Image } from 'expo-image';
 
 const MyImage = ({ name, style }: Props) => {
   switch (name) {
     case 'money':
       return (
-        <FastImage
+        <Image
           style={style}
           source={require('../../../assets/icons/lobbies/money.png')}
         />
       );
     case 'trophy':
       return (
-        <FastImage
+        <Image
           style={style}
           source={require('../../../assets/icons/trophy.png')}
         />

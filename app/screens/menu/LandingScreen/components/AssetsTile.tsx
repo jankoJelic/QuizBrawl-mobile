@@ -8,7 +8,7 @@ import {
 } from 'constants/styles/appStyles';
 import TileWrapper from 'hoc/TileWrapper';
 import React from 'react';
-import FastImage from 'react-native-fast-image';
+import { Image } from 'expo-image';
 import { StyleSheet, View } from 'react-native';
 import { useAppSelector } from 'store/index';
 import useStyles from 'hooks/styles/useStyles';
@@ -33,7 +33,7 @@ const AssetsTile = () => {
         title="Trophies"
         value={String(trophies)}
         Icon={
-          <FastImage
+          <Image
             source={require('../../../../assets/icons/trophy.png')}
             style={styles.icon}
           />
@@ -44,7 +44,7 @@ const AssetsTile = () => {
         title="Money"
         value={String(money)}
         Icon={
-          <FastImage
+          <Image
             source={require('../../../../assets/icons/lobbies/money.png')}
             style={styles.icon}
           />

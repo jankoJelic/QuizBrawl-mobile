@@ -5,7 +5,7 @@ import { AN, BORDER_RADIUS, SCREEN_WIDTH } from "constants/styles/appStyles";
 import useStyles from "hooks/styles/useStyles";
 import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
-import FastImage from "react-native-fast-image";
+import { Image } from 'expo-image';
 import { useAppSelector } from "store/index";
 import { UserData } from "store/types/authSliceTypes";
 
@@ -34,7 +34,7 @@ const UsersTopBar = ({ wrongUsers, correctUser }: Props) => {
           borderColor: borderColor(),
         }}
       >
-        <FastImage
+        <Image
           style={{ width: AN(25), aspectRatio: 1 }}
           source={{ uri: item.avatar }}
         />

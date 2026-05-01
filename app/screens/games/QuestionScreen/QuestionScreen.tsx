@@ -27,7 +27,7 @@ import { registerAnswer } from "store/slices/dataSlice";
 import RateQuestionBar from "./components/RateQuestionBar";
 import QuestionCountdown from "./components/QuestionCountdown";
 import API from "services/api";
-import FastImage from "react-native-fast-image";
+import { Image } from 'expo-image';
 import { getImageUrl } from "services/firebaseStorage/firebaseStorage";
 import { playSound } from "services/sounds/soundPlayer";
 import selectRandomFromArray from "util/array/selectRandomFromArray";
@@ -166,17 +166,21 @@ const QuestionScreen: React.FC<
 
   const [botAnswerTime, setBotAnswerTime] = useState<number[]>([]);
   useEffect(() => {
-    const listOfAvailableSeconds = [];
-    for (let i = 3; i < answerTime; i++) {
+    const difficulty = currentQuestion?.difficulty ?? 'MEDIUM';
+    const difficultyRanges: Record<string, [number, number]> = {
+      EASY:   [Math.ceil(answerTime * 0.4), answerTime - 2],
+      MEDIUM: [Math.ceil(answerTime * 0.25), Math.ceil(answerTime * 0.65)],
+      HARD:   [2, Math.ceil(answerTime * 0.45)],
+    };
+    const [min, max] = difficultyRanges[difficulty] ?? difficultyRanges['MEDIUM'];
+    const listOfAvailableSeconds: number[] = [];
+    for (let i = min; i <= max; i++) {
       listOfAvailableSeconds.push(i);
     }
     const numberOfBots = users.filter((u) => u.isBot).length;
-    const randomBotTimes = shuffleArray(listOfAvailableSeconds).slice(
-      0,
-      numberOfBots,
-    );
+    const randomBotTimes = shuffleArray(listOfAvailableSeconds).slice(0, numberOfBots);
     setBotAnswerTime(randomBotTimes);
-  }, []);
+  }, [onQuestion]);
 
   useEffect(() => {
     if (botAnswerTime.includes(secondsLeft) && isBotGame) mockBotAnswer();
@@ -360,10 +364,10 @@ const QuestionScreen: React.FC<
           <TileWrapper style={styles.questionTile}>
             <BodyMedium text={question} style={{ textAlign: "center" }} />
             {imageUrl ? (
-              <FastImage
+              <Image
                 source={{ uri: imageUrl }}
                 style={styles.image}
-                resizeMode="contain"
+                contentFit="contain"
               />
             ) : (
               <></>

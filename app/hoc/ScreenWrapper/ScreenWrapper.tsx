@@ -1,12 +1,12 @@
-import { Colors } from 'constants/styles/Colors';
+import { Colors } from "constants/styles/Colors";
 import {
   PADDING_HORIZONTAL,
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
-} from 'constants/styles/appStyles';
-import useStyles from '../../hooks/styles/useStyles';
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+} from "constants/styles/appStyles";
+import useStyles from "../../hooks/styles/useStyles";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 
 const ScreenWrapper = ({ children, style, fullWidth }: Props) => {
   const { styles } = useStyles(createStyles);
@@ -28,6 +28,7 @@ const createStyles = (colors: Colors) =>
       height: SCREEN_HEIGHT,
       width: SCREEN_WIDTH,
       backgroundColor: colors.mainThemeBackground,
+      paddingTop: 35,
     },
   });
 
