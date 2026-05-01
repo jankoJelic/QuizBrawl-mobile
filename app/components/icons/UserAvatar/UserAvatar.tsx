@@ -7,6 +7,7 @@ import { useAppSelector } from "store/index";
 import useStyles from "hooks/styles/useStyles";
 import { AN } from "constants/styles/appStyles";
 import { getKeyByValue } from "util/objects/getKeyByValue";
+import { normalizeImageUri } from "util/normalizeImageUri";
 
 const UserAvatar = ({
   onPress = () => {},
@@ -39,7 +40,7 @@ const UserAvatar = ({
     >
       {AVATAR ? (
         <Image
-          source={{ uri: AVATAR }}
+          source={{ uri: normalizeImageUri(AVATAR) }}
           style={{ width: size, height: size }}
           resizeMode="cover"
         />

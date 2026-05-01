@@ -15,6 +15,7 @@ import { useAppSelector } from 'store/index';
 import { setProfileColor, setUserAvatar } from 'store/slices/dataSlice';
 import { Image } from 'expo-image';
 import UserAvatar from 'components/icons/UserAvatar';
+import { normalizeImageUri } from 'util/normalizeImageUri';
 
 const CustomizeProfileScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, 'CustomizeProfile'>
@@ -79,7 +80,7 @@ const CustomizeProfileScreen: React.FC<
 
     return (
       <TouchableBounce onPress={onSelectAvatar} style={styles.avatar}>
-        <Image source={{ uri: item }} style={styles.fullWidth} />
+        <Image source={{ uri: normalizeImageUri(item) }} style={styles.fullWidth} />
       </TouchableBounce>
     );
   };

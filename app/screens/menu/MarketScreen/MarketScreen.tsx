@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import MyIcon from 'assets/icons/MyIcon';
+import GhostButton from 'components/buttons/GhostButton/GhostButton';
 import NavHeader from 'components/layout/NavHeader';
 import BodyLarge from 'components/typography/BodyLarge';
 import BodyMedium from 'components/typography/BodyMedium';
@@ -27,6 +28,7 @@ const MarketScreen: React.FC<
   const dispatch = useDispatch();
   const { styles } = useStyles(createStyles);
   const [market, setMarket] = useState<MarketResponse>();
+  const [purchasedAvatar, setPurchasedAvatar] = useState<string | null>(null);
   const { userData } = useAppSelector(state => state.data);
   const { money } = userData || {};
   const { avatars } = market || {};
@@ -53,8 +55,8 @@ const MarketScreen: React.FC<
       try {
         await API.makeMarketPurchase({ type: 'avatar', payload: item });
         dispatch(storeReward({ payload: item, type: 'AVATAR' }));
-        dispatch(updateBalance(AVATAR_PRICE));
-        navigation.navigate('CustomizeProfile');
+        dispatch(updateBalance(-AVATAR_PRICE));
+        setPurchasedAvatar(item);
       } catch (error) {
       } finally {
         dispatch(stopLoading());
@@ -67,6 +69,26 @@ const MarketScreen: React.FC<
       </TouchableBounce>
     );
   };
+
+  if (purchasedAvatar) {
+    return (
+      <ScreenWrapper>
+        <NavHeader title="Market" fullWidth />
+        <View style={styles.purchaseConfirmation}>
+          <Image
+            source={{ uri: normalizeImageUri(purchasedAvatar) }}
+            style={styles.purchasedAvatarImage}
+          />
+          <BodyLarge text="Avatar purchased" style={{ marginTop: AN(20) }} />
+          <GhostButton
+            title="Equip now"
+            onPress={() => navigation.navigate('CustomizeProfile')}
+            style={{ marginTop: AN(12) }}
+          />
+        </View>
+      </ScreenWrapper>
+    );
+  }
 
   return (
     <ScreenWrapper>
@@ -101,6 +123,16 @@ const createStyles = (colors: Colors) =>
       maxWidth: 250,
       margin: '2%',
       marginBottom: AN(15),
+    },
+    purchaseConfirmation: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    purchasedAvatarImage: {
+      width: SCREEN_WIDTH * 0.4,
+      aspectRatio: 1,
+      borderRadius: SCREEN_WIDTH * 0.2,
     },
   });
 
