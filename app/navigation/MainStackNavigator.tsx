@@ -1,32 +1,32 @@
-import * as React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createNavigationContainerRef } from '@react-navigation/native';
-import { MainStackParamsList } from './MainStackParamsList';
-import SplashScreen from 'screens/auth/SplashScreen';
-import EnterPinCodeScreen from 'screens/auth/EnterPinCodeScreen';
-import RegisterScreen from 'screens/auth/RegisterScreen/RegisterScreen';
-import LoginScreen from 'screens/auth/LoginScreen';
-import LandingScreen from 'screens/menu/LandingScreen';
-import ProfileScreen from 'screens/menu/ProfileScreen';
-import SetupPinCodeScreen from 'screens/auth/SetupPinCodeScreen';
-import LobbyScreen from 'screens/LobbyScreen/LobbyScreen';
-import CreateRoomScreen from 'screens/CreateRoomScreen';
-import RoomScreen from 'screens/RoomScreen';
-import GameSplashScreen from 'screens/games/GameSplashScreen';
-import QuestionScreen from 'screens/games/QuestionScreen';
-import ResultsScreen from 'screens/games/ResultsScreen';
-import SelectProviderScreen from 'screens/auth/SelectProviderScreen';
-import CustomizeProfileScreen from 'screens/menu/CustomizeProfileScreen';
-import InboxScreen from 'screens/profile/InboxScreen';
-import FriendsScreen from 'screens/menu/FriendsScreen';
-import MarketScreen from 'screens/menu/MarketScreen';
-import CreateQuizScreen from 'screens/menu/CreateQuizScreen';
-import QuizesScreen from 'screens/menu/MyQuizesScreen';
-import LeaguesScreen from 'screens/leagues/LeaguesScreen';
-import LeagueScreen from 'screens/leagues/LeagueScreen';
-import CreateLeagueScreen from 'screens/leagues/CreateLeagueScreen';
-import LeaderboardsScreen from 'screens/menu/LeaderboardsScreen';
-import AboutScreen from 'screens/menu/AboutScreen';
+import * as React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createNavigationContainerRef } from "@react-navigation/native";
+import { MainStackParamsList } from "./MainStackParamsList";
+import SplashScreen from "screens/auth/SplashScreen";
+import EnterPinCodeScreen from "screens/auth/EnterPinCodeScreen";
+import RegisterScreen from "screens/auth/RegisterScreen/RegisterScreen";
+import LoginScreen from "screens/auth/LoginScreen";
+import LandingScreen from "screens/menu/LandingScreen";
+import ProfileScreen from "screens/menu/ProfileScreen";
+import SetupPinCodeScreen from "screens/auth/SetupPinCodeScreen";
+import LobbyScreen from "screens/LobbyScreen/LobbyScreen";
+import CreateRoomScreen from "screens/CreateRoomScreen";
+import RoomScreen from "screens/RoomScreen";
+import GameSplashScreen from "screens/games/GameSplashScreen";
+import QuestionScreen from "screens/games/QuestionScreen";
+import ResultsScreen from "screens/games/ResultsScreen";
+import SelectProviderScreen from "screens/auth/SelectProviderScreen";
+import CustomizeProfileScreen from "screens/menu/CustomizeProfileScreen";
+import InboxScreen from "screens/profile/InboxScreen";
+import FriendsScreen from "screens/menu/FriendsScreen";
+import MarketScreen from "screens/menu/MarketScreen";
+import CreateQuizScreen from "screens/menu/CreateQuizScreen";
+import QuizesScreen from "screens/menu/MyQuizesScreen";
+import LeaguesScreen from "screens/leagues/LeaguesScreen";
+import LeagueScreen from "screens/leagues/LeagueScreen";
+import CreateLeagueScreen from "screens/leagues/CreateLeagueScreen";
+import LeaderboardsScreen from "screens/menu/LeaderboardsScreen";
+import AboutScreen from "screens/menu/AboutScreen";
 
 const Stack = createNativeStackNavigator<MainStackParamsList>();
 
@@ -41,7 +41,8 @@ export function navigate(name: keyof MainStackParamsList, params?: any) {
 const MainStackNavigator = () => (
   <Stack.Navigator
     initialRouteName="Splash"
-    screenOptions={{ headerShown: false }}>
+    screenOptions={{ headerShown: false }}
+  >
     {/* AUTH SCREENS */}
     <Stack.Screen
       name="Splash"
@@ -61,7 +62,7 @@ const MainStackNavigator = () => (
     <Stack.Screen
       name="Profile"
       component={ProfileScreen}
-      options={{ animation: 'slide_from_right' }}
+      options={{ animation: "slide_from_right" }}
     />
 
     <Stack.Screen name="Landing" component={LandingScreen} />

@@ -44,7 +44,7 @@ const LandingScreen: React.FC<
   }, [isFocused]);
 
   useEffect(() => {
-    connectToSocket(navigation);
+    connectToSocket(navigation).catch(console.error);
     if (IS_ANDROID)
       PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
@@ -57,7 +57,7 @@ const LandingScreen: React.FC<
   usePreventNativeBackButton(() => true);
 
   return (
-    <ScreenWrapper style={{ paddingHorizontal: 0, paddingTop: AN(15) }}>
+    <ScreenWrapper style={{ paddingHorizontal: 0, paddingTop: AN(35) }}>
       <Sidebar>
         <MyScrollView style={{ paddingBottom: AN(150) }}>
           <LandingScreenHeader />

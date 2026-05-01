@@ -1,4 +1,5 @@
 import { store } from 'store/index';
+import { getAccessToken } from 'services/encryptedStorage/tokens/tokenStorage';
 import { SOCKET, SOCKET_EVENTS } from './socket';
 import {
   Question,
@@ -40,8 +41,11 @@ const {
   FRIEND_REMOVED,
 } = SOCKET_EVENTS;
 
-export const connectToSocket = (navigation: any) => {
+export const connectToSocket = async (navigation: any) => {
   if (SOCKET.connected) return;
+
+  const accessToken = await getAccessToken();
+  SOCKET.auth = { token: `Bearer ${accessToken}` };
 
   const { dispatch } = store;
 
@@ -167,4 +171,6 @@ export const connectToSocket = (navigation: any) => {
   });
 
   SOCKET.on(USER_DISCONNECTED, (userId: number) => {});
+
+  SOCKET.connect();
 };

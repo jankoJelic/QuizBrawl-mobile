@@ -27,7 +27,7 @@ import { registerAnswer } from "store/slices/dataSlice";
 import RateQuestionBar from "./components/RateQuestionBar";
 import QuestionCountdown from "./components/QuestionCountdown";
 import API from "services/api";
-import { Image } from 'expo-image';
+import { Image } from "expo-image";
 import { getImageUrl } from "services/firebaseStorage/firebaseStorage";
 import { playSound } from "services/sounds/soundPlayer";
 import selectRandomFromArray from "util/array/selectRandomFromArray";
@@ -166,19 +166,23 @@ const QuestionScreen: React.FC<
 
   const [botAnswerTime, setBotAnswerTime] = useState<number[]>([]);
   useEffect(() => {
-    const difficulty = currentQuestion?.difficulty ?? 'MEDIUM';
+    const difficulty = currentQuestion?.difficulty ?? "MEDIUM";
     const difficultyRanges: Record<string, [number, number]> = {
-      EASY:   [Math.ceil(answerTime * 0.4), answerTime - 2],
+      EASY: [Math.ceil(answerTime * 0.4), answerTime - 2],
       MEDIUM: [Math.ceil(answerTime * 0.25), Math.ceil(answerTime * 0.65)],
-      HARD:   [2, Math.ceil(answerTime * 0.45)],
+      HARD: [2, Math.ceil(answerTime * 0.45)],
     };
-    const [min, max] = difficultyRanges[difficulty] ?? difficultyRanges['MEDIUM'];
+    const [min, max] =
+      difficultyRanges[difficulty] ?? difficultyRanges["MEDIUM"];
     const listOfAvailableSeconds: number[] = [];
     for (let i = min; i <= max; i++) {
       listOfAvailableSeconds.push(i);
     }
-    const numberOfBots = users.filter((u) => u.isBot).length;
-    const randomBotTimes = shuffleArray(listOfAvailableSeconds).slice(0, numberOfBots);
+    const numberOfBots = users?.filter((u) => u.isBot).length || 0;
+    const randomBotTimes = shuffleArray(listOfAvailableSeconds).slice(
+      0,
+      numberOfBots,
+    );
     setBotAnswerTime(randomBotTimes);
   }, [onQuestion]);
 
@@ -261,8 +265,12 @@ const QuestionScreen: React.FC<
     const bot = selectRandomFromArray(botsNotAnswered);
     if (!bot) return;
 
-    const difficultyDelta: Record<string, number> = { EASY: 15, MEDIUM: 0, HARD: -20 };
-    const difficulty = currentQuestion?.difficulty ?? 'MEDIUM';
+    const difficultyDelta: Record<string, number> = {
+      EASY: 15,
+      MEDIUM: 0,
+      HARD: -20,
+    };
+    const difficulty = currentQuestion?.difficulty ?? "MEDIUM";
     const adjustedAccuracy = Math.min(
       100,
       Math.max(0, bot.accuracyPercentage + difficultyDelta[difficulty]),
@@ -278,7 +286,9 @@ const QuestionScreen: React.FC<
         (a) => a !== correctAnswer && !selectedAnswers.includes(a),
       );
       const fallback = answersArray.filter((a) => !selectedAnswers.includes(a));
-      answer = selectRandomFromArray(wrongAnswers.length ? wrongAnswers : fallback);
+      answer = selectRandomFromArray(
+        wrongAnswers.length ? wrongAnswers : fallback,
+      );
     }
 
     if (!answer) return;
