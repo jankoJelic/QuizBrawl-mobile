@@ -23,6 +23,7 @@ import { getMyQuizzes } from "store/actions/dataActions";
 import { setStatusBar } from "store/slices/appStateSlice";
 import { checkMusicEnabled } from "services/encryptedStorage/tokens/musicEnabledStorage";
 import CreateLeagueBanner from "./components/CreateLeagueBanner";
+import CreateAccountBanner from "./components/CreateAccountBanner";
 
 const LandingScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, "Landing">
@@ -65,6 +66,7 @@ const LandingScreen: React.FC<
           <LobbyCarousel />
           <CreateLeagueBanner />
           <CreateQuizBanner />
+          <CreateAccountBanner />
         </MyScrollView>
       </Sidebar>
       <BottomNavigation />

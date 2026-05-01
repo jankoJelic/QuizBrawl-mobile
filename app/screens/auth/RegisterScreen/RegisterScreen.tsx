@@ -3,14 +3,13 @@ import CTA from "components/buttons/CTA";
 import InputField from "components/inputs/InputField";
 import NavHeader from "components/layout/NavHeader";
 import BodyMedium from "components/typography/BodyMedium";
-import Logo from "components/typography/Logo";
 import { Colors } from "constants/styles/Colors";
 import { AN } from "constants/styles/appStyles";
 import MyScrollView from "hoc/MyScrollView";
 import ScreenWrapper from "hoc/ScreenWrapper";
 import useStyles from "hooks/styles/useStyles";
 import { MainStackParamsList } from "navigation/MainStackParamsList";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -32,13 +31,11 @@ const RegisterScreen = ({
   const guestId = userData?.isGuest ? userData.id : undefined;
 
   const firstNameInputRef = useRef<TextInput>();
-  const lastNameInputRef = useRef<TextInput>();
   const emailInputRef = useRef<TextInput>();
   const passwordInputRef = useRef<TextInput>();
   const confirmPasswordInputRef = useRef<TextInput>();
 
   const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -48,7 +45,7 @@ const RegisterScreen = ({
 
     try {
       if (password === confirmPassword) {
-        await API.registerUser({ firstName, lastName, email, password, guestId });
+        await API.registerUser({ firstName, lastName: "", email, password, guestId });
         await API.getUserData();
         navigation.navigate("Landing");
       }
@@ -64,16 +61,13 @@ const RegisterScreen = ({
 
   const formValid =
     !!firstName &&
-    !!lastName &&
     !!email &&
     !!password &&
     !!confirmPassword &&
     password === confirmPassword;
 
   const focusNextInput = (title: string) => {
-    if (title === "First name") {
-      lastNameInputRef.current?.focus();
-    } else if (title === "Last name") {
+    if (title === "Name") {
       emailInputRef.current?.focus();
     } else if (title === "E-mail") {
       passwordInputRef.current?.focus();
@@ -92,21 +86,13 @@ const RegisterScreen = ({
         <MyScrollView>
           <View style={styles.formContainer}>
             <InputField
-              title="First name"
+              title="Name"
               ref={firstNameInputRef}
               onSubmitEditing={() => {
-                focusNextInput("First name");
+                focusNextInput("Name");
               }}
               autoFocus
               onChangeText={setFirstName}
-            />
-            <InputField
-              title="Last name"
-              ref={lastNameInputRef}
-              onChangeText={setLastName}
-              onSubmitEditing={() => {
-                focusNextInput("Last name");
-              }}
             />
             <InputField
               title="E-mail"

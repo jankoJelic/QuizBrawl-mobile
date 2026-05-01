@@ -5,7 +5,7 @@ import BodyMedium from 'components/typography/BodyMedium';
 import { Color, Colors } from 'constants/styles/Colors';
 import { AN } from 'constants/styles/appStyles';
 import useStyles from 'hooks/styles/useStyles';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { StyleSheet } from 'react-native';
 import { TouchableOpacity, View } from 'react-native';
 
@@ -18,6 +18,7 @@ const MenuTile = ({
   style = {},
   notification = '',
   iconColor = 'brand500',
+  rightNode,
 }: Props) => {
   const { styles } = useStyles(createStyles);
 
@@ -30,15 +31,19 @@ const MenuTile = ({
         <MyIcon name={icon} style={styles.icon} color={iconColor} />
         <BodyMedium text={title} />
       </View>
-      {!!tag && <Tag text={tag} color={tagColor} />}
-      {!!notification ? (
-        <NotificationBadge
-          color="danger500"
-          text={notification}
-          style={{ position: 'absolute', right: AN(20) }}
-        />
-      ) : (
-        <></>
+      {rightNode ?? (
+        <>
+          {!!tag && <Tag text={tag} color={tagColor} />}
+          {!!notification ? (
+            <NotificationBadge
+              color="danger500"
+              text={notification}
+              style={{ position: 'absolute', right: AN(20) }}
+            />
+          ) : (
+            <></>
+          )}
+        </>
       )}
     </TouchableOpacity>
   );
@@ -65,4 +70,5 @@ interface Props {
   style?: {};
   notification?: string;
   iconColor?: Color;
+  rightNode?: ReactNode;
 }

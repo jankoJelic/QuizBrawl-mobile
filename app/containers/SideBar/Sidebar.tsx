@@ -1,5 +1,6 @@
 import MenuTile from "components/tiles/MenuTile";
 import BodySmall from "components/typography/BodySmall/BodySmall";
+import BodyMedium from "components/typography/BodyMedium";
 import { Colors } from "constants/styles/Colors";
 import { AN, SCREEN_HEIGHT, SCREEN_WIDTH } from "constants/styles/appStyles";
 import PasswordPopup from "containers/Popup/PasswordPopup";
@@ -9,6 +10,7 @@ import useStyles from "hooks/styles/useStyles";
 import { useUserData } from "hooks/useUserData";
 import { useMyNavigation } from "navigation/hooks/useMyNavigation";
 import React, { useEffect, useRef, useState } from "react";
+import { Image } from "expo-image";
 import {
   Animated,
   PanResponder,
@@ -130,6 +132,11 @@ const Sidebar = ({ children }: Props) => {
     navigation.navigate("CustomizeProfile");
   };
 
+  const goToCreateAccount = () => {
+    navigation.navigate("SelectProvider", { flow: "register" });
+    onClose();
+  };
+
   const onSubmitDeleteAccount = async (password: string) => {
     dispatch(startLoading());
     try {
@@ -168,6 +175,22 @@ const Sidebar = ({ children }: Props) => {
             color="neutral400"
             style={{ marginTop: AN(18) }}
           />
+          {userData?.isGuest && (
+            <MenuTile
+              title="Create account"
+              icon="user-plus"
+              onPress={goToCreateAccount}
+              rightNode={
+                <View style={styles.rewardTag}>
+                  <BodyMedium text="+100" color="brand500" weight="bold" />
+                  <Image
+                    source={require("../../assets/icons/lobbies/money.png")}
+                    style={styles.rewardIcon}
+                  />
+                </View>
+              }
+            />
+          )}
           <MenuTile title="My profile" icon="user" onPress={goToProfile} />
           <MenuTile
             title="Inbox"
@@ -263,6 +286,15 @@ const createStyles = (colors: Colors) =>
       backgroundColor: colors.neutral500,
       paddingLeft: AN(10),
       paddingTop: AN(15),
+    },
+    rewardTag: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: AN(4),
+    },
+    rewardIcon: {
+      width: AN(18),
+      height: AN(18),
     },
   });
 

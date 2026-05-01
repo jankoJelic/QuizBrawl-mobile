@@ -16,6 +16,7 @@ import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
 import { Image } from 'expo-image';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
+import { normalizeImageUri } from 'util/normalizeImageUri';
 import { LeagueType } from 'services/api/endpoints/leaguesAPI';
 import { store, useAppSelector } from 'store/index';
 import { startLoading, stopLoading } from 'store/slices/appStateSlice';
@@ -56,7 +57,7 @@ const CreateLeagueScreen: React.FC<
           ...styles.leagueImageContainer,
           borderColor: isSelected ? colors.brand500 : colors.neutral500,
         }}>
-        <Image style={styles.leagueImage} source={{ uri: item }} />
+        <Image style={styles.leagueImage} source={{ uri: normalizeImageUri(item) }} />
       </TouchableBounce>
     );
   };

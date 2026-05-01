@@ -154,4 +154,5 @@ export type IconName =
   | 'volume-2'
   | 'volume-x'
   | 'chevron-down'
-  | 'chevron-up';
+  | 'chevron-up'
+  | 'user-plus';

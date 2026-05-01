@@ -15,6 +15,7 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import { Image } from 'expo-image';
 import { useDispatch } from 'react-redux';
 import API from 'services/api';
+import { normalizeImageUri } from 'util/normalizeImageUri';
 import { MarketResponse } from 'services/api/endpoints/rewardsAPI';
 import { useAppSelector } from 'store/index';
 import { startLoading, stopLoading } from 'store/slices/appStateSlice';
@@ -62,7 +63,7 @@ const MarketScreen: React.FC<
 
     return (
       <TouchableBounce onPress={buyAvatar} disabled={money < AVATAR_PRICE}>
-        <Image source={{ uri: item }} style={styles.avatar} />
+        <Image source={{ uri: normalizeImageUri(item) }} style={styles.avatar} />
       </TouchableBounce>
     );
   };

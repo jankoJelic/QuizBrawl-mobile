@@ -5,8 +5,9 @@ import { AN, BORDER_RADIUS, SCREEN_WIDTH } from "constants/styles/appStyles";
 import useStyles from "hooks/styles/useStyles";
 import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
-import { Image } from 'expo-image';
+import { Image } from "expo-image";
 import { useAppSelector } from "store/index";
+import { normalizeImageUri } from "util/normalizeImageUri";
 import { UserData } from "store/types/authSliceTypes";
 
 const UsersTopBar = ({ wrongUsers, correctUser }: Props) => {
@@ -26,6 +27,8 @@ const UsersTopBar = ({ wrongUsers, correctUser }: Props) => {
       }
     };
 
+    console.log(item.avatar);
+
     return (
       <View
         style={{
@@ -36,7 +39,7 @@ const UsersTopBar = ({ wrongUsers, correctUser }: Props) => {
       >
         <Image
           style={{ width: AN(25), aspectRatio: 1 }}
-          source={{ uri: item.avatar }}
+          source={{ uri: normalizeImageUri(item.avatar) }}
         />
         <BodySmall text={item.firstName} style={{ marginTop: AN(2) }} />
         <BodySmall text={String(score[item.id])} />

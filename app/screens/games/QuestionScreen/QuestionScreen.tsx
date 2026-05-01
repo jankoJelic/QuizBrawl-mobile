@@ -53,6 +53,9 @@ const QuestionScreen: React.FC<
   const dispatch = useDispatch();
   const { styles } = useStyles(createStyles);
   const countdownInterval = useRef(null);
+  const nextQuestionCalled = useRef(false);
+  const selectedAnswersRef = useRef<CorrectAnswer[]>([]);
+  const isLastQuestionRef = useRef(false);
   const { userData } = useAppSelector((state) => state.data);
   const { questions, activeRoom, type, selectedAnswers, onQuestion, leagueId } =
     useAppSelector((state: RootState) => state.game);
@@ -118,7 +121,13 @@ const QuestionScreen: React.FC<
   const isLastQuestion = questions.length <= onQuestion + 1;
   const lastQuestionBugCheck = onQuestion > questions.length - 1 || !question;
 
+  selectedAnswersRef.current = selectedAnswers;
+  isLastQuestionRef.current = isLastQuestion;
+
   const nextQuestion = () => {
+    if (nextQuestionCalled.current) return;
+    nextQuestionCalled.current = true;
+
     setUserNameByAnswer(startingUsersByAnswer);
     clearCountdownInterval();
 
@@ -127,7 +136,7 @@ const QuestionScreen: React.FC<
       if (isClassicGame) {
         setLiked(undefined);
       }
-      if (isLastQuestion) {
+      if (isLastQuestionRef.current) {
         goToResults();
       } else {
         dispatch(goToNextQuestion());
@@ -138,16 +147,14 @@ const QuestionScreen: React.FC<
   };
 
   const goToResults = () => {
-    setTimeout(() => {
-      clearCountdownInterval();
-      navigation.navigate("Results", { leagueId });
-    }, nextQuestionTimeout);
+    clearCountdownInterval();
+    navigation.replace("Results", { leagueId });
   };
 
   const handleWrongAnswer = ({ answer, userId }: SelectedAnswerPayload) => {
     playSound("error");
     if (isClassicGame) clearCountdownInterval();
-    if (selectedAnswers.includes(answer)) return;
+    if (selectedAnswersRef.current.includes(answer)) return;
 
     dispatch(selectWrongQuestion({ answer, userId }));
     setWrongUsers((prevState) => prevState.concat([userId]));
@@ -198,7 +205,7 @@ const QuestionScreen: React.FC<
   const handleCorrectAnswer = ({ answer, userId }: SelectedAnswerPayload) => {
     playSound("success");
     if (isClassicGame) clearCountdownInterval();
-    if (selectedAnswers.includes(answer)) return;
+    if (selectedAnswersRef.current.includes(answer)) return;
     dispatch(selectCorrectQuestion({ answer, userId }));
     setCorrectUser(userId);
     setUserNameForAnswer(answer, userId);
@@ -234,6 +241,8 @@ const QuestionScreen: React.FC<
 
   useEffect(() => {
     if (onQuestion < 0) return;
+    nextQuestionCalled.current = false;
+
     if (lastQuestionBugCheck) {
       goToResults();
       return;
