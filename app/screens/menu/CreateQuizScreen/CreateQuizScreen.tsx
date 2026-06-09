@@ -126,7 +126,7 @@ const CreateQuizScreen: React.FC<
       if (!!leagueId) {
         const league = await API.getLeague(leagueId);
         await API.addQuizToLeague(newQuiz.id, leagueId);
-        navigation.navigate('League', league);
+        navigation.navigate('League', { league });
       } else {
         navigation.navigate('MyQuizes');
       }
