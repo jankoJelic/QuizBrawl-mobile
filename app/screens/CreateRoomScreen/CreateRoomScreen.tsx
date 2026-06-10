@@ -47,9 +47,11 @@ const CreateRoomScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, "CreateRoom">
 > = ({ route }) => {
   const { lobbyId } = route.params;
-  const { lobbies, userData } = useAppSelector((state) => state.data);
+  const { lobbies, userData, topics } = useAppSelector((state) => state.data);
 
-  const [selectedTopic, setselectedTopic] = useState<Topic>("General");
+  const [selectedTopicId, setSelectedTopicId] = useState<number | undefined>(
+    topics.find((t) => t.name === "general")?.id,
+  );
   const [roomName, setRoomName] = useState(`${userData.firstName}'s room`);
   const [bet, setBet] = useState("1");
   const [password, setPassword] = useState("");
@@ -60,12 +62,14 @@ const CreateRoomScreen: React.FC<
   const isCashGame = lobbyId === LOBBY_IDS.CASH_GAME;
 
   const onPressConfirm = async () => {
+    if (!selectedTopicId) return;
+
     const body = {
       name: roomName,
-      topic: selectedTopic,
+      topicId: selectedTopicId,
       answerTime: Number(answerTime),
       maxPlayers: Number(maxPlayers),
-      lobby: lobbies.find((l) => l.id === lobbyId) as Lobby,
+      lobbyId: lobbyId,
       questionsCount: Number(questionsCount),
       readyUsers: [userData.id],
       password,
@@ -105,8 +109,8 @@ const CreateRoomScreen: React.FC<
       <NavHeader title="Create room" />
       <MyScrollView>
         <TopicsList
-          onSelectTopic={setselectedTopic}
-          selectedTopic={selectedTopic}
+          onSelectTopic={setSelectedTopicId}
+          selectedTopicId={selectedTopicId}
         />
         <View style={{ paddingHorizontal: PADDING_HORIZONTAL }}>
           <InputField

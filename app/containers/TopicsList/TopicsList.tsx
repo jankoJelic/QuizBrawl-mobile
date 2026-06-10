@@ -1,27 +1,27 @@
-import BodyLarge from 'components/typography/BodyLarge';
-import BodyMedium from 'components/typography/BodyMedium';
-import { Colors } from 'constants/styles/Colors';
-import { PADDING_HORIZONTAL, AN } from 'constants/styles/appStyles';
-import TileWrapper from 'hoc/TileWrapper';
-import useStyles from 'hooks/styles/useStyles';
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
-import { TOPIC_ICONS } from 'screens/CreateRoomScreen/CreateRoomScreen';
-import { Topic } from 'store/types/dataSliceTypes';
-import { useAppSelector } from 'store/index';
+import BodyLarge from "components/typography/BodyLarge";
+import BodyMedium from "components/typography/BodyMedium";
+import { Colors } from "constants/styles/Colors";
+import { PADDING_HORIZONTAL, AN } from "constants/styles/appStyles";
+import TileWrapper from "hoc/TileWrapper";
+import useStyles from "hooks/styles/useStyles";
+import React from "react";
+import { View, StyleSheet } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import { TOPIC_ICONS } from "screens/CreateRoomScreen/CreateRoomScreen";
+import { Topic } from "store/types/dataSliceTypes";
+import { useAppSelector } from "store/index";
 
 const iconSize = AN(36);
 
-const TopicsList = ({ onSelectTopic, selectedTopic }: Props) => {
+const TopicsList = ({ onSelectTopic, selectedTopicId }: Props) => {
   const { styles, colors } = useStyles(createStyles);
-  const topics = useAppSelector(state => state.data.topics);
+  const topics = useAppSelector((state) => state.data.topics);
 
   const renderItem = ({ item }: TopicListItem) => {
-    const isSelected = item.name === selectedTopic;
+    const isSelected = item.id === selectedTopicId;
 
     const onPressTopic = () => {
-      onSelectTopic(item.name as Topic);
+      onSelectTopic(item.id);
     };
 
     return (
@@ -31,13 +31,14 @@ const TopicsList = ({ onSelectTopic, selectedTopic }: Props) => {
           style={{
             ...styles.topic,
             borderColor: isSelected ? colors.brand400 : colors.tileBackground,
-          }}>
+          }}
+        >
           {TOPIC_ICONS[item.iconKey]}
         </TileWrapper>
         <BodyMedium
           onPress={onPressTopic}
           text={item.name}
-          color={isSelected ? 'brand500' : undefined}
+          color={isSelected ? "brand500" : undefined}
           style={styles.tileName}
         />
       </View>
@@ -65,24 +66,24 @@ const createStyles = (colors: Colors) =>
       maxHeight: AN(100),
     },
     topic: {
-      alignItems: 'center',
-      justifyContent: 'center',
+      alignItems: "center",
+      justifyContent: "center",
       marginHorizontal: AN(7),
       aspectRatio: 1,
       width: iconSize * 2,
       borderWidth: 1,
     },
-    tileName: { textAlign: 'center', marginTop: AN(6) },
+    tileName: { textAlign: "center", marginTop: AN(6) },
     title: { marginLeft: PADDING_HORIZONTAL, marginTop: AN(20) },
   });
 
 export default React.memo(TopicsList);
 
 interface TopicListItem {
-  item: { name: string; iconKey: string };
+  item: { id: number; name: string; iconKey: string };
 }
 
 interface Props {
-  onSelectTopic: (topic: Topic) => any;
-  selectedTopic: Topic;
+  onSelectTopic: (topicId: number) => any;
+  selectedTopicId?: number;
 }

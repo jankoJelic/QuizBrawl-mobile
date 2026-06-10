@@ -1,27 +1,28 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { TopicIcon } from 'assets/icons/topics';
-import UserAvatar from 'components/icons/UserAvatar';
-import BodyLarge from 'components/typography/BodyLarge';
-import BodyMedium from 'components/typography/BodyMedium';
-import Title from 'components/typography/Title';
-import { Colors } from 'constants/styles/Colors';
-import { AN, FONTS } from 'constants/styles/appStyles';
-import ScreenWrapper from 'hoc/ScreenWrapper';
-import useStyles from 'hooks/styles/useStyles';
-import { MainStackParamsList } from 'navigation/MainStackParamsList';
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Animated, View, FlatList } from 'react-native';
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { TopicIcon } from "assets/icons/topics";
+import UserAvatar from "components/icons/UserAvatar";
+import BodyLarge from "components/typography/BodyLarge";
+import BodyMedium from "components/typography/BodyMedium";
+import Title from "components/typography/Title";
+import { Colors } from "constants/styles/Colors";
+import { AN, FONTS } from "constants/styles/appStyles";
+import ScreenWrapper from "hoc/ScreenWrapper";
+import useStyles from "hooks/styles/useStyles";
+import { MainStackParamsList } from "navigation/MainStackParamsList";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Animated, View, FlatList } from "react-native";
 
 const GameSplashScreen: React.FC<
-  NativeStackScreenProps<MainStackParamsList, 'GameSplash'>
+  NativeStackScreenProps<MainStackParamsList, "GameSplash">
 > = ({ navigation, route }) => {
   const { users, topic, questionsCount } = route.params.room || {};
+  console.log(route.params);
   const { styles, colors } = useStyles(createStyles);
   const [countdown, setCountdown] = useState(3);
 
   useEffect(() => {
     let countdownInterval = setInterval(() => {
-      setCountdown(c => {
+      setCountdown((c) => {
         if (c <= 0) {
           clearInterval(countdownInterval);
           return 0;
@@ -37,7 +38,7 @@ const GameSplashScreen: React.FC<
 
   useEffect(() => {
     if (countdown === 0) {
-      navigation.navigate('Question');
+      navigation.navigate("Question");
     }
   }, [countdown]);
 
@@ -46,11 +47,11 @@ const GameSplashScreen: React.FC<
   const renderSoloGameContent = () => (
     <>
       <Title text="Solo game" style={{ marginTop: AN(10) }} />
-      <View style={{ flexDirection: 'row', marginVertical: AN(20) }}>
+      <View style={{ flexDirection: "row", marginVertical: AN(20) }}>
         <TopicIcon topic={topic} style={{ width: 20, aspectRatio: 1 }} />
         <BodyLarge
           text={topic.toLowerCase()}
-          style={{ marginLeft: AN(6), textTransform: 'capitalize' }}
+          style={{ marginLeft: AN(6), textTransform: "capitalize" }}
         />
       </View>
       <BodyLarge text={`Number of questions: ${questionsCount}`} />
@@ -60,16 +61,17 @@ const GameSplashScreen: React.FC<
   const renderMultiPlayerContent = () => (
     <FlatList
       data={users}
-      keyExtractor={item => `gamesplash-${item.id}`}
+      keyExtractor={(item) => `gamesplash-${item.id}`}
       numColumns={2}
       contentContainerStyle={styles.multiUserList}
       ListHeaderComponent={
         <View
           style={{
-            flexDirection: 'row',
+            flexDirection: "row",
             height: AN(50),
-            justifyContent: 'center',
-          }}>
+            justifyContent: "center",
+          }}
+        >
           <TopicIcon
             topic={topic}
             style={{ height: AN(40), aspectRatio: 1, marginRight: AN(20) }}
@@ -82,8 +84,9 @@ const GameSplashScreen: React.FC<
           <View
             style={{
               ...styles.multiUserItem,
-              height: '100%',
-            }}>
+              height: "100%",
+            }}
+          >
             <UserAvatar
               size={AN(70)}
               avatar={item.avatar}
@@ -112,20 +115,20 @@ const createStyles = (colors: Colors) =>
     number: {
       fontFamily: FONTS.bold,
       color: colors.brand500,
-      textAlign: 'center',
+      textAlign: "center",
       fontSize: AN(55),
-      position: 'absolute',
+      position: "absolute",
     },
-    screen: { alignItems: 'center', justifyContent: 'center' },
+    screen: { alignItems: "center", justifyContent: "center" },
     multiUserList: {
-      width: '100%',
-      height: '100%',
+      width: "100%",
+      height: "100%",
       paddingTop: AN(20),
     },
     multiUserItem: {
-      width: '50%',
-      alignItems: 'center',
-      justifyContent: 'center',
+      width: "50%",
+      alignItems: "center",
+      justifyContent: "center",
     },
   });
 

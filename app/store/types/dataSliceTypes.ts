@@ -1,4 +1,4 @@
-import { UserData } from './authSliceTypes';
+import { UserData } from "./authSliceTypes";
 
 export interface Lobby {
   id: number;
@@ -8,7 +8,7 @@ export interface Lobby {
   users: UserData[];
 }
 
-export type LobbyName = 'Arena' | 'Cash game' | 'Solo';
+export type LobbyName = "Arena" | "Cash game" | "Solo";
 
 export interface Room {
   id: number;
@@ -17,7 +17,7 @@ export interface Room {
   users: UserData[];
   maxPlayers: number;
   questionsCount: number;
-  topic: Topic;
+  topicId: number;
   type: GameType;
   password: string;
   lobbyId: number;
@@ -29,15 +29,15 @@ export interface Room {
 }
 
 export type Topic =
-  | 'General'
-  | 'History'
-  | 'Music'
-  | 'Sports'
-  | 'Art'
-  | 'Geography'
-  | 'Showbiz'
-  | 'Science'
-  | 'News';
+  | "general"
+  | "history"
+  | "music"
+  | "sports"
+  | "art"
+  | "geography"
+  | "showbiz"
+  | "science"
+  | "news";
 
 export interface TopicData {
   id: number;
@@ -45,14 +45,14 @@ export interface TopicData {
   iconKey: string;
 }
 
-export type GameType = 'brawl' | 'classic';
+export type GameType = "brawl" | "classic";
 
 export type MessageType =
-  | 'REWARD'
-  | 'GAME_INVITE'
-  | 'LEAGUE_GAME_INVITE'
-  | 'FRIEND_REQUEST'
-  | 'JOIN_LEAGUE_REQUEST';
+  | "REWARD"
+  | "GAME_INVITE"
+  | "LEAGUE_GAME_INVITE"
+  | "FRIEND_REQUEST"
+  | "JOIN_LEAGUE_REQUEST";
 
 export interface Message {
   title: string;

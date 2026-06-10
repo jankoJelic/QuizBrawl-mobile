@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React from "react";
 import { ViewStyle } from "react-native";
-import { Image } from 'expo-image';
+import { Image } from "expo-image";
 import { Topic } from "store/types/dataSliceTypes";
 
 export const ArtIcon = (props: ViewStyle) => (
@@ -34,22 +34,24 @@ export const NewsIcon = (props: ViewStyle) => (
 
 export const TopicIcon = (props: { topic: Topic } & { style: ViewStyle }) => {
   switch (props.topic) {
-    case "General":
+    case "general":
       return <GeneralIcon {...props} />;
-    case "Sports":
+    case "sports":
       return <SportsIcon {...props} />;
-    case "Music":
+    case "music":
       return <MusicIcon {...props} />;
-    case "Art":
+    case "art":
       return <ArtIcon {...props} />;
-    case "History":
+    case "history":
       return <HistoryIcon {...props} />;
-    case "Geography":
+    case "geography":
       return <GeographyIcon {...props} />;
-    case "Science":
+    case "science":
       return <ScienceIcon {...props} />;
-    case "Showbiz":
+    case "showbiz":
       return <ShowbizIcon {...props} />;
+    case "news":
+      return <NewsIcon {...props} />;
     default:
       return <></>;
   }
