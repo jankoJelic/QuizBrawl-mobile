@@ -7,7 +7,7 @@ import { store } from "store/index";
 import { startLoading, stopLoading } from "store/slices/appStateSlice";
 import { addNewRoom, joinRoom } from "store/slices/dataSlice";
 import { initializeGame } from "store/slices/gameSlice";
-import { Lobby, Room, Topic } from "store/types/dataSliceTypes";
+import { Room } from "store/types/dataSliceTypes";
 
 export const goToRoomScreen = (room: Room) => {
   const state = store.getState();

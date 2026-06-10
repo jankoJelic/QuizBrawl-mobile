@@ -1,33 +1,38 @@
-import { QuestionIcon } from 'assets/icons';
-import MyIcon from 'assets/icons/MyIcon';
-import FeatherIcon from 'assets/icons/MyIcon';
-import { TopicIcon } from 'assets/icons/topics';
-import BodyMedium from 'components/typography/BodyMedium';
-import { Colors } from 'constants/styles/Colors';
-import { BORDER_RADIUS, AN, SCREEN_WIDTH } from 'constants/styles/appStyles';
-import TouchableBounce from 'hoc/TouchableBounce';
-import useStyles from 'hooks/styles/useStyles';
-import React from 'react';
-import { StyleSheet } from 'react-native';
-import { View } from 'react-native';
-import { useAppSelector } from 'store/index';
-import { Room } from 'store/types/dataSliceTypes';
+import { capitalizeFirstLetter } from "@/app/util/strings/capitalizeFirstLetter";
+import { QuestionIcon } from "assets/icons";
+import MyIcon from "assets/icons/MyIcon";
+import FeatherIcon from "assets/icons/MyIcon";
+import { TopicIcon } from "assets/icons/topics";
+import BodyMedium from "components/typography/BodyMedium";
+import { Colors } from "constants/styles/Colors";
+import { BORDER_RADIUS, AN, SCREEN_WIDTH } from "constants/styles/appStyles";
+import TouchableBounce from "hoc/TouchableBounce";
+import useStyles from "hooks/styles/useStyles";
+import React from "react";
+import { StyleSheet } from "react-native";
+import { View } from "react-native";
+import { useAppSelector } from "store/index";
+import { Room } from "store/types/dataSliceTypes";
 
 const RoomTile = ({ index, onPress, room }: Props) => {
   const { styles, colors } = useStyles(createStyles);
-  const { money } = useAppSelector(state => state.data.userData);
+  const { money } = useAppSelector((state) => state.data.userData);
+  const { topics } = useAppSelector((state) => state.data);
   const {
     answerTime,
     maxPlayers,
     name,
     password,
-    topic,
+    topicId,
     users,
     questionsCount,
     bet,
     teams,
     hostName,
   } = room || {};
+  const topic = capitalizeFirstLetter(
+    topics.find((t) => t.id === topicId)?.name || "",
+  );
   const disabled = users.length === maxPlayers || Number(bet) > money;
 
   const onPressRoom = () => {
@@ -44,7 +49,8 @@ const RoomTile = ({ index, onPress, room }: Props) => {
         ...(disabled && { opacity: 0.7 }),
       }}
       onPress={onPressRoom}
-      disabled={disabled}>
+      disabled={disabled}
+    >
       {isMultiPlayer ? (
         <>
           <View style={styles.roomRow}>
@@ -59,7 +65,7 @@ const RoomTile = ({ index, onPress, room }: Props) => {
             </View>
           </View>
           <View style={styles.roomRow}>
-            <View style={{ flexDirection: 'row', flex: 1 }}>
+            <View style={{ flexDirection: "row", flex: 1 }}>
               <QuestionIcon style={styles.questionIcon} />
               <BodyMedium text={`  ${String(questionsCount)}`} />
             </View>
@@ -69,7 +75,7 @@ const RoomTile = ({ index, onPress, room }: Props) => {
             </View>
           </View>
           <View style={styles.roomRow}>
-            <View style={{ flexDirection: 'row', flex: 1 }}>
+            <View style={{ flexDirection: "row", flex: 1 }}>
               {!!password ? (
                 <FeatherIcon name="lock" color="danger500" />
               ) : (
@@ -94,13 +100,13 @@ const RoomTile = ({ index, onPress, room }: Props) => {
 const createStyles = (colors: Colors) =>
   StyleSheet.create({
     roomRow: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'flex-start',
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "flex-start",
       marginVertical: AN(4.2),
     },
     container: {
-      alignItems: 'center',
+      alignItems: "center",
       backgroundColor: colors.tileBackground,
       borderRadius: BORDER_RADIUS,
       padding: AN(10),
@@ -110,7 +116,7 @@ const createStyles = (colors: Colors) =>
     },
     questionIcon: { width: AN(20), aspectRatio: 1, color: colors.brand200 },
     topicIcon: { width: AN(20), aspectRatio: 1 },
-    rightSideInfo: { flexDirection: 'row', alignItems: 'center', flex: 0.3 },
+    rightSideInfo: { flexDirection: "row", alignItems: "center", flex: 0.3 },
   });
 
 export default RoomTile;

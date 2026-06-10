@@ -40,6 +40,7 @@ const RoomScreen: React.FC<
     readyUsers,
     hostName,
   } = room || {};
+
   const isRoomAdmin = userId === userData.id;
   const topic = capitalizeFirstLetter(
     topics.find((t) => t.id === topicId)?.name || "",
