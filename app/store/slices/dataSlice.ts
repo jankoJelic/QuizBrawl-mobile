@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { Reward, UserData } from 'store/types/authSliceTypes';
-import { Lobby, Room, Topic, TopicData } from 'store/types/dataSliceTypes';
+import { createSlice } from "@reduxjs/toolkit";
+import { Reward, UserData } from "store/types/authSliceTypes";
+import { Lobby, Room, Topic, TopicData } from "store/types/dataSliceTypes";
 
 export interface DataState {
   lobbies: Lobby[];
@@ -18,7 +18,7 @@ const initialState: DataState = {
 };
 
 export const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     setRooms: (state, action) => {
@@ -47,7 +47,7 @@ export const authSlice = createSlice({
     },
     addUserToLobby: (state, action) => {
       const { lobbyId, user } = action.payload || {};
-      const updatedLobbies = state.lobbies.map(lobby =>
+      const updatedLobbies = state.lobbies.map((lobby) =>
         lobby.id === lobbyId
           ? {
               ...lobby,
@@ -59,11 +59,11 @@ export const authSlice = createSlice({
     },
     removeUserFromLobby: (state, action) => {
       const { lobbyId, user } = action.payload || {};
-      const updatedLobbies = state.lobbies.map(lobby =>
+      const updatedLobbies = state.lobbies.map((lobby) =>
         lobbyId === lobby.id
           ? {
               ...lobby,
-              users: lobby.users.filter(u => u.id !== user.id),
+              users: lobby.users.filter((u) => u.id !== user.id),
             }
           : lobby,
       );
@@ -71,7 +71,7 @@ export const authSlice = createSlice({
     },
     addUserToRoom: (state, action) => {
       const { roomId, user } = action.payload || {};
-      const updatedRooms = state.rooms.map(room =>
+      const updatedRooms = state.rooms.map((room) =>
         roomId === room.id
           ? {
               ...room,
@@ -89,13 +89,13 @@ export const authSlice = createSlice({
         room: { id: roomId },
         user,
       } = action.payload || {};
-      const updatedRooms = state.rooms.map(room =>
+      const updatedRooms = state.rooms.map((room) =>
         room.id === roomId
           ? {
               ...room,
-              users: room.users.filter(u => u.id !== user.id),
+              users: room.users.filter((u) => u.id !== user.id),
               readyUsers: room.readyUsers?.filter(
-                id => String(id) !== String(user.id),
+                (id) => String(id) !== String(user.id),
               ),
             }
           : room,
@@ -109,14 +109,16 @@ export const authSlice = createSlice({
     },
     removeRoom: (state, action: { payload: Room }) => {
       const currentRooms = state.rooms;
-      state.rooms = currentRooms.filter(room => room.id !== action.payload.id);
+      state.rooms = currentRooms.filter(
+        (room) => room.id !== action.payload.id,
+      );
     },
     joinRoom: (state, action) => {
       state.userData.room = action.payload;
     },
     unreadyUsersInRoom: (state, action) => {
       const roomId = action.payload;
-      const updatedRooms = state.rooms.map(r => {
+      const updatedRooms = state.rooms.map((r) => {
         if (r.id !== roomId) return r;
         return { ...r, readyUsers: [] };
       });
@@ -125,26 +127,26 @@ export const authSlice = createSlice({
     joinLobby: (state, action) => {
       state.userData.lobby = action.payload;
     },
-    exitLobby: state => {
+    exitLobby: (state) => {
       state.userData.lobby = null;
       const currentLobbies = state.lobbies;
-      const updatedLobbies = currentLobbies.map(lobby => {
-        if (lobby.users.some(user => user.id === state.userData.id)) {
+      const updatedLobbies = currentLobbies.map((lobby) => {
+        if (lobby.users.some((user) => user.id === state.userData.id)) {
           return {
             ...lobby,
-            users: lobby.users.filter(u => u.id !== state.userData.id),
+            users: lobby.users.filter((u) => u.id !== state.userData.id),
           };
         } else return lobby;
       });
       state.lobbies = updatedLobbies;
     },
-    exitRoom: state => {
+    exitRoom: (state) => {
       state.userData.room = null;
     },
     setUserReady: (state, action) => {
       const { userId, roomId } = action.payload || {};
 
-      const updatedRooms = state.rooms.map(r =>
+      const updatedRooms = state.rooms.map((r) =>
         r.id === roomId
           ? {
               ...r,
@@ -162,7 +164,7 @@ export const authSlice = createSlice({
     deleteMessage: (state, action: { payload: string }) => {
       const currentInbox = !!state.userData.inbox ? state.userData.inbox : [];
       state.userData.inbox = currentInbox.filter(
-        mess => mess.id !== action.payload,
+        (mess) => mess.id !== action.payload,
       );
     },
     addFriend: (state, action: { payload: Partial<UserData> }) => {
@@ -172,18 +174,18 @@ export const authSlice = createSlice({
     removeFriend: (state, action: { payload: Partial<UserData> }) => {
       const currentFriends = state.userData.friends;
       const updatedFriends = currentFriends.filter(
-        f => f.id != action.payload.id,
+        (f) => f.id != action.payload.id,
       );
       state.userData.friends = updatedFriends;
     },
     readMessage: (state, action) => {
       const currentInbox = state.userData.inbox;
 
-      const updatedInbox = currentInbox?.map(mess =>
+      const updatedInbox = currentInbox?.map((mess) =>
         mess.id === action.payload
           ? {
               ...mess,
-              read: 'true',
+              read: "true",
             }
           : mess,
       );
@@ -212,12 +214,15 @@ export const authSlice = createSlice({
     },
     storeReward: (state, action: { payload: Reward }) => {
       switch (action.payload.type) {
-        case 'AVATAR':
+        case "AVATAR":
           const currentUserAvatars = state.userData.avatars;
           const updatedAvatars = currentUserAvatars.concat([
             action.payload.payload,
           ]);
           state.userData.avatars = updatedAvatars;
+          break;
+        default:
+          break;
       }
     },
     registerDailyResult: (
@@ -239,7 +244,7 @@ export const authSlice = createSlice({
     setTopics: (state, action: { payload: TopicData[] }) => {
       state.topics = action.payload;
     },
-    clearDataSlice: state => {
+    clearDataSlice: (state) => {
       state = initialState;
       return initialState;
     },

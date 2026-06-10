@@ -58,6 +58,7 @@ const MarketScreen: React.FC<
 
       try {
         await API.makeMarketPurchase({ type: "avatar", payload: item });
+
         dispatch(storeReward({ payload: item, type: "AVATAR" }));
         dispatch(updateBalance(-AVATAR_PRICE));
         setPurchasedAvatar(item);
