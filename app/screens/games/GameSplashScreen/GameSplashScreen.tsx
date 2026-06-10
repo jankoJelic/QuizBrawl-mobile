@@ -123,7 +123,7 @@ const createStyles = (colors: Colors) =>
       textAlign: "center",
       fontSize: AN(55),
       position: "absolute",
-      top: "10%",
+      top: "20%",
     },
     screen: { alignItems: "center", justifyContent: "center" },
     multiUserList: {

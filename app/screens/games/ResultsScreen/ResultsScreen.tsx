@@ -104,7 +104,9 @@ const ResultsScreen: React.FC<
 
   const goToLobby = () => {
     navigation.navigate("Lobby", { lobbyId: activeRoom.lobbyId });
-    dispatch(finishGame());
+    setTimeout(() => {
+      dispatch(finishGame());
+    }, 400);
   };
 
   const goToLandingScreen = () => {
