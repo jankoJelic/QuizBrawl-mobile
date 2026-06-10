@@ -18,9 +18,9 @@ const GameSplashScreen: React.FC<
 > = ({ navigation, route }) => {
   const { users, topicId, questionsCount } = route.params.room || {};
   const { topics } = useAppSelector((state) => state.data);
-  console.log(route.params);
-  const { styles, colors } = useStyles(createStyles);
+  const { styles } = useStyles(createStyles);
   const [countdown, setCountdown] = useState(3);
+  const topic = topics.find((t) => t.id === topicId)?.name || "general";
 
   useEffect(() => {
     let countdownInterval = setInterval(() => {
@@ -50,12 +50,9 @@ const GameSplashScreen: React.FC<
     <>
       <Title text="Solo game" style={{ marginTop: AN(10) }} />
       <View style={{ flexDirection: "row", marginVertical: AN(20) }}>
-        <TopicIcon
-          topic={topics.find((t) => t.id === topicId)?.name || "general"}
-          style={{ width: 20, aspectRatio: 1 }}
-        />
+        <TopicIcon topic={topic} style={{ width: 20, aspectRatio: 1 }} />
         <BodyLarge
-          text={topics.find((t) => t.id === topicId)?.name || "general"}
+          text={topic}
           style={{ marginLeft: AN(6), textTransform: "capitalize" }}
         />
       </View>

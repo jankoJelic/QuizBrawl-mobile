@@ -99,7 +99,9 @@ const ResultsScreen: React.FC<
     } else {
       navigation.navigate("Room", { room: activeRoom });
     }
-    dispatch(finishGame());
+    setTimeout(() => {
+      dispatch(finishGame());
+    }, 400);
   };
 
   const goToLobby = () => {
