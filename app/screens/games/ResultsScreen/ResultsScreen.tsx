@@ -15,7 +15,7 @@ import { MainStackParamsList } from "navigation/MainStackParamsList";
 import usePreventNativeBackButton from "navigation/hooks/usePreventNativeBack";
 import React, { useEffect, useState } from "react";
 import { Animated, FlatList, StyleSheet, View } from "react-native";
-import { Image } from 'expo-image';
+import { Image } from "expo-image";
 import { useDispatch } from "react-redux";
 import API from "services/api";
 import { SOCKET, SOCKET_EVENTS } from "services/socket/socket";
@@ -287,6 +287,7 @@ const createStyles = (colors: Colors) =>
       position: "absolute",
       alignSelf: "center",
       margin: "auto",
+      top: 10,
     },
     trophy: {
       width: SCREEN_WIDTH * 0.4,

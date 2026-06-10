@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/app/store";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { TopicIcon } from "assets/icons/topics";
 import UserAvatar from "components/icons/UserAvatar";
@@ -15,7 +16,8 @@ import { StyleSheet, Animated, View, FlatList } from "react-native";
 const GameSplashScreen: React.FC<
   NativeStackScreenProps<MainStackParamsList, "GameSplash">
 > = ({ navigation, route }) => {
-  const { users, topic, questionsCount } = route.params.room || {};
+  const { users, topicId, questionsCount } = route.params.room || {};
+  const { topics } = useAppSelector((state) => state.data);
   console.log(route.params);
   const { styles, colors } = useStyles(createStyles);
   const [countdown, setCountdown] = useState(3);
@@ -48,9 +50,12 @@ const GameSplashScreen: React.FC<
     <>
       <Title text="Solo game" style={{ marginTop: AN(10) }} />
       <View style={{ flexDirection: "row", marginVertical: AN(20) }}>
-        <TopicIcon topic={topic} style={{ width: 20, aspectRatio: 1 }} />
+        <TopicIcon
+          topic={topics.find((t) => t.id === topicId)?.name || "general"}
+          style={{ width: 20, aspectRatio: 1 }}
+        />
         <BodyLarge
-          text={topic.toLowerCase()}
+          text={topics.find((t) => t.id === topicId)?.name || "general"}
           style={{ marginLeft: AN(6), textTransform: "capitalize" }}
         />
       </View>
@@ -118,6 +123,7 @@ const createStyles = (colors: Colors) =>
       textAlign: "center",
       fontSize: AN(55),
       position: "absolute",
+      top: "10%",
     },
     screen: { alignItems: "center", justifyContent: "center" },
     multiUserList: {
