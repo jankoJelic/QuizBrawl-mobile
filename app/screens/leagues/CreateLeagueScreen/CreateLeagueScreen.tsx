@@ -1,41 +1,41 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import DoubleRingSpinner from 'assets/spinners/DoubleRingSpinner';
-import CTA from 'components/buttons/CTA';
-import InputField from 'components/inputs/InputField';
-import NavHeader from 'components/layout/NavHeader';
-import CheckboxTile from 'components/tiles/CheckboxTile';
-import BodyLarge from 'components/typography/BodyLarge';
-import { Colors } from 'constants/styles/Colors';
-import { AN, BORDER_RADIUS } from 'constants/styles/appStyles';
-import ScreenWrapper from 'hoc/ScreenWrapper';
-import TouchableBounce from 'hoc/TouchableBounce';
-import useStyles from 'hooks/styles/useStyles';
-import { MainStackParamsList } from 'navigation/MainStackParamsList';
-import React, { useEffect, useState } from 'react';
-import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
-import { Image } from 'expo-image';
-import { useDispatch } from 'react-redux';
-import API from 'services/api';
-import { normalizeImageUri } from 'util/normalizeImageUri';
-import { LeagueType } from 'services/api/endpoints/leaguesAPI';
-import { store, useAppSelector } from 'store/index';
-import { startLoading, stopLoading } from 'store/slices/appStateSlice';
-import { setLeagueImages, setLeagues } from 'store/slices/leaguesSlice';
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import DoubleRingSpinner from "assets/spinners/DoubleRingSpinner";
+import CTA from "components/buttons/CTA";
+import InputField from "components/inputs/InputField";
+import NavHeader from "components/layout/NavHeader";
+import BodyLarge from "components/typography/BodyLarge";
+import { Colors } from "constants/styles/Colors";
+import { AN, BORDER_RADIUS } from "constants/styles/appStyles";
+import ScreenWrapper from "hoc/ScreenWrapper";
+import TouchableBounce from "hoc/TouchableBounce";
+import useStyles from "hooks/styles/useStyles";
+import { MainStackParamsList } from "navigation/MainStackParamsList";
+import React, { useEffect, useState } from "react";
+import { FlatList, ScrollView, StyleSheet, View } from "react-native";
+import { Image } from "expo-image";
+import { useDispatch } from "react-redux";
+import API from "services/api";
+import { normalizeImageUri } from "util/normalizeImageUri";
+import { LeagueType } from "services/api/endpoints/leaguesAPI";
+import { store, useAppSelector } from "store/index";
+import { startLoading, stopLoading } from "store/slices/appStateSlice";
+import { setLeagueImages, setLeagues } from "store/slices/leaguesSlice";
+import BodyMedium from "@/app/components/typography/BodyMedium";
 
 const CreateLeagueScreen: React.FC<
-  NativeStackScreenProps<MainStackParamsList, 'CreateLeague'>
+  NativeStackScreenProps<MainStackParamsList, "CreateLeague">
 > = ({ navigation }) => {
   const dispatch = useDispatch();
   const { styles, colors } = useStyles(createStyles);
 
-  const { firstName } = useAppSelector(state => state.data.userData);
-  const { leagueImages } = useAppSelector(state => state.leagues);
+  const { firstName } = useAppSelector((state) => state.data.userData);
+  const { leagueImages } = useAppSelector((state) => state.leagues);
 
   const [title, setTitle] = useState(`${firstName}'s league`);
-  const [password, setPassword] = useState('');
-  const [image, setImage] = useState('');
-  const [bet, setBet] = useState('0');
-  const [type, setType] = useState<LeagueType>('ROUND');
+  const [password, setPassword] = useState("");
+  const [image, setImage] = useState("");
+  const [bet, setBet] = useState("0");
+  const [type, setType] = useState<LeagueType>("ADMIN");
 
   const getLeagueImages = async () => {
     if (leagueImages.length) return;
@@ -56,8 +56,12 @@ const CreateLeagueScreen: React.FC<
         style={{
           ...styles.leagueImageContainer,
           borderColor: isSelected ? colors.brand500 : colors.neutral500,
-        }}>
-        <Image style={styles.leagueImage} source={{ uri: normalizeImageUri(item) }} />
+        }}
+      >
+        <Image
+          style={styles.leagueImage}
+          source={{ uri: normalizeImageUri(item) }}
+        />
       </TouchableBounce>
     );
   };
@@ -78,7 +82,7 @@ const CreateLeagueScreen: React.FC<
       });
 
       dispatch(setLeagues(store.getState().leagues.leagues.concat([league])));
-      navigation.navigate('League', { league });
+      navigation.navigate("League", { league });
     } catch (error) {
     } finally {
       dispatch(stopLoading());
@@ -92,7 +96,8 @@ const CreateLeagueScreen: React.FC<
       <NavHeader title="Create league" fullWidth />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: AN(80) }}>
+        contentContainerStyle={{ paddingBottom: AN(80) }}
+      >
         <InputField title="Name" onChangeText={setTitle} value={title} />
 
         <BodyLarge text="Image" style={styles.subtitle} />
@@ -102,10 +107,10 @@ const CreateLeagueScreen: React.FC<
               data={filteredLeagueImages}
               renderItem={renderImage}
               horizontal
-              keyExtractor={item => item + '_leagueImage'}
-              style={{ alignSelf: 'flex-start' }}
+              keyExtractor={(item) => item + "_leagueImage"}
+              style={{ alignSelf: "flex-start" }}
               showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ alignItems: 'flex-start', padding: 0 }}
+              contentContainerStyle={{ alignItems: "flex-start", padding: 0 }}
             />
           </View>
         ) : (
@@ -116,22 +121,9 @@ const CreateLeagueScreen: React.FC<
           value={password}
           onChangeText={setPassword}
         />
-
-        {/* <InputField title="Buy in" value={bet} onChangeText={setBet} /> */}
-        <BodyLarge text="Type" style={styles.subtitle} />
-        <CheckboxTile
-          onPress={() => {
-            setType('ADMIN');
-          }}
-          value={type === 'ADMIN'}
-          text="ADMIN - Only admin can add quizzes to league, and will not participate"
-        />
-        <CheckboxTile
-          onPress={() => {
-            setType('ROUND');
-          }}
-          value={type === 'ROUND'}
-          text="ROUND - All users can contribute with quizzes, and participate in all game except the ones they created"
+        <BodyMedium
+          style={{ marginTop: 20 }}
+          text="Only admin can add quizzes to league, and will not participate"
         />
       </ScrollView>
       <CTA
@@ -150,12 +142,12 @@ const createStyles = (colors: Colors) =>
       padding: AN(10),
       borderRadius: BORDER_RADIUS,
       borderWidth: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
+      alignItems: "center",
+      justifyContent: "center",
       marginRight: AN(10),
     },
     leagueImage: { height: AN(40), aspectRatio: 1 },
-    cta: { position: 'absolute', bottom: AN(10), alignSelf: 'center' },
+    cta: { position: "absolute", bottom: AN(10), alignSelf: "center" },
     subtitle: { marginBottom: AN(10), marginLeft: AN(5), marginTop: AN(6) },
   });
 

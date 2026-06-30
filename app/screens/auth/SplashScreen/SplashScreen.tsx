@@ -18,7 +18,12 @@ const SplashScreen = ({
     try {
       const accessToken = await ENCRYPTED_STORAGE.getValue("accessToken");
       if (!!accessToken) {
-        await API.getUserData();
+        try {
+          await API.getUserData();
+        } catch {
+          await API.loginAsGuest();
+          await API.getUserData();
+        }
       } else {
         await API.loginAsGuest();
         await API.getUserData();

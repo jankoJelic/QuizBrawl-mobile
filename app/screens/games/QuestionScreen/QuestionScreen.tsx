@@ -370,7 +370,7 @@ const QuestionScreen: React.FC<
             <></>
           )}
           <BodyMedium
-            style={{ alignSelf: "center" }}
+            style={{ alignSelf: "center", marginTop: isBrawlGame ? 0 : 15 }}
             text={`${onQuestion + 1} / ${questionsCount}`}
           />
           <QuestionCountdown

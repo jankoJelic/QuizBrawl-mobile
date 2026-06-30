@@ -44,7 +44,7 @@ const GameSplashScreen: React.FC<
     }
   }, [countdown]);
 
-  const isSoloGame = users.length < 2;
+  const isSoloGame = users?.length < 2;
 
   const renderSoloGameContent = () => (
     <>

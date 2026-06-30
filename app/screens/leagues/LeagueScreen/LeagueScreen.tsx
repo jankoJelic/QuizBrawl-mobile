@@ -84,13 +84,13 @@ const LeagueScreen: React.FC<
     nextQuizUserId,
     readyUsers: rawReadyUsers,
     quizIdHistory,
+    userId,
   } = league || {};
 
   const readyUsers = removeDuplicatesFromArray(rawReadyUsers);
 
   const youAreInLeague = users?.some((u) => u.id === userData.id);
-  // const youAreAdmin = userId === userData.id;
-  // const isRoundGame = type === 'ROUND';
+  const youAreAdmin = userId === userData.id;
 
   useEffect(() => {
     if (onQuestion === 0)
@@ -301,6 +301,10 @@ const LeagueScreen: React.FC<
   };
 
   const renderUser = ({ item }: { item: ShallowUser }) => {
+    const isAdmin = item.id === userId;
+    if (isAdmin) {
+      return <></>;
+    }
     const myScore = () => {
       if (!!score && item.id in score) {
         return String(score[item.id]);
@@ -407,10 +411,8 @@ const LeagueScreen: React.FC<
   const allUsersReady = readyUsers?.length === users?.length;
   const quizIsSelected =
     !!selectedQuiz && selectedQuiz?.userId === nextQuizUserId;
-  const atLeast3Players = users?.length > 2;
 
-  const startGameEnabled =
-    !allUsersReady || (allUsersReady && quizIsSelected && atLeast3Players);
+  const startGameEnabled = !allUsersReady || (allUsersReady && quizIsSelected);
 
   const setNextQuiz = (quiz: Quiz) => {
     if (quizIdHistory.includes(quiz.id)) {
@@ -517,12 +519,16 @@ const LeagueScreen: React.FC<
           <>
             <BodyLarge text="Quizzes" style={styles.quizzesSubtitle} />
             <View style={styles.quizzesListContainer}>
-              <GhostButton
-                title="+ Add"
-                style={{ width: AN(65) }}
-                onPress={onPressAddQuiz}
-                disabled={!youAreInLeague}
-              />
+              {youAreAdmin ? (
+                <GhostButton
+                  title="+ Add"
+                  style={{ width: AN(65) }}
+                  onPress={onPressAddQuiz}
+                  disabled={!youAreInLeague}
+                />
+              ) : (
+                <></>
+              )}
               <QuizesList
                 horizontal
                 data={quizes}
@@ -586,10 +592,6 @@ const LeagueScreen: React.FC<
         onPressFirstButton={closeStartGameModal}
         Content={
           <View style={{ marginBottom: AN(12) }}>
-            <ChecklistItem
-              title="At least 3 players"
-              checked={atLeast3Players}
-            />
             <ChecklistItem title="All users ready" checked={allUsersReady} />
             <ChecklistItem
               title="Next up user has selected the quiz"

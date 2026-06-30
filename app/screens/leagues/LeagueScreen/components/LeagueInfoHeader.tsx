@@ -1,32 +1,32 @@
-import PinCodeKeyboard from 'components/inputs/PinCodeKeyboard';
-import BodyLarge from 'components/typography/BodyLarge';
-import BodyMedium from 'components/typography/BodyMedium';
-import { Colors } from 'constants/styles/Colors';
+import PinCodeKeyboard from "components/inputs/PinCodeKeyboard";
+import BodyLarge from "components/typography/BodyLarge";
+import BodyMedium from "components/typography/BodyMedium";
+import { Colors } from "constants/styles/Colors";
 import {
   SCREEN_WIDTH,
   AN,
   PADDING_HORIZONTAL,
-} from 'constants/styles/appStyles';
-import useStyles from 'hooks/styles/useStyles';
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Image } from 'expo-image';
-import { League } from 'services/api/endpoints/leaguesAPI';
-import { Quiz } from 'store/slices/createQuizSlice';
+} from "constants/styles/appStyles";
+import useStyles from "hooks/styles/useStyles";
+import React from "react";
+import { View, StyleSheet } from "react-native";
+import { Image } from "expo-image";
+import { League } from "services/api/endpoints/leaguesAPI";
+import { Quiz } from "store/slices/createQuizSlice";
 
 const LeagueInfoHeader = ({ selectedQuiz, league }: Props) => {
   const { styles } = useStyles(createStyles);
   const { image, type, bet, users, userId, nextQuizUserId } = league || {};
-  const admin = users?.find(u => u.id === userId);
+  const admin = users?.find((u) => u.id === userId);
 
-  const nextPlayerToSubmitQuiz = type === 'ADMIN' ? userId : nextQuizUserId;
+  const nextPlayerToSubmitQuiz = type === "ADMIN" ? userId : nextQuizUserId;
   const nextPlayerName = users?.find(
-    u => u.id === nextPlayerToSubmitQuiz,
+    (u) => u.id === nextPlayerToSubmitQuiz,
   )?.firstName;
 
   return (
     <View style={styles.leagueInfoHeader}>
-      <View style={{ flexDirection: 'row' }}>
+      <View style={{ flexDirection: "row" }}>
         <Image source={{ uri: image }} style={styles.image} />
         <View>
           <BodyLarge
@@ -37,20 +37,6 @@ const LeagueInfoHeader = ({ selectedQuiz, league }: Props) => {
           {/* <BodyLarge text={`Bet: ${bet}`} style={styles.alignTextRight} />
           <BodyLarge text={`Reward: ${bet}`} style={styles.alignTextRight} /> */}
         </View>
-      </View>
-      <View>
-        <BodyMedium text="Next up:" style={styles.alignTextRight} />
-        <BodyMedium
-          text={nextPlayerName || 'n/a'}
-          color="brand500"
-          style={styles.alignTextRight}
-        />
-        <BodyMedium text="Quiz name:" style={styles.alignTextRight} />
-        <BodyMedium
-          text={selectedQuiz?.name || 'n/a'}
-          color="brand500"
-          style={styles.alignTextRight}
-        />
       </View>
     </View>
   );
@@ -64,12 +50,12 @@ const createStyles = (colors: Colors) =>
       marginRight: AN(20),
     },
     leagueInfoHeader: {
-      flexDirection: 'row',
-      alignItems: 'center',
+      flexDirection: "row",
+      alignItems: "center",
       paddingHorizontal: PADDING_HORIZONTAL,
-      justifyContent: 'space-between',
+      justifyContent: "space-between",
     },
-    alignTextRight: { textAlign: 'right' },
+    alignTextRight: { textAlign: "right" },
   });
 
 export default LeagueInfoHeader;
