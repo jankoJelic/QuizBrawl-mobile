@@ -14,9 +14,8 @@ import Title from "components/typography/Title";
 import BodyMedium from "components/typography/BodyMedium";
 import { Color, Colors } from "constants/styles/Colors";
 import useStyles from "hooks/styles/useStyles";
-import { setRooms } from "store/slices/dataSlice";
+import { joinLobby, removeUserFromRoom, setLobbies, setRooms } from "store/slices/dataSlice";
 import BodySmall from "components/typography/BodySmall/BodySmall";
-import { joinLobby, setLobbies } from "store/slices/dataSlice";
 import API from "services/api";
 
 const LobbyCarousel = () => {
@@ -25,6 +24,7 @@ const LobbyCarousel = () => {
   const { styles } = useStyles(createStyles);
 
   const { lobbies, rooms, userData } = useAppSelector((state) => state.data);
+  const { onQuestion, questions } = useAppSelector((state) => state.game);
   const { dailies } = userData || {};
   const dailiesDone = Object.keys(dailies || []).length;
 
@@ -82,6 +82,16 @@ const LobbyCarousel = () => {
   };
 
   const selectLobby = (name: LobbyName) => {
+    if (userData.room) {
+      const gameActive = onQuestion >= 0 && questions.length > 0;
+      if (gameActive) {
+        navigation.navigate("Question");
+        return;
+      }
+      SOCKET.emit(SOCKET_EVENTS.USER_LEFT_ROOM, { user: userData, room: userData.room });
+      dispatch(removeUserFromRoom({ room: userData.room, user: userData }));
+    }
+
     switch (name) {
       case "Arena":
         emitJoinLobbyEvent(LOBBY_IDS.ARENA);
